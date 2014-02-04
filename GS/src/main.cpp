@@ -5,6 +5,9 @@
 
 int main()
 {
+	Tests t;
+	t.run();
+	return 0;
     try
 	{
 		Application app;

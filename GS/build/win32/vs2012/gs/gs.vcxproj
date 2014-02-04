@@ -25,7 +25,7 @@
     <ClInclude Include="..\..\..\..\src\ParallelTask.h" />
     <ClInclude Include="..\..\..\..\src\PauseState.h" />
     <ClInclude Include="..\..\..\..\src\Player.h" />
-    <ClInclude Include="..\..\..\..\src\ResourceHolder.h" />
+    <ClInclude Include="..\..\..\..\src\ResourceManager.h" />
     <ClInclude Include="..\..\..\..\src\ResourceIdentifiers.h" />
     <ClInclude Include="..\..\..\..\src\SceneNode.h" />
     <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Audio.hpp" />
@@ -114,11 +114,12 @@
     <ClInclude Include="..\..\..\..\src\StateIdentifiers.h" />
     <ClInclude Include="..\..\..\..\src\StateStack.h" />
     <ClInclude Include="..\..\..\..\src\Tests.h" />
+    <ClInclude Include="..\..\..\..\src\Tileset.h" />
     <ClInclude Include="..\..\..\..\src\TitleState.h" />
     <ClInclude Include="..\..\..\..\src\World.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\src\ResourceHolder.inl" />
+    <None Include="..\..\..\..\src\ResourceManager.inl" />
     <None Include="..\..\..\..\src\SFML-2.1\include\SFML\Graphics\Rect.inl" />
     <None Include="..\..\..\..\src\SFML-2.1\include\SFML\System\Thread.inl" />
     <None Include="..\..\..\..\src\SFML-2.1\include\SFML\System\ThreadLocalPtr.inl" />
@@ -146,6 +147,7 @@
     <ClCompile Include="..\..\..\..\src\State.cpp" />
     <ClCompile Include="..\..\..\..\src\StateStack.cpp" />
     <ClCompile Include="..\..\..\..\src\Tests.cpp" />
+    <ClCompile Include="..\..\..\..\src\Tileset.cpp" />
     <ClCompile Include="..\..\..\..\src\TitleState.cpp" />
     <ClCompile Include="..\..\..\..\src\World.cpp" />
   </ItemGroup>

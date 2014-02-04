@@ -1,6 +1,6 @@
 
 #include "DebugScreenState.h"
-#include "ResourceHolder.h"
+#include "ResourceManager.h"
 #include <SFML/Window/Mouse.hpp>
 #include "Glob.h"
 

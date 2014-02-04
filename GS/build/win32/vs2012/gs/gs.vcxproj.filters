@@ -75,9 +75,6 @@
     <ClInclude Include="..\..\..\..\src\Player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\src\ResourceHolder.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\..\src\ResourceIdentifiers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -348,11 +345,14 @@
     <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\System\Vector3.hpp">
       <Filter>Header Files\SFML-2.1\System</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\src\ResourceManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\Tileset.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\src\ResourceHolder.inl">
-      <Filter>Header Files</Filter>
-    </None>
     <None Include="..\..\..\..\src\SFML-2.1\include\SFML\Graphics\Rect.inl">
       <Filter>Header Files\SFML-2.1\Graphics</Filter>
     </None>
@@ -370,6 +370,9 @@
     </None>
     <None Include="..\..\..\..\src\SFML-2.1\include\SFML\System\Vector3.inl">
       <Filter>Header Files\SFML-2.1\System</Filter>
+    </None>
+    <None Include="..\..\..\..\src\ResourceManager.inl">
+      <Filter>Header Files</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -434,6 +437,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\src\World.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\Tileset.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

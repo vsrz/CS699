@@ -1,5 +1,5 @@
 #include "TitleState.h"
-#include "ResourceHolder.h"
+#include "ResourceManager.h"
 #include "Glob.h"
 
 TitleState::TitleState(StateStack& stack, Context context)

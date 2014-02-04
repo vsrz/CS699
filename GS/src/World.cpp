@@ -55,6 +55,7 @@ void World::loadTextures()
 	mTextures.load(Textures::Eagle, "res/Eagle.png");
 	mTextures.load(Textures::Raptor, "res/Raptor.png");
 	mTextures.load(Textures::Desert, "res/Desert.png");
+	mTextures.load(Textures::Tileset, "res/Tileset.png");
 
 }
 

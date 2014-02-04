@@ -1,6 +1,6 @@
 #include "MenuState.h"
 #include "Glob.h"
-#include "ResourceHolder.h"
+#include "ResourceManager.h"
 
 MenuState::MenuState(StateStack& stack, Context context)
 	: mBackgroundSprite()

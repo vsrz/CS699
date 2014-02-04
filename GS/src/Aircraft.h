@@ -17,7 +17,7 @@ public:
 		Raptor,
 	};
 
-	Aircraft(Type type, const TextureHolder& textures);
+	Aircraft(Type type, const TextureManager& textures);
 	unsigned int getCategory() const;
 private:
 	virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;

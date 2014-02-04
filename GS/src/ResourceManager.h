@@ -1,5 +1,5 @@
-#ifndef RESOURCEHOLDER_H
-#define RESOURCEHOLDER_H
+#ifndef ResourceManager_H
+#define ResourceManager_H
 #pragma once
 
 #include <map>
@@ -9,7 +9,7 @@
 #include <cassert>
 
 template <typename Resource, typename Identifier>
-class ResourceHolder
+class ResourceManager
 {
 public:
 	void load(Identifier id, const std::string& filename);
@@ -25,7 +25,7 @@ private:
 	
 };
 
-// (In-Line) Implementation of ResourceHolder class
-#include "ResourceHolder.inl"
+// (In-Line) Implementation of ResourceManager class
+#include "ResourceManager.inl"
 
 #endif

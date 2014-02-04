@@ -1,6 +1,6 @@
 
 #include "LoadingState.h"
-#include "ResourceHolder.h"
+#include "ResourceManager.h"
 #include "Glob.h"
 
 LoadingState::LoadingState(StateStack& stack, Context context)
@@ -13,14 +13,14 @@ LoadingState::LoadingState(StateStack& stack, Context context)
 	mLoadingText.setFont(font);
 	mLoadingText.setString("Loading Resources");
 	centerOrigin(mLoadingText);
-	mLoadingText.setPosition(window.getSize().x * 0.5,
-		window.getSize().y / 2u + 50);
+	mLoadingText.setPosition(window.getSize().x * 0.5f,
+		window.getSize().y * 0.5f + 50.f);
 
 	// Initialize the progress bar background
 	mProgressBarBackground.setFillColor(sf::Color::White);
 	mProgressBarBackground.setSize(sf::Vector2f(window.getSize().x * 0.4f, 10));
 	mProgressBarBackground.setPosition(sf::Vector2f(window.getSize().x * 0.5f - mProgressBarBackground.getSize().x * 0.5f
-		, mLoadingText.getPosition().y + 40));
+		, mLoadingText.getPosition().y + 40.f));
 
 	// Initialize the progress bar itself
 	mProgressBar.setFillColor(sf::Color::Green);

@@ -9,7 +9,7 @@
 #include <array>
 
 #include "SceneNode.h"
-#include "ResourceHolder.h"
+#include "ResourceManager.h"
 #include "SpriteNode.h"
 #include "ResourceIdentifiers.h"
 #include "Aircraft.h"
@@ -45,7 +45,7 @@ private:
 	sf::Vector2f mSpawnPosition;
 	float mScrollSpeed;
 
-	TextureHolder mTextures;
+	TextureManager mTextures;
 	
 	Aircraft* mPlayerAircraft;
 

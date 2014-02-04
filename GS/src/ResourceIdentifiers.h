@@ -16,6 +16,7 @@ namespace Textures
 		Raptor,
 		Desert,
 		TitleScreen,
+		Tileset,
 	};
 
 }
@@ -28,9 +29,9 @@ namespace Fonts
 	};
 }
 template <typename Resource, typename Identifier>
-class ResourceHolder;
+class ResourceManager;
 
-typedef ResourceHolder<sf::Texture, Textures::ID> TextureHolder;
-typedef ResourceHolder<sf::Font, Fonts::ID> FontHolder;
+typedef ResourceManager<sf::Texture, Textures::ID> TextureManager;
+typedef ResourceManager<sf::Font, Fonts::ID> FontManager;
 
 #endif

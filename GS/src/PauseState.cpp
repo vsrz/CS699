@@ -1,6 +1,6 @@
 
 #include "PauseState.h"
-#include "ResourceHolder.h"
+#include "ResourceManager.h"
 #include "Glob.h"
 
 PauseState::PauseState(StateStack& stack, Context context)

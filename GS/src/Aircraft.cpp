@@ -1,5 +1,5 @@
 #include "Aircraft.h"
-#include "ResourceHolder.h"
+#include "ResourceManager.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -16,7 +16,7 @@ Textures::ID toTextureID(Aircraft::Type type)
 	return Textures::Eagle;
 }
 
-Aircraft::Aircraft(Type type, const TextureHolder& textures) 
+Aircraft::Aircraft(Type type, const TextureManager& textures) 
 	: mType(type)
 	, mSprite(textures.get(toTextureID(type)))
 {
