@@ -1,0 +1,440 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\SFML-2.1">
+      <UniqueIdentifier>{2c8139f2-3e27-4723-824e-f8364ab10208}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SFML-2.1\Audio">
+      <UniqueIdentifier>{4b939426-644b-4abf-b229-7733191ea1b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SFML-2.1\Graphics">
+      <UniqueIdentifier>{113d3a9a-b753-4790-bdf2-fbdf185c547a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SFML-2.1\Network">
+      <UniqueIdentifier>{c66fb603-cd77-4051-bb0c-1fd05081ac9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SFML-2.1\Window">
+      <UniqueIdentifier>{a769b850-d619-4d1f-b088-d80eb73d0d6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SFML-2.1\System">
+      <UniqueIdentifier>{495fbeaf-ba6f-4335-9e1f-bdcae64a7bd2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\src\Aircraft.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\Application.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\Category.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\Command.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\CommandQueue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\DebugScreenState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\Entity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\GameState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\Glob.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\LoadingState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\MenuState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\ParallelTask.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\PauseState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\Player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\ResourceHolder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\ResourceIdentifiers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SceneNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SpriteNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\State.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\StateIdentifiers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\StateStack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\Tests.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\TitleState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\World.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Audio.hpp">
+      <Filter>Header Files\SFML-2.1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Config.hpp">
+      <Filter>Header Files\SFML-2.1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Graphics.hpp">
+      <Filter>Header Files\SFML-2.1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Network.hpp">
+      <Filter>Header Files\SFML-2.1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\OpenGL.hpp">
+      <Filter>Header Files\SFML-2.1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\System.hpp">
+      <Filter>Header Files\SFML-2.1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Window.hpp">
+      <Filter>Header Files\SFML-2.1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Audio\Export.hpp">
+      <Filter>Header Files\SFML-2.1\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Audio\Listener.hpp">
+      <Filter>Header Files\SFML-2.1\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Audio\Music.hpp">
+      <Filter>Header Files\SFML-2.1\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Audio\Sound.hpp">
+      <Filter>Header Files\SFML-2.1\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Audio\SoundBuffer.hpp">
+      <Filter>Header Files\SFML-2.1\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Audio\SoundBufferRecorder.hpp">
+      <Filter>Header Files\SFML-2.1\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Audio\SoundRecorder.hpp">
+      <Filter>Header Files\SFML-2.1\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Audio\SoundSource.hpp">
+      <Filter>Header Files\SFML-2.1\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Audio\SoundStream.hpp">
+      <Filter>Header Files\SFML-2.1\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Graphics\BlendMode.hpp">
+      <Filter>Header Files\SFML-2.1\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Graphics\CircleShape.hpp">
+      <Filter>Header Files\SFML-2.1\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Graphics\Color.hpp">
+      <Filter>Header Files\SFML-2.1\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Graphics\ConvexShape.hpp">
+      <Filter>Header Files\SFML-2.1\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Graphics\Drawable.hpp">
+      <Filter>Header Files\SFML-2.1\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Graphics\Export.hpp">
+      <Filter>Header Files\SFML-2.1\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Graphics\Font.hpp">
+      <Filter>Header Files\SFML-2.1\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Graphics\Glyph.hpp">
+      <Filter>Header Files\SFML-2.1\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Graphics\Image.hpp">
+      <Filter>Header Files\SFML-2.1\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Graphics\PrimitiveType.hpp">
+      <Filter>Header Files\SFML-2.1\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Graphics\Rect.hpp">
+      <Filter>Header Files\SFML-2.1\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Graphics\RectangleShape.hpp">
+      <Filter>Header Files\SFML-2.1\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Graphics\RenderStates.hpp">
+      <Filter>Header Files\SFML-2.1\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Graphics\RenderTarget.hpp">
+      <Filter>Header Files\SFML-2.1\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Graphics\RenderTexture.hpp">
+      <Filter>Header Files\SFML-2.1\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Graphics\RenderWindow.hpp">
+      <Filter>Header Files\SFML-2.1\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Graphics\Shader.hpp">
+      <Filter>Header Files\SFML-2.1\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Graphics\Shape.hpp">
+      <Filter>Header Files\SFML-2.1\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Graphics\Sprite.hpp">
+      <Filter>Header Files\SFML-2.1\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Graphics\Text.hpp">
+      <Filter>Header Files\SFML-2.1\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Graphics\Texture.hpp">
+      <Filter>Header Files\SFML-2.1\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Graphics\Transform.hpp">
+      <Filter>Header Files\SFML-2.1\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Graphics\Transformable.hpp">
+      <Filter>Header Files\SFML-2.1\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Graphics\Vertex.hpp">
+      <Filter>Header Files\SFML-2.1\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Graphics\VertexArray.hpp">
+      <Filter>Header Files\SFML-2.1\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Graphics\View.hpp">
+      <Filter>Header Files\SFML-2.1\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Network\Export.hpp">
+      <Filter>Header Files\SFML-2.1\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Network\Ftp.hpp">
+      <Filter>Header Files\SFML-2.1\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Network\Http.hpp">
+      <Filter>Header Files\SFML-2.1\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Network\IpAddress.hpp">
+      <Filter>Header Files\SFML-2.1\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Network\Packet.hpp">
+      <Filter>Header Files\SFML-2.1\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Network\Socket.hpp">
+      <Filter>Header Files\SFML-2.1\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Network\SocketHandle.hpp">
+      <Filter>Header Files\SFML-2.1\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Network\SocketSelector.hpp">
+      <Filter>Header Files\SFML-2.1\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Network\TcpListener.hpp">
+      <Filter>Header Files\SFML-2.1\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Network\TcpSocket.hpp">
+      <Filter>Header Files\SFML-2.1\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Network\UdpSocket.hpp">
+      <Filter>Header Files\SFML-2.1\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Window\Context.hpp">
+      <Filter>Header Files\SFML-2.1\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Window\ContextSettings.hpp">
+      <Filter>Header Files\SFML-2.1\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Window\Event.hpp">
+      <Filter>Header Files\SFML-2.1\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Window\Export.hpp">
+      <Filter>Header Files\SFML-2.1\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Window\GlResource.hpp">
+      <Filter>Header Files\SFML-2.1\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Window\Joystick.hpp">
+      <Filter>Header Files\SFML-2.1\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Window\Keyboard.hpp">
+      <Filter>Header Files\SFML-2.1\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Window\Mouse.hpp">
+      <Filter>Header Files\SFML-2.1\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Window\VideoMode.hpp">
+      <Filter>Header Files\SFML-2.1\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Window\Window.hpp">
+      <Filter>Header Files\SFML-2.1\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Window\WindowHandle.hpp">
+      <Filter>Header Files\SFML-2.1\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Window\WindowStyle.hpp">
+      <Filter>Header Files\SFML-2.1\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\System\Clock.hpp">
+      <Filter>Header Files\SFML-2.1\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\System\Err.hpp">
+      <Filter>Header Files\SFML-2.1\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\System\Export.hpp">
+      <Filter>Header Files\SFML-2.1\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\System\InputStream.hpp">
+      <Filter>Header Files\SFML-2.1\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\System\Lock.hpp">
+      <Filter>Header Files\SFML-2.1\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\System\Mutex.hpp">
+      <Filter>Header Files\SFML-2.1\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\System\NonCopyable.hpp">
+      <Filter>Header Files\SFML-2.1\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\System\Sleep.hpp">
+      <Filter>Header Files\SFML-2.1\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\System\String.hpp">
+      <Filter>Header Files\SFML-2.1\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\System\Thread.hpp">
+      <Filter>Header Files\SFML-2.1\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\System\ThreadLocal.hpp">
+      <Filter>Header Files\SFML-2.1\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\System\ThreadLocalPtr.hpp">
+      <Filter>Header Files\SFML-2.1\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\System\Time.hpp">
+      <Filter>Header Files\SFML-2.1\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\System\Utf.hpp">
+      <Filter>Header Files\SFML-2.1\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\System\Vector2.hpp">
+      <Filter>Header Files\SFML-2.1\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\System\Vector3.hpp">
+      <Filter>Header Files\SFML-2.1\System</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\src\ResourceHolder.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="..\..\..\..\src\SFML-2.1\include\SFML\Graphics\Rect.inl">
+      <Filter>Header Files\SFML-2.1\Graphics</Filter>
+    </None>
+    <None Include="..\..\..\..\src\SFML-2.1\include\SFML\System\Thread.inl">
+      <Filter>Header Files\SFML-2.1\System</Filter>
+    </None>
+    <None Include="..\..\..\..\src\SFML-2.1\include\SFML\System\ThreadLocalPtr.inl">
+      <Filter>Header Files\SFML-2.1\System</Filter>
+    </None>
+    <None Include="..\..\..\..\src\SFML-2.1\include\SFML\System\Utf.inl">
+      <Filter>Header Files\SFML-2.1\System</Filter>
+    </None>
+    <None Include="..\..\..\..\src\SFML-2.1\include\SFML\System\Vector2.inl">
+      <Filter>Header Files\SFML-2.1\System</Filter>
+    </None>
+    <None Include="..\..\..\..\src\SFML-2.1\include\SFML\System\Vector3.inl">
+      <Filter>Header Files\SFML-2.1\System</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\src\Aircraft.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\Application.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\Command.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\CommandQueue.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\DebugScreenState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\Entity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\GameState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\LoadingState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\MenuState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\ParallelTask.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\PauseState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\Player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\SceneNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\Source.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\SpriteNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\State.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\StateStack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\Tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\TitleState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\World.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
