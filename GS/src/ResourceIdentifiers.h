@@ -16,9 +16,19 @@ namespace Textures
 		Raptor,
 		Desert,
 		TitleScreen,
-		Tileset,
+		SalonTileset,
+		TestTileset
 	};
 
+}
+
+namespace Images
+{
+	enum ID
+	{
+		TestTileset,
+		SalonTileset
+	};
 }
 
 namespace Fonts
@@ -33,5 +43,6 @@ class ResourceManager;
 
 typedef ResourceManager<sf::Texture, Textures::ID> TextureManager;
 typedef ResourceManager<sf::Font, Fonts::ID> FontManager;
+typedef ResourceManager<sf::Image, Images::ID> ImageManager;
 
 #endif

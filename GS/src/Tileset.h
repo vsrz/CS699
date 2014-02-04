@@ -8,10 +8,21 @@
 class Tileset
 {
 public:
+	Tileset(sf::Image& image, sf::Vector2i tileSize);
 	Tileset(sf::Texture& texture);
-	
+	Tileset(void);
+
+
+	void setImage(sf::Image& image);
+	void setTileSize(sf::Vector2i tileSize);
+
 private:
-	sf::Texture& mTexture;
+
+	
+	// Reference to the tilemap
+	sf::Image& mImage;
+	
+	// The size of each tile in the Tileset
 	sf::Vector2i mTileSize;
 
 

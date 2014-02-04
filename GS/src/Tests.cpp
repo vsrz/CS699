@@ -48,6 +48,8 @@ void drawBox(sf::RenderWindow& window, sf::Vector2i pos)
 
 }
 
+
+
 void Tests::run()
 {
 	sf::RenderWindow mWindow(sf::VideoMode(1280, 720), "Test Window", sf::Style::Close);

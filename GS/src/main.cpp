@@ -5,10 +5,14 @@
 
 int main()
 {
+#ifdef RUN_TESTS
+
 	Tests t;
 	t.run();
 	return 0;
-    try
+#endif
+
+	try
 	{
 		Application app;
 		app.run();

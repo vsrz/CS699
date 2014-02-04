@@ -12,8 +12,8 @@
 #include "ResourceManager.h"
 #include "SpriteNode.h"
 #include "ResourceIdentifiers.h"
-#include "Aircraft.h"
 #include "CommandQueue.h"
+#include "Tileset.h"
 
 class World
 {
@@ -23,17 +23,13 @@ public:
 	void draw();
 
 	CommandQueue& getCommandQueue();
-
 private:
-	enum Layer
+	enum SceneLayer
 	{
 		Background,
-		Air,
+		Floor,
 		LayerCount
 	};
-
-	void loadTextures();
-	void buildScene();
 
 	sf::RenderWindow& mWindow;
 	sf::View mWorldView;
@@ -42,19 +38,18 @@ private:
 	std::array<SceneNode*, LayerCount> mSceneLayers;
 
 	sf::FloatRect mWorldBounds;
-	sf::Vector2f mSpawnPosition;
-	float mScrollSpeed;
+	sf::Vector2i mSpawnPosition;
 
+	ImageManager mImages;
 	TextureManager mTextures;
-	
-	Aircraft* mPlayerAircraft;
-
 	CommandQueue mCommandQueue;
+	Tileset mTileset;
 
-	void adaptPlayerPosition();
-	void adaptPlayerVelocity();
+	void loadTextures();
+	void buildScene();
+	void loadTileset();
 
+	
 };
 
 #endif
-
