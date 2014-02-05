@@ -118,6 +118,7 @@
     <ClInclude Include="..\..\..\..\src\StateIdentifiers.h" />
     <ClInclude Include="..\..\..\..\src\StateStack.h" />
     <ClInclude Include="..\..\..\..\src\Tests.h" />
+    <ClInclude Include="..\..\..\..\src\Tile.h" />
     <ClInclude Include="..\..\..\..\src\Tileset.h" />
     <ClInclude Include="..\..\..\..\src\TitleState.h" />
     <ClInclude Include="..\..\..\..\src\World.h" />
@@ -151,6 +152,7 @@
     <ClCompile Include="..\..\..\..\src\State.cpp" />
     <ClCompile Include="..\..\..\..\src\StateStack.cpp" />
     <ClCompile Include="..\..\..\..\src\Tests.cpp" />
+    <ClCompile Include="..\..\..\..\src\Tile.cpp" />
     <ClCompile Include="..\..\..\..\src\Tileset.cpp" />
     <ClCompile Include="..\..\..\..\src\TitleState.cpp" />
     <ClCompile Include="..\..\..\..\src\World.cpp" />

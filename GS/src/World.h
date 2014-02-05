@@ -7,6 +7,7 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include <array>
+#include <memory>
 
 #include "SceneNode.h"
 #include "ResourceManager.h"
@@ -14,6 +15,7 @@
 #include "ResourceIdentifiers.h"
 #include "CommandQueue.h"
 #include "Tileset.h"
+#include "Tile.h"
 
 class World
 {
@@ -49,7 +51,9 @@ private:
 	void buildScene();
 	void loadTileset();
 
+	std::array<std::array<Tile*, 30>, 30> mTileMap;
 	
+
 };
 
 #endif

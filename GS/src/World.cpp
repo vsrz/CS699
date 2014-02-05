@@ -46,6 +46,11 @@ void World::loadTileset()
 {
 	sf::Vector2i tilesize;
 	mTileset.setTileSize(sf::Vector2i(32, 32));
+
+	for (auto& tile : mTileMap)
+	{
+		//std::unique_ptr<Tile> t = new Tile(
+	}
 }
 
 	

@@ -9,7 +9,7 @@ class Tileset
 {
 public:
 	Tileset(sf::Image& image, sf::Vector2i tileSize);
-	Tileset(sf::Texture& texture);
+	Tileset(sf::Image& texture);
 	Tileset(void);
 
 

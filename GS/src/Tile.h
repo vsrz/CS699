@@ -4,14 +4,18 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include "Tileset.h"
 
 class Tile
 {
 public:
-	Tile(void);
+	Tile(sf::Texture& texture);
+	Tile(sf::Texture& texture, sf::Vector2i location);
 
 private:
-	sf::Texture& mTexture;	
+	sf::Sprite mSprite;
+	sf::Vector2i mLocation;
+
 };
 
 #endif
