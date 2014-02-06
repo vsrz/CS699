@@ -1,12 +1,11 @@
 #include "World.h"
-
+#include <iostream>
 
 World::World(sf::RenderWindow& window)
 	: mWindow(window)
 	, mWorldView(window.getDefaultView())
 	, mSceneGraph()
 	, mSceneLayers()
-	, mImages()
 	, mTextures()
 
 {
@@ -39,17 +38,15 @@ void World::loadTextures()
 
 void World::buildScene()
 {
-
+	std::unique_ptr<Tileset> mTileset(new Tileset(mTextures.get(Textures::TestTileset)));
 }
 
 void World::loadTileset()
 {
-	sf::Vector2i tilesize;
-	mTileset.setTileSize(sf::Vector2i(32, 32));
 
-	for (auto& tile : mTileMap)
+	for (auto& row : mTileMap)
 	{
-		//std::unique_ptr<Tile> t = new Tile(
+		std::cout << "Out" << std::endl;
 	}
 }
 

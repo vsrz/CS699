@@ -30,6 +30,8 @@ private:
 	{
 		Background,
 		Floor,
+		Object,
+		Sky,
 		LayerCount
 	};
 
@@ -42,10 +44,9 @@ private:
 	sf::FloatRect mWorldBounds;
 	sf::Vector2i mSpawnPosition;
 
-	ImageManager mImages;
 	TextureManager mTextures;
 	CommandQueue mCommandQueue;
-	Tileset mTileset;
+	std::unique_ptr<Tileset> mTileset;
 
 	void loadTextures();
 	void buildScene();

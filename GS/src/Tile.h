@@ -9,13 +9,12 @@
 class Tile
 {
 public:
-	Tile(sf::Texture& texture);
-	Tile(sf::Texture& texture, sf::Vector2i location);
-
+	Tile(sf::Sprite& sprite, sf::Vector2f position);
+	void draw(sf::RenderWindow& window);
 private:
 	sf::Sprite mSprite;
-	sf::Vector2i mLocation;
-
+	sf::Vector2f mPosition;
+	
 };
 
 #endif

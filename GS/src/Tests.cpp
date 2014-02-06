@@ -4,7 +4,8 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <iostream>
-
+#include <memory>
+#include <array>
 
 void focusTest(sf::Event event)
 {
@@ -48,7 +49,19 @@ void drawBox(sf::RenderWindow& window, sf::Vector2i pos)
 
 }
 
+void arrayTest()
+{
+	std::array<std::array<int*, 2>, 2> ints;
+	for(auto i : ints)
+	{
+		for (auto i2 : i)
+		{
+			std::cout << "Test" << std::endl;
 
+		}
+	}
+
+}
 
 void Tests::run()
 {
@@ -56,6 +69,9 @@ void Tests::run()
 	sf::Event event;
 	sf::Vector2i pos(0,0);
 
+	arrayTest();
+	return;
+	
 	while (mWindow.isOpen())
 	{
 		while (mWindow.pollEvent(event))

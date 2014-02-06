@@ -1,15 +1,14 @@
 #include "Tile.h"
 
 
-Tile::Tile(sf::Texture& texture)
-	: mLocation(0,0)
+Tile::Tile(sf::Sprite& sprite, sf::Vector2f position)
+	: mSprite(sprite)
+	, mPosition(position)
 {
-	mSprite.setTexture(texture);
+	mSprite.setPosition(position);
 }
 
-Tile::Tile(sf::Texture& texture, sf::Vector2i location)
-	: mLocation(location)
+void Tile::draw(sf::RenderWindow &window)
 {
-	mSprite.setTexture(texture);
+	window.draw(mSprite);
 }
-
