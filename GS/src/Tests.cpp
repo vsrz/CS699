@@ -46,21 +46,27 @@ void drawBox(sf::RenderWindow& window, sf::Vector2i pos)
 	rect.setOutlineThickness(1.f);
 	window.draw(rect);
 	
-
 }
 
 void arrayTest()
 {
 	std::array<std::array<int*, 2>, 2> ints;
-	for(auto i : ints)
+	for(auto& i : ints)
 	{
-		for (auto i2 : i)
+		for (auto& i2 : i)
 		{
-			std::cout << "Test" << std::endl;
+			i2 = new int(8);
 
 		}
 	}
+	std::cout << *ints[0][0] << std::endl;
 
+	std::shared_ptr<int> z;
+	{
+		std::shared_ptr<int> i(new int(8));
+		z = i;
+	}
+	std::cout << z << std::endl;
 }
 
 void Tests::run()

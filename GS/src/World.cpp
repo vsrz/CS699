@@ -23,7 +23,14 @@ void World::update(sf::Time dt)
 
 void World::draw()
 {
-
+	for (auto& row : mTileMap)
+	{
+		for (auto& col : row)
+		{
+			col->draw(mWindow);
+		}
+	}
+	
 }
 
 CommandQueue& World::getCommandQueue()
@@ -38,15 +45,18 @@ void World::loadTextures()
 
 void World::buildScene()
 {
-	std::unique_ptr<Tileset> mTileset(new Tileset(mTextures.get(Textures::TestTileset)));
 }
 
 void World::loadTileset()
 {
+	std::unique_ptr<Tileset> mTileset(new Tileset(mTextures.get(Textures::TestTileset)));
 
 	for (auto& row : mTileMap)
 	{
-		std::cout << "Out" << std::endl;
+		for (auto& col : row)
+		{
+			std::unique_ptr<Tile> col(new Tile(mTileset->getSprite(), sf::Vector2f(0.f, 0.f)));
+		}
 	}
 }
 
