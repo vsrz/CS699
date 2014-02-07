@@ -9,7 +9,7 @@
 const sf::Time Application::TimePerFrame = sf::seconds(1.f/60.f);
 
 Application::Application(void) 
-	: mWindow(sf::VideoMode(1280, 720), "GS", sf::Style::Close)
+	: mWindow(sf::VideoMode(1280, 768), "GS", sf::Style::Close)
 	, mFonts()
 	, mPlayer()
 	, mTextures()
@@ -20,7 +20,7 @@ Application::Application(void)
 	mTextures.load(Textures::TitleScreen, "res/TitleScreen.png");
 	
 	registerStates();
-	mStateStack.pushState(States::Menu);
+	mStateStack.pushState(States::Loading);
 
 }
 

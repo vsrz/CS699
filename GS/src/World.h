@@ -15,6 +15,7 @@
 #include "ResourceIdentifiers.h"
 #include "CommandQueue.h"
 #include "Tile.h"
+#include "Tilemap.h"
 
 class World
 {
@@ -30,7 +31,8 @@ private:
 		Background,
 		Floor,
 		Object,
-		Sky,
+		Entity,
+		Gui,
 		LayerCount
 	};
 
@@ -50,7 +52,8 @@ private:
 	void buildScene();
 	void loadTileset();
 
-	std::array<std::array<std::unique_ptr<Tile>, 30>, 30> mTilemap;
+	std::array<std::array<std::unique_ptr<Tile>, 20>, 12> mTiles;
+	Tilemap mTilemap;
 	
 };
 

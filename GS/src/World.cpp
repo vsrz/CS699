@@ -7,7 +7,7 @@ World::World(sf::RenderWindow& window)
 	, mSceneGraph()
 	, mSceneLayers()
 	, mTextures()
-
+	, mTilemap()
 {
 	loadTextures();
 	loadTileset();
@@ -35,7 +35,8 @@ CommandQueue& World::getCommandQueue()
 
 void World::loadTextures()
 {
-	mTextures.load(Textures::TestTileset, "res/TestTileset.png");
+	mTextures.load(Textures::TestTileset, "res/TestTileset.png");	
+	mTilemap.loadTilemap("res/Tilemap.tmx");
 }
 
 void World::buildScene()
@@ -51,7 +52,7 @@ void World::buildScene()
 		mSceneGraph.attachChild(std::move(layer));
 	}
 
-	for (auto& i : mTilemap)
+	for (auto& i : mTiles)
 	{
 		for (auto& iter : i)
 		{
@@ -68,20 +69,23 @@ void World::loadTileset()
 {
 	sf::Vector2i pos(3,0);
 	sf::Vector2i size(32,32);
-	float x = 0, y = 0, tileSize = 32*2;
+	int count = 0;
+	float tileScale = 2.f;
+	float x = 0, y = 0;
 
-	for (auto& i : mTilemap)
+	for (auto& i : mTiles)
 	{
 		for (auto& iter : i)
 		{
-			pos.x = rand();
-			pos.y = rand();
+			// get the tile information for this tile in the map
+			//sf::Texture& tileTexture;
+			sf::Vector2i tileImagePosition;
+			sf::Vector2i tileSize;
+			
 			iter = std::unique_ptr<Tile>(new Tile(mTextures.get(Textures::TestTileset), pos,  size ));
 			iter->setWorldPosition(sf::Vector2f(x,y));
-			x += 1.f * tileSize;			
+			count += 1;
 		}
-		y += 1.f * tileSize;
-		x = 0;
 	}
 
 }

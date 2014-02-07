@@ -70,13 +70,33 @@ void arrayTest()
 	std::cout << z << std::endl;
 }
 
+
+void readAttribute(tinyxml2::XMLElement* element, const char* attribute)
+{
+
+}
+
 void tinyXMLTest()
 {
 	tinyxml2::XMLDocument doc;
-
+	tinyxml2::XMLElement* mapElement;
+	int mMapWidth;
+	int mMapHeight;
 	doc.LoadFile("res/Tilemap.tmx");
 	sf::String s =	doc.FirstChildElement("map")->FirstChildElement("layer")->FirstChildElement("data")->FirstChildElement("tile")->Attribute("gid");
 	std::cout << s.toAnsiString() << std::endl;
+
+	// Read map element
+	mapElement = doc.FirstChildElement("map")->ToElement();
+	
+	if (!mapElement)
+	{
+		throw std::runtime_error("Unable to load map element from XMLDocument");
+	}
+	mMapWidth = mapElement->IntAttribute("width");
+	mMapHeight = mapElement->IntAttribute("height");
+
+	std::cout << "Map Width: " << mMapWidth << std::endl << "Map Height: " << mMapHeight << std::endl;
 
 }
 
