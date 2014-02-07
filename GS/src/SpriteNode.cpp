@@ -16,3 +16,10 @@ void SpriteNode::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) 
 {
 	target.draw(mSprite, states);
 }
+
+
+SpriteNode::SpriteNode(Tile& tile)
+	: mSprite(tile.getTexture(), tile.getTextureRect())
+{
+	
+}

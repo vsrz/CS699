@@ -14,7 +14,6 @@
 #include "SpriteNode.h"
 #include "ResourceIdentifiers.h"
 #include "CommandQueue.h"
-#include "Tileset.h"
 #include "Tile.h"
 
 class World
@@ -46,7 +45,6 @@ private:
 
 	TextureManager mTextures;
 	CommandQueue mCommandQueue;
-	std::unique_ptr<Tileset> mTileset;
 
 	void loadTextures();
 	void buildScene();

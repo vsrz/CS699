@@ -5,6 +5,7 @@
 
 #include "SceneNode.h"
 #include <SFML/Graphics.hpp>
+#include "Tile.h"
 
 class SpriteNode
 	: public SceneNode
@@ -12,7 +13,7 @@ class SpriteNode
 public:
 	explicit SpriteNode(const sf::Texture& texture);
 	SpriteNode(const sf::Texture& texture, const sf::IntRect& rect);
-
+	SpriteNode(Tile& tile);
 private:
 	virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
 	sf::Sprite mSprite;

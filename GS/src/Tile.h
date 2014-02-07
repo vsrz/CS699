@@ -1,19 +1,32 @@
 #ifndef TILE_H
 #define TILE_H
 
+/**
+ *	Tile.h
+ *	Takes a texture and adapts it for use as a tilemap
+ **/
+
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include "Tileset.h"
 
-class Tile
+
+class Tile 
 {
 public:
-	Tile(sf::Sprite& sprite, sf::Vector2f position);
-	void draw(sf::RenderWindow& window);
+	Tile(sf::Texture& texture, sf::Vector2i position, sf::Vector2i tileSize);
+	sf::Texture& getTexture();
+	sf::IntRect getTextureRect();
+
 private:
-	sf::Sprite mSprite;
-	sf::Vector2f mPosition;
+	// Tilemap that this tile is contained in
+	sf::Texture& mTexture;
+
+	// Size of each tile on the map, in pixels
+	sf::Vector2i mTileSize;
+
+	// Position on the tilemap
+	sf::Vector2i mPosition;
 	
 };
 
