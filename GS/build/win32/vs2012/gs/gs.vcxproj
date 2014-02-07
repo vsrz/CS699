@@ -119,6 +119,7 @@
     <ClInclude Include="..\..\..\..\src\StateStack.h" />
     <ClInclude Include="..\..\..\..\src\Tests.h" />
     <ClInclude Include="..\..\..\..\src\Tile.h" />
+    <ClInclude Include="..\..\..\..\src\TinyXML2\tinyxml2.h" />
     <ClInclude Include="..\..\..\..\src\TitleState.h" />
     <ClInclude Include="..\..\..\..\src\World.h" />
   </ItemGroup>
@@ -152,6 +153,7 @@
     <ClCompile Include="..\..\..\..\src\StateStack.cpp" />
     <ClCompile Include="..\..\..\..\src\Tests.cpp" />
     <ClCompile Include="..\..\..\..\src\Tile.cpp" />
+    <ClCompile Include="..\..\..\..\src\TinyXML2\tinyxml2.cpp" />
     <ClCompile Include="..\..\..\..\src\TitleState.cpp" />
     <ClCompile Include="..\..\..\..\src\World.cpp" />
   </ItemGroup>

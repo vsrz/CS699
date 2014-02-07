@@ -6,6 +6,7 @@
 #include <iostream>
 #include <memory>
 #include <array>
+#include "TinyXML2/tinyxml2.h"
 
 void focusTest(sf::Event event)
 {
@@ -69,12 +70,25 @@ void arrayTest()
 	std::cout << z << std::endl;
 }
 
+void tinyXMLTest()
+{
+	tinyxml2::XMLDocument doc;
+
+	doc.LoadFile("res/Tilemap.tmx");
+	sf::String s =	doc.FirstChildElement("map")->FirstChildElement("layer")->FirstChildElement("data")->FirstChildElement("tile")->Attribute("gid");
+	std::cout << s.toAnsiString() << std::endl;
+
+}
+
+
 void Tests::run()
 {
 	sf::RenderWindow mWindow(sf::VideoMode(1280, 720), "Test Window", sf::Style::Close);
 	sf::Event event;
 	sf::Vector2i pos(0,0);
 
+	tinyXMLTest();
+	return;
 	
 	while (mWindow.isOpen())
 	{

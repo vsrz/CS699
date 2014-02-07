@@ -31,6 +31,12 @@
     <Filter Include="Header Files\SFML-2.1\System">
       <UniqueIdentifier>{495fbeaf-ba6f-4335-9e1f-bdcae64a7bd2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\TinyXML2">
+      <UniqueIdentifier>{94593289-d4b3-40a4-b6f9-4232835427e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\TinyXML2">
+      <UniqueIdentifier>{201b4a55-45e6-4f74-842f-e59a74259aa6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\src\Aircraft.h">
@@ -351,6 +357,9 @@
     <ClInclude Include="..\..\..\..\src\Tile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\src\TinyXML2\tinyxml2.h">
+      <Filter>Header Files\TinyXML2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\..\src\SFML-2.1\include\SFML\Graphics\Rect.inl">
@@ -441,6 +450,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\..\src\Tile.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\TinyXML2\tinyxml2.cpp">
+      <Filter>Source Files\TinyXML2</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
