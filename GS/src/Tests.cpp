@@ -27,7 +27,7 @@ void tileSetTest(sf::RenderWindow& window)
 	sf::Texture texture;
 	sf::Sprite sprite;
 	
-	texture.loadFromFile("res/Tileset.png");
+	texture.loadFromFile("res/TestTileset.png");
 	texture.setRepeated(true);
 	sprite.setTexture(texture);
 	
@@ -75,8 +75,6 @@ void Tests::run()
 	sf::Event event;
 	sf::Vector2i pos(0,0);
 
-	arrayTest();
-	return;
 	
 	while (mWindow.isOpen())
 	{

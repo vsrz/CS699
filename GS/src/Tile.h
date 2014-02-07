@@ -17,6 +17,10 @@ public:
 	Tile(sf::Texture& texture, sf::Vector2i position, sf::Vector2i tileSize);
 	sf::Texture& getTexture();
 	sf::IntRect getTextureRect();
+	sf::Vector2f getWorldPosition();
+	sf::Vector2i getTileSize();
+
+	void setWorldPosition(sf::Vector2f position);
 
 private:
 	// Tilemap that this tile is contained in
@@ -28,6 +32,8 @@ private:
 	// Position on the tilemap
 	sf::Vector2i mPosition;
 	
+	// Position of this tile in the world
+	sf::Vector2f mWorldPosition;
 };
 
 #endif

@@ -50,9 +50,8 @@ private:
 	void buildScene();
 	void loadTileset();
 
-	std::array<std::array<std::unique_ptr<Tile>, 30>, 30> mTileMap;
+	std::array<std::array<std::unique_ptr<Tile>, 30>, 30> mTilemap;
 	
-
 };
 
 #endif

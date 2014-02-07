@@ -64,7 +64,8 @@ bool GameState::handleEvent(const sf::Event& event)
 		std::cout << "Click at " 
 			<< toString(sf::Mouse::getPosition(*getContext().window).x)
 			<< ", " 
-			<< toString(sf::Mouse::getPosition(*getContext().window).y);
+			<< toString(sf::Mouse::getPosition(*getContext().window).y)
+			<< std::endl;
 
 		
 	}
