@@ -26,9 +26,9 @@ mkdir res
 
 mkdir lib
 
-xcopy /E /Y /I "$(SolutionDir)..\..\..\..\src\SFML-2.1\lib" "$(OutDir)\lib"
+xcopy /E /Y /I "$(SolutionDir)..\\..\\..\\..\src\SFML-2.1\lib" "$(OutDir)\lib"
 
-xcopy /E /Y /I "$(SolutionDir)..\..\..\..\res" "$(OutDir)\res"
+xcopy /E /Y /I "$(SolutionDir)..\\..\\..\\..\res" "$(OutDir)\res"
 
 
 9. Click OK and build the solution
