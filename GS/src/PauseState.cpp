@@ -59,6 +59,10 @@ bool PauseState::handleEvent(const sf::Event& event)
 		requestStateClear();
 		requestStackPush(States::Menu);
 	}
+	else if (event.key.code == sf::Keyboard::Q)
+	{
+		requestStateClear();
+	}
 
 	return false;
 }

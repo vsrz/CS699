@@ -99,11 +99,11 @@ void tinyXMLTest()
 	std::cout << "Map Width: " << mMapWidth << std::endl << "Map Height: " << mMapHeight << std::endl;
 	
 	int child = 0;
-	tinyxml2::XMLElement* imageElement = mapElement->FirstChildElement("layer")->ToElement();
-	do
+	tinyxml2::XMLElement* iElement = mapElement->FirstChildElement("layer")->ToElement();
+	for (iElement; iElement; iElement = iElement->NextSiblingElement())
 	{
-		std::cout << imageElement->Attribute("name") << std::endl;
-	} while (imageElement = imageElement->NextSibling());	
+		std::cout << iElement->Attribute("name") << std::endl;
+	} 
 }
 
 

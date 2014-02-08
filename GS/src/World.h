@@ -36,6 +36,8 @@ private:
 		LayerCount
 	};
 
+	float mWorldScale;
+	
 	sf::RenderWindow& mWindow;
 	sf::View mWorldView;
 	

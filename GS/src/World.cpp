@@ -8,6 +8,7 @@ World::World(sf::RenderWindow& window)
 	, mSceneLayers()
 	, mTextures()
 	, mTilemap()
+	, mWorldScale(2.f)
 {
 	loadTextures();
 	loadTileset();
@@ -52,6 +53,23 @@ void World::buildScene()
 		mSceneGraph.attachChild(std::move(layer));
 	}
 
+	
+	for (int y = 0; y < mTilemap.getWorldSize().y; y++)
+	{
+		for (int x = 0; x < mTilemap.getWorldSize().x; x++)
+		{
+			tileSprites[x + y * mTilemap.getWorldSize().y] =
+				std::unique_ptr<SpriteNode>(new SpriteNode(mTilemap.getTexture("Floor"), mTilemap.getTextureRect(x,y,"Floor")));
+			tileSprites[x + y * mTilemap.getWorldSize().y]->setPosition(mTilemap.getWorldPosition(x * mWorldScale,y * mWorldScale));
+			tileSprites[x + y * mTilemap.getWorldSize().y]->setScale(mWorldScale, mWorldScale);
+			mSceneLayers[Background]->attachChild(std::move(tileSprites[x + y * mTilemap.getWorldSize().y]));
+	
+		}
+
+	}
+
+	/*
+	// Old Hardcoded tile system
 	for (auto& i : mTiles)
 	{
 		for (auto& iter : i)
@@ -63,10 +81,13 @@ void World::buildScene()
 			x += 1;
 		}
 	}
+	*/
 }
 
 void World::loadTileset()
 {
+	
+	/*
 	sf::Vector2i pos(3,0);
 	sf::Vector2i size(32,32);
 	int count = 0;
@@ -87,7 +108,7 @@ void World::loadTileset()
 			count += 1;
 		}
 	}
-
+	*/
 }
 
 	

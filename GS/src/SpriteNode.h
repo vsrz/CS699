@@ -12,6 +12,7 @@ class SpriteNode
 {
 public:
 	explicit SpriteNode(const sf::Texture& texture);
+	SpriteNode(sf::Sprite sprite);
 	SpriteNode(const sf::Texture& texture, const sf::IntRect& rect);
 	SpriteNode(Tile& tile);
 private:
