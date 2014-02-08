@@ -131,36 +131,47 @@ sf::Sprite Tilemap::getSprite(int x, int y, const char* layerName)
 
 }
 
-sf::Texture& Tilemap::getTexture(const char* layerName)
+// Return a reference to the texture given by the layer string
+sf::Texture& Tilemap::getTexture(int x, int y, const char* layerName)
 {
-	return mTileset[getTilesetIndex(layerName)].texture;
+	int gid = getGid(x, y, layerName);
+	return mTileset[getTilesetIndex(gid)].texture;
 }
 
-int Tilemap::getTilesetIndex(const char* layerName)
+// Return the index number of the Tileset. This is useful when
+// you just need to get some information when you've loaded multiple
+// tilesets
+int Tilemap::getTilesetIndex(int gid)
 {
-	int x = 0;
-	for (std::vector<Tileset>::iterator iter = mTileset.begin(); 
-		iter != mTileset.end(); ++iter)
+	if (gid == 0) return 0;
+	int index = -1;
+	int lo = 0, hi;
+	for (std::vector<int>::iterator iter = mTilesetFirstGids.begin();
+		iter != mTilesetFirstGids.end(); ++iter)
 	{
-		if (iter->name == std::string(layerName))
+		hi = *iter;
+		if (gid >= lo && gid < hi)
 		{
-			
-			return x++;
+			return index;
 		}
-
+		index++;
+		lo = hi;
 	}
-	return 0;
+	return index;
 }
 
 // Get the coordinates of the texture from the gid
-sf::Vector2i Tilemap::getTextureCoords(int gid, const char* layerName)
+sf::Vector2i Tilemap::getTextureCoords(int x, int y, const char* layerName)
 {
-	int index = getTilesetIndex(layerName);
+	int gid = getGid(x, y, layerName);
+	int index = getTilesetIndex(gid);
+	gid -= mTilesetFirstGids[index];
+	std::cout << mTilesetFirstGids[index];
 	int tilesetGridHeight = mTileset[index].imageheight / mTileset[index].tileheight;
 	int tilesetGridWidth =  mTileset[index].imagewidth / mTileset[index].tilewidth;
-	int gidx = (gid % tilesetGridWidth)-1;
+	int gidx = (gid % tilesetGridWidth);
 	int gidy = 0;
-	while(gid-1 > gidx)
+	while(gid > gidx)
 	{
 		gid = gid - tilesetGridWidth;
 		gidy++;
@@ -168,8 +179,7 @@ sf::Vector2i Tilemap::getTextureCoords(int gid, const char* layerName)
 	return sf::Vector2i(gidx, gidy);
 }
 
-
-sf::IntRect Tilemap::getTextureRect(int x, int y, const char* layerName)
+int Tilemap::getGid(int x, int y, const char* layerName)
 {
 	/* find the gid of the x,y passed */
 	int tileNum = x + y * mMapWidth;
@@ -223,9 +233,23 @@ sf::IntRect Tilemap::getTextureRect(int x, int y, const char* layerName)
 		throw std::runtime_error("Tilemap: No tile element was found in layer during search " + std::string(layerName));
 	}
 	
-	gid = xmlTileElement->IntAttribute("gid");
-	sf::Vector2i coords = getTextureCoords(gid, layerName);
-	return sf::IntRect(coords.x * mTileWidth, coords.y *mTileHeight, mTileWidth, mTileHeight);
+	return xmlTileElement->IntAttribute("gid");
+	
+}
+
+sf::IntRect Tilemap::getTextureRect(int x, int y, const char* layerName)
+{
+	int gid = getGid(x, y, layerName);
+
+	if (gid != 0)
+	{
+		sf::Vector2i coords = getTextureCoords(x, y, layerName);
+		return sf::IntRect(coords.x * mTileWidth, coords.y *mTileHeight, mTileWidth, mTileHeight);
+	}
+
+	// No Texture
+	return sf::IntRect(-1,-1,-1,-1);
+
 }
 
 

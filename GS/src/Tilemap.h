@@ -35,7 +35,7 @@ public:
 	sf::IntRect getTextureRect(int x, int y, const char* layerName);
 	sf::Vector2f getWorldPosition(int x, int y);
 	sf::Sprite getSprite(int x, int y, const char* layerName);
-	sf::Texture& getTexture(const char* layerName);
+	sf::Texture& getTexture(int x, int y, const char* layerName);
 	
 private:
 	
@@ -53,8 +53,8 @@ private:
 		int imageheight;
 	};
 	
-	int getTilesetIndex(const char* layerName);
-	sf::Vector2i getTextureCoords(int gid, const char* layerName);
+	int getTilesetIndex(int gid);
+	sf::Vector2i getTextureCoords(int x, int y, const char* layerName);
 
 	// XML objects
 	tinyxml2::XMLDocument mXmlDocument;
@@ -76,7 +76,7 @@ private:
 	int mTileHeight;
 
 	// Convert X Y to GID
-	int getGid(int x, int y);
+	int getGid(int x, int y, const char* layerName);
 
 };
 

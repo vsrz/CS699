@@ -52,18 +52,51 @@ void World::buildScene()
 
 		mSceneGraph.attachChild(std::move(layer));
 	}
-
 	
+	/* Build the floor tileset */
 	for (int y = 0; y < mTilemap.getWorldSize().y; y++)
 	{
 		for (int x = 0; x < mTilemap.getWorldSize().x; x++)
 		{
+			sf::IntRect textureRect = mTilemap.getTextureRect(x, y, "Floor");
+			sf::Vector2f worldPos = mTilemap.getWorldPosition(x * mWorldScale,y * mWorldScale);
+			sf::Texture& texture = mTilemap.getTexture(x, y, "Floor");
+			
+			// Since Spritenode is stored as a single array, we need the position relative to
+			// its X, Y coordinates--just like the tmx GID number
+			int tilePos = x + y * mTilemap.getWorldSize().y;
+			
+			if (textureRect.left < 0) continue;
+
 			tileSprites[x + y * mTilemap.getWorldSize().y] =
-				std::unique_ptr<SpriteNode>(new SpriteNode(mTilemap.getTexture("Floor"), mTilemap.getTextureRect(x,y,"Floor")));
-			tileSprites[x + y * mTilemap.getWorldSize().y]->setPosition(mTilemap.getWorldPosition(x * mWorldScale,y * mWorldScale));
-			tileSprites[x + y * mTilemap.getWorldSize().y]->setScale(mWorldScale, mWorldScale);
-			mSceneLayers[Background]->attachChild(std::move(tileSprites[x + y * mTilemap.getWorldSize().y]));
-	
+				std::unique_ptr<SpriteNode>(new SpriteNode(texture, textureRect));
+			tileSprites[tilePos]->setPosition(worldPos);
+			tileSprites[tilePos]->setScale(mWorldScale, mWorldScale);
+			mSceneLayers[Floor]->attachChild(std::move(tileSprites[tilePos]));
+		}
+
+	}
+
+	/* Build the object tileset */
+	for (int y = 0; y < mTilemap.getWorldSize().y; y++)
+	{
+		for (int x = 0; x < mTilemap.getWorldSize().x; x++)
+		{
+			sf::IntRect textureRect = mTilemap.getTextureRect(x, y, "Object");
+			sf::Vector2f worldPos = mTilemap.getWorldPosition(x * mWorldScale,y * mWorldScale);
+			sf::Texture& texture = mTilemap.getTexture(x, y, "Object");
+			
+			// Since Spritenode is stored as a single array, we need the position relative to
+			// its X, Y coordinates--just like the tmx GID number
+			int tilePos = x + y * mTilemap.getWorldSize().y;
+			
+			if (textureRect.left < 0) continue;
+
+			tileSprites[x + y * mTilemap.getWorldSize().y] =
+				std::unique_ptr<SpriteNode>(new SpriteNode(texture, textureRect));
+			tileSprites[tilePos]->setPosition(worldPos);
+			tileSprites[tilePos]->setScale(mWorldScale, mWorldScale);
+			mSceneLayers[Object]->attachChild(std::move(tileSprites[tilePos]));
 		}
 
 	}

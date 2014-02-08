@@ -6,7 +6,10 @@
  <tileset firstgid="241" name="TitleScreen" tilewidth="32" tileheight="32">
   <image source="TitleScreen.png" width="400" height="400"/>
  </tileset>
- <layer name="Floor" width="20" height="12" opacity="0.99">
+ <tileset firstgid="385" name="SampleObjects" tilewidth="32" tileheight="32">
+  <image source="SampleObjects.png" width="512" height="512"/>
+ </tileset>
+ <layer name="Floor" width="20" height="12">
   <data>
    <tile gid="23"/>
    <tile gid="24"/>
@@ -19,7 +22,7 @@
    <tile gid="11"/>
    <tile gid="11"/>
    <tile gid="11"/>
-   <tile gid="11"/>
+   <tile gid="0"/>
    <tile gid="23"/>
    <tile gid="24"/>
    <tile gid="23"/>
@@ -245,7 +248,7 @@
    <tile gid="9"/>
    <tile gid="9"/>
    <tile gid="9"/>
-   <tile gid="9"/>
+   <tile gid="0"/>
    <tile gid="9"/>
    <tile gid="9"/>
   </data>
@@ -282,6 +285,8 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="519"/>
+   <tile gid="520"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -300,6 +305,8 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="535"/>
+   <tile gid="536"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -441,7 +448,9 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="459"/>
    <tile gid="0"/>
+   <tile gid="457"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -459,15 +468,9 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="475"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="473"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>

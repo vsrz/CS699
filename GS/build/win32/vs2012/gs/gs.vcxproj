@@ -125,6 +125,7 @@
     <ClInclude Include="..\..\..\..\src\World.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\..\res\Tilemap.tmx" />
     <None Include="..\..\..\..\src\ResourceManager.inl" />
     <None Include="..\..\..\..\src\SFML-2.1\include\SFML\Graphics\Rect.inl" />
     <None Include="..\..\..\..\src\SFML-2.1\include\SFML\System\Thread.inl" />
@@ -158,6 +159,19 @@
     <ClCompile Include="..\..\..\..\src\TinyXML2\tinyxml2.cpp" />
     <ClCompile Include="..\..\..\..\src\TitleState.cpp" />
     <ClCompile Include="..\..\..\..\src\World.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\..\res\Desert.png" />
+    <Image Include="..\..\..\..\res\Eagle.png" />
+    <Image Include="..\..\..\..\res\Floor.png" />
+    <Image Include="..\..\..\..\res\Raptor.png" />
+    <Image Include="..\..\..\..\res\TestTileset.png" />
+    <Image Include="..\..\..\..\res\Tile.png" />
+    <Image Include="..\..\..\..\res\Tileset.png" />
+    <Image Include="..\..\..\..\res\TitleScreen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="..\..\..\..\res\Sansation.ttf" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{60A0C08F-006D-4BC9-9073-BBE02B85DC61}</ProjectGuid>
@@ -223,12 +237,15 @@
       <AdditionalDependencies>sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-system-s-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
+      <Command>REM</Command>
+    </PreBuildEvent>
+    <PreLinkEvent>
       <Command>mkdir res
 mkdir lib
 xcopy /E /Y /I "$(SolutionDir)..\..\..\..\src\SFML-2.1\lib" "$(OutDir)\lib"
 xcopy /E /Y /I "$(SolutionDir)..\..\..\..\res" "$(OutDir)\res"
 </Command>
-    </PreBuildEvent>
+    </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Run Tests|Win32'">
     <ClCompile>
@@ -247,12 +264,15 @@ xcopy /E /Y /I "$(SolutionDir)..\..\..\..\res" "$(OutDir)\res"
       <AdditionalDependencies>sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-system-s-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
+      <Command>REM</Command>
+    </PreBuildEvent>
+    <PreLinkEvent>
       <Command>mkdir res
 mkdir lib
 xcopy /E /Y /I "$(SolutionDir)..\..\..\..\src\SFML-2.1\lib" "$(OutDir)\lib"
 xcopy /E /Y /I "$(SolutionDir)..\..\..\..\res" "$(OutDir)\res"
 </Command>
-    </PreBuildEvent>
+    </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -270,6 +290,16 @@ xcopy /E /Y /I "$(SolutionDir)..\..\..\..\res" "$(OutDir)\res"
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <PreBuildEvent>
+      <Command>REM</Command>
+    </PreBuildEvent>
+    <PreLinkEvent>
+      <Command>mkdir res
+mkdir lib
+xcopy /E /Y /I "$(SolutionDir)..\..\..\..\src\SFML-2.1\lib" "$(OutDir)\lib"
+xcopy /E /Y /I "$(SolutionDir)..\..\..\..\res" "$(OutDir)\res"
+</Command>
+    </PreLinkEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
