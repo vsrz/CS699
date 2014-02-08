@@ -5,7 +5,7 @@
  *	
  *	Definitions
  *	Tilemap		- The map file, TMX
- *	Tileset		- Image used to generate tiles
+ *	Tileset		- Image used to generate tiles 
  *	Tile		- A portion of the image that is cut to form a tile
  *	
  *	See mapeditor.org for TMX file information.
@@ -31,15 +31,28 @@ public:
 	void loadTilemap(const char* filename);
 	sf::Vector2i getTileSize();
 	sf::IntRect getTextureRect();
-
+	
 private:
+	struct Tileset
+	{
+		int id;
+		int firstGid;
+		sf::String name;
+		int width;
+		int height;
+		sf::Texture texture;
+		int textureWidth;
+		int textureHeight;
+	};
+	
 	// XML objects
 	tinyxml2::XMLDocument mDocument;
 	tinyxml2::XMLElement* mMapElement;
 	tinyxml2::XMLElement* mLayerElement;
 
-	// Textures
-	std::vector<sf::Texture> mTextures;
+	// Tileset
+	std::vector<Tileset> mTileset;
+	
 
 	// Map Width/Height is measured in tile units
 	int mMapWidth;

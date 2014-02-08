@@ -1,5 +1,5 @@
 #include "Tilemap.h"
-
+#include <iostream>
 
 Tilemap::Tilemap(const char* filename)
 {
@@ -8,7 +8,9 @@ Tilemap::Tilemap(const char* filename)
 
 void Tilemap::loadTilemap(const char* filename)
 {
-	if (!mDocument.LoadFile(filename))
+
+	// Returns 0 on success
+	if (mDocument.LoadFile(filename))
 	{
 		throw std::runtime_error("Tilemap: Failed to load tilemap data " + std::string(filename));
 	}
@@ -23,19 +25,15 @@ void Tilemap::loadTilemap(const char* filename)
 	mMapWidth = mMapElement->IntAttribute("width");
 	mMapHeight = mMapElement->IntAttribute("height");
 
-
 	// Get tile sizes
 	mTileWidth = mMapElement->IntAttribute("tilewidth");
 	mTileHeight = mMapElement->IntAttribute("tileheight");
+
+	// Load tileset data
+	
 }
 
 
-/**
- *	Since we're loading the tileset outside of this class
- *	we'll require the name of the layer to extract the tile
- *	ID from in order to return the IntRect that will be needed
- *	to pull the correct tile
- **/
 sf::IntRect Tilemap::getTextureRect()
 {
 	

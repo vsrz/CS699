@@ -97,7 +97,13 @@ void tinyXMLTest()
 	mMapHeight = mapElement->IntAttribute("height");
 
 	std::cout << "Map Width: " << mMapWidth << std::endl << "Map Height: " << mMapHeight << std::endl;
-
+	
+	int child = 0;
+	tinyxml2::XMLElement* imageElement = mapElement->FirstChildElement("layer")->ToElement();
+	do
+	{
+		std::cout << imageElement->Attribute("name") << std::endl;
+	} while (imageElement = imageElement->NextSibling());	
 }
 
 
