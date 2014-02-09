@@ -182,7 +182,6 @@ int Tilemap::getGid(int x, int y, const char* layerName)
 {
 	/* find the gid of the x,y passed */
 	int tileNum = x + y * mMapWidth;
-	int gid;
 	bool found = false;
 
 	// Load the data element from the matching layer

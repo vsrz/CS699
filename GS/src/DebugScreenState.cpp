@@ -6,15 +6,16 @@
 
 DebugScreenState::DebugScreenState(StateStack& stack, Context context)
 	: State(stack, context)
-	, mDebugFps(0)
+	, mDebugTicks(0)
 	, mDebugTime(sf::Time::Zero)
 	, mMouseTime(sf::Time::Zero)
 {
-	
-	initalizeText(mFps, sf::Vector2f(5.f, 5.f), sf::String("0 fps"));
-	initalizeText(mTps, sf::Vector2f(5.f, 15.f), sf::String("0 ticks"));
-	initalizeText(mMouseLabel, sf::Vector2f(5.f, 25.f), sf::String("Mouse Position:"));
-	initalizeText(mMousePos, sf::Vector2f(80.f, 25.f), sf::String("0, 0"));
+	float yoffset = 3.f;
+	float spacing = 12.f;
+	initalizeText(mFps, sf::Vector2f(5.f, yoffset), sf::String("0 fps"));
+	initalizeText(mTps, sf::Vector2f(5.f, yoffset + spacing), sf::String("0 ticks"));
+	initalizeText(mMouseLabel, sf::Vector2f(5.f, yoffset + 2 * spacing), sf::String("Mouse Position:"));
+	initalizeText(mMousePos, sf::Vector2f(95.f, yoffset + 2 * spacing), sf::String("0, 0"));
 
 }
 
@@ -25,7 +26,7 @@ void DebugScreenState::initalizeText(sf::Text& text
 	sf::Font& font = getContext().fonts->get(Fonts::Default);
 	text.setFont(font);
 	text.setCharacterSize(12);
-	text.setColor(sf::Color::White);
+	text.setColor(sf::Color::Yellow);
 	text.setPosition(position);
 	text.setString(string);
 }
@@ -77,14 +78,14 @@ void DebugScreenState::updateMouseLocation(sf::Time dt)
 void DebugScreenState::updateDebugText(sf::Time dt)
 {
 	mDebugTime += dt;
-	mDebugFps += 1;
+	mDebugTicks += 1;
 	if (mDebugTime >= sf::seconds(1.0f))
 	{
-		mFps.setString(toString(mDebugFps) + " fps");
-		mTps.setString(toString(mDebugTime.asMicroseconds() / mDebugFps) + " tps");
+		mTps.setString(toString(mDebugTicks) + " ticks");
+		mFps.setString(toString(mDebugTime.asMicroseconds() / mDebugTicks) + " fps");
 		
 		mDebugTime -= sf::seconds(1.0f);
-		mDebugFps = 0;
+		mDebugTicks = 0;
 	}
 }
 
