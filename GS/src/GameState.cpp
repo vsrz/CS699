@@ -39,6 +39,7 @@ bool GameState::handleEvent(const sf::Event& event)
 		event.key.code == sf::Keyboard::Escape)
 	{
 		requestStackPush(States::Pause);
+		return false;
 	}
 
 	// F3 is pressed, so bring up the debug overlay
@@ -55,17 +56,16 @@ bool GameState::handleEvent(const sf::Event& event)
 			requestStackPop();
 			mDebugOverlay = false;
 		}
+		return false;
 	}
 
 	// Left Mouse click
 	else if (event.type == sf::Event::MouseButtonPressed &&
 		sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
-		std::cout << "Click at " 
-			<< toString(sf::Mouse::getPosition(*getContext().window).x)
-			<< ", " 
-			<< toString(sf::Mouse::getPosition(*getContext().window).y)
-			<< std::endl;
+		// Send the click to the world to find out which tile was clicked
+		mWorld.handleEvent(event);
+		
 
 		
 	}

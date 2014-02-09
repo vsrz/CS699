@@ -166,7 +166,6 @@ sf::Vector2i Tilemap::getTextureCoords(int x, int y, const char* layerName)
 	int gid = getGid(x, y, layerName);
 	int index = getTilesetIndex(gid);
 	gid -= mTilesetFirstGids[index];
-	std::cout << mTilesetFirstGids[index];
 	int tilesetGridHeight = mTileset[index].imageheight / mTileset[index].tileheight;
 	int tilesetGridWidth =  mTileset[index].imagewidth / mTileset[index].tilewidth;
 	int gidx = (gid % tilesetGridWidth);

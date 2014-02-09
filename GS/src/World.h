@@ -24,6 +24,7 @@ public:
 	void update(sf::Time dt);
 	void draw();
 
+	void handleEvent(const sf::Event& event);
 	CommandQueue& getCommandQueue();
 private:
 	enum SceneLayer

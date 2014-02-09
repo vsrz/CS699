@@ -40,6 +40,20 @@ void World::loadTextures()
 	mTilemap.loadTilemap("res/Tilemap.tmx");
 }
 
+void World::handleEvent(const sf::Event& event)
+{
+	sf::Vector2i click;
+	click.x = sf::Mouse::getPosition(mWindow).x / (mTilemap.getTileSize().x * static_cast<int>(mWorldScale));
+	click.y = sf::Mouse::getPosition(mWindow).y / (mTilemap.getTileSize().y * static_cast<int>(mWorldScale));
+	// We're only handling left clicks for now here
+	std::cout << "\nClick on Tile ("
+		<< click.x
+		<< ", "
+		<< click.y
+		<< ")";
+
+}
+
 void World::buildScene()
 {
 	std::array<std::unique_ptr<SpriteNode>,900> tileSprites;
