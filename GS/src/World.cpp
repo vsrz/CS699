@@ -19,14 +19,25 @@ World::World(sf::RenderWindow& window)
 
 void World::update(sf::Time dt)
 {
-
+	
+	if (mClickIconTime > sf::Time::Zero)
+	{
+		mClickIconTime -= dt;
+		mClickAlpha = 255 * 
+			(mClickIconTime.asMilliseconds() 
+			/ static_cast<float>(mClickDuration.asMilliseconds()));
+		mClickIcon.setColor(sf::Color(255,255,255,mClickAlpha));
+	}
 }
 
 void World::draw()
 {
 	mWindow.setView(mWorldView);
 	mWindow.draw(mSceneGraph);
-
+	if (mClickIconTime > sf::Time::Zero)
+	{
+		mWindow.draw(mClickIcon);
+	}
 }
 
 CommandQueue& World::getCommandQueue()
@@ -37,6 +48,7 @@ CommandQueue& World::getCommandQueue()
 void World::loadTextures()
 {
 	mTextures.load(Textures::TestTileset, "res/TestTileset.png");	
+	mTextures.load(Textures::RedClick, "res/RedClick.png");
 	mTilemap.loadTilemap("res/Tilemap.tmx");
 }
 
@@ -51,7 +63,12 @@ void World::handleEvent(const sf::Event& event)
 		<< ", "
 		<< click.y
 		<< ")";
-
+	mClickDuration = sf::seconds(1.f);
+	mClickIcon.setPosition(
+		static_cast<float>(click.x) * mTilemap.getTileSize().x * mWorldScale, 
+		static_cast<float>(click.y) * mTilemap.getTileSize().y * mWorldScale);
+	mClickIconTime = mClickDuration;
+	mClickAlpha = 255;
 }
 
 void World::buildScene()
@@ -59,6 +76,10 @@ void World::buildScene()
 	std::array<std::unique_ptr<SpriteNode>,900> tileSprites;
 	int x = 0;
 
+	mClickIcon.setTexture(mTextures.get(Textures::RedClick));
+	mClickIcon.setScale(mWorldScale, mWorldScale);
+
+	
 	for (std::size_t i = 0; i < LayerCount; ++i)
 	{
 		SceneNode::Ptr layer(new SceneNode());

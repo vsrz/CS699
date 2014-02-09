@@ -24,7 +24,7 @@ void DebugScreenState::initalizeText(sf::Text& text
 {
 	sf::Font& font = getContext().fonts->get(Fonts::Default);
 	text.setFont(font);
-	text.setCharacterSize(10);
+	text.setCharacterSize(12);
 	text.setColor(sf::Color::White);
 	text.setPosition(position);
 	text.setString(string);

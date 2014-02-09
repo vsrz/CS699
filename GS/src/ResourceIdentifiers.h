@@ -17,6 +17,7 @@ namespace Textures
 		Desert,
 		TitleScreen,
 		SalonTileset,
+		RedClick,
 		TestTileset
 	};
 

@@ -57,6 +57,11 @@ private:
 
 	std::array<std::array<std::unique_ptr<Tile>, 20>, 12> mTiles;
 	Tilemap mTilemap;
+
+	int mClickAlpha;
+	sf::Time mClickDuration;
+	sf::Sprite mClickIcon;
+	sf::Time mClickIconTime;
 	
 };
 
