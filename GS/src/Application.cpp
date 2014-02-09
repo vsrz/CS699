@@ -20,7 +20,13 @@ Application::Application(void)
 	mTextures.load(Textures::TitleScreen, "res/TitleScreen.png");
 	
 	registerStates();
+#ifdef DEBUG
 	mStateStack.pushState(States::Loading);
+#endif
+
+#ifdef RELEASE
+	mStateStack.pushState(States::Title);
+#endif
 
 }
 

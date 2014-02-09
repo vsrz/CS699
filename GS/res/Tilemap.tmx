@@ -9,6 +9,9 @@
  <tileset firstgid="385" name="SampleObjects" tilewidth="32" tileheight="32">
   <image source="SampleObjects.png" width="512" height="512"/>
  </tileset>
+ <tileset firstgid="641" name="Suits01-1" tilewidth="32" tileheight="32">
+  <image source="Suits01-1.png" width="384" height="256"/>
+ </tileset>
  <layer name="Floor" width="20" height="12">
   <data>
    <tile gid="23"/>
@@ -279,10 +282,10 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="641"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="649"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="519"/>
@@ -299,7 +302,7 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="681"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -490,7 +493,7 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="641"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>

@@ -39,6 +39,8 @@ void StateStack::draw()
 void StateStack::handleEvent(const sf::Event& event)
 {
 	// Iterate from top to bottom, stop as soon as handleEvent() returns false
+	// Returning false is an indication that the event was handled by some
+	// state
 	for (auto itr = mStack.rbegin(); itr != mStack.rend(); ++itr)
 	{
 		if (!(*itr)->handleEvent(event))
@@ -77,6 +79,9 @@ State::Ptr StateStack::createState(States::ID stateID)
 	return found->second();
 }
 
+// If there was a change in state, apply that change now
+// ex. if we pause the game, push the pause state. if we want to quit
+// out, Clear the stack state and exit normally
 void StateStack::applyPendingChanges()
 {
 	for(PendingChange change : mPendingList)
