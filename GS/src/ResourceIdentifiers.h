@@ -18,6 +18,7 @@ namespace Textures
 		TitleScreen,
 		SalonTileset,
 		RedClick,
+		TestGuy,
 		TestTileset
 	};
 

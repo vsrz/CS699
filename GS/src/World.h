@@ -16,6 +16,7 @@
 #include "CommandQueue.h"
 #include "Tile.h"
 #include "Tilemap.h"
+#include "NpcEntity.h"
 
 class World
 {
@@ -57,15 +58,11 @@ private:
 
 	void loadTextures();
 	void buildScene();
-	void loadTileset();
 
 	std::array<std::array<std::unique_ptr<Tile>, 20>, 12> mTiles;
 	Tilemap mTilemap;
 
-	int mClickAlpha;
-	sf::Time mClickDuration;
-	sf::Sprite mClickIcon;
-	sf::Time mClickIconTime;
+	NpcEntity* mCustomer;
 	
 };
 

@@ -11,7 +11,6 @@ World::World(sf::RenderWindow& window)
 	, mWorldScale(2.f)
 {
 	loadTextures();
-	loadTileset();
 	buildScene();
 
 
@@ -30,10 +29,7 @@ void World::draw()
 {
 	mWindow.setView(mWorldView);
 	mWindow.draw(mSceneGraph);
-	if (mClickIconTime > sf::Time::Zero)
-	{
-		mWindow.draw(mClickIcon);
-	}
+
 }
 
 CommandQueue& World::getCommandQueue()
@@ -44,7 +40,7 @@ CommandQueue& World::getCommandQueue()
 void World::loadTextures()
 {
 	mTextures.load(Textures::TestTileset, "res/TestTileset.png");	
-	mTextures.load(Textures::RedClick, "res/RedClick.png");
+	mTextures.load(Textures::TestGuy, "res/TestGuy.png");
 	mTilemap.loadTilemap("res/Tilemap.tmx");
 }
 
@@ -81,10 +77,6 @@ void World::buildScene()
 {
 	std::array<std::unique_ptr<SpriteNode>,900> tileSprites;
 	int x = 0;
-
-	mClickIcon.setTexture(mTextures.get(Textures::RedClick));
-	mClickIcon.setScale(mWorldScale, mWorldScale);
-
 	
 	for (std::size_t i = 0; i < LayerCount; ++i)
 	{
@@ -142,6 +134,14 @@ void World::buildScene()
 
 	}
 
+	/* Add the test guy to the screen */
+	std::unique_ptr<NpcEntity> player(new NpcEntity(NpcEntity::Type::TestGuy, mTextures));
+	mCustomer = player.get();
+	mCustomer->setPosition(getPixelPosition(sf::Vector2i(540,160)));
+	mCustomer->setVelocity(0.f, 0.f);
+	mCustomer->setScale(getWorldScale());
+	mSceneLayers[Entity]->attachChild(std::move(player));
+
 	/*
 	// Old Hardcoded tile system
 	for (auto& i : mTiles)
@@ -158,31 +158,5 @@ void World::buildScene()
 	*/
 }
 
-void World::loadTileset()
-{
-	
-	/*
-	sf::Vector2i pos(3,0);
-	sf::Vector2i size(32,32);
-	int count = 0;
-	float tileScale = 2.f;
-	float x = 0, y = 0;
-
-	for (auto& i : mTiles)
-	{
-		for (auto& iter : i)
-		{
-			// get the tile information for this tile in the map
-			//sf::Texture& tileTexture;
-			sf::Vector2i tileImagePosition;
-			sf::Vector2i tileSize;
-			
-			iter = std::unique_ptr<Tile>(new Tile(mTextures.get(Textures::TestTileset), pos,  size ));
-			iter->setWorldPosition(sf::Vector2f(x,y));
-			count += 1;
-		}
-	}
-	*/
-}
 
 	
