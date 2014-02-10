@@ -18,6 +18,7 @@
     <ClInclude Include="..\..\..\..\src\Aircraft.h" />
     <ClInclude Include="..\..\..\..\src\Application.h" />
     <ClInclude Include="..\..\..\..\src\Category.h" />
+    <ClInclude Include="..\..\..\..\src\ClickObject.h" />
     <ClInclude Include="..\..\..\..\src\Command.h" />
     <ClInclude Include="..\..\..\..\src\CommandQueue.h" />
     <ClInclude Include="..\..\..\..\src\DebugScreenState.h" />
@@ -137,6 +138,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\..\src\Aircraft.cpp" />
     <ClCompile Include="..\..\..\..\src\Application.cpp" />
+    <ClCompile Include="..\..\..\..\src\ClickObject.cpp" />
     <ClCompile Include="..\..\..\..\src\Command.cpp" />
     <ClCompile Include="..\..\..\..\src\CommandQueue.cpp" />
     <ClCompile Include="..\..\..\..\src\DebugScreenState.cpp" />

@@ -9,6 +9,7 @@
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
 #include <memory>
+#include "ClickObject.h"
 
 namespace sf
 {
@@ -16,7 +17,7 @@ namespace sf
 }
 
 class StateStack;
-class Player;
+class ClickObject;
 
 class State
 {

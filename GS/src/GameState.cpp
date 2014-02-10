@@ -9,6 +9,7 @@ GameState::GameState(StateStack& stack, Context context)
 	, mWorld(*context.window)
 	, mPlayer(*context.player)
 	, mDebugOverlay(false)
+	, mClick(context.textures->get(Textures::RedClick))
 {
 
 }
@@ -16,15 +17,16 @@ GameState::GameState(StateStack& stack, Context context)
 void GameState::draw()
 {
 	mWorld.draw();
+	mClick.draw(*getContext().window);
 }
 
 bool GameState::update(sf::Time dt)
 {
 	mWorld.update(dt);
-
+	mClick.update(dt);
 	CommandQueue& commands = mWorld.getCommandQueue();
 	mPlayer.handleRealtimeInput(commands);
-
+	
 	return true;
 }
 
@@ -64,10 +66,8 @@ bool GameState::handleEvent(const sf::Event& event)
 		sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
 		// Send the click to the world to find out which tile was clicked
-		mWorld.handleEvent(event);
-		
-
-		
+		sf::Vector2f pos = mWorld.getPixelPosition(sf::Mouse::getPosition(*getContext().window));
+		mClick.addClickEvent(pos, mWorld.getWorldScale());
 	}
 
 	return true;

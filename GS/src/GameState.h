@@ -5,6 +5,7 @@
 
 #include "State.h"
 #include "World.h"
+#include "ClickObject.h"
 
 class GameState
 	: public State
@@ -18,6 +19,7 @@ public:
 private:
 	World mWorld;
 	Player& mPlayer;
+	ClickObject mClick;
 
 	bool mDebugOverlay;
 

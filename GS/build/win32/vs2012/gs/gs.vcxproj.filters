@@ -363,6 +363,9 @@
     <ClInclude Include="..\..\..\..\src\Tilemap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\src\ClickObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\..\src\SFML-2.1\include\SFML\Graphics\Rect.inl">
@@ -461,6 +464,9 @@
       <Filter>Source Files\TinyXML2</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\src\Tilemap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\ClickObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

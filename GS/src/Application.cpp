@@ -18,7 +18,8 @@ Application::Application(void)
 	mWindow.setKeyRepeatEnabled(false);
 	mFonts.load(Fonts::Default, "res/Sansation.ttf");
 	mTextures.load(Textures::TitleScreen, "res/TitleScreen.png");
-	
+	mTextures.load(Textures::RedClick, "res/RedClick.png");
+
 	registerStates();
 #ifdef DEBUG
 	mStateStack.pushState(States::Loading);

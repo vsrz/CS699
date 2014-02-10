@@ -113,7 +113,7 @@ sf::Sprite Tilemap::getSprite(int x, int y, const char* layerName)
 	
 	gid = xmlTileElement->IntAttribute("gid");
 
-	for (std::vector<Tileset>::iterator iter = mTileset.begin(); 
+	for (auto iter = mTileset.begin(); 
 		iter != mTileset.end(); ++iter)
 	{
 		if (iter->name == std::string(layerName))

@@ -17,17 +17,13 @@ World::World(sf::RenderWindow& window)
 
 }
 
+sf::Vector2f World::getWorldScale()
+{
+	return sf::Vector2f(mWorldScale, mWorldScale);
+}
 void World::update(sf::Time dt)
 {
-	
-	if (mClickIconTime > sf::Time::Zero)
-	{
-		mClickIconTime -= dt;
-		mClickAlpha = 255 * 
-			(mClickIconTime.asMilliseconds() 
-			/ static_cast<float>(mClickDuration.asMilliseconds()));
-		mClickIcon.setColor(sf::Color(255,255,255,mClickAlpha));
-	}
+
 }
 
 void World::draw()
@@ -52,23 +48,33 @@ void World::loadTextures()
 	mTilemap.loadTilemap("res/Tilemap.tmx");
 }
 
+// Return a tile coordinate relative to a pixel coordinate on the screen
+sf::Vector2i World::getTilePosition(sf::Vector2i windowPos)
+{
+	sf::Vector2i position;
+	position.x = windowPos.x / 
+		(mTilemap.getTileSize().x * mWorldScale);
+	position.y = windowPos.y /
+		(mTilemap.getTileSize().y * mWorldScale);
+
+	return position;
+}
+
+// Return the pixel position of a tile given the position of a pixel
+sf::Vector2f World::getPixelPosition(const sf::Vector2i& pixelPos)
+{
+	sf::Vector2i p = getTilePosition(pixelPos);
+	sf::Vector2f position(static_cast<float>(p.x), static_cast<float>(p.y));
+		
+	position.x = position.x * static_cast<float>(mWorldScale) * mTilemap.getTileSize().x;
+	position.y = position.y * static_cast<float>(mWorldScale) * mTilemap.getTileSize().y;
+	return position;
+}
+
 void World::handleEvent(const sf::Event& event)
 {
-	sf::Vector2i click;
-	click.x = sf::Mouse::getPosition(mWindow).x / (mTilemap.getTileSize().x * static_cast<int>(mWorldScale));
-	click.y = sf::Mouse::getPosition(mWindow).y / (mTilemap.getTileSize().y * static_cast<int>(mWorldScale));
-	// We're only handling left clicks for now here
-	std::cout << "\nClick on Tile ("
-		<< click.x
-		<< ", "
-		<< click.y
-		<< ")";
-	mClickDuration = sf::seconds(1.f);
-	mClickIcon.setPosition(
-		static_cast<float>(click.x) * mTilemap.getTileSize().x * mWorldScale, 
-		static_cast<float>(click.y) * mTilemap.getTileSize().y * mWorldScale);
-	mClickIconTime = mClickDuration;
-	mClickAlpha = 255;
+
+
 }
 
 void World::buildScene()

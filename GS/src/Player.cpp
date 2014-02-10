@@ -41,23 +41,6 @@ void Player::handleEvent(const sf::Event& event, CommandQueue& commands)
 			commands.push(mActionBinding[found->second]);
 		}
 	}
-
-	// LMB is pressed, set the destination coordinates
-	/*
-	else if (event.type == sf::Event::MouseButtonPressed &&
-		sf::Mouse::isButtonPressed(sf::Mouse::Left))
-	{
-		mPlayerDestination.x = sf::Mouse::getPosition().x;
-		mPlayerDestination.y = sf::Mouse::getPosition().y;
-
-		std::cout 
-			<< toString(mPlayerDestination.x) 
-			<< ", " 
-			<< toString(mPlayerDestination.y) 
-			<< std::endl;
-
-	}
-	*/
 }
 
 void Player::initializeActions()
