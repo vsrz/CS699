@@ -6,14 +6,14 @@
 
 DebugScreenState::DebugScreenState(StateStack& stack, Context context)
 	: State(stack, context)
-	, mDebugTicks(0)
+	, mDebugFps(0)
 	, mDebugTime(sf::Time::Zero)
 	, mMouseTime(sf::Time::Zero)
 {
 	float yoffset = 3.f;
 	float spacing = 12.f;
 	initalizeText(mFps, sf::Vector2f(5.f, yoffset), sf::String("0 fps"));
-	initalizeText(mTps, sf::Vector2f(5.f, yoffset + spacing), sf::String("0 ticks"));
+	initalizeText(mTps, sf::Vector2f(5.f, yoffset + spacing), sf::String("0 u/s"));
 	initalizeText(mMouseLabel, sf::Vector2f(5.f, yoffset + 2 * spacing), sf::String("Mouse Position:"));
 	initalizeText(mMousePos, sf::Vector2f(95.f, yoffset + 2 * spacing), sf::String("0, 0"));
 
@@ -78,14 +78,14 @@ void DebugScreenState::updateMouseLocation(sf::Time dt)
 void DebugScreenState::updateDebugText(sf::Time dt)
 {
 	mDebugTime += dt;
-	mDebugTicks += 1;
+	mDebugFps += 1;
 	if (mDebugTime >= sf::seconds(1.0f))
 	{
-		mTps.setString(toString(mDebugTicks) + " ticks");
-		mFps.setString(toString(mDebugTime.asMicroseconds() / mDebugTicks) + " fps");
+		mFps.setString(toString(mDebugFps) + " fps");
+		mTps.setString(toString(mDebugTime.asMicroseconds() / mDebugFps) + " u/s");
 		
 		mDebugTime -= sf::seconds(1.0f);
-		mDebugTicks = 0;
+		mDebugFps = 0;
 	}
 }
 

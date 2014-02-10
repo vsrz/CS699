@@ -18,7 +18,7 @@ public:
 
 private:
 	sf::Time mDebugTime;
-	std::size_t mDebugTicks;
+	std::size_t mDebugFps;
 	sf::Text mFps;
 	sf::Text mTps;
 	
