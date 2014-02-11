@@ -8,7 +8,7 @@ World::World(sf::RenderWindow& window)
 	, mSceneLayers()
 	, mTextures()
 	, mTilemap()
-	, mWorldScale(2.f)
+	, mWorldScale(2.f, 2.f)
 {
 	loadTextures();
 	buildScene();
@@ -18,8 +18,9 @@ World::World(sf::RenderWindow& window)
 
 sf::Vector2f World::getWorldScale()
 {
-	return sf::Vector2f(mWorldScale, mWorldScale);
+	return mWorldScale;
 }
+
 void World::update(sf::Time dt)
 {
 
@@ -49,9 +50,9 @@ sf::Vector2i World::getTilePosition(sf::Vector2i windowPos)
 {
 	sf::Vector2i position;
 	position.x = windowPos.x / 
-		(mTilemap.getTileSize().x * mWorldScale);
+		(mTilemap.getTileSize().x * mWorldScale.x);
 	position.y = windowPos.y /
-		(mTilemap.getTileSize().y * mWorldScale);
+		(mTilemap.getTileSize().y * mWorldScale.y);
 
 	return position;
 }
@@ -62,8 +63,8 @@ sf::Vector2f World::getPixelPosition(const sf::Vector2i& pixelPos)
 	sf::Vector2i p = getTilePosition(pixelPos);
 	sf::Vector2f position(static_cast<float>(p.x), static_cast<float>(p.y));
 		
-	position.x = position.x * static_cast<float>(mWorldScale) * mTilemap.getTileSize().x;
-	position.y = position.y * static_cast<float>(mWorldScale) * mTilemap.getTileSize().y;
+	position.x = position.x * mWorldScale.x * mTilemap.getTileSize().x;
+	position.y = position.y * mWorldScale.y * mTilemap.getTileSize().y;
 	return position;
 }
 
@@ -92,7 +93,7 @@ void World::buildScene()
 		for (int x = 0; x < mTilemap.getWorldSize().x; x++)
 		{
 			sf::IntRect textureRect = mTilemap.getTextureRect(x, y, "Floor");
-			sf::Vector2f worldPos = mTilemap.getWorldPosition(x * mWorldScale,y * mWorldScale);
+			sf::Vector2f worldPos = mTilemap.getWorldPosition(x * mWorldScale.x ,y * mWorldScale.y);
 			sf::Texture& texture = mTilemap.getTexture(x, y, "Floor");
 			
 			// Since Spritenode is stored as a single array, we need the position relative to
@@ -104,7 +105,7 @@ void World::buildScene()
 			tileSprites[x + y * mTilemap.getWorldSize().y] =
 				std::unique_ptr<SpriteNode>(new SpriteNode(texture, textureRect));
 			tileSprites[tilePos]->setPosition(worldPos);
-			tileSprites[tilePos]->setScale(mWorldScale, mWorldScale);
+			tileSprites[tilePos]->setScale(mWorldScale);
 			mSceneLayers[Floor]->attachChild(std::move(tileSprites[tilePos]));
 		}
 
@@ -116,7 +117,7 @@ void World::buildScene()
 		for (int x = 0; x < mTilemap.getWorldSize().x; x++)
 		{
 			sf::IntRect textureRect = mTilemap.getTextureRect(x, y, "Object");
-			sf::Vector2f worldPos = mTilemap.getWorldPosition(x * mWorldScale,y * mWorldScale);
+			sf::Vector2f worldPos = mTilemap.getWorldPosition(x * mWorldScale.x ,y * mWorldScale.y);
 			sf::Texture& texture = mTilemap.getTexture(x, y, "Object");
 			
 			// Since Spritenode is stored as a single array, we need the position relative to
@@ -128,7 +129,7 @@ void World::buildScene()
 			tileSprites[x + y * mTilemap.getWorldSize().y] =
 				std::unique_ptr<SpriteNode>(new SpriteNode(texture, textureRect));
 			tileSprites[tilePos]->setPosition(worldPos);
-			tileSprites[tilePos]->setScale(mWorldScale, mWorldScale);
+			tileSprites[tilePos]->setScale(mWorldScale);
 			mSceneLayers[Object]->attachChild(std::move(tileSprites[tilePos]));
 		}
 

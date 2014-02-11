@@ -16,17 +16,12 @@ public:
 	void setVelocity(float vx, float vy);
 	sf::Vector2f getVelocity() const;
 	void accelerate(float, float);
-	void accelerate(sf::Vector2f);
-
-	void setDestination(sf::Vector2i destination);
+	void accelerate(sf::Vector2f);	
 private:
+	sf::Sprite mSprite;
 
-	void findDestination();
-	bool hasReachedDestination();
 	virtual void updateCurrent(sf::Time dt);
 	sf::Vector2f mVelocity;
-	sf::Vector2i mDestination;
-
 
 };
 

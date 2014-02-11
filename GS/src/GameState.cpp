@@ -67,7 +67,9 @@ bool GameState::handleEvent(const sf::Event& event)
 	{
 		// Send the click to the world to find out which tile was clicked
 		sf::Vector2f pos = mWorld.getPixelPosition(sf::Mouse::getPosition(*getContext().window));
+		
 		mClick.addClickEvent(pos, mWorld.getWorldScale());
+		mPlayer.setDestination(sf::Vector2i(static_cast<int>(pos.x), static_cast<int>(pos.y)));
 	}
 
 	return true;

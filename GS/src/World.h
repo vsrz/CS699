@@ -42,7 +42,7 @@ private:
 		LayerCount
 	};
 
-	float mWorldScale;
+	sf::Vector2f mWorldScale;
 	
 	sf::RenderWindow& mWindow;
 	sf::View mWorldView;
@@ -63,6 +63,7 @@ private:
 	Tilemap mTilemap;
 
 	NpcEntity* mCustomer;
+
 	
 };
 

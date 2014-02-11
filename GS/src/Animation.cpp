@@ -22,6 +22,11 @@ void Animation::initalizeObject()
 
 }
 
+void Animation::draw(sf::RenderTarget& window, sf::RenderStates states) const
+{
+
+}
+
 void Animation::setFrameSize(sf::Vector2i frameSize)
 {
 	mFrameSize = frameSize;

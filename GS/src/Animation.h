@@ -7,6 +7,8 @@
 #include <SFML/System.hpp>
 
 class Animation
+	: public sf::Drawable
+	, public sf::Transformable
 {
 public:
 	Animation(void);
