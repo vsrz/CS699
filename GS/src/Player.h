@@ -6,11 +6,11 @@
 #include <map>
 #include "CommandQueue.h"
 #include "Entity.h"
-#include "ActorEntity.h"
+#include "Actor.h"
 
 class Player
 	: public Entity
-	, public ActorEntity
+	, public Actor
 {
 public:
 	enum Action
@@ -29,16 +29,18 @@ public:
 	Player();
 	void handleEvent(const sf::Event& event, CommandQueue& commands);
 	void handleRealtimeInput(CommandQueue& commands);
+	void setTexture(sf::Texture& texture);
 
 private:
 	static bool isRealtimeAction(Action action);
-	virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
+	void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
 	
 	std::map<sf::Keyboard::Key, Action> mKeyBinding;
 	std::map<Action,Command> mActionBinding;
 	void initializeActions();
 
-	sf::Sprite mSprite;
+	// Will implement the animation class at some point
+	sf::Sprite mSpriteSheet;
 };
 
 #endif

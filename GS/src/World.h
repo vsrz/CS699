@@ -16,6 +16,7 @@
 #include "CommandQueue.h"
 #include "Tile.h"
 #include "Tilemap.h"
+#include "Player.h"
 #include "NpcEntity.h"
 
 class World
@@ -26,6 +27,7 @@ public:
 	void draw();
 
 	sf::Vector2i getTilePosition(sf::Vector2i windowPos);
+	sf::Vector2f getPixelsFromTilePosition(const sf::Vector2i& tilePos);
 	sf::Vector2f getPixelPosition(const sf::Vector2i& tilePos);
 	sf::Vector2f getWorldScale();
 	
@@ -63,6 +65,7 @@ private:
 	Tilemap mTilemap;
 
 	NpcEntity* mCustomer;
+	Player* mPlayer;
 
 	
 };

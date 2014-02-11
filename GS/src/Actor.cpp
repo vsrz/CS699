@@ -1,7 +1,7 @@
-#include "ActorEntity.h"
+#include "Actor.h"
 
 
-ActorEntity::ActorEntity()
+Actor::Actor()
 {
 }
 
@@ -10,7 +10,7 @@ ActorEntity::ActorEntity()
  *	and where they are going
  *
  **/
-void ActorEntity::findDestination()
+void Actor::findDestination()
 {	
 	unsigned int direction = 0;
 	
@@ -35,19 +35,19 @@ void ActorEntity::findDestination()
 
 
 /* The coordinates that this entity is requested to move to */
-void ActorEntity::setDestination(sf::Vector2i destination)
+void Actor::setDestination(sf::Vector2i destination)
 {
 	mTileDestination = destination;
 }
 
 /* Returns true if there is no current destination set */
-bool ActorEntity::hasReachedDestination()
+bool Actor::hasReachedDestination()
 {
 	return !mTileDestination.x && !mTileDestination.y;
 }
 
 
-void ActorEntity::updateCurrent(sf::Time dt)
+void Actor::updateCurrent(sf::Time dt)
 {
 	/**
 	 * First check if there's a current destination and adjust the

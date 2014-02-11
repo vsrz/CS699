@@ -57,6 +57,15 @@ sf::Vector2i World::getTilePosition(sf::Vector2i windowPos)
 	return position;
 }
 
+// Return the pixel position given a tile coordinate
+sf::Vector2f World::getPixelsFromTilePosition(const sf::Vector2i& tilePos)
+{
+	return sf::Vector2f(
+		static_cast<float>(tilePos.x * mWorldScale.x * mTilemap.getTileSize().x),
+		static_cast<float>(tilePos.y * mWorldScale.y * mTilemap.getTileSize().y)
+		);
+}
+
 // Return the pixel position of a tile given the position of a pixel
 sf::Vector2f World::getPixelPosition(const sf::Vector2i& pixelPos)
 {
@@ -136,13 +145,16 @@ void World::buildScene()
 	}
 
 	/* Add the test guy to the screen */
-	std::unique_ptr<NpcEntity> player(new NpcEntity(NpcEntity::Type::TestGuy, mTextures));
-	mCustomer = player.get();
+	std::unique_ptr<NpcEntity> customer(new NpcEntity(NpcEntity::Type::TestGuy, mTextures));
+	mCustomer = customer.get();
 	mCustomer->setPosition(getPixelPosition(sf::Vector2i(540,160)));
 	mCustomer->setVelocity(0.f, 0.f);
 	mCustomer->setScale(getWorldScale());
-	mSceneLayers[Entity]->attachChild(std::move(player));
+	mSceneLayers[Entity]->attachChild(std::move(customer));
 
+	/* Add a test player to the screen */
+	//std::unique_ptr<Player> player(new Player(Player::Type::Player, 
+	
 	/*
 	// Old Hardcoded tile system
 	for (auto& i : mTiles)
