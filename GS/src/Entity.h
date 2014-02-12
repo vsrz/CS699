@@ -18,8 +18,6 @@ public:
 	void accelerate(float, float);
 	void accelerate(sf::Vector2f);	
 private:
-	sf::Sprite mSprite;
-
 	virtual void updateCurrent(sf::Time dt);
 	sf::Vector2f mVelocity;
 

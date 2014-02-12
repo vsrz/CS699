@@ -1,5 +1,5 @@
-#ifndef ACTORENTITY
-#define ACTORENTITY_H
+#ifndef Actor
+#define Actor_H
 
 #pragma once
 
@@ -20,7 +20,7 @@ namespace Direction
 	};
 }
 
-class ActorEntity
+class Actor
 {
 public:
 	enum Type
@@ -30,7 +30,7 @@ public:
 		Customer2,
 	};
 
-	ActorEntity();
+	Actor();
 	void setDestination(sf::Vector2i destination);
 
 private:

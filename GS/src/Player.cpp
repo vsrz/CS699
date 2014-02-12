@@ -45,6 +45,11 @@ void Player::handleEvent(const sf::Event& event, CommandQueue& commands)
 	}
 }
 
+void Player::setTexture(sf::Texture& texture)
+{
+
+}
+
 void Player::initializeActions()
 {
 	const float playerSpeed = 250.f;
@@ -76,7 +81,7 @@ void updateCurrent(sf::Time dt)
 
 void Player::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	target.draw(mSprite, states);
+	//target.draw(mSprite, states);
 }
 
 
