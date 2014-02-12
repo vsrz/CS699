@@ -23,9 +23,9 @@ void Animation::initalizeObject()
 
 }
 
-void Animation::drawCurrent(sf::RenderTarget& window, sf::RenderStates states) const
+void Animation::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	window.draw(mSprite, states);
+	target.draw(mSprite, states);
 }
 
 void Animation::setFrameSize(sf::Vector2i frameSize)

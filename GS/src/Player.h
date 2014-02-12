@@ -10,9 +10,9 @@
 #include "Animation.h"
 
 class Player
-	: public Entity
+	: public Animation
+	, public Entity
 	, public Actor
-	, public Animation
 {
 public:
 	enum Action
@@ -34,8 +34,6 @@ public:
 
 private:
 	static bool isRealtimeAction(Action action);
-	void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
-	
 	std::map<sf::Keyboard::Key, Action> mKeyBinding;
 	std::map<Action,Command> mActionBinding;
 	void initializeActions();

@@ -74,12 +74,6 @@ void updateCurrent(sf::Time dt)
 }
 
 
-void Player::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
-{
-	//target.draw(mSprite, states);
-}
-
-
 bool Player::isRealtimeAction(Action action)
 {
 	switch (action)

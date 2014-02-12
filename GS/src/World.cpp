@@ -148,9 +148,9 @@ void World::buildScene()
 	std::unique_ptr<Player> player(new Player());
 	player->setTexture(mTextures.get(Textures::TestGuy));
 	mPlayer = player.get();
-	mPlayer->setPosition(getPixelsFromTilePosition(sf::Vector2i(20,12)));
-	mPlayer->setScale(getWorldScale());
-	mSceneLayers[Entity]->attachChild(std::move(player));
+	mPlayer->setPosition(0.f,0.f);
+	mPlayer->setScale(mWorldScale);
+	mSceneLayers[Object]->attachChild(std::move(player));
 	
 	/*
 	// Old Hardcoded tile system

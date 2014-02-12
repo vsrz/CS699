@@ -24,6 +24,9 @@ public:
 	sf::Time getDuration();
 	bool getRepeating();
 
+protected:
+	virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
+
 private:
 	sf::Sprite mSprite;
 	sf::Vector2i mFrameSize;
@@ -33,7 +36,6 @@ private:
 	sf::Time mElapsedTime;
 	bool mRepeat;
 
-	void drawCurrent(sf::RenderTarget& window, sf::RenderStates states) const;
 
 
 };

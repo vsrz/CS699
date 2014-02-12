@@ -17,6 +17,7 @@
 #include "Tile.h"
 #include "Tilemap.h"
 #include "Player.h"
+#include "Aircraft.h"
 
 class World
 {
