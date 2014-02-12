@@ -7,8 +7,6 @@
 #include <SFML/System.hpp>
 
 class Animation
-	: public sf::Drawable
-	, public sf::Transformable
 {
 public:
 	Animation(void);
@@ -35,7 +33,7 @@ private:
 	sf::Time mElapsedTime;
 	bool mRepeat;
 
-	void draw(sf::RenderTarget& window, sf::RenderStates states) const;
+	void drawCurrent(sf::RenderTarget& window, sf::RenderStates states) const;
 
 
 };

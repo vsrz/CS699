@@ -144,16 +144,13 @@ void World::buildScene()
 
 	}
 
-	/* Add the test guy to the screen */
-	std::unique_ptr<NpcEntity> customer(new NpcEntity(NpcEntity::Type::TestGuy, mTextures));
-	mCustomer = customer.get();
-	mCustomer->setPosition(getPixelPosition(sf::Vector2i(540,160)));
-	mCustomer->setVelocity(0.f, 0.f);
-	mCustomer->setScale(getWorldScale());
-	mSceneLayers[Entity]->attachChild(std::move(customer));
-
 	/* Add a test player to the screen */
-	//std::unique_ptr<Player> player(new Player(Player::Type::Player, 
+	std::unique_ptr<Player> player(new Player());
+	player->setTexture(mTextures.get(Textures::TestGuy));
+	mPlayer = player.get();
+	mPlayer->setPosition(getPixelsFromTilePosition(sf::Vector2i(20,12)));
+	mPlayer->setScale(getWorldScale());
+	mSceneLayers[Entity]->attachChild(std::move(player));
 	
 	/*
 	// Old Hardcoded tile system

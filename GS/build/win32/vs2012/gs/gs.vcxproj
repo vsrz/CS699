@@ -29,7 +29,6 @@
     <ClInclude Include="..\..\..\..\src\Glob.h" />
     <ClInclude Include="..\..\..\..\src\LoadingState.h" />
     <ClInclude Include="..\..\..\..\src\MenuState.h" />
-    <ClInclude Include="..\..\..\..\src\NpcEntity.h" />
     <ClInclude Include="..\..\..\..\src\ParallelTask.h" />
     <ClInclude Include="..\..\..\..\src\PauseState.h" />
     <ClInclude Include="..\..\..\..\src\Player.h" />
@@ -152,7 +151,6 @@
     <ClCompile Include="..\..\..\..\src\LoadingState.cpp" />
     <ClCompile Include="..\..\..\..\src\main.cpp" />
     <ClCompile Include="..\..\..\..\src\MenuState.cpp" />
-    <ClCompile Include="..\..\..\..\src\NpcEntity.cpp" />
     <ClCompile Include="..\..\..\..\src\ParallelTask.cpp" />
     <ClCompile Include="..\..\..\..\src\PauseState.cpp" />
     <ClCompile Include="..\..\..\..\src\Player.cpp" />

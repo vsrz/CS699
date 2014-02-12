@@ -10,6 +10,7 @@ Animation::Animation(sf::Texture& texture)
 	setTexture(texture);
 }
 
+
 void Animation::initalizeObject()
 {
 	mFrameSize = sf::Vector2i(0,0);
@@ -22,9 +23,9 @@ void Animation::initalizeObject()
 
 }
 
-void Animation::draw(sf::RenderTarget& window, sf::RenderStates states) const
+void Animation::drawCurrent(sf::RenderTarget& window, sf::RenderStates states) const
 {
-
+	window.draw(mSprite, states);
 }
 
 void Animation::setFrameSize(sf::Vector2i frameSize)
@@ -68,8 +69,6 @@ bool Animation::getRepeating()
 {
 	return mRepeat;
 }
-
-
 
 void Animation::setTexture(sf::Texture& texture)
 {

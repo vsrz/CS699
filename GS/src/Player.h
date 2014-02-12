@@ -7,10 +7,12 @@
 #include "CommandQueue.h"
 #include "Entity.h"
 #include "Actor.h"
+#include "Animation.h"
 
 class Player
 	: public Entity
 	, public Actor
+	, public Animation
 {
 public:
 	enum Action
@@ -29,7 +31,6 @@ public:
 	Player();
 	void handleEvent(const sf::Event& event, CommandQueue& commands);
 	void handleRealtimeInput(CommandQueue& commands);
-	void setTexture(sf::Texture& texture);
 
 private:
 	static bool isRealtimeAction(Action action);
@@ -39,8 +40,6 @@ private:
 	std::map<Action,Command> mActionBinding;
 	void initializeActions();
 
-	// Will implement the animation class at some point
-	sf::Sprite mSpriteSheet;
 };
 
 #endif

@@ -17,7 +17,6 @@
 #include "Tile.h"
 #include "Tilemap.h"
 #include "Player.h"
-#include "NpcEntity.h"
 
 class World
 {
@@ -64,7 +63,6 @@ private:
 	std::array<std::array<std::unique_ptr<Tile>, 20>, 12> mTiles;
 	Tilemap mTilemap;
 
-	NpcEntity* mCustomer;
 	Player* mPlayer;
 
 	

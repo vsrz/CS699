@@ -45,11 +45,6 @@ void Player::handleEvent(const sf::Event& event, CommandQueue& commands)
 	}
 }
 
-void Player::setTexture(sf::Texture& texture)
-{
-
-}
-
 void Player::initializeActions()
 {
 	const float playerSpeed = 250.f;
