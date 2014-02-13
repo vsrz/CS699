@@ -1,11 +1,11 @@
 #include "Animation.h"
-
+#include <iostream>
 
 Animation::Animation(void)
 {
 }
 
-Animation::Animation(sf::Texture& texture)
+Animation::Animation(const sf::Texture& texture)
 {
 	setTexture(texture);
 }
@@ -70,7 +70,7 @@ bool Animation::getRepeating()
 	return mRepeat;
 }
 
-void Animation::setTexture(sf::Texture& texture)
+void Animation::setTexture(const sf::Texture& texture)
 {
 	mSprite.setTexture(texture);
 }

@@ -9,6 +9,7 @@ World::World(sf::RenderWindow& window)
 	, mTextures()
 	, mTilemap()
 	, mWorldScale(2.f, 2.f)
+	, mPlayer()
 {
 	loadTextures();
 	buildScene();
@@ -145,13 +146,12 @@ void World::buildScene()
 	}
 
 	/* Add a test player to the screen */
-	std::unique_ptr<Player> player(new Player());
-	player->setTexture(mTextures.get(Textures::TestGuy));
+	std::unique_ptr<Player> player(new Player(mTextures));
 	mPlayer = player.get();
 	mPlayer->setPosition(0.f,0.f);
 	mPlayer->setScale(mWorldScale);
-	mSceneLayers[Object]->attachChild(std::move(player));
-	
+	mSceneLayers[Entity]->attachChild(std::move(player));
+
 	/*
 	// Old Hardcoded tile system
 	for (auto& i : mTiles)

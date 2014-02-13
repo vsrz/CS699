@@ -1,4 +1,5 @@
 #include "SceneNode.h"
+#include <iostream>
 
 /* Public Methods */
 SceneNode::SceneNode(void)
@@ -101,7 +102,10 @@ void SceneNode::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	}
 }
 
-void SceneNode::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const {}
+void SceneNode::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const 
+{
+
+}
 
 void SceneNode::updateCurrent(sf::Time dt)
 {

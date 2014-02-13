@@ -4,21 +4,8 @@
 
 #include <iostream>
 
-struct AircraftMover
-{
-	AircraftMover(float vx, float vy)
-		: velocity(vx, vy) {}
 
-	void operator() (Aircraft& aircraft, sf::Time) const
-	{
-		aircraft.accelerate(velocity);
-	}
-
-
-	sf::Vector2f velocity;
-};
-
-Player::Player() 
+Player::Player(const TextureManager& textures) 
 {
 	mKeyBinding[sf::Keyboard::Left] = MoveLeft;
 	mKeyBinding[sf::Keyboard::Right] = MoveRight;
@@ -31,7 +18,8 @@ Player::Player()
 		pair.second.category = Category::PlayerAircraft;
 	}
 
-	//mSprite.setTexture(texture);
+	Animation(textures.get(Textures::TestGuy));
+
 }
 void Player::handleEvent(const sf::Event& event, CommandQueue& commands)
 {
@@ -47,13 +35,7 @@ void Player::handleEvent(const sf::Event& event, CommandQueue& commands)
 
 void Player::initializeActions()
 {
-	const float playerSpeed = 250.f;
 
-	mActionBinding[MoveLeft].action = derivedAction<Aircraft>(AircraftMover(-playerSpeed, 0.f));
-	mActionBinding[MoveRight].action = derivedAction<Aircraft>(AircraftMover(+playerSpeed, 0.f));
-	mActionBinding[MoveUp].action = derivedAction<Aircraft>(AircraftMover(0.f, -playerSpeed));
-	mActionBinding[MoveDown].action = derivedAction<Aircraft>(AircraftMover(0.f, +playerSpeed));
-	//mActionBinding[MoveToLocation].action = derivedAction<Aircraft>(
 }
 
 void Player::handleRealtimeInput(CommandQueue& commands)

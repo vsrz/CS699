@@ -69,7 +69,7 @@ bool GameState::handleEvent(const sf::Event& event)
 		sf::Vector2f pos = mWorld.getPixelPosition(sf::Mouse::getPosition(*getContext().window));
 		
 		mClick.addClickEvent(pos, mWorld.getWorldScale());
-		mPlayer.setDestination(sf::Vector2i(static_cast<int>(pos.x), static_cast<int>(pos.y)));
+		//mPlayer.setDestination(sf::Vector2i(static_cast<int>(pos.x), static_cast<int>(pos.y)));
 	}
 
 	return true;
