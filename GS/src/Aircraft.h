@@ -2,10 +2,10 @@
 #define AIRCRAFT_H
 
 #pragma once
-#include "Entity.h"
-#include "ResourceIdentifiers.h"
 
 #include <SFML/Graphics.hpp>
+#include "Entity.h"
+#include "ResourceIdentifiers.h"
 
 class Aircraft :
 	public Entity

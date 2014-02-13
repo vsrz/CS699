@@ -35,7 +35,6 @@ private:
 
 	TextureManager mTextures;
 	FontManager mFonts;
-	Player mPlayer;
 	StateStack mStateStack;
 
 };

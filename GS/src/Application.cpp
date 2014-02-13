@@ -12,7 +12,7 @@ Application::Application(void)
 	: mWindow(sf::VideoMode(1280, 768), "GS", sf::Style::Close)
 	, mFonts()
 	, mTextures()
-	, mStateStack(State::Context(mWindow, mTextures, mFonts, mPlayer))
+	, mStateStack(State::Context(mWindow, mTextures, mFonts))
 {
 	mWindow.setKeyRepeatEnabled(false);
 	mFonts.load(Fonts::Default, "res/Sansation.ttf");

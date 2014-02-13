@@ -26,11 +26,10 @@ public:
 
 	struct Context
 	{
-		Context(sf::RenderWindow& window, TextureManager& textures, FontManager& fonts, Player& player);
+		Context(sf::RenderWindow& window, TextureManager& textures, FontManager& fonts);
 		sf::RenderWindow* window;
 		TextureManager* textures;
 		FontManager* fonts;
-		Player* player;
 	};
 
 	State(StateStack& Stack, Context context);

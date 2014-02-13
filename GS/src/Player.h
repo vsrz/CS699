@@ -4,41 +4,28 @@
 #pragma once
 #include <SFML/Window.hpp>
 #include <map>
-#include "CommandQueue.h"
+#include <iostream>
+#include "ResourceIdentifiers.h"
 #include "Entity.h"
 #include "Actor.h"
-#include "Animation.h"
 
 class Player
-	: public Animation
-	, public Entity
-//	, public Actor
+	: public Entity
+	, public Actor
 {
 public:
-	enum Action
+	enum Type
 	{
-		MoveLeft,
-		MoveRight,
-		MoveUp,
-		MoveDown,
-		MoveToLocation,
-		ActionCount,
+		TestGuyWalking,
+		Count,
 	};
-
-	void assignKey(Action action, sf::Keyboard::Key key);
-	sf::Keyboard::Key getAssignedKey(Action action) const;
-
-	Player() {}
-	Player(const TextureManager& textures);
-	void handleEvent(const sf::Event& event, CommandQueue& commands);
-	void handleRealtimeInput(CommandQueue& commands);
-	
+	Player(const TextureManager& textures, World* worldContext);
 private:
-	static bool isRealtimeAction(Action action);
-	std::map<sf::Keyboard::Key, Action> mKeyBinding;
-	std::map<Action,Command> mActionBinding;
-	void initializeActions();
-	virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const { Animation::drawCurrent(target, states); }
+	virtual void updateCurrent(sf::Time dt);
+	virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates state) const;
+	sf::Sprite mSprite;
+
+	unsigned int getCategory() const;
 };
 
 #endif

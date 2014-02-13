@@ -8,15 +8,15 @@
 #include "ResourceManager.h"
 #include <SFML/Graphics.hpp>
 
-namespace Direction
+namespace Action
 {
-	enum Type
+	enum Direction
 	{
 		None	= 0,
-		North	= 1 << 0,
-		East	= 1 << 1,
-		South	= 1 << 2,
+		South	= 1 << 1,
+		North	= 1 << 2,
 		West	= 1 << 3,
+		East	= 1 << 4,
 	};
 }
 
@@ -32,16 +32,15 @@ public:
 
 	Actor();
 	void setDestination(sf::Vector2i destination);
-
-private:
-	void findDestination();
 	bool hasReachedDestination();
-	void updateCurrent(sf::Time dt);
 
-	Type mType;
+	sf::Vector2i getDestination();
+protected:
+	void findDestination();
+	virtual void updateCurrent(sf::Time dt);
 
+	unsigned int mDirection;
 	sf::Vector2i mTileDestination;
-	sf::Vector2i mTilePosition;
 };
 
 #endif

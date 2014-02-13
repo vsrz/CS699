@@ -18,7 +18,6 @@ public:
 
 private:
 	World mWorld;
-	Player& mPlayer;
 	ClickObject mClick;
 
 	bool mDebugOverlay;

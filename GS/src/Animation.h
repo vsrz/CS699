@@ -5,6 +5,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
+#include "Entity.h"
 
 class Animation
 {
@@ -24,10 +25,8 @@ public:
 	sf::Time getDuration();
 	bool getRepeating();
 
-protected:
-	virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
-
 private:
+	virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
 	sf::Sprite mSprite;
 	sf::Vector2i mFrameSize;
 	std::size_t mNumFrames;

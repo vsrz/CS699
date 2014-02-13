@@ -106,6 +106,26 @@ void tinyXMLTest()
 	} 
 }
 
+enum D
+{
+	None	= 0,
+	South	= 1 << 1,
+	North	= 1 << 2,
+	West	= 1 << 3,
+	East	= 1 << 4,
+
+};
+
+
+void bitw()
+{
+	std::size_t dir;
+	dir = D::North;
+	dir |= D::South;
+	std::cout << (D::North & dir) << " " << dir;	
+}
+
+
 
 void Tests::run()
 {
@@ -113,9 +133,10 @@ void Tests::run()
 	sf::Event event;
 	sf::Vector2i pos(0,0);
 
-	tinyXMLTest();
-	return;
+	//tinyXMLTest();
+	//return;
 	
+	bitw();
 	while (mWindow.isOpen())
 	{
 		while (mWindow.pollEvent(event))

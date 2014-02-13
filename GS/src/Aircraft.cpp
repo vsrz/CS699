@@ -1,7 +1,5 @@
-#include "Aircraft.h"
 #include "ResourceManager.h"
-
-#include <SFML/Graphics.hpp>
+#include "Aircraft.h"
 
 
 Textures::ID toTextureID(Aircraft::Type type)
@@ -20,10 +18,6 @@ Aircraft::Aircraft(Type type, const TextureManager& textures)
 	: mType(type)
 	, mSprite(textures.get(toTextureID(type)))
 {
-	if (type == Textures::Eagle)
-	{
-		mSprite.setScale(0.2f, 0.2f);
-	}
 	// Align the origin for this object
 	sf::FloatRect bounds = mSprite.getLocalBounds();
 	mSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);

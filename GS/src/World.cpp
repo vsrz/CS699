@@ -1,5 +1,6 @@
 #include "World.h"
 #include <iostream>
+#include "Glob.h"
 
 World::World(sf::RenderWindow& window)
 	: mWindow(window)
@@ -9,7 +10,6 @@ World::World(sf::RenderWindow& window)
 	, mTextures()
 	, mTilemap()
 	, mWorldScale(2.f, 2.f)
-	, mPlayer()
 {
 	loadTextures();
 	buildScene();
@@ -24,6 +24,7 @@ sf::Vector2f World::getWorldScale()
 
 void World::update(sf::Time dt)
 {
+	mSceneGraph.update(dt);
 
 }
 
@@ -41,8 +42,8 @@ CommandQueue& World::getCommandQueue()
 
 void World::loadTextures()
 {
-	mTextures.load(Textures::TestTileset, "res/TestTileset.png");	
 	mTextures.load(Textures::TestGuy, "res/TestGuy.png");
+	mTextures.load(Textures::TestTileset, "res/TestTileset.png");	
 	mTilemap.loadTilemap("res/Tilemap.tmx");
 }
 
@@ -80,6 +81,13 @@ sf::Vector2f World::getPixelPosition(const sf::Vector2i& pixelPos)
 
 void World::handleEvent(const sf::Event& event)
 {
+	if (event.type == sf::Event::MouseButtonPressed &&
+		sf::Mouse::isButtonPressed(sf::Mouse::Left))
+	{
+		sf::Vector2i mousePosition = sf::Mouse::getPosition(mWindow);
+		mPlayer->setDestination(getTilePosition(mousePosition));
+		
+	}
 
 
 }
@@ -144,28 +152,14 @@ void World::buildScene()
 		}
 
 	}
-
+	
 	/* Add a test player to the screen */
-	std::unique_ptr<Player> player(new Player(mTextures));
+	std::unique_ptr<Player> player(new Player(mTextures, &this));
 	mPlayer = player.get();
-	mPlayer->setPosition(0.f,0.f);
-	mPlayer->setScale(mWorldScale);
+	mPlayer->setPosition(100.f,100.f);
+	mPlayer->setScale(sf::Vector2f(3.f, 3.f));
 	mSceneLayers[Entity]->attachChild(std::move(player));
 
-	/*
-	// Old Hardcoded tile system
-	for (auto& i : mTiles)
-	{
-		for (auto& iter : i)
-		{
-			tileSprites[x] = std::unique_ptr<SpriteNode>(new SpriteNode(*iter));
-			tileSprites[x]->setPosition(iter->getWorldPosition());
-			tileSprites[x]->setScale(2.f, 2.f);
-			mSceneLayers[Background]->attachChild(std::move(tileSprites[x]));
-			x += 1;
-		}
-	}
-	*/
 }
 
 

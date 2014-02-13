@@ -3,11 +3,10 @@
 #include "State.h"
 #include "StateStack.h"
 
-State::Context::Context(sf::RenderWindow& window, TextureManager& textures, FontManager& fonts, Player& player)
+State::Context::Context(sf::RenderWindow& window, TextureManager& textures, FontManager& fonts)
 	: window(&window)
 	, textures(&textures)
 	, fonts(&fonts)
-	, player(&player)
 {
 
 }
