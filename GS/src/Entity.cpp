@@ -1,10 +1,5 @@
 #include "Entity.h"
 
-Entity::Entity(World* worldContext)
-	: mWorld(worldContext)
-{	
-}
-
 void Entity::setVelocity(float vx, float vy)
 {
 	mVelocity.x = vx;
@@ -44,7 +39,6 @@ void Entity::updateCurrent(sf::Time dt)
 		step leads to entity being moved farther over longer time */
 	move(mVelocity * dt.asSeconds());
 
-	mTilePosition = sf::Vector2i(
-		static_cast<int>(this->getPosition().x), static_cast<int>(this->getPosition().y));
+
 }
 

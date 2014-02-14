@@ -154,10 +154,11 @@ void World::buildScene()
 	}
 	
 	/* Add a test player to the screen */
-	std::unique_ptr<Player> player(new Player(mTextures, &this));
+	sf::Vector2i spawnPosition(3,0);
+	std::unique_ptr<Player> player(new Player(mTextures, this));
 	mPlayer = player.get();
-	mPlayer->setPosition(100.f,100.f);
-	mPlayer->setScale(sf::Vector2f(3.f, 3.f));
+//	mPlayer->setPosition(getPixelsFromTilePosition(spawnPosition));
+	mPlayer->setScale(sf::Vector2f(2.f, 2.f));
 	mSceneLayers[Entity]->attachChild(std::move(player));
 
 }

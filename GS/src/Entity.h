@@ -7,14 +7,12 @@
 #include <SFML/Graphics.hpp>
 #include "ResourceIdentifiers.h"
 #include "SceneNode.h"
-#include "World.h"
 
 class Entity
 	: public SceneNode
 {
 public:
 
-	Entity(World* mWorldContext);
 	void setVelocity(sf::Vector2f velocity);
 	void setVelocity(float vx, float vy);
 	sf::Vector2f getVelocity() const;
@@ -24,8 +22,6 @@ public:
 protected:
 	virtual void updateCurrent(sf::Time dt);
 	sf::Vector2f mVelocity;
-	sf::Vector2i mTilePosition;
-	World* mWorld;
 };
 
 #endif

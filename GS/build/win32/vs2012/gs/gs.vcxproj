@@ -15,7 +15,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\src\Actor.h" />
     <ClInclude Include="..\..\..\..\src\Aircraft.h" />
     <ClInclude Include="..\..\..\..\src\Animation.h" />
     <ClInclude Include="..\..\..\..\src\Application.h" />
@@ -138,7 +137,6 @@
     <None Include="..\..\..\..\src\SFML-2.1\include\SFML\System\Vector3.inl" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\src\Actor.cpp" />
     <ClCompile Include="..\..\..\..\src\Aircraft.cpp" />
     <ClCompile Include="..\..\..\..\src\Animation.cpp" />
     <ClCompile Include="..\..\..\..\src\Application.cpp" />

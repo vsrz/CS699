@@ -19,6 +19,8 @@
 #include "Player.h"
 #include "Aircraft.h"
 
+class Player;
+
 class World
 {
 public:
