@@ -85,7 +85,7 @@ void World::handleEvent(const sf::Event& event)
 		sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
 		sf::Vector2i mousePosition = sf::Mouse::getPosition(mWindow);
-		mPlayer->setDestination(getTilePosition(mousePosition));
+		mPlayer->setDestination(mousePosition);
 		
 	}
 
@@ -157,8 +157,6 @@ void World::buildScene()
 	sf::Vector2i spawnPosition(3,0);
 	std::unique_ptr<Player> player(new Player(mTextures, this));
 	mPlayer = player.get();
-//	mPlayer->setPosition(getPixelsFromTilePosition(spawnPosition));
-	mPlayer->setScale(sf::Vector2f(2.f, 2.f));
 	mSceneLayers[Entity]->attachChild(std::move(player));
 
 }

@@ -19,3 +19,22 @@ void centerOrigin(T& obj)
 
 }
 
+template<typename T>
+sf::Vector2i toVector2i(T v)
+{
+	return sf::Vector2i(
+		static_cast<int>(v.x),
+		static_cast<int>(v.y));
+}
+
+template<typename T>
+sf::Vector2f toVector2f(T v)
+{
+	return sf::Vector2f(
+		static_cast<int>(v.x),
+		static_cast<int>(v.y));
+}
+
+
+
+
