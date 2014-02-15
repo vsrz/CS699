@@ -35,6 +35,9 @@ public:
 	
 	void handleEvent(const sf::Event& event);
 	CommandQueue& getCommandQueue();
+	
+	std::array<Tile,240> mTiles;
+
 private:
 	enum SceneLayer
 	{
@@ -42,9 +45,11 @@ private:
 		Floor,
 		Object,
 		Entity,
+		PassableObject,
 		Gui,
 		LayerCount
 	};
+
 
 	sf::Vector2f mWorldScale;
 	
@@ -63,7 +68,6 @@ private:
 	void loadTextures();
 	void buildScene();
 
-	std::array<std::array<std::unique_ptr<Tile>, 20>, 12> mTiles;
 	Tilemap mTilemap;
 
 	Player* mPlayer;

@@ -3,6 +3,12 @@
 #include "Application.h"
 #include "Tests.h"
 
+#ifdef DEBUG
+	sf::String g_debugData("");
+
+#endif
+
+
 int main()
 {
 #ifdef RUN_TESTS

@@ -36,7 +36,8 @@ public:
 	sf::Vector2f getWorldPosition(int x, int y);
 	sf::Sprite getSprite(int x, int y, const char* layerName);
 	sf::Texture& getTexture(int x, int y, const char* layerName);
-	
+	int getTileNumber(int x, int y);
+
 private:
 	
 	// tileset element of the xml node

@@ -131,6 +131,12 @@ sf::Sprite Tilemap::getSprite(int x, int y, const char* layerName)
 
 }
 
+// Return the tile number based on X, Y coordinate
+int Tilemap::getTileNumber(int x, int y)
+{
+	return x + y * mMapWidth;
+}
+
 // Return a reference to the texture given by the layer string
 sf::Texture& Tilemap::getTexture(int x, int y, const char* layerName)
 {
@@ -181,7 +187,7 @@ sf::Vector2i Tilemap::getTextureCoords(int x, int y, const char* layerName)
 int Tilemap::getGid(int x, int y, const char* layerName)
 {
 	/* find the gid of the x,y passed */
-	int tileNum = x + y * mMapWidth;
+	int tileNum = getTileNumber(x, y);
 	bool found = false;
 
 	// Load the data element from the matching layer

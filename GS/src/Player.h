@@ -55,8 +55,6 @@ private:
 	sf::Time mElapsedTime;
 
 	unsigned int mDirection;
-
-
 	unsigned int getCategory() const;
 };
 

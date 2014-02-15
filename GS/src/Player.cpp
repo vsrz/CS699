@@ -6,7 +6,7 @@
 Player::Player(const TextureManager& textures, World* worldContext) 
 	: mSprite(textures.get(Textures::TestGuy))
 	, mWorld(worldContext)
-	, mSpeed(3.f)
+	, mSpeed(5.f)
 	, mFrameSize(32.f, 64.f)
 	, mScale(mWorld->getWorldScale())
 	, mFrameOffset(3)
@@ -81,6 +81,10 @@ void Player::updateCurrent(sf::Time dt)
 			mDirection = Direction::North;
 		}
 
+		// TODO: If the move you're about to make puts you in a blocking tile,
+		// do not make the move and set the destination vector to the curent position
+		
+
 		currentPosition += movement * mSpeed;
 		mSprite.setPosition(currentPosition);
 
@@ -88,10 +92,9 @@ void Player::updateCurrent(sf::Time dt)
 		checkDirection();
 
 		// update movement animation
-		if (mElapsedTime > sf::seconds(0.2f))
+		if (mElapsedTime > sf::seconds(0.12f))
 		{
-			std::cout << std::endl << mFrame;
-			mElapsedTime -= sf::seconds(0.2f);
+			mElapsedTime -= sf::seconds(0.12f);
 			advanceFrame();
 
 		}
@@ -105,9 +108,6 @@ void Player::updateCurrent(sf::Time dt)
 		sf::IntRect(sf::Vector2i(mFrame * mFrameSize.x, mFrameOffset * mFrameSize.y),
 		mFrameSize));
 	mTilePosition = toVector2i(mSprite.getPosition());
-	//mTilePosition = mWorld->getTilePosition(sf::Vector2i(
-	//	static_cast<int>(mSprite.getPosition().x),
-	//	static_cast<int>(mSprite.getPosition().y)));
 }
 
 void Player::checkDirection()

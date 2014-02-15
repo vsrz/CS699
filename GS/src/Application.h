@@ -12,6 +12,7 @@
 #include "Glob.h"
 #include "StateStack.h"
 
+
 class Application
 	: private sf::NonCopyable
 {

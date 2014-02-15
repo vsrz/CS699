@@ -7,6 +7,8 @@
 #include "StateStack.h"
 #include <SFML/Graphics.hpp>
 
+extern sf::String g_debugData;
+
 class DebugScreenState :
 	public State
 {
@@ -21,10 +23,12 @@ private:
 	std::size_t mDebugFps;
 	sf::Text mFps;
 	sf::Text mTps;
+	sf::Text mMiscInfo;
 	
 	sf::Time mMouseTime;
 	sf::Text mMouseLabel;
 	sf::Text mMousePos;
+
 
 	void updateDebugText(sf::Time dt);
 	void updateMouseLocation(sf::Time dt);

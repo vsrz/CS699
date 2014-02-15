@@ -1,3 +1,6 @@
+#ifndef GLOB_H
+#define GLOB_H
+
 
 #include <sstream>
 #include <SFML/Window.hpp>
@@ -36,5 +39,5 @@ sf::Vector2f toVector2f(T v)
 }
 
 
-
+#endif
 

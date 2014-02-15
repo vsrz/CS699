@@ -81,20 +81,33 @@ sf::Vector2f World::getPixelPosition(const sf::Vector2i& pixelPos)
 
 void World::handleEvent(const sf::Event& event)
 {
-	if (event.type == sf::Event::MouseButtonPressed &&
-		sf::Mouse::isButtonPressed(sf::Mouse::Left))
+	extern sf::String g_debugData;
+	sf::Vector2i mousePosition = sf::Mouse::getPosition(mWindow);
+	sf::Vector2i mouseTilePosition = getTilePosition(mousePosition);
+	if (event.type == sf::Event::MouseButtonPressed)
 	{
-		sf::Vector2i mousePosition = sf::Mouse::getPosition(mWindow);
-		mPlayer->setDestination(mousePosition);
+#ifdef DEBUG
+		// Update some debug tile stuff
+		g_debugData = "Tile Num: " + toString(mTilemap.getTileNumber(mouseTilePosition.x, mouseTilePosition.y));
+		g_debugData += "\nBlocking: " + toString(mTiles[mTilemap.getTileNumber(mouseTilePosition.x, mouseTilePosition.y)].isBlocking());
+		g_debugData += "\nTile: " + toString(mouseTilePosition.x) + "," + toString(mouseTilePosition.y);
+#endif
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+		{
+			mPlayer->setDestination(mousePosition);
 		
+		}
 	}
+
+
 
 
 }
 
+
 void World::buildScene()
 {
-	std::array<std::unique_ptr<SpriteNode>,900> tileSprites;
+	std::unique_ptr<SpriteNode> tile;
 	int x = 0;
 	
 	for (std::size_t i = 0; i < LayerCount; ++i)
@@ -120,11 +133,10 @@ void World::buildScene()
 			
 			if (textureRect.left < 0) continue;
 
-			tileSprites[x + y * mTilemap.getWorldSize().y] =
-				std::unique_ptr<SpriteNode>(new SpriteNode(texture, textureRect));
-			tileSprites[tilePos]->setPosition(worldPos);
-			tileSprites[tilePos]->setScale(mWorldScale);
-			mSceneLayers[Floor]->attachChild(std::move(tileSprites[tilePos]));
+			tile = std::unique_ptr<SpriteNode>(new SpriteNode(texture, textureRect));
+			tile->setPosition(worldPos);
+			tile->setScale(mWorldScale);
+			mSceneLayers[Floor]->attachChild(std::move(tile));
 		}
 
 	}
@@ -142,19 +154,43 @@ void World::buildScene()
 			// its X, Y coordinates--just like the tmx GID number
 			int tilePos = x + y * mTilemap.getWorldSize().y;
 			
+			// If there is no texture assigned to this tile, move on
 			if (textureRect.left < 0) continue;
 
-			tileSprites[x + y * mTilemap.getWorldSize().y] =
-				std::unique_ptr<SpriteNode>(new SpriteNode(texture, textureRect));
-			tileSprites[tilePos]->setPosition(worldPos);
-			tileSprites[tilePos]->setScale(mWorldScale);
-			mSceneLayers[Object]->attachChild(std::move(tileSprites[tilePos]));
+			tile = std::unique_ptr<SpriteNode>(new SpriteNode(texture, textureRect));
+			tile->setPosition(worldPos);
+			tile->setScale(mWorldScale);
+			mSceneLayers[Object]->attachChild(std::move(tile));
+			mTiles[mTilemap.getTileNumber(x,y)].setProperty(Tiles::Blocking);
+		}
+
+	}
+
+	/* Build the object tileset */
+	for (int y = 0; y < mTilemap.getWorldSize().y; y++)
+	{
+		for (int x = 0; x < mTilemap.getWorldSize().x; x++)
+		{
+			sf::IntRect textureRect = mTilemap.getTextureRect(x, y, "PassableObject");
+			sf::Vector2f worldPos = mTilemap.getWorldPosition(x * mWorldScale.x ,y * mWorldScale.y);
+			sf::Texture& texture = mTilemap.getTexture(x, y, "PassableObject");
+			
+			// Since Spritenode is stored as a single array, we need the position relative to
+			// its X, Y coordinates--just like the tmx GID number
+			int tilePos = x + y * mTilemap.getWorldSize().y;
+			
+			// If there is no texture assigned to this tile, move on
+			if (textureRect.left < 0) continue;
+
+			tile = std::unique_ptr<SpriteNode>(new SpriteNode(texture, textureRect));
+			tile->setPosition(worldPos);
+			tile->setScale(mWorldScale);
+			mSceneLayers[PassableObject]->attachChild(std::move(tile));
 		}
 
 	}
 	
 	/* Add a test player to the screen */
-	sf::Vector2i spawnPosition(3,0);
 	std::unique_ptr<Player> player(new Player(mTextures, this));
 	mPlayer = player.get();
 	mSceneLayers[Entity]->attachChild(std::move(player));
@@ -162,4 +198,3 @@ void World::buildScene()
 }
 
 
-	

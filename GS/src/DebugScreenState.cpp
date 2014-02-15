@@ -9,6 +9,7 @@ DebugScreenState::DebugScreenState(StateStack& stack, Context context)
 	, mDebugFps(0)
 	, mDebugTime(sf::Time::Zero)
 	, mMouseTime(sf::Time::Zero)
+
 {
 	float yoffset = 3.f;
 	float spacing = 12.f;
@@ -16,7 +17,7 @@ DebugScreenState::DebugScreenState(StateStack& stack, Context context)
 	initalizeText(mTps, sf::Vector2f(5.f, yoffset + spacing), sf::String("0 u/s"));
 	initalizeText(mMouseLabel, sf::Vector2f(5.f, yoffset + 2 * spacing), sf::String("Mouse Position:"));
 	initalizeText(mMousePos, sf::Vector2f(95.f, yoffset + 2 * spacing), sf::String("0, 0"));
-
+	initalizeText(mMiscInfo, sf::Vector2f(5.f, yoffset + 3 * spacing), g_debugData);
 }
 
 void DebugScreenState::initalizeText(sf::Text& text
@@ -40,6 +41,7 @@ void DebugScreenState::draw()
 	window.draw(mTps);
 	window.draw(mMouseLabel);
 	window.draw(mMousePos);
+	window.draw(mMiscInfo);
 }
 
 bool DebugScreenState::update(sf::Time dt)
@@ -87,6 +89,8 @@ void DebugScreenState::updateDebugText(sf::Time dt)
 		mDebugTime -= sf::seconds(1.0f);
 		mDebugFps = 0;
 	}
+	mMiscInfo.setString(g_debugData);
+	
 }
 
 
