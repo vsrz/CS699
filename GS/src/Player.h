@@ -43,6 +43,7 @@ private:
 	float mSpeed;
 	sf::Vector2i mTilePosition;
 	sf::Vector2i mTileDestination;
+	sf::Vector2i mSpawnPosition;
 	
 	// Animation related 
 	void advanceFrame();

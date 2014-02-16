@@ -90,7 +90,6 @@ void DebugScreenState::updateDebugText(sf::Time dt)
 		mDebugFps = 0;
 	}
 	mMiscInfo.setString(g_debugData);
-	
 }
 
 

@@ -13,13 +13,13 @@ Player::Player(const TextureManager& textures, World* worldContext)
 	, mFrame(0)
 	, mNumFrames(6)
 	, mElapsedTime(sf::Time::Zero)
+	, mSpawnPosition(500, 500)
 {
-	mSprite.setTextureRect(sf::IntRect(sf::Vector2i(0,0), mFrameSize));
+	mSprite.setTextureRect(sf::IntRect(sf::Vector2i(mFrame,mFrameOffset), mFrameSize));
 	mSprite.setOrigin(0.f,32.f);
 	mSprite.setScale(mScale);
-	mTilePosition = mWorld->getTilePosition(sf::Vector2i(
-		static_cast<int>(mSprite.getPosition().x),
-		static_cast<int>(mSprite.getPosition().y)));
+	mTilePosition = mSpawnPosition;
+	mTileDestination = mTilePosition;
 	mSprite.setPosition(toVector2f(mTilePosition));
 }
 
@@ -82,8 +82,36 @@ void Player::updateCurrent(sf::Time dt)
 		}
 
 		// TODO: If the move you're about to make puts you in a blocking tile,
-		// do not make the move and set the destination vector to the curent position
+		// do not make the move this interval
 		
+		if (mWorld->mTiles[mWorld->getTileIndex(
+				mWorld->getTilePosition(
+					sf::Vector2i(currentPosition.x + movement.x, currentPosition.y)
+					).x,
+				mWorld->getTilePosition(
+					sf::Vector2i(currentPosition.x + movement.x, currentPosition.y)
+				).y
+				)].isBlocking())
+		{
+			movement.x = 0.f;
+			mFrame = 0;
+			destPosition.x = currentPosition.x;
+		}
+
+		if (mWorld->mTiles[mWorld->getTileIndex(
+				mWorld->getTilePosition(
+					sf::Vector2i(currentPosition.x, currentPosition.y + movement.y)
+					).x,
+				mWorld->getTilePosition(
+					sf::Vector2i(currentPosition.x, currentPosition.y + movement.y)
+				).y
+				)].isBlocking())
+		{
+			movement.y = 0.f;
+			mFrame = 0;
+			destPosition.y = currentPosition.y;
+			
+		}
 
 		currentPosition += movement * mSpeed;
 		mSprite.setPosition(currentPosition);

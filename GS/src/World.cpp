@@ -68,6 +68,12 @@ sf::Vector2f World::getPixelsFromTilePosition(const sf::Vector2i& tilePos)
 		);
 }
 
+// Returns the mTiles index ID using the x,y coordinate of 
+int World::getTileIndex(int x, int y)
+{
+	return mTilemap.getTileNumber(x,y);
+}
+
 // Return the pixel position of a tile given the position of a pixel
 sf::Vector2f World::getPixelPosition(const sf::Vector2i& pixelPos)
 {
@@ -95,7 +101,7 @@ void World::handleEvent(const sf::Event& event)
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
 			mPlayer->setDestination(mousePosition);
-		
+				g_debugData += "\nDestination: " + toString(mousePosition.x) + "," + toString(mousePosition.y);
 		}
 	}
 
