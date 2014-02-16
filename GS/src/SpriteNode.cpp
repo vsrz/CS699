@@ -1,27 +1,33 @@
 #include "SpriteNode.h"
 
 SpriteNode::SpriteNode()
-	: mEmpty(true)
+	: mNoTexture(false)
 {
 	
 }
 
 SpriteNode::SpriteNode(const sf::Texture& texture)
 	: mSprite(texture)
-	, mEmpty(false)
+	, mNoTexture(false)
 {
 
 }
 
 SpriteNode::SpriteNode(sf::Sprite sprite)
 	: mSprite(sprite)
-	, mEmpty(false){
-
+	, mNoTexture(false)
+{
 }
 SpriteNode::SpriteNode(const sf::Texture& texture, const sf::IntRect& rect)
 	: mSprite(texture, rect)
-	, mEmpty(false)
+	, mNoTexture(false)
 {
+}
+SpriteNode::SpriteNode(const sf::RectangleShape rect)
+	: mNoTexture(true)
+{
+	mRect = rect;
+
 }
 
 bool SpriteNode::isEmpty()
@@ -31,6 +37,9 @@ bool SpriteNode::isEmpty()
 
 void SpriteNode::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	target.draw(mSprite, states);
+	if (mNoTexture)
+		target.draw(mRect);
+	else
+		target.draw(mSprite, states);
 }
 

@@ -16,6 +16,7 @@ namespace Tiles
 	{
 		None = 0,
 		Blocking = 1 << 0,
+		Occupied = 1 << 1,
 	};
 };
 

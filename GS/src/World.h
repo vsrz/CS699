@@ -47,6 +47,7 @@ private:
 		Entity,
 		PassableObject,
 		Gui,
+		Debug,
 		LayerCount
 	};
 

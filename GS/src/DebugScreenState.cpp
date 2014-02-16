@@ -4,6 +4,7 @@
 #include <SFML/Window/Mouse.hpp>
 #include "Glob.h"
 
+
 DebugScreenState::DebugScreenState(StateStack& stack, Context context)
 	: State(stack, context)
 	, mDebugFps(0)
@@ -11,6 +12,7 @@ DebugScreenState::DebugScreenState(StateStack& stack, Context context)
 	, mMouseTime(sf::Time::Zero)
 
 {
+	extern sf::String g_debugData;	
 	float yoffset = 3.f;
 	float spacing = 12.f;
 	initalizeText(mFps, sf::Vector2f(5.f, yoffset), sf::String("0 fps"));
@@ -79,6 +81,7 @@ void DebugScreenState::updateMouseLocation(sf::Time dt)
 
 void DebugScreenState::updateDebugText(sf::Time dt)
 {
+	extern sf::String g_debugData;
 	mDebugTime += dt;
 	mDebugFps += 1;
 	if (mDebugTime >= sf::seconds(1.0f))

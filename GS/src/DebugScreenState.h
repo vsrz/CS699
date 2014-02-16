@@ -7,8 +7,6 @@
 #include "StateStack.h"
 #include <SFML/Graphics.hpp>
 
-extern sf::String g_debugData;
-
 class DebugScreenState :
 	public State
 {

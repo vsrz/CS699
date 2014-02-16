@@ -88,6 +88,8 @@ void SceneNode::onCommand(const Command& command, sf::Time dt)
 /* Private Methods */
 void SceneNode::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
+	extern bool g_collisionOverlay;
+	
 	// the absolute transform of the current node (where the scene node is placed)
 	states.transform *= getTransform();
 

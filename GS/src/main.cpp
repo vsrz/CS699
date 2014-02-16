@@ -5,7 +5,7 @@
 
 #ifdef DEBUG
 	sf::String g_debugData("");
-
+	bool g_collisionOverlay = false;
 #endif
 
 

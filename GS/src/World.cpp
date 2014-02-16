@@ -104,6 +104,32 @@ void World::handleEvent(const sf::Event& event)
 				g_debugData += "\nDestination: " + toString(mousePosition.x) + "," + toString(mousePosition.y);
 		}
 	}
+	else if (event.type == sf::Event::KeyPressed && 
+		event.key.code == sf::Keyboard::F4)
+	{
+		std::unique_ptr<SpriteNode> tile;
+
+	/* Debug layer */
+#ifdef DEBUG
+	for (int y = 0; y < mTilemap.getWorldSize().y; y++)
+	{
+		for (int x = 0; x < mTilemap.getWorldSize().x; x++)
+		{
+			sf::RectangleShape rect(sf::Vector2f(
+				static_cast<float>(mTilemap.getTileSize().x * mWorldScale.x), 
+				static_cast<float>(mTilemap.getTileSize().y * mWorldScale.y))
+			);
+			rect.setPosition(x * mWorldScale.x * mTilemap.getTileSize().x
+				, y * mWorldScale.y * mTilemap.getTileSize().y);
+			rect.setFillColor(sf::Color(0,128,0,50));
+			if (mTiles[x + y * 20].isBlocking()) rect.setFillColor(sf::Color(128,0,0,50));
+			
+			tile = std::unique_ptr<SpriteNode>(new SpriteNode(rect));
+			mSceneLayers[Debug]->attachChild(std::move(tile));
+		}
+	}
+#endif
+	}
 
 
 
