@@ -26,7 +26,7 @@ Player::Player(const TextureManager& textures, World* worldContext)
 
 void Player::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	sf::RectangleShape shape(sf::Vector2f(mBoundingBox.height, mBoundingBox.width));
+	sf::RectangleShape shape(sf::Vector2f(mBoundingBox.width * 2, mBoundingBox.height));
 	shape.setFillColor(sf::Color(255,0,0,128));
 	shape.setPosition(mSprite.getPosition());
 	target.draw(shape, states);
