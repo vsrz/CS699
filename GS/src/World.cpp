@@ -87,21 +87,24 @@ sf::Vector2f World::getPixelPosition(const sf::Vector2i& pixelPos)
 
 void World::handleEvent(const sf::Event& event)
 {
-	extern sf::String g_debugData;
 	sf::Vector2i mousePosition = sf::Mouse::getPosition(mWindow);
 	sf::Vector2i mouseTilePosition = getTilePosition(mousePosition);
 	if (event.type == sf::Event::MouseButtonPressed)
 	{
 #ifdef DEBUG
+		extern std::map<sf::String,sf::String> g_debugData;
+
 		// Update some debug tile stuff
-		g_debugData = "Tile Num: " + toString(mTilemap.getTileNumber(mouseTilePosition.x, mouseTilePosition.y));
-		g_debugData += "\nBlocking: " + toString(mTiles[mTilemap.getTileNumber(mouseTilePosition.x, mouseTilePosition.y)].isBlocking());
-		g_debugData += "\nTile: " + toString(mouseTilePosition.x) + "," + toString(mouseTilePosition.y);
+		g_debugData["TileNum"] = toString(mTilemap.getTileNumber(mouseTilePosition.x, mouseTilePosition.y));
+		g_debugData["Blocking"] = toString(mTiles[mTilemap.getTileNumber(mouseTilePosition.x, mouseTilePosition.y)].isBlocking());
+		g_debugData["Tile"] = toString(mouseTilePosition.x) + "," + toString(mouseTilePosition.y);
 #endif
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
 			mPlayer->setDestination(mousePosition);
-				g_debugData += "\nDestination: " + toString(mousePosition.x) + "," + toString(mousePosition.y);
+#ifdef DEBUG
+				g_debugData["Destination:"] = toString(mousePosition.x) + "," + toString(mousePosition.y);
+#endif
 		}
 	}
 	else if (event.type == sf::Event::KeyPressed && 
