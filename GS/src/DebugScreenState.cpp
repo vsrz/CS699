@@ -81,7 +81,12 @@ void DebugScreenState::updateMouseLocation(sf::Time dt)
 
 void DebugScreenState::updateDebugText(sf::Time dt)
 {
-	extern sf::String g_debugData;
+	extern std::map<std::string, std::string> g_debugData;
+	for (auto& iter: g_debugData)
+	{
+		mMiscInfo.setString("\n" + iter.first + ": " + iter.second);
+	} 
+
 	mDebugTime += dt;
 	mDebugFps += 1;
 	if (mDebugTime >= sf::seconds(1.0f))
@@ -92,7 +97,6 @@ void DebugScreenState::updateDebugText(sf::Time dt)
 		mDebugTime -= sf::seconds(1.0f);
 		mDebugFps = 0;
 	}
-	mMiscInfo.setString(g_debugData);
 }
 
 

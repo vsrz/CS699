@@ -24,6 +24,24 @@ Player::Player(const TextureManager& textures, World* worldContext)
 	mBoundingBox = sf::IntRect(0, 0, mFrameSize.x, mFrameSize.y);
 }
 
+sf::Vector2i Player::toTilePosition(sf::Vector2f position)
+{
+	sf::Vector2i tilePos;
+	tilePos.x = static_cast<int>(position.x / mWorld->getWorldScale().x / mFrameSize.x);
+	tilePos.y = static_cast<int>(position.y / mWorld->getWorldScale().y / mFrameSize.y);
+	return tilePos;
+}
+
+sf::Vector2i Player::toTilePosition(sf::Vector2i position)
+{
+	return toTilePosition(
+		sf::Vector2f(
+			static_cast<float>(position.x),
+			static_cast<float>(position.y)
+		)
+	);
+}
+
 void Player::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	sf::RectangleShape shape(sf::Vector2f(mBoundingBox.width * 2, mBoundingBox.height));
@@ -49,6 +67,11 @@ bool Player::hasReachedDestination()
 
 void Player::updateCurrent(sf::Time dt)
 {
+#ifdef DEBUG
+	extern std::map<sf::String, sf::String> g_debugData;
+	g_debugData["TilePos"] = toString(toTilePosition(mTilePosition).x) + toString(toTilePosition(mTilePosition).y);
+
+#endif
 	mElapsedTime += dt;
 
 	if (!hasReachedDestination())

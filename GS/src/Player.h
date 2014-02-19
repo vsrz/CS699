@@ -37,6 +37,10 @@ private:
 
 	virtual void updateCurrent(sf::Time dt);
 	virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates state) const;
+	
+	sf::Vector2i toTilePosition(sf::Vector2f position);
+	sf::Vector2i toTilePosition(sf::Vector2i position);
+
 	sf::Sprite mSprite;
 	World* mWorld;
 	bool hasReachedDestination();
