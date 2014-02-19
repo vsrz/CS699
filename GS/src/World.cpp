@@ -5,6 +5,13 @@
 #include <algorithm>
 #include "Glob.h"
 
+#define WORLD_SCALE 2
+#define WORLD_WIDTH 20
+#define WORLD_HEIGHT 12
+#define TILE_HEIGHT 32
+#define TILE_WIDTH 32
+
+
 World::World(sf::RenderWindow& window)
 	: mWindow(window)
 	, mWorldView(window.getDefaultView())
@@ -13,9 +20,10 @@ World::World(sf::RenderWindow& window)
 	, mTextures()
 	, mTileLoader()
 	, mWorldScale(2.f, 2.f)
+	, mTilemap(WORLD_WIDTH, WORLD_HEIGHT, TILE_WIDTH, TILE_HEIGHT, WORLD_SCALE)
 {
 	loadTextures();
-	buildScene();
+	buildScene();	
 
 
 }
@@ -99,14 +107,14 @@ void World::handleEvent(const sf::Event& event)
 
 		// Update some debug tile stuff
 		g_debugData["TileNum"] = toString(mTileLoader.getTileNumber(mouseTilePosition.x, mouseTilePosition.y));
-		g_debugData["Blocking"] = toString(mTiles[mTileLoader.getTileNumber(mouseTilePosition.x, mouseTilePosition.y)].isBlocking());
+		g_debugData["Occupied"] = toString(mTilemap.isTileOccupied(mousePosition));
 		g_debugData["Tile"] = toString(mouseTilePosition.x) + "," + toString(mouseTilePosition.y);
 #endif
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
 			mPlayer->setDestination(mousePosition);
 #ifdef DEBUG
-				g_debugData["Destination:"] = toString(mousePosition.x) + "," + toString(mousePosition.y);
+			g_debugData["Destination:"] = toString(mousePosition.x) + "," + toString(mousePosition.y);
 #endif
 		}
 	}
@@ -128,7 +136,7 @@ void World::handleEvent(const sf::Event& event)
 			rect.setPosition(x * mWorldScale.x * mTileLoader.getTileSize().x
 				, y * mWorldScale.y * mTileLoader.getTileSize().y);
 			rect.setFillColor(sf::Color(0,128,0,50));
-			if (mTiles[x + y * 20].isBlocking()) rect.setFillColor(sf::Color(128,0,0,50));
+			if (mTilemap.isTileOccupied(x,y)) rect.setFillColor(sf::Color(128,0,0,50));
 			
 			tile = std::unique_ptr<SpriteNode>(new SpriteNode(rect));
 			mSceneLayers[Debug]->attachChild(std::move(tile));
@@ -195,7 +203,7 @@ void World::buildScene()
 			tile->setPosition(worldPos);
 			tile->setScale(mWorldScale);
 			mSceneLayers[Object]->attachChild(std::move(tile));
-			mTiles[mTileLoader.getTileNumber(x,y)].setProperty(Tiles::Blocking);
+			mTilemap.setTileProperty(x,y, Tiles::Property::Occupied);
 		}
 
 	}

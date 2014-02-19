@@ -122,6 +122,7 @@
     <ClInclude Include="..\..\..\..\src\Tests.h" />
     <ClInclude Include="..\..\..\..\src\Tile.h" />
     <ClInclude Include="..\..\..\..\src\TileLoader.h" />
+    <ClInclude Include="..\..\..\..\src\Tilemap.h" />
     <ClInclude Include="..\..\..\..\src\TinyXML2\tinyxml2.h" />
     <ClInclude Include="..\..\..\..\src\TitleState.h" />
     <ClInclude Include="..\..\..\..\src\World.h" />
@@ -160,6 +161,7 @@
     <ClCompile Include="..\..\..\..\src\Tests.cpp" />
     <ClCompile Include="..\..\..\..\src\Tile.cpp" />
     <ClCompile Include="..\..\..\..\src\TileLoader.cpp" />
+    <ClCompile Include="..\..\..\..\src\Tilemap.cpp" />
     <ClCompile Include="..\..\..\..\src\TinyXML2\tinyxml2.cpp" />
     <ClCompile Include="..\..\..\..\src\TitleState.cpp" />
     <ClCompile Include="..\..\..\..\src\World.cpp" />

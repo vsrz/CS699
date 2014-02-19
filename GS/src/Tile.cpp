@@ -13,9 +13,9 @@ void Tile::setProperty(unsigned int property)
 	mProperties += property;
 }
 
-// Returns true if you cannot pass through this tile
-bool Tile::isBlocking()
+// Returns true if the tile is occupied by an object that may not be passed through
+bool Tile::isOccupied()
 {
-	return (mProperties & Tiles::Property::Blocking);
+	return (mProperties & Tiles::Property::Occupied);
 }
 

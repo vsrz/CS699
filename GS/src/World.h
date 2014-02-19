@@ -15,6 +15,7 @@
 #include "ResourceIdentifiers.h"
 #include "CommandQueue.h"
 #include "Tile.h"
+#include "Tilemap.h"
 #include "TileLoader.h"
 #include "Player.h"
 #include "Aircraft.h"
@@ -35,9 +36,8 @@ public:
 	int getTileIndex(int x, int y);
 	void handleEvent(const sf::Event& event);
 	CommandQueue& getCommandQueue();
+	Tilemap mTilemap;
 	
-	std::array<Tile,240> mTiles;
-
 private:
 	enum SceneLayer
 	{
@@ -50,7 +50,6 @@ private:
 		Debug,
 		LayerCount
 	};
-
 
 	sf::Vector2f mWorldScale;
 	
@@ -70,10 +69,7 @@ private:
 	void buildScene();
 
 	TileLoader mTileLoader;
-
 	Player* mPlayer;
-
-	
 };
 
 #endif

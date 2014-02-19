@@ -40,6 +40,8 @@ private:
 	
 	sf::Vector2i toTilePosition(sf::Vector2f position);
 	sf::Vector2i toTilePosition(sf::Vector2i position);
+	void moveToTile(int x, int y);
+
 
 	sf::Sprite mSprite;
 	World* mWorld;

@@ -1,22 +1,19 @@
-#ifndef TILE_H
-#define TILE_H
-
 /**
  *	Tile.h
  *  Stores metadata about a specific tile on the map
  **/
 
-#pragma once
+#ifndef TILE_H
+#define TILE_H
 
-#include <SFML/Graphics.hpp>
+#pragma once
 
 namespace Tiles
 {
 	enum Property
 	{
 		None = 0,
-		Blocking = 1 << 0,
-		Occupied = 1 << 1,
+		Occupied = 1 << 0,
 	};
 };
 
@@ -27,7 +24,7 @@ public:
 	Tile();
 	
 	void setProperty(unsigned int property);
-	bool isBlocking();
+	bool isOccupied();
 
 private:
 	unsigned int mProperties;

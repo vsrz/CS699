@@ -53,6 +53,16 @@ void Player::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) cons
 	target.draw(mSprite, states);
 }
 
+/**
+ * Sets the ultimate destination for a tile and pushes a series of destinations 
+ * resulting from a path finding algorithm to get there
+ */
+void Player::moveToTile(int x, int y)
+{
+	// Get the ultimate destination based on the Origin of the drawTexture
+	//mTileDestination.x = mWorld->mTilemap.getTilePixelPosition(x, y);
+
+}
 
 void Player::setDestination(sf::Vector2i destination)
 {
@@ -112,33 +122,11 @@ void Player::updateCurrent(sf::Time dt)
 		// TODO: If the move you're about to make puts you in a blocking tile,
 		// do not make the move this interval
 		
-		if (mWorld->mTiles[mWorld->getTileIndex(
-				mWorld->getTilePosition(
-					sf::Vector2i(currentPosition.x + movement.x, currentPosition.y)
-					).x,
-				mWorld->getTilePosition(
-					sf::Vector2i(currentPosition.x + movement.x, currentPosition.y)
-				).y
-				)].isBlocking())
+		if (mWorld->mTilemap.isTileOccupied(currentPosition))
 		{
-			movement.x = 0.f;
+			movement = sf::Vector2f(0.f,0.f);
 			mFrame = 0;
-			destPosition.x = currentPosition.x;
-		}
-
-		if (mWorld->mTiles[mWorld->getTileIndex(
-				mWorld->getTilePosition(
-					sf::Vector2i(currentPosition.x, currentPosition.y + movement.y)
-					).x,
-				mWorld->getTilePosition(
-					sf::Vector2i(currentPosition.x, currentPosition.y + movement.y)
-				).y
-				)].isBlocking())
-		{
-			movement.y = 0.f;
-			mFrame = 0;
-			destPosition.y = currentPosition.y;
-			
+			destPosition = currentPosition;
 		}
 
 		currentPosition += movement * mSpeed;
