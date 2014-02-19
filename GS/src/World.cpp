@@ -8,7 +8,7 @@ World::World(sf::RenderWindow& window)
 	, mSceneGraph()
 	, mSceneLayers()
 	, mTextures()
-	, mTilemap()
+	, mTileLoader()
 	, mWorldScale(2.f, 2.f)
 {
 	loadTextures();
@@ -44,7 +44,7 @@ void World::loadTextures()
 {
 	mTextures.load(Textures::TestGuy, "res/TestGuy.png");
 	mTextures.load(Textures::TestTileset, "res/TestTileset.png");	
-	mTilemap.loadTilemap("res/Tilemap.tmx");
+	mTileLoader.loadFromFile("res/Tilemap.tmx");
 }
 
 // Return a tile coordinate relative to a pixel coordinate on the screen
@@ -52,9 +52,9 @@ sf::Vector2i World::getTilePosition(sf::Vector2i windowPos)
 {
 	sf::Vector2i position;
 	position.x = windowPos.x / 
-		(mTilemap.getTileSize().x * mWorldScale.x);
+		(mTileLoader.getTileSize().x * mWorldScale.x);
 	position.y = windowPos.y /
-		(mTilemap.getTileSize().y * mWorldScale.y);
+		(mTileLoader.getTileSize().y * mWorldScale.y);
 
 	return position;
 }
@@ -63,15 +63,15 @@ sf::Vector2i World::getTilePosition(sf::Vector2i windowPos)
 sf::Vector2f World::getPixelsFromTilePosition(const sf::Vector2i& tilePos)
 {
 	return sf::Vector2f(
-		static_cast<float>(tilePos.x * mWorldScale.x * mTilemap.getTileSize().x),
-		static_cast<float>(tilePos.y * mWorldScale.y * mTilemap.getTileSize().y)
+		static_cast<float>(tilePos.x * mWorldScale.x * mTileLoader.getTileSize().x),
+		static_cast<float>(tilePos.y * mWorldScale.y * mTileLoader.getTileSize().y)
 		);
 }
 
 // Returns the mTiles index ID using the x,y coordinate of 
 int World::getTileIndex(int x, int y)
 {
-	return mTilemap.getTileNumber(x,y);
+	return mTileLoader.getTileNumber(x,y);
 }
 
 // Return the pixel position of a tile given the position of a pixel
@@ -80,8 +80,8 @@ sf::Vector2f World::getPixelPosition(const sf::Vector2i& pixelPos)
 	sf::Vector2i p = getTilePosition(pixelPos);
 	sf::Vector2f position(static_cast<float>(p.x), static_cast<float>(p.y));
 		
-	position.x = position.x * mWorldScale.x * mTilemap.getTileSize().x;
-	position.y = position.y * mWorldScale.y * mTilemap.getTileSize().y;
+	position.x = position.x * mWorldScale.x * mTileLoader.getTileSize().x;
+	position.y = position.y * mWorldScale.y * mTileLoader.getTileSize().y;
 	return position;
 }
 
@@ -94,8 +94,8 @@ void World::handleEvent(const sf::Event& event)
 	{
 #ifdef DEBUG
 		// Update some debug tile stuff
-		g_debugData = "Tile Num: " + toString(mTilemap.getTileNumber(mouseTilePosition.x, mouseTilePosition.y));
-		g_debugData += "\nBlocking: " + toString(mTiles[mTilemap.getTileNumber(mouseTilePosition.x, mouseTilePosition.y)].isBlocking());
+		g_debugData = "Tile Num: " + toString(mTileLoader.getTileNumber(mouseTilePosition.x, mouseTilePosition.y));
+		g_debugData += "\nBlocking: " + toString(mTiles[mTileLoader.getTileNumber(mouseTilePosition.x, mouseTilePosition.y)].isBlocking());
 		g_debugData += "\nTile: " + toString(mouseTilePosition.x) + "," + toString(mouseTilePosition.y);
 #endif
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
@@ -111,16 +111,16 @@ void World::handleEvent(const sf::Event& event)
 
 	/* Debug layer */
 #ifdef DEBUG
-	for (int y = 0; y < mTilemap.getWorldSize().y; y++)
+	for (int y = 0; y < mTileLoader.getWorldSize().y; y++)
 	{
-		for (int x = 0; x < mTilemap.getWorldSize().x; x++)
+		for (int x = 0; x < mTileLoader.getWorldSize().x; x++)
 		{
 			sf::RectangleShape rect(sf::Vector2f(
-				static_cast<float>(mTilemap.getTileSize().x * mWorldScale.x), 
-				static_cast<float>(mTilemap.getTileSize().y * mWorldScale.y))
+				static_cast<float>(mTileLoader.getTileSize().x * mWorldScale.x), 
+				static_cast<float>(mTileLoader.getTileSize().y * mWorldScale.y))
 			);
-			rect.setPosition(x * mWorldScale.x * mTilemap.getTileSize().x
-				, y * mWorldScale.y * mTilemap.getTileSize().y);
+			rect.setPosition(x * mWorldScale.x * mTileLoader.getTileSize().x
+				, y * mWorldScale.y * mTileLoader.getTileSize().y);
 			rect.setFillColor(sf::Color(0,128,0,50));
 			if (mTiles[x + y * 20].isBlocking()) rect.setFillColor(sf::Color(128,0,0,50));
 			
@@ -151,17 +151,17 @@ void World::buildScene()
 	}
 	
 	/* Build the floor tileset */
-	for (int y = 0; y < mTilemap.getWorldSize().y; y++)
+	for (int y = 0; y < mTileLoader.getWorldSize().y; y++)
 	{
-		for (int x = 0; x < mTilemap.getWorldSize().x; x++)
+		for (int x = 0; x < mTileLoader.getWorldSize().x; x++)
 		{
-			sf::IntRect textureRect = mTilemap.getTextureRect(x, y, "Floor");
-			sf::Vector2f worldPos = mTilemap.getWorldPosition(x * mWorldScale.x ,y * mWorldScale.y);
-			sf::Texture& texture = mTilemap.getTexture(x, y, "Floor");
+			sf::IntRect textureRect = mTileLoader.getTextureRect(x, y, "Floor");
+			sf::Vector2f worldPos = mTileLoader.getWorldPosition(x * mWorldScale.x ,y * mWorldScale.y);
+			sf::Texture& texture = mTileLoader.getTexture(x, y, "Floor");
 			
 			// Since Spritenode is stored as a single array, we need the position relative to
 			// its X, Y coordinates--just like the tmx GID number
-			int tilePos = x + y * mTilemap.getWorldSize().y;
+			int tilePos = x + y * mTileLoader.getWorldSize().y;
 			
 			if (textureRect.left < 0) continue;
 
@@ -174,17 +174,17 @@ void World::buildScene()
 	}
 
 	/* Build the object tileset */
-	for (int y = 0; y < mTilemap.getWorldSize().y; y++)
+	for (int y = 0; y < mTileLoader.getWorldSize().y; y++)
 	{
-		for (int x = 0; x < mTilemap.getWorldSize().x; x++)
+		for (int x = 0; x < mTileLoader.getWorldSize().x; x++)
 		{
-			sf::IntRect textureRect = mTilemap.getTextureRect(x, y, "Object");
-			sf::Vector2f worldPos = mTilemap.getWorldPosition(x * mWorldScale.x ,y * mWorldScale.y);
-			sf::Texture& texture = mTilemap.getTexture(x, y, "Object");
+			sf::IntRect textureRect = mTileLoader.getTextureRect(x, y, "Object");
+			sf::Vector2f worldPos = mTileLoader.getWorldPosition(x * mWorldScale.x ,y * mWorldScale.y);
+			sf::Texture& texture = mTileLoader.getTexture(x, y, "Object");
 			
 			// Since Spritenode is stored as a single array, we need the position relative to
 			// its X, Y coordinates--just like the tmx GID number
-			int tilePos = x + y * mTilemap.getWorldSize().y;
+			int tilePos = x + y * mTileLoader.getWorldSize().y;
 			
 			// If there is no texture assigned to this tile, move on
 			if (textureRect.left < 0) continue;
@@ -193,23 +193,23 @@ void World::buildScene()
 			tile->setPosition(worldPos);
 			tile->setScale(mWorldScale);
 			mSceneLayers[Object]->attachChild(std::move(tile));
-			mTiles[mTilemap.getTileNumber(x,y)].setProperty(Tiles::Blocking);
+			mTiles[mTileLoader.getTileNumber(x,y)].setProperty(Tiles::Blocking);
 		}
 
 	}
 
 	/* Build the object tileset */
-	for (int y = 0; y < mTilemap.getWorldSize().y; y++)
+	for (int y = 0; y < mTileLoader.getWorldSize().y; y++)
 	{
-		for (int x = 0; x < mTilemap.getWorldSize().x; x++)
+		for (int x = 0; x < mTileLoader.getWorldSize().x; x++)
 		{
-			sf::IntRect textureRect = mTilemap.getTextureRect(x, y, "PassableObject");
-			sf::Vector2f worldPos = mTilemap.getWorldPosition(x * mWorldScale.x ,y * mWorldScale.y);
-			sf::Texture& texture = mTilemap.getTexture(x, y, "PassableObject");
+			sf::IntRect textureRect = mTileLoader.getTextureRect(x, y, "PassableObject");
+			sf::Vector2f worldPos = mTileLoader.getWorldPosition(x * mWorldScale.x ,y * mWorldScale.y);
+			sf::Texture& texture = mTileLoader.getTexture(x, y, "PassableObject");
 			
 			// Since Spritenode is stored as a single array, we need the position relative to
 			// its X, Y coordinates--just like the tmx GID number
-			int tilePos = x + y * mTilemap.getWorldSize().y;
+			int tilePos = x + y * mTileLoader.getWorldSize().y;
 			
 			// If there is no texture assigned to this tile, move on
 			if (textureRect.left < 0) continue;

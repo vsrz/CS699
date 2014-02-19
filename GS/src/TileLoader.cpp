@@ -1,28 +1,28 @@
-#include "Tilemap.h"
+#include "TileLoader.h"
 #include <iostream>
 
-Tilemap::Tilemap(const char* filename)
+TileLoader::TileLoader(const char* filename)
 {
-	loadTilemap(filename);
+	loadFromFile(filename);
 }
 
-sf::Vector2i Tilemap::getWorldSize()
+sf::Vector2i TileLoader::getWorldSize()
 {
 	return sf::Vector2i(mMapWidth, mMapHeight);
 }
 
-sf::Vector2f Tilemap::getWorldPosition(int x, int y)
+sf::Vector2f TileLoader::getWorldPosition(int x, int y)
 {
 	return sf::Vector2f(static_cast<float>(x) * 32.f, static_cast<float>(y) * 32.f);
 }
 
-void Tilemap::loadTilemap(const char* filename)
+void TileLoader::loadFromFile(const char* filename)
 {
 
 	// Returns 0 on success
 	if (mXmlDocument.LoadFile(filename))
 	{
-		throw std::runtime_error("Tilemap: Failed to load tilemap data " + std::string(filename));
+		throw std::runtime_error("TileLoader: Failed to load tilemap data " + std::string(filename));
 	}
 
 	// Read map element
@@ -66,7 +66,7 @@ void Tilemap::loadTilemap(const char* filename)
 }
 
 // Returns a sprite given the X and Y coordinate of the item on the tilemap
-sf::Sprite Tilemap::getSprite(int x, int y, const char* layerName)
+sf::Sprite TileLoader::getSprite(int x, int y, const char* layerName)
 {
 	int tileNum = x + y * mMapWidth;
 	int gid;
@@ -86,14 +86,14 @@ sf::Sprite Tilemap::getSprite(int x, int y, const char* layerName)
 
 	if (xmlLayerElement == NULL)
 	{
-		throw std::runtime_error("Tilemap: No layer was found by the name " + std::string(layerName));
+		throw std::runtime_error("TileLoader: No layer was found by the name " + std::string(layerName));
 	}
 
 	tinyxml2::XMLElement* xmlLayerDataElement = 
 		xmlLayerElement->FirstChildElement("data");
 	if (xmlLayerDataElement == NULL)
 	{
-		throw std::runtime_error("Tilemap: No data element was found in layer " + std::string(layerName));
+		throw std::runtime_error("TileLoader: No data element was found in layer " + std::string(layerName));
 	}
 
 	tinyxml2::XMLElement* xmlTileElement = 
@@ -101,7 +101,7 @@ sf::Sprite Tilemap::getSprite(int x, int y, const char* layerName)
 
 	if (xmlTileElement == NULL)
 	{
-		throw std::runtime_error("Tilemap: No tile element was found in layer " + std::string(layerName));
+		throw std::runtime_error("TileLoader: No tile element was found in layer " + std::string(layerName));
 	}
 	
 	// Increment through the tilemap until you reach the correct tile element
@@ -132,13 +132,13 @@ sf::Sprite Tilemap::getSprite(int x, int y, const char* layerName)
 }
 
 // Return the tile number based on X, Y coordinate
-int Tilemap::getTileNumber(int x, int y)
+int TileLoader::getTileNumber(int x, int y)
 {
 	return x + y * mMapWidth;
 }
 
 // Return a reference to the texture given by the layer string
-sf::Texture& Tilemap::getTexture(int x, int y, const char* layerName)
+sf::Texture& TileLoader::getTexture(int x, int y, const char* layerName)
 {
 	int gid = getGid(x, y, layerName);
 	return mTileset[getTilesetIndex(gid)].texture;
@@ -147,7 +147,7 @@ sf::Texture& Tilemap::getTexture(int x, int y, const char* layerName)
 // Return the index number of the Tileset. This is useful when
 // you just need to get some information when you've loaded multiple
 // tilesets
-int Tilemap::getTilesetIndex(int gid)
+int TileLoader::getTilesetIndex(int gid)
 {
 	if (gid == 0) return 0;
 	int index = -1;
@@ -167,7 +167,7 @@ int Tilemap::getTilesetIndex(int gid)
 }
 
 // Get the coordinates of the texture from the gid
-sf::Vector2i Tilemap::getTextureCoords(int x, int y, const char* layerName)
+sf::Vector2i TileLoader::getTextureCoords(int x, int y, const char* layerName)
 {
 	int gid = getGid(x, y, layerName);
 	int index = getTilesetIndex(gid);
@@ -184,7 +184,7 @@ sf::Vector2i Tilemap::getTextureCoords(int x, int y, const char* layerName)
 	return sf::Vector2i(gidx, gidy);
 }
 
-int Tilemap::getGid(int x, int y, const char* layerName)
+int TileLoader::getGid(int x, int y, const char* layerName)
 {
 	/* find the gid of the x,y passed */
 	int tileNum = getTileNumber(x, y);
@@ -208,14 +208,14 @@ int Tilemap::getGid(int x, int y, const char* layerName)
 
 	if (xmlLayerElement == NULL)
 	{
-		throw std::runtime_error("Tilemap: No layer was found by the name " + std::string(layerName));
+		throw std::runtime_error("TileLoader: No layer was found by the name " + std::string(layerName));
 	}
 
 	tinyxml2::XMLElement* xmlLayerDataElement = 
 		xmlLayerElement->FirstChildElement("data");
 	if (xmlLayerDataElement == NULL)
 	{
-		throw std::runtime_error("Tilemap: No data element was found in layer " + std::string(layerName));
+		throw std::runtime_error("TileLoader: No data element was found in layer " + std::string(layerName));
 	}
 
 	tinyxml2::XMLElement* xmlTileElement = 
@@ -223,7 +223,7 @@ int Tilemap::getGid(int x, int y, const char* layerName)
 
 	if (xmlTileElement == NULL)
 	{
-		throw std::runtime_error("Tilemap: No tile element was found in layer " + std::string(layerName));
+		throw std::runtime_error("TileLoader: No tile element was found in layer " + std::string(layerName));
 	}
 	
 	// Increment through the tilemap until you reach the correct tile element
@@ -234,14 +234,14 @@ int Tilemap::getGid(int x, int y, const char* layerName)
 
 	if (xmlTileElement == NULL)
 	{
-		throw std::runtime_error("Tilemap: No tile element was found in layer during search " + std::string(layerName));
+		throw std::runtime_error("TileLoader: No tile element was found in layer during search " + std::string(layerName));
 	}
 	
 	return xmlTileElement->IntAttribute("gid");
 	
 }
 
-sf::IntRect Tilemap::getTextureRect(int x, int y, const char* layerName)
+sf::IntRect TileLoader::getTextureRect(int x, int y, const char* layerName)
 {
 	int gid = getGid(x, y, layerName);
 
@@ -257,7 +257,7 @@ sf::IntRect Tilemap::getTextureRect(int x, int y, const char* layerName)
 }
 
 
-sf::Vector2i Tilemap::getTileSize()
+sf::Vector2i TileLoader::getTileSize()
 {
 	return sf::Vector2i(mTileWidth, mTileHeight);
 }

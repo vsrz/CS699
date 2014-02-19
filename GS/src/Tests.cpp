@@ -82,7 +82,7 @@ void tinyXMLTest()
 	tinyxml2::XMLElement* mapElement;
 	int mMapWidth;
 	int mMapHeight;
-	doc.LoadFile("res/Tilemap.tmx");
+	doc.LoadFile("res/TileLoader.tmx");
 	sf::String s =	doc.FirstChildElement("map")->FirstChildElement("layer")->FirstChildElement("data")->FirstChildElement("tile")->Attribute("gid");
 	std::cout << s.toAnsiString() << std::endl;
 

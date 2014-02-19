@@ -360,13 +360,13 @@
     <ClInclude Include="..\..\..\..\src\TinyXML2\tinyxml2.h">
       <Filter>Header Files\TinyXML2</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\src\Tilemap.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\..\src\ClickObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\src\Animation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\TileLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -466,13 +466,13 @@
     <ClCompile Include="..\..\..\..\src\TinyXML2\tinyxml2.cpp">
       <Filter>Source Files\TinyXML2</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\src\Tilemap.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\..\src\ClickObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\src\Animation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\TileLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

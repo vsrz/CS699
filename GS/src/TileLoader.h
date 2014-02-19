@@ -1,18 +1,18 @@
 /**
- *	Tilemap.h
+ *	TileLoader.h
  *	Loads tilemap data from a TMX file. Maps the gid given by
  *	the mapfile to the texture position in the loaded image.
  *	
  *	Definitions
- *	Tilemap		- The map file, TMX
+ *	TileLoader	- The map file, TMX
  *	Tileset		- Image used to generate tiles 
  *	Tile		- A portion of the image that is cut to form a tile
  *	
  *	See mapeditor.org for TMX file information.
  **/
 
-#ifndef TILEMAP_H
-#define TILEMAP_H
+#ifndef TILELOADER_H
+#define TILELOADER_H
 
 #pragma once
 
@@ -23,12 +23,12 @@
 #include <string>
 #include <array>
 
-class Tilemap
+class TileLoader
 {
 public:
-	Tilemap(const char* filename);
-	Tilemap(void){}
-	void loadTilemap(const char* filename);
+	TileLoader(const char* filename);
+	TileLoader(void){}
+	void loadFromFile(const char* filename);
 	
 	sf::Vector2i getWorldSize();
 	sf::Vector2i getTileSize();

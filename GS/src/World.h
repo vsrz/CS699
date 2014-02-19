@@ -15,7 +15,7 @@
 #include "ResourceIdentifiers.h"
 #include "CommandQueue.h"
 #include "Tile.h"
-#include "Tilemap.h"
+#include "TileLoader.h"
 #include "Player.h"
 #include "Aircraft.h"
 
@@ -69,7 +69,7 @@ private:
 	void loadTextures();
 	void buildScene();
 
-	Tilemap mTilemap;
+	TileLoader mTileLoader;
 
 	Player* mPlayer;
 
