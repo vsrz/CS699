@@ -1,10 +1,13 @@
 
 #include <SFML/Graphics.hpp>
+#include <string>
+#include <map>
+#include <algorithm>
 #include "Application.h"
 #include "Tests.h"
 
 #ifdef DEBUG
-	sf::String g_debugData("");
+	std::map<std::string, std::string> g_debugData;
 	bool g_collisionOverlay = false;
 #endif
 

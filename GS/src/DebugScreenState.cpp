@@ -2,6 +2,9 @@
 #include "DebugScreenState.h"
 #include "ResourceManager.h"
 #include <SFML/Window/Mouse.hpp>
+#include <string>
+#include <map>
+#include <algorithm>
 #include "Glob.h"
 
 
@@ -12,14 +15,14 @@ DebugScreenState::DebugScreenState(StateStack& stack, Context context)
 	, mMouseTime(sf::Time::Zero)
 
 {
-	extern sf::String g_debugData;	
+	extern std::map<std::string,std::string> g_debugData;	
 	float yoffset = 3.f;
 	float spacing = 12.f;
 	initalizeText(mFps, sf::Vector2f(5.f, yoffset), sf::String("0 fps"));
 	initalizeText(mTps, sf::Vector2f(5.f, yoffset + spacing), sf::String("0 u/s"));
 	initalizeText(mMouseLabel, sf::Vector2f(5.f, yoffset + 2 * spacing), sf::String("Mouse Position:"));
 	initalizeText(mMousePos, sf::Vector2f(95.f, yoffset + 2 * spacing), sf::String("0, 0"));
-	initalizeText(mMiscInfo, sf::Vector2f(5.f, yoffset + 3 * spacing), g_debugData);
+	initalizeText(mMiscInfo, sf::Vector2f(5.f, yoffset + 3 * spacing), sf::String());
 }
 
 void DebugScreenState::initalizeText(sf::Text& text
@@ -82,11 +85,12 @@ void DebugScreenState::updateMouseLocation(sf::Time dt)
 void DebugScreenState::updateDebugText(sf::Time dt)
 {
 	extern std::map<std::string, std::string> g_debugData;
+	sf::String mi("");
 	for (auto& iter: g_debugData)
 	{
-		mMiscInfo.setString("\n" + iter.first + ": " + iter.second);
+		mi += "\n" + iter.first + ": " + iter.second;
 	} 
-
+	mMiscInfo.setString(mi);
 	mDebugTime += dt;
 	mDebugFps += 1;
 	if (mDebugTime >= sf::seconds(1.0f))

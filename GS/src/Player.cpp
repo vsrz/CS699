@@ -1,8 +1,10 @@
- #include "ResourceManager.h"
+#include "ResourceManager.h"
 #include "Player.h"
 #include "Glob.h"
 #include <iostream>
-
+#include <map>
+#include <string>
+ 
 Player::Player(const TextureManager& textures, World* worldContext) 
 	: mSprite(textures.get(Textures::TestGuy))
 	, mWorld(worldContext)
@@ -68,7 +70,7 @@ bool Player::hasReachedDestination()
 void Player::updateCurrent(sf::Time dt)
 {
 #ifdef DEBUG
-	extern std::map<sf::String, sf::String> g_debugData;
+	extern std::map<std::string, std::string> g_debugData;
 	g_debugData["TilePos"] = toString(toTilePosition(mTilePosition).x) + toString(toTilePosition(mTilePosition).y);
 
 #endif

@@ -1,5 +1,8 @@
 #include "World.h"
 #include <iostream>
+#include <string>
+#include <map>
+#include <algorithm>
 #include "Glob.h"
 
 World::World(sf::RenderWindow& window)
@@ -92,18 +95,12 @@ void World::handleEvent(const sf::Event& event)
 	if (event.type == sf::Event::MouseButtonPressed)
 	{
 #ifdef DEBUG
-		extern std::map<sf::String,sf::String> g_debugData;
+		extern std::map<std::string, std::string> g_debugData;
 
 		// Update some debug tile stuff
-<<<<<<< HEAD
-		g_debugData = "Tile Num: " + toString(mTileLoader.getTileNumber(mouseTilePosition.x, mouseTilePosition.y));
-		g_debugData += "\nBlocking: " + toString(mTiles[mTileLoader.getTileNumber(mouseTilePosition.x, mouseTilePosition.y)].isBlocking());
-		g_debugData += "\nTile: " + toString(mouseTilePosition.x) + "," + toString(mouseTilePosition.y);
-=======
-		g_debugData["TileNum"] = toString(mTilemap.getTileNumber(mouseTilePosition.x, mouseTilePosition.y));
-		g_debugData["Blocking"] = toString(mTiles[mTilemap.getTileNumber(mouseTilePosition.x, mouseTilePosition.y)].isBlocking());
+		g_debugData["TileNum"] = toString(mTileLoader.getTileNumber(mouseTilePosition.x, mouseTilePosition.y));
+		g_debugData["Blocking"] = toString(mTiles[mTileLoader.getTileNumber(mouseTilePosition.x, mouseTilePosition.y)].isBlocking());
 		g_debugData["Tile"] = toString(mouseTilePosition.x) + "," + toString(mouseTilePosition.y);
->>>>>>> 5e8c06d22acfa0720bb0b927907a817302a7990a
 #endif
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
@@ -139,10 +136,6 @@ void World::handleEvent(const sf::Event& event)
 	}
 #endif
 	}
-
-
-
-
 }
 
 
