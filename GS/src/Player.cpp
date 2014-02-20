@@ -60,7 +60,8 @@ void Player::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) cons
 void Player::moveToTile(int x, int y)
 {
 	// Get the ultimate destination based on the Origin of the drawTexture
-	//mTileDestination.x = mWorld->mTilemap.getTilePixelPosition(x, y);
+	mTileDestination = sf::Vector2i(x, y);
+
 
 }
 

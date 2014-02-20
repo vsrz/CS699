@@ -10,6 +10,8 @@
 #include "Entity.h"
 #include "Actor.h"
 #include "World.h"
+
+
 class World;
 
 class Player
@@ -49,6 +51,8 @@ private:
 	float mSpeed;
 	sf::Vector2i mTilePosition;
 	sf::Vector2i mTileDestination;
+	std::vector<sf::Vector2i> mTravelPath;
+
 	sf::Vector2i mSpawnPosition;
 	sf::IntRect mBoundingBox;
 	
