@@ -25,6 +25,8 @@ public:
 	bool isTileOccupied(sf::Vector2f screenPosition);
 	void setTileProperty(int x, int y, unsigned int tileProperty);
 	sf::Vector2f getTilePixelPosition(int x, int y);
+	
+	Tile* getTile(int x, int y);
 private:
 	int toTileNumber(sf::Vector2i screenPosition);
 	int toTileNumber(sf::Vector2f screenPosition);

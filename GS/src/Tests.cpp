@@ -126,6 +126,12 @@ void bitw()
 }
 
 
+void ptrtest()
+{
+	std::unique_ptr<int> i = std::unique_ptr<int>(new int(9));
+
+}
+
 
 void Tests::run()
 {
