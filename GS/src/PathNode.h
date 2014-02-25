@@ -6,6 +6,7 @@
 
 #include <memory>
 #include <list>
+#include <cmath>
 #include <SFML/System.hpp>
 #include "Tile.h"
 
@@ -13,26 +14,30 @@ class PathNode
 {
 public:
 	PathNode(void);
-	PathNode(Tile* mTile);
+	PathNode(int x, int y, PathNode* parent);
+	PathNode(sf::Vector2i coordinate, PathNode* parent);
 
-	void setOpen(bool open = true);
-	void setClose(bool close = true);
+
+	int getScore();
+	int getCost();
 	int getHeuristic();
-	int getAccumulatedCost();
-	int getTotalCost();
-	int getAccumulatedCost(PathNode* node);
-	int getHeuristic(PathNode* node);
-	sf::Vector2i getTileLocation();
+	sf::Vector2i getCoordinates();
+	PathNode* getParent();
+
+	void setHeuristic(PathNode *end);
+	void setCost(int g);
+	void setParent(PathNode* parent);
+	void setCoordinates(sf::Vector2i coordinate);
+
 private:
-	std::unique_ptr<PathNode> mParent;
+	PathNode *mParent;
 	bool mClosed;
 	bool mOpened;
 	
-	Tile* mTile;
 	int mHeuristic;
 	int mCost;
 
-	sf::Vector2i mTileLocation;
+	sf::Vector2i mCoordinates;
 
 };
 
