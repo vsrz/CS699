@@ -19,6 +19,7 @@ Player::Player(const TextureManager& textures, World* worldContext)
 	, mNumFrames(6)
 	, mElapsedTime(sf::Time::Zero)
 	, mSpawnPosition(7,3)
+	, mTravelPath()
 {
 	mSprite.setTextureRect(sf::IntRect(sf::Vector2i(mFrame,mFrameOffset), mFrameSize));
 	mSprite.setOrigin(0.f,32.f);
@@ -87,13 +88,13 @@ void Player::setDestination(sf::Vector2i destination)
 	// Calculate the ultimate destination, centering the feet of the sprite on the tile
 	// Find the tile that was clicked
 	
-	mTravelPath.push(mTileDestination);
+	mTravelPath.push(toTilePosition(destination));
 
 }
 
 bool Player::hasReachedDestination()
 {
-	return mSpritePosition == mSpriteDestination;
+	return mSprite.getPosition() == mSpriteDestination;
 }
 
 void Player::updateCurrent(sf::Time dt)
@@ -112,12 +113,14 @@ void Player::updateCurrent(sf::Time dt)
 		sf::Vector2f destPosition = toSpritePosition(mTileDestination);
 		sf::Vector2f movement;
 		
+		// If the sprite is within 5 pixels of its destination just snap it
 		if (abs(destPosition.x - currentPosition.x) < 5.f)
 			currentPosition.x = destPosition.x;
 	
 		if (abs(destPosition.y - currentPosition.y) < 5.f)
 			currentPosition.y = destPosition.y;
 	
+		// Set the movement direction 
 		if (destPosition.x > currentPosition.x)
 		{
 			movement.x = 1.f;
@@ -139,25 +142,14 @@ void Player::updateCurrent(sf::Time dt)
 			mDirection = Direction::North;
 		}
 
-		// TODO: If the move you're about to make puts you in a blocking tile,
-		// do not make the move this interval
-		// Allows collision		
-		//if (mWorld->mTilemap.isTileOccupied(currentPosition))
-		//{
-		//	movement = sf::Vector2f(0.f,0.f);
-		//	mFrame = 0;
-		//	destPosition = currentPosition;
-		//}
-
+		// Update the position of the sprite on the screen
 		currentPosition += movement * mSpeed;
 		mSprite.setPosition(currentPosition);
 
-		// Check the direction every frame
-		checkDirection();
-
-		// update movement animation
+		// update movement animation and direction if necessary
 		if (mElapsedTime > sf::seconds(0.12f))
 		{
+			checkDirection();
 			mElapsedTime -= sf::seconds(0.12f);
 			advanceFrame();
 
