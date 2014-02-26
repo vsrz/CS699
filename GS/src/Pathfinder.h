@@ -9,9 +9,11 @@
 #include <array>
 #include <string>
 #include <memory>
+#include <iostream>
 #include <algorithm>
 #include "Tilemap.h"
 #include "PathNode.h"
+
 
 class Pathfinder
 {
@@ -40,6 +42,7 @@ private:
 
 	PathNode *getNextNode();
 	void continuePath();
+	void init();
 	
 };
 

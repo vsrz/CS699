@@ -114,6 +114,7 @@ void World::handleEvent(const sf::Event& event)
 		{
 			mPlayer->setDestination(mousePosition);
 #ifdef DEBUG
+
 			g_debugData["Destination:"] = toString(mousePosition.x) + "," + toString(mousePosition.y);
 #endif
 		}

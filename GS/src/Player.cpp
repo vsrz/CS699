@@ -4,6 +4,9 @@
 #include <iostream>
 #include <map>
 #include <string>
+
+#define TILE_HEIGHT 32
+#define TILE_WIDTH
  
 Player::Player(const TextureManager& textures, World* worldContext) 
 	: mSprite(textures.get(Textures::TestGuy))
@@ -15,33 +18,43 @@ Player::Player(const TextureManager& textures, World* worldContext)
 	, mFrame(0)
 	, mNumFrames(6)
 	, mElapsedTime(sf::Time::Zero)
-	, mSpawnPosition(500, 500)
+	, mSpawnPosition(7,3)
 {
 	mSprite.setTextureRect(sf::IntRect(sf::Vector2i(mFrame,mFrameOffset), mFrameSize));
 	mSprite.setOrigin(0.f,32.f);
 	mSprite.setScale(mScale);
 	mTilePosition = mSpawnPosition;
 	mTileDestination = mTilePosition;
-	mSprite.setPosition(toVector2f(mTilePosition));
+	mSprite.setPosition(toSpritePosition(mTilePosition));
+	mSpritePosition = mSprite.getPosition();
+	mSpriteDestination = mSpritePosition;
 	mBoundingBox = sf::IntRect(0, 0, mFrameSize.x, mFrameSize.y);
 }
 
 sf::Vector2i Player::toTilePosition(sf::Vector2f position)
 {
-	sf::Vector2i tilePos;
-	tilePos.x = static_cast<int>(position.x / mWorld->getWorldScale().x / mFrameSize.x);
-	tilePos.y = static_cast<int>(position.y / mWorld->getWorldScale().y / mFrameSize.y);
-	return tilePos;
+	return toTilePosition(sf::Vector2i(position.x, position.y));
 }
 
 sf::Vector2i Player::toTilePosition(sf::Vector2i position)
 {
-	return toTilePosition(
-		sf::Vector2f(
-			static_cast<float>(position.x),
-			static_cast<float>(position.y)
-		)
-	);
+	return sf::Vector2i(
+		static_cast<int>(position.x  / (32.f * mWorld->getWorldScale().x)),
+		static_cast<int>(position.y  / (32.f * mWorld->getWorldScale().y)));
+
+}
+
+sf::Vector2f Player::toSpritePosition(sf::Vector2i tilePosition)
+{
+	return sf::Vector2f(
+		tilePosition.x * mWorld->getWorldScale().x * 32.f + 0.f,
+		tilePosition.y * mWorld->getWorldScale().y * 32.f + 0.f);
+}
+
+// Return the current position that the player is standing in
+sf::Vector2i Player::getCurrentTilePosition()
+{
+	return toTilePosition(mSprite.getPosition());
 }
 
 void Player::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
@@ -49,7 +62,7 @@ void Player::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) cons
 	sf::RectangleShape shape(sf::Vector2f(mBoundingBox.width * 2, mBoundingBox.height));
 	shape.setFillColor(sf::Color(255,0,0,128));
 	shape.setPosition(mSprite.getPosition());
-	target.draw(shape, states);
+	//target.draw(shape, states);
 	target.draw(mSprite, states);
 }
 
@@ -61,6 +74,7 @@ void Player::moveToTile(int x, int y)
 {
 	// Get the ultimate destination based on the Origin of the drawTexture
 	mTileDestination = sf::Vector2i(x, y);
+	mSpriteDestination = toSpritePosition(mTileDestination);
 
 
 }
@@ -69,13 +83,17 @@ void Player::setDestination(sf::Vector2i destination)
 {
 	mElapsedTime = sf::Time::Zero;
 	mFrame = 2;
-	mTileDestination.x = destination.x - mFrameSize.x * mScale.x * 0.5f;
-	mTileDestination.y = destination.y - mFrameSize.y * mScale.y * 0.2f;
+
+	// Calculate the ultimate destination, centering the feet of the sprite on the tile
+	// Find the tile that was clicked
+	
+	mTravelPath.push(mTileDestination);
+
 }
 
 bool Player::hasReachedDestination()
 {
-	return mTileDestination == mTilePosition;
+	return mSpritePosition == mSpriteDestination;
 }
 
 void Player::updateCurrent(sf::Time dt)
@@ -87,10 +105,11 @@ void Player::updateCurrent(sf::Time dt)
 #endif
 	mElapsedTime += dt;
 
-	if (!hasReachedDestination())
+	if (!mTravelPath.empty())
 	{
+		mTileDestination = mTravelPath.front();
 		sf::Vector2f currentPosition = mSprite.getPosition();
-		sf::Vector2f destPosition = toVector2f(mTileDestination);
+		sf::Vector2f destPosition = toSpritePosition(mTileDestination);
 		sf::Vector2f movement;
 		
 		if (abs(destPosition.x - currentPosition.x) < 5.f)
@@ -122,13 +141,13 @@ void Player::updateCurrent(sf::Time dt)
 
 		// TODO: If the move you're about to make puts you in a blocking tile,
 		// do not make the move this interval
-		
-		if (mWorld->mTilemap.isTileOccupied(currentPosition))
-		{
-			movement = sf::Vector2f(0.f,0.f);
-			mFrame = 0;
-			destPosition = currentPosition;
-		}
+		// Allows collision		
+		//if (mWorld->mTilemap.isTileOccupied(currentPosition))
+		//{
+		//	movement = sf::Vector2f(0.f,0.f);
+		//	mFrame = 0;
+		//	destPosition = currentPosition;
+		//}
 
 		currentPosition += movement * mSpeed;
 		mSprite.setPosition(currentPosition);
@@ -143,6 +162,12 @@ void Player::updateCurrent(sf::Time dt)
 			advanceFrame();
 
 		}
+
+		// If this move causes the destination to be reached, remove it from the queue.
+		if (hasReachedDestination())
+		{
+			mTravelPath.pop();
+		}
 	}
 	else
 	{
@@ -153,6 +178,7 @@ void Player::updateCurrent(sf::Time dt)
 		sf::IntRect(sf::Vector2i(mFrame * mFrameSize.x, mFrameOffset * mFrameSize.y),
 		mFrameSize));
 	mTilePosition = toVector2i(mSprite.getPosition());
+	mSpritePosition = mSprite.getPosition();
 }
 
 void Player::checkDirection()

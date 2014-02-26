@@ -4,8 +4,15 @@
 Pathfinder::Pathfinder(Tilemap* tilemap)
 	: mTilemap(tilemap)
 {
+	init();
 }
 
+void Pathfinder::init()
+{
+	mInitializedStartGoal = false;
+	mFoundGoal = false;
+	
+}
 void Pathfinder::clearOpenList()
 {
 	mOpenList.clear();
@@ -45,10 +52,22 @@ void Pathfinder::findPath(sf::Vector2i currentPosition, sf::Vector2i destPositio
 	}
 	
 	// Once the start and goal have been initialized, begin the pathfinding
-	if (mInitializedStartGoal)
+	while (!mFoundGoal)
 	{
-		continuePath();
+		if (mInitializedStartGoal)
+		{
+			continuePath();
+		}
 	}
+
+	std::cout << std::endl << "From: (" << currentPosition.x << "," << currentPosition.y << ") To: (";
+	std::cout << destPosition.x << "," << destPosition.y << ")" << std::endl;
+	for (auto& i : mPath)
+	{
+		std::cout << "(" << i.x << "," << i.y << ") ";
+	}
+	std::cout << std::endl;
+
 }
 
 void Pathfinder::setStartAndGoal(PathNode start, PathNode goal)
@@ -97,10 +116,11 @@ PathNode* Pathfinder::getNextNode()
 
 void Pathfinder::pathOpened(int x, int y, int cost, PathNode* parent)
 {
-	// Check for walls
-	if (mTilemap->isTileOccupied(sf::Vector2f(static_cast<float>(x), static_cast<float>(y))))
+	// Check if this space is occupied
+	if (mTilemap->isTileOccupied(x, y))
 	{
-
+		//return;
+		std::cout << "Occupied!" << std::endl;
 	}
 
 	// Do not visit any nodes already visited
@@ -202,7 +222,8 @@ void Pathfinder::continuePath()
 		// Bottom-right square
 		pathOpened(currentNode->getCoordinates().x + 1, currentNode->getCoordinates().y + 1, 
 			currentNode->getCost() + 14, currentNode);
-
+		
+		// Find the current node and remove it from the OpenList
 		for (int i = 0; i < mOpenList.size(); i++)
 		{
 			if (currentNode->getCoordinates() == mOpenList[i]->getCoordinates())

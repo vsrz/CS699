@@ -10,7 +10,7 @@
 #include "Entity.h"
 #include "Actor.h"
 #include "World.h"
-
+#include "Pathfinder.h"
 
 class World;
 
@@ -26,6 +26,7 @@ public:
 
 	Player(const TextureManager& textures, World* worldContext);
 	void setDestination(sf::Vector2i destination);
+	sf::Vector2i getCurrentTilePosition();
 
 private:
 	enum Direction
@@ -42,6 +43,7 @@ private:
 	
 	sf::Vector2i toTilePosition(sf::Vector2f position);
 	sf::Vector2i toTilePosition(sf::Vector2i position);
+	sf::Vector2f toSpritePosition(sf::Vector2i tilePosition);
 	void moveToTile(int x, int y);
 
 
@@ -51,7 +53,9 @@ private:
 	float mSpeed;
 	sf::Vector2i mTilePosition;
 	sf::Vector2i mTileDestination;
-	std::vector<sf::Vector2i> mTravelPath;
+	sf::Vector2f mSpritePosition;
+	sf::Vector2f mSpriteDestination;
+	std::queue<sf::Vector2i> mTravelPath;
 
 	sf::Vector2i mSpawnPosition;
 	sf::IntRect mBoundingBox;
