@@ -44,6 +44,7 @@ void Pathfinder::findPath(sf::Vector2i currentPosition, sf::Vector2i destPositio
 		mInitializedStartGoal = true;
 	}
 	
+	// Once the start and goal have been initialized, begin the pathfinding
 	if (mInitializedStartGoal)
 	{
 		continuePath();
@@ -55,20 +56,24 @@ void Pathfinder::setStartAndGoal(PathNode start, PathNode goal)
 	mStartNode = new PathNode(start.getCoordinates(), nullptr);
 	mGoalNode = new PathNode(goal.getCoordinates(), &goal);
 
+	// Set the cost and the heuristic for the start node
 	mStartNode->setCost(0);
 	mStartNode->setHeuristic(mGoalNode);
 	mStartNode->setParent(nullptr);
 
+	// Add the start node to the OpenList
 	mOpenList.push_back(mStartNode);
 
 }
 
+// Fetch the next node to test from the open list
 PathNode* Pathfinder::getNextNode()
 {
 	int lowestCost = 250;
 	int nodeIndex = -1;
 	PathNode* nextNode = nullptr;
 
+	// Look through the openlist and get the node with the lowest total cost
 	for (int i = 0; i < mOpenList.size(); i++)
 	{
 		if (mOpenList[i]->getScore() < lowestCost)
@@ -78,6 +83,7 @@ PathNode* Pathfinder::getNextNode()
 		}
 	}
 
+	// The node we've found will be added to the visited list and removed from the open list
 	if (nodeIndex >= 0)
 	{
 		nextNode = mOpenList[nodeIndex];
