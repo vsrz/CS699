@@ -8,26 +8,18 @@
 #include <iostream>
 #include <stack>
 #include "ResourceIdentifiers.h"
-#include "Entity.h"
 #include "Actor.h"
-#include "World.h"
+#include "Entity.h"
 #include "Pathfinder.h"
 
-class World;
 
 class Player
-	: public SceneNode
+	: public Entity
+	, public SceneNode
 {
 public:
-	enum Type
-	{
-		TestGuyWalking,
-		Count,
-	};
-
 	Player(const TextureManager& textures, World* worldContext);
 	void setDestination(sf::Vector2i destination);
-	sf::Vector2i getCurrentTilePosition();
 
 private:
 	enum Direction
@@ -41,6 +33,8 @@ private:
 
 	virtual void updateCurrent(sf::Time dt);
 	virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates state) const;
+
+	
 	
 	sf::Vector2i toTilePosition(sf::Vector2f position);
 	sf::Vector2i toTilePosition(sf::Vector2i position);

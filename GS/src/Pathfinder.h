@@ -14,7 +14,9 @@
 #include "Tilemap.h"
 #include "PathNode.h"
 
-#define MAX_SEARCH 300
+// Maximum amount of squares it will search during pathfinding
+// before giving up
+#define MAX_SEARCH 500
 
 class Pathfinder
 {

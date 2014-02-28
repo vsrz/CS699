@@ -33,38 +33,41 @@ void Pathfinder::clearPath()
 sf::Vector2i Pathfinder::findValidDestination(sf::Vector2i destination)
 {
 	int offset = 0;
+
+	// If the destination tile chosen is valid, return the original destination
 	if (mTilemap->getTile(destination.x, destination.y) && 
 		!mTilemap->isTileOccupied(destination.x, destination.y))
 		return destination;
 
+	// Start from the original tile and go in a circle outward until
+	// you find the first available valid tile to travel to
 	while (1)
 	{
-		for (int x = -1 - offset; x < 0; x++)
-		{
-			for (int y = -1 - offset; y < 0; y++)
-			{
-				if (!mTilemap->getTile(x + destination.x, y + destination.y))
-					continue;
-				if (!mTilemap->isTileOccupied(destination.x + x,destination.y + y))
-				{
-					return sf::Vector2i(destination.x + x, destination.y + y);
-				}
-			}
-		}
+		// First try the tiles that are directly adjacent, without diagonals
+		if (!mTilemap->isTileOccupied(destination.x, destination.y + 1 + offset))
+			return sf::Vector2i(destination.x, destination.y + 1 + offset);
 
-		for (int x = 0 + offset; x < 1 + offset; x++)
-		{
-			for (int y = 0 + offset; y < 1 + offset; y++)
-			{
-				if (!mTilemap->getTile(x + destination.x, y + destination.y))
-					continue;
-				if (!mTilemap->isTileOccupied(destination.x + x,destination.y + y))
-				{
-					return sf::Vector2i(destination.x + x, destination.y + y);
-				}
-			}
+		if (!mTilemap->isTileOccupied(destination.x + -1 - offset, destination.y))
+			return sf::Vector2i(destination.x - 1 - offset, destination.y);
 
-		}
+		if (!mTilemap->isTileOccupied(destination.x + 1 + offset, destination.y))
+			return sf::Vector2i(destination.x + 1 + offset, destination.y);
+
+		if (!mTilemap->isTileOccupied(destination.x, destination.y - 1 - offset))
+			return sf::Vector2i(destination.x, destination.y - 1 - offset);
+
+		// Now, try the tile diagonally in a circle
+		if (!mTilemap->isTileOccupied(destination.x + 1 + offset, destination.y + 1 + offset))
+			return sf::Vector2i(destination.x + 1 + offset, destination.y + 1 + offset);
+
+		if (!mTilemap->isTileOccupied(destination.x - 1 - offset, destination.y + 1 + offset))
+			return sf::Vector2i(destination.x - 1 - offset, destination.y + 1 + offset);
+
+		if (!mTilemap->isTileOccupied(destination.x + 1 + offset, destination.y - 1 - offset))
+			return sf::Vector2i(destination.x + 1 + offset, destination.y - 1 - offset);
+
+		if (!mTilemap->isTileOccupied(destination.x - 1 - offset, destination.y - 1 - offset))
+			return sf::Vector2i(destination.x - 1 - offset, destination.y - 1 - offset);
 
 		offset++;
 	}
@@ -107,15 +110,6 @@ void Pathfinder::findPath(sf::Vector2i currentPosition, sf::Vector2i destPositio
 			continuePath();
 		}
 	}
-
-	std::cout << std::endl << "From: (" << currentPosition.x << "," << currentPosition.y << ") To: (";
-	std::cout << destPosition.x << "," << destPosition.y << ")" << std::endl;
-	for (auto& i : mPath)
-	{
-		std::cout << "(" << i.x << "," << i.y << ") ";
-	}
-	std::cout << std::endl;
-
 }
 
 std::vector<sf::Vector2i> Pathfinder::getPath()
@@ -141,7 +135,7 @@ void Pathfinder::setStartAndGoal(PathNode start, PathNode goal)
 // Fetch the next node to test from the open list
 PathNode* Pathfinder::getNextNode()
 {
-	int lowestCost = 250;
+	int lowestCost = 32000;
 	int nodeIndex = -1;
 	PathNode* nextNode = nullptr;
 
@@ -155,12 +149,17 @@ PathNode* Pathfinder::getNextNode()
 		}
 	}
 
+	
 	// The node we've found will be added to the visited list and removed from the open list
 	if (nodeIndex >= 0)
 	{
 		nextNode = mOpenList[nodeIndex];
 		mVisitedList.push_back(nextNode);
 		mOpenList.erase(mOpenList.begin() + nodeIndex);
+	}
+	else
+	{
+		throw std::runtime_error("Could not find a valid path");
 	}
 
 	return nextNode;

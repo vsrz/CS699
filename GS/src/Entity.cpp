@@ -1,44 +1,64 @@
 #include "Entity.h"
 
-void Entity::setVelocity(float vx, float vy)
+Entity::Entity(World* world, float speed)
+	: mWorld(world)
+	, mSpeed(speed)
+{}
+
+Entity::~Entity() {}
+
+void Entity::setSpeed(float speed)
 {
-	mVelocity.x = vx;
-	mVelocity.y = vy;
+	mSpeed = speed;
+}
+
+float Entity::getSpeed()
+{
+	return mSpeed;
+}
+
+void Entity::setSprite(sf::Sprite &sprite)
+{
+	mSprite = sprite;
+}
+
+sf::Vector2i Entity::toTilePosition(sf::Vector2f position)
+{
+	return toTilePosition(sf::Vector2i(position.x, position.y));
+}
+
+sf::Vector2i Entity::toTilePosition(sf::Vector2i position)
+{
+	return sf::Vector2i(
+		static_cast<int>(position.x  / (32.f * mWorld->getWorldScale().x)),
+		static_cast<int>(position.y  / (32.f * mWorld->getWorldScale().y)));
+	mWorld
 
 }
 
-void Entity::setVelocity(sf::Vector2f velocity)
+sf::Vector2f Entity::toSpritePosition(sf::Vector2i tilePosition)
 {
-	mVelocity = velocity;
-}
-
-sf::Vector2f Entity::getVelocity() const
-{
-	return mVelocity;
+	return sf::Vector2f(
+		tilePosition.x * mWorld->getWorldScale().x * 32.f + 0.f,
+		tilePosition.y * mWorld->getWorldScale().y * 32.f + 0.f);
 }
 
 
-
-void Entity::accelerate(sf::Vector2f velocity)
+// Return the current position that the entity is currently occupying
+sf::Vector2i Entity::getCurrentTilePosition()
 {
-	mVelocity += velocity;
-}
-
-void Entity::accelerate(float vx, float vy)
-{
- 	mVelocity.x += vx;
-	mVelocity.y += vy;
+	return toTilePosition(mSprite.getPosition());
 }
 
 
-
-void Entity::updateCurrent(sf::Time dt)
+void Entity::update(sf::Time dt)
 {
 
-	/* Offset the position depending on time step--longer time 
-		step leads to entity being moved farther over longer time */
-	move(mVelocity * dt.asSeconds());
 
+}
+
+void Entity::draw()
+{
 
 }
 

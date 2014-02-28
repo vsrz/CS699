@@ -5,7 +5,8 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
-#include "Entity.h"
+
+class Entity;
 
 class Animation
 {

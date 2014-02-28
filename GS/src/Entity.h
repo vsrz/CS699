@@ -6,22 +6,37 @@
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 #include "ResourceIdentifiers.h"
-#include "SceneNode.h"
+
+class World;
 
 class Entity
-	: public SceneNode
 {
 public:
+	Entity(World *mWorld, float speed);
+	virtual ~Entity();
 
-	void setVelocity(sf::Vector2f velocity);
-	void setVelocity(float vx, float vy);
-	sf::Vector2f getVelocity() const;
-	void accelerate(float, float);
-	void accelerate(sf::Vector2f);	
+	/* Properties */
+	void setSpeed(float speed);
+	float getSpeed();
+	void setSprite(sf::Sprite &sprite);
+	sf::Vector2i getCurrentTilePosition();
+
+	/* Tile and sprite positioning utility fns */
+	sf::Vector2i toTilePosition(sf::Vector2i position);
+	sf::Vector2i toTilePosition(sf::Vector2f position);
+	sf::Vector2f toSpritePosition(sf::Vector2i tilePosition);
 
 protected:
-	virtual void updateCurrent(sf::Time dt);
-	sf::Vector2f mVelocity;
+
+	void update(sf::Time dt);
+	void draw();
+
+private:
+	World* mWorld;
+	float mSpeed;
+	sf::Vector2f mPosition;
+	sf::Sprite mSprite;
+
 };
 
 #endif

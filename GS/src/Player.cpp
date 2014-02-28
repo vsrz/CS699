@@ -6,10 +6,11 @@
 #include <string>
 
 #define TILE_HEIGHT 32
-#define TILE_WIDTH
+#define TILE_WIDTH 32
  
 Player::Player(const TextureManager& textures, World* worldContext) 
-	: mSprite(textures.get(Textures::TestGuy))
+	: Entity(worldContext, 5.f)
+	, mSprite(textures.get(Textures::TestGuy))
 	, mWorld(worldContext)
 	, mSpeed(5.f)
 	, mFrameSize(32.f, 64.f)
@@ -31,38 +32,12 @@ Player::Player(const TextureManager& textures, World* worldContext)
 	mBoundingBox = sf::IntRect(0, 0, mFrameSize.x, mFrameSize.y);
 }
 
-sf::Vector2i Player::toTilePosition(sf::Vector2f position)
-{
-	return toTilePosition(sf::Vector2i(position.x, position.y));
-}
-
-sf::Vector2i Player::toTilePosition(sf::Vector2i position)
-{
-	return sf::Vector2i(
-		static_cast<int>(position.x  / (32.f * mWorld->getWorldScale().x)),
-		static_cast<int>(position.y  / (32.f * mWorld->getWorldScale().y)));
-
-}
-
-sf::Vector2f Player::toSpritePosition(sf::Vector2i tilePosition)
-{
-	return sf::Vector2f(
-		tilePosition.x * mWorld->getWorldScale().x * 32.f + 0.f,
-		tilePosition.y * mWorld->getWorldScale().y * 32.f + 0.f);
-}
-
-// Return the current position that the player is standing in
-sf::Vector2i Player::getCurrentTilePosition()
-{
-	return toTilePosition(mSprite.getPosition());
-}
-
 void Player::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	sf::RectangleShape shape(sf::Vector2f(mBoundingBox.width * 2, mBoundingBox.height));
 	shape.setFillColor(sf::Color(255,0,0,128));
 	shape.setPosition(mSprite.getPosition());
-	//target.draw(shape, states);
+	//target.draw(shape, states);	
 	target.draw(mSprite, states);
 }
 

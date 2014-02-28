@@ -18,7 +18,6 @@
 #include "Tilemap.h"
 #include "TileLoader.h"
 #include "Player.h"
-#include "Aircraft.h"
 
 class Player;
 
