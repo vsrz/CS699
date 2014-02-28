@@ -27,8 +27,7 @@ Player::Player(const TextureManager& textures, World* worldContext)
 	mTilePosition = mSpawnPosition;
 	mTileDestination = mTilePosition;
 	mSprite.setPosition(toSpritePosition(mTilePosition));
-	mSpritePosition = mSprite.getPosition();
-	mSpriteDestination = mSpritePosition;
+	mSpriteDestination = mSprite.getPosition();
 	mBoundingBox = sf::IntRect(0, 0, mFrameSize.x, mFrameSize.y);
 }
 
@@ -87,8 +86,13 @@ void Player::setDestination(sf::Vector2i destination)
 
 	// Calculate the ultimate destination, centering the feet of the sprite on the tile
 	// Find the tile that was clicked
-	
-	mTravelPath.push(toTilePosition(destination));
+	Pathfinder p(&mWorld->mTilemap);
+	while (!mTravelPath.empty()) mTravelPath.pop();
+	p.findPath(mTilePosition, toTilePosition(destination));
+	for (auto& i : p.getPath())
+	{
+		mTravelPath.push(i);	
+	}
 
 }
 
@@ -108,7 +112,8 @@ void Player::updateCurrent(sf::Time dt)
 
 	if (!mTravelPath.empty())
 	{
-		mTileDestination = mTravelPath.front();
+		mTileDestination = mTravelPath.top();
+		mSpriteDestination = toSpritePosition(mTileDestination);
 		sf::Vector2f currentPosition = mSprite.getPosition();
 		sf::Vector2f destPosition = toSpritePosition(mTileDestination);
 		sf::Vector2f movement;
@@ -154,11 +159,14 @@ void Player::updateCurrent(sf::Time dt)
 			advanceFrame();
 
 		}
-
 		// If this move causes the destination to be reached, remove it from the queue.
 		if (hasReachedDestination())
 		{
 			mTravelPath.pop();
+			if (mTravelPath.empty())
+			{
+				mFrame = 0;
+			}
 		}
 	}
 	else
@@ -169,8 +177,7 @@ void Player::updateCurrent(sf::Time dt)
 	mSprite.setTextureRect(
 		sf::IntRect(sf::Vector2i(mFrame * mFrameSize.x, mFrameOffset * mFrameSize.y),
 		mFrameSize));
-	mTilePosition = toVector2i(mSprite.getPosition());
-	mSpritePosition = mSprite.getPosition();
+	mTilePosition = toTilePosition(mSprite.getPosition());
 }
 
 void Player::checkDirection()

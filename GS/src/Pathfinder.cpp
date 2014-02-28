@@ -28,8 +28,53 @@ void Pathfinder::clearPath()
 	mPath.clear();
 }
 
+// Finds a valid destination. If the user clicks an "Occupied Tile" it will
+// find the nest best tile to travel to
+sf::Vector2i Pathfinder::findValidDestination(sf::Vector2i destination)
+{
+	int offset = 0;
+	if (mTilemap->getTile(destination.x, destination.y) && 
+		!mTilemap->isTileOccupied(destination.x, destination.y))
+		return destination;
+
+	while (1)
+	{
+		for (int x = -1 - offset; x < 0; x++)
+		{
+			for (int y = -1 - offset; y < 0; y++)
+			{
+				if (!mTilemap->getTile(x + destination.x, y + destination.y))
+					continue;
+				if (!mTilemap->isTileOccupied(destination.x + x,destination.y + y))
+				{
+					return sf::Vector2i(destination.x + x, destination.y + y);
+				}
+			}
+		}
+
+		for (int x = 0 + offset; x < 1 + offset; x++)
+		{
+			for (int y = -1 + offset; y < 0 + offset; y++)
+			{
+				if (!mTilemap->getTile(x + destination.x, y + destination.y))
+					continue;
+				if (!mTilemap->isTileOccupied(destination.x + x,destination.y + y))
+				{
+					return sf::Vector2i(destination.x + x, destination.y + y);
+				}
+			}
+
+		}
+
+		offset++;
+	}
+}
+
+
 void Pathfinder::findPath(sf::Vector2i currentPosition, sf::Vector2i destPosition)
 {
+	// Maximum amount of tilesearches before pathfinding gives up
+	int finder = 0;
 	if (!mInitializedStartGoal)
 	{
 		for (auto& it : mOpenList)
@@ -45,17 +90,20 @@ void Pathfinder::findPath(sf::Vector2i currentPosition, sf::Vector2i destPositio
 		// Initialize the start and goal nodes
 		PathNode start, goal;
 		start.setCoordinates(currentPosition);
-		goal.setCoordinates(destPosition);
+
+		// Find the goal
+		goal.setCoordinates(findValidDestination(destPosition));
 
 		setStartAndGoal(start, goal);
 		mInitializedStartGoal = true;
 	}
 	
 	// Once the start and goal have been initialized, begin the pathfinding
-	while (!mFoundGoal)
+	while (!mFoundGoal && finder < MAX_SEARCH)
 	{
 		if (mInitializedStartGoal)
 		{
+			finder++;
 			continuePath();
 		}
 	}
@@ -68,6 +116,11 @@ void Pathfinder::findPath(sf::Vector2i currentPosition, sf::Vector2i destPositio
 	}
 	std::cout << std::endl;
 
+}
+
+std::vector<sf::Vector2i> Pathfinder::getPath()
+{
+	return mPath;
 }
 
 void Pathfinder::setStartAndGoal(PathNode start, PathNode goal)
@@ -116,11 +169,16 @@ PathNode* Pathfinder::getNextNode()
 
 void Pathfinder::pathOpened(int x, int y, int cost, PathNode* parent)
 {
+	//std::cout << std::endl << "Checking: " << x << "," << y << ")";
+	// Do not pathfind nodes not in the tilemap
+	if (!mTilemap->getTile(x,y))
+	{
+		return;
+	}
 	// Check if this space is occupied
 	if (mTilemap->isTileOccupied(x, y))
 	{
-		//return;
-		std::cout << "Occupied!" << std::endl;
+		return;
 	}
 
 	// Do not visit any nodes already visited
@@ -134,7 +192,7 @@ void Pathfinder::pathOpened(int x, int y, int cost, PathNode* parent)
 	PathNode* newChild = new PathNode(x, y, parent);
 	newChild->setCost(cost);
 	newChild->setHeuristic(mGoalNode);
-
+	//std::cout << "New child";
 	// With the new child, check to see if there was a better
 	// way to get to this node that had been found previously
 	for (int i = 0; i < mOpenList.size(); i++)

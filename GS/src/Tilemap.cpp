@@ -15,6 +15,10 @@ Tilemap::Tilemap(int worldTileWidth, int worldTileHeight,
 // Get tile number 
 Tile* Tilemap::getTile(int x, int y)
 {
+	if (x < 0 || y < 0 || x > 19 || y > 11)
+	{
+		return nullptr;
+	}
 	return &mTiles[toTileNumber(x, y)];
 	
 }

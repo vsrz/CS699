@@ -14,18 +14,22 @@
 #include "Tilemap.h"
 #include "PathNode.h"
 
+#define MAX_SEARCH 300
 
 class Pathfinder
 {
 public:
 	Pathfinder(Tilemap* tilemap);
 	
+	sf::Vector2i findValidDestination(sf::Vector2i destination);
 	void findPath(sf::Vector2i currentPosition, sf::Vector2i destPosition);
-	sf::Vector2i  nextPath();
+	sf::Vector2i nextPath();
+
 
 	void clearOpenList();
 	void clearVisitedList();
 	void clearPath();
+	std::vector<sf::Vector2i> getPath();
 
 
 private:

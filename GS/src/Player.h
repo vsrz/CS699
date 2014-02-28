@@ -6,6 +6,7 @@
 #include <map>
 #include <math.h>
 #include <iostream>
+#include <stack>
 #include "ResourceIdentifiers.h"
 #include "Entity.h"
 #include "Actor.h"
@@ -53,9 +54,8 @@ private:
 	float mSpeed;
 	sf::Vector2i mTilePosition;
 	sf::Vector2i mTileDestination;
-	sf::Vector2f mSpritePosition;
 	sf::Vector2f mSpriteDestination;
-	std::queue<sf::Vector2i> mTravelPath;
+	std::stack<sf::Vector2i> mTravelPath;
 
 	sf::Vector2i mSpawnPosition;
 	sf::IntRect mBoundingBox;
