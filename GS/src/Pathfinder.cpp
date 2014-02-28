@@ -54,7 +54,7 @@ sf::Vector2i Pathfinder::findValidDestination(sf::Vector2i destination)
 
 		for (int x = 0 + offset; x < 1 + offset; x++)
 		{
-			for (int y = -1 + offset; y < 0 + offset; y++)
+			for (int y = 0 + offset; y < 1 + offset; y++)
 			{
 				if (!mTilemap->getTile(x + destination.x, y + destination.y))
 					continue;
