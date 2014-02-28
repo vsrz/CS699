@@ -4,6 +4,7 @@
 #include <iostream>
 #include <map>
 #include <string>
+#include "World.h"
 
 #define TILE_HEIGHT 32
 #define TILE_WIDTH 32

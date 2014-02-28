@@ -1,4 +1,5 @@
 #include "Entity.h"
+#include "World.h"
 
 Entity::Entity(World* world, float speed)
 	: mWorld(world)
@@ -32,7 +33,6 @@ sf::Vector2i Entity::toTilePosition(sf::Vector2i position)
 	return sf::Vector2i(
 		static_cast<int>(position.x  / (32.f * mWorld->getWorldScale().x)),
 		static_cast<int>(position.y  / (32.f * mWorld->getWorldScale().y)));
-	mWorld
 
 }
 

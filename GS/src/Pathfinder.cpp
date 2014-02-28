@@ -44,29 +44,41 @@ sf::Vector2i Pathfinder::findValidDestination(sf::Vector2i destination)
 	while (1)
 	{
 		// First try the tiles that are directly adjacent, without diagonals
-		if (!mTilemap->isTileOccupied(destination.x, destination.y + 1 + offset))
+		if (destination.y + 1 + offset <= WORLD_HEIGHT - 1 &&
+			!mTilemap->isTileOccupied(destination.x, destination.y + 1 + offset))
 			return sf::Vector2i(destination.x, destination.y + 1 + offset);
 
-		if (!mTilemap->isTileOccupied(destination.x + -1 - offset, destination.y))
+		if (destination.x - 1 - offset >= 0 &&
+			!mTilemap->isTileOccupied(destination.x + -1 - offset, destination.y))
 			return sf::Vector2i(destination.x - 1 - offset, destination.y);
 
-		if (!mTilemap->isTileOccupied(destination.x + 1 + offset, destination.y))
+		if (destination.x + 1 <= WORLD_WIDTH - 1 &&
+			!mTilemap->isTileOccupied(destination.x + 1 + offset, destination.y))
 			return sf::Vector2i(destination.x + 1 + offset, destination.y);
 
-		if (!mTilemap->isTileOccupied(destination.x, destination.y - 1 - offset))
+		if (destination.y - 1 - offset >= 0 &&
+			!mTilemap->isTileOccupied(destination.x, destination.y - 1 - offset))
 			return sf::Vector2i(destination.x, destination.y - 1 - offset);
 
 		// Now, try the tile diagonally in a circle
-		if (!mTilemap->isTileOccupied(destination.x + 1 + offset, destination.y + 1 + offset))
+		if (destination.x + 1 + offset <= WORLD_WIDTH - 1 && 
+			destination.y + 1 + offset <= WORLD_HEIGHT - 1 &&
+			!mTilemap->isTileOccupied(destination.x + 1 + offset, destination.y + 1 + offset))
 			return sf::Vector2i(destination.x + 1 + offset, destination.y + 1 + offset);
 
-		if (!mTilemap->isTileOccupied(destination.x - 1 - offset, destination.y + 1 + offset))
+		if (destination.x - 1 - offset >= 0 &&
+			destination.y + 1 + offset <= WORLD_HEIGHT - 1 &&
+			!mTilemap->isTileOccupied(destination.x - 1 - offset, destination.y + 1 + offset))
 			return sf::Vector2i(destination.x - 1 - offset, destination.y + 1 + offset);
 
-		if (!mTilemap->isTileOccupied(destination.x + 1 + offset, destination.y - 1 - offset))
+		if (destination.x + 1 + offset <= WORLD_WIDTH - 1 &&
+			destination.y - 1 - offset >= 0 &&
+			!mTilemap->isTileOccupied(destination.x + 1 + offset, destination.y - 1 - offset))
 			return sf::Vector2i(destination.x + 1 + offset, destination.y - 1 - offset);
 
-		if (!mTilemap->isTileOccupied(destination.x - 1 - offset, destination.y - 1 - offset))
+		if (destination.x - 1 - offset >= 0 &&
+			destination.y - 1 - offset >= 0 &&
+			!mTilemap->isTileOccupied(destination.x - 1 - offset, destination.y - 1 - offset))
 			return sf::Vector2i(destination.x - 1 - offset, destination.y - 1 - offset);
 
 		offset++;

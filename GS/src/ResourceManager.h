@@ -1,5 +1,5 @@
-#ifndef ResourceManager_H
-#define ResourceManager_H
+#ifndef RESOURCEMANAGER_H
+#define RESOURCEMANAGER_H
 #pragma once
 
 #include <map>

@@ -8,7 +8,6 @@
 #include <SFML/Window.hpp>
 
 #include "World.h"
-#include "Player.h"
 #include "Glob.h"
 #include "StateStack.h"
 

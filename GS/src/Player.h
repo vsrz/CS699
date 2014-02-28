@@ -8,10 +8,11 @@
 #include <iostream>
 #include <stack>
 #include "ResourceIdentifiers.h"
-#include "Actor.h"
-#include "Entity.h"
 #include "Pathfinder.h"
+#include "Entity.h"
+#include "SceneNode.h"
 
+class World;
 
 class Player
 	: public Entity
@@ -34,11 +35,6 @@ private:
 	virtual void updateCurrent(sf::Time dt);
 	virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates state) const;
 
-	
-	
-	sf::Vector2i toTilePosition(sf::Vector2f position);
-	sf::Vector2i toTilePosition(sf::Vector2i position);
-	sf::Vector2f toSpritePosition(sf::Vector2i tilePosition);
 	void moveToTile(int x, int y);
 
 

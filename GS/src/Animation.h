@@ -6,8 +6,6 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 
-class Entity;
-
 class Animation
 {
 public:
