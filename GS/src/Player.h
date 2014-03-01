@@ -37,8 +37,6 @@ private:
 
 	void moveToTile(int x, int y);
 
-
-	sf::Sprite mSprite;
 	World* mWorld;
 	bool hasReachedDestination();
 	float mSpeed;

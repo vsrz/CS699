@@ -29,12 +29,12 @@ protected:
 
 	void update(sf::Time dt);
 	void draw();
+	sf::Sprite mSprite;
 
 private:
 	World* mWorld;
 	float mSpeed;
 	sf::Vector2f mPosition;
-	sf::Sprite mSprite;
 
 };
 

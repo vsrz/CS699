@@ -19,8 +19,6 @@
 #include "TileLoader.h"
 #include "Player.h"
 
-class Player;
-
 class World
 {
 public:

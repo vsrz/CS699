@@ -11,7 +11,6 @@
  
 Player::Player(const TextureManager& textures, World* worldContext) 
 	: Entity(worldContext, 5.f)
-	, mSprite(textures.get(Textures::TestGuy))
 	, mWorld(worldContext)
 	, mSpeed(5.f)
 	, mFrameSize(32.f, 64.f)
@@ -23,6 +22,7 @@ Player::Player(const TextureManager& textures, World* worldContext)
 	, mSpawnPosition(7,3)
 	, mTravelPath()
 {
+	mSprite.setTexture(textures.get(Textures::TestGuy));
 	mSprite.setTextureRect(sf::IntRect(sf::Vector2i(mFrame,mFrameOffset), mFrameSize));
 	mSprite.setOrigin(0.f,32.f);
 	mSprite.setScale(mScale);
@@ -69,7 +69,6 @@ void Player::setDestination(sf::Vector2i destination)
 	{
 		mTravelPath.push(i);	
 	}
-
 }
 
 bool Player::hasReachedDestination()
