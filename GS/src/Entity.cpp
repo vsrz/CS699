@@ -1,26 +1,36 @@
 #include "Entity.h"
 #include "World.h"
 
-Entity::Entity(World* world, float speed)
+Entity::Entity(World* world)
 	: mWorld(world)
-	, mSpeed(speed)
 {}
 
 Entity::~Entity() {}
 
-void Entity::setSpeed(float speed)
-{
-	mSpeed = speed;
-}
-
-float Entity::getSpeed()
-{
-	return mSpeed;
-}
-
 void Entity::setSprite(sf::Sprite &sprite)
 {
 	mSprite = sprite;
+}
+
+void Entity::setTextureRect(sf::IntRect rect)
+{
+	mSprite.setTextureRect(rect);
+}
+
+sf::IntRect Entity::getTextureRect()
+{
+	return mSprite.getTextureRect();
+}
+
+// Return the current position that the entity is currently occupying
+sf::Vector2i Entity::getTilePosition()
+{
+	return toTilePosition(mSprite.getPosition());
+}
+
+void Entity::setTilePosition(sf::Vector2i position)
+{
+	mPosition = toSpritePosition(position);
 }
 
 sf::Vector2i Entity::toTilePosition(sf::Vector2f position)
@@ -44,21 +54,17 @@ sf::Vector2f Entity::toSpritePosition(sf::Vector2i tilePosition)
 }
 
 
-// Return the current position that the entity is currently occupying
-sf::Vector2i Entity::getCurrentTilePosition()
-{
-	return toTilePosition(mSprite.getPosition());
-}
 
 
-void Entity::update(sf::Time dt)
+void Entity::updateCurrent(sf::Time dt)
 {
 
 
 }
 
-void Entity::draw()
+void Entity::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
 {
+	target.draw(mSprite, states);
 
 }
 

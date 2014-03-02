@@ -102,21 +102,20 @@ void World::handleEvent(const sf::Event& event)
 	sf::Vector2i mouseTilePosition = getTilePosition(mousePosition);
 	if (event.type == sf::Event::MouseButtonPressed)
 	{
-#ifdef DEBUG
+		#ifdef DEBUG
 		extern std::map<std::string, std::string> g_debugData;
 
 		// Update some debug tile stuff
 		g_debugData["TileNum"] = toString(mTileLoader.getTileNumber(mouseTilePosition.x, mouseTilePosition.y));
 		g_debugData["Occupied"] = toString(mTilemap.isTileOccupied(mousePosition));
 		g_debugData["Tile"] = toString(mouseTilePosition.x) + "," + toString(mouseTilePosition.y);
-#endif
+		#endif
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
-			mPlayer->setDestination(mousePosition);
-#ifdef DEBUG
-
+			mPlayer->moveToTile(mousePosition);
+			#ifdef DEBUG
 			g_debugData["Destination:"] = toString(mousePosition.x) + "," + toString(mousePosition.y);
-#endif
+			#endif
 		}
 	}
 	else if (event.type == sf::Event::KeyPressed && 
@@ -125,7 +124,7 @@ void World::handleEvent(const sf::Event& event)
 		std::unique_ptr<SpriteNode> tile;
 
 	/* Debug layer */
-#ifdef DEBUG
+	#ifdef DEBUG
 	for (int y = 0; y < mTileLoader.getWorldSize().y; y++)
 	{
 		for (int x = 0; x < mTileLoader.getWorldSize().x; x++)
@@ -143,7 +142,7 @@ void World::handleEvent(const sf::Event& event)
 			mSceneLayers[Debug]->attachChild(std::move(tile));
 		}
 	}
-#endif
+	#endif
 	}
 }
 

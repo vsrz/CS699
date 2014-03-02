@@ -19,20 +19,24 @@ public:
 	void setRepeating(bool repeat);
 	void setTexture(const sf::Texture& texture);
 
+	sf::Sprite& getSprite();
+
 	sf::Vector2i getFrameSize();
 	std::size_t getFrames();
 	sf::Time getDuration();
 	bool getRepeating();
 
+	void update(sf::Time dt);
+
 private:
-	virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
-	sf::Sprite mSprite;
 	sf::Vector2i mFrameSize;
 	std::size_t mNumFrames;
 	std::size_t mCurrentFrame;
 	sf::Time mDuration;
 	sf::Time mElapsedTime;
 	bool mRepeat;
+
+	sf::Sprite mSprite;
 
 
 
