@@ -13,6 +13,7 @@ public:
 	explicit Animation(const sf::Texture& texture);
 	void initalizeObject(void);
 
+	void setFrameOffset(sf::Vector2i frameOffset);
 	void setFrameSize(sf::Vector2i frameSize);
 	void setNumFrames(std::size_t frames);
 	void setDuration(sf::Time duration);
@@ -29,6 +30,7 @@ public:
 	void update(sf::Time dt);
 
 private:
+	sf::Vector2i mFrameOffset;
 	sf::Vector2i mFrameSize;
 	std::size_t mNumFrames;
 	std::size_t mCurrentFrame;

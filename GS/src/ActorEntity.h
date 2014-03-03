@@ -60,6 +60,8 @@ protected:
 
 	bool hasReachedDestination();
 
+private:
+	sf::Vector2f moveSprite(sf::Vector2f currentPosition, sf::Vector2f destPosition);
 };
 
 #endif

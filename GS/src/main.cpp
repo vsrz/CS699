@@ -3,6 +3,7 @@
 #include <string>
 #include <map>
 #include <algorithm>
+#include "GlobalConfig.h"
 #include "Application.h"
 #include "Tests.h"
 

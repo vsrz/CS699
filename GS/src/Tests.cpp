@@ -132,9 +132,22 @@ void ptrtest()
 
 }
 
+void configtest()
+{
+	//std::string s = GlobalConfig::get().getValue<std::string>(std::string("This"));
+	std::string s;
+	std::cout << std::endl << s;
+	
+	std::cout << std::endl << "Press any key...";
+	char ch = std::cin.get();
+
+
+}
 
 void Tests::run()
 {
+	configtest();
+
 	sf::RenderWindow mWindow(sf::VideoMode(1280, 720), "Test Window", sf::Style::Close);
 	sf::Event event;
 	sf::Vector2i pos(0,0);
@@ -142,7 +155,6 @@ void Tests::run()
 	//tinyXMLTest();
 	//return;
 	
-	bitw();
 	while (mWindow.isOpen())
 	{
 		while (mWindow.pollEvent(event))

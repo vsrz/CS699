@@ -1,6 +1,16 @@
 #ifndef GLOB_H
 #define GLOB_H
 
+/* Dirty global configuration area, for now (forever?) */
+namespace Config
+{
+	// Manager Config
+	static float		GMANAGER_SPEED= 0.5f;
+
+	// World Config
+	static int			GWORLD_WIDTH	= 20;
+	static int			GWORLD_HEIGHT = 12;
+}
 
 #include <sstream>
 #include <SFML/Window.hpp>
@@ -37,6 +47,7 @@ sf::Vector2f toVector2f(T v)
 		static_cast<int>(v.x),
 		static_cast<int>(v.y));
 }
+
 
 
 #endif
