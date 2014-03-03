@@ -15,13 +15,12 @@ Player::Player(const TextureManager& textures, World* worldContext)
 	, mSpeed(5.f)
 	, mScale(mWorld->getWorldScale())
 	, mElapsedTime(sf::Time::Zero)
-	, mSpawnPosition(7,3)
 {
 	mSprite.setTexture(textures.get(Textures::TestGuy));
 	mSprite.setTextureRect(sf::IntRect(sf::Vector2i(mFrame,mFrameOffset), mFrameSize));
 	mSprite.setOrigin(0.f,32.f);
 	mSprite.setScale(mScale);
-	mTilePosition = mSpawnPosition;
+	mTilePosition = sf::Vector2i(7,3);
 	mTileDestination = mTilePosition;
 	mSprite.setPosition(toSpritePosition(mTilePosition));
 	mBoundingBox = sf::IntRect(0, 0, mFrameSize.x, mFrameSize.y);

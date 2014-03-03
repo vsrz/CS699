@@ -30,6 +30,7 @@ public:
 	/* Sprite manipulation */
 	void setSprite(sf::Sprite &sprite);
 	void setTextureRect(sf::IntRect rect);
+	void setPosition(sf::Vector2i position);
 	sf::IntRect getTextureRect();
 
 	/* Tile and sprite positioning utility fns */

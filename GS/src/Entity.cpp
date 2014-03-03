@@ -54,8 +54,6 @@ sf::Vector2f Entity::toSpritePosition(sf::Vector2i tilePosition)
 }
 
 
-
-
 void Entity::updateCurrent(sf::Time dt)
 {
 

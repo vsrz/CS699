@@ -28,7 +28,6 @@ private:
 	float mSpeed;
 	sf::Vector2i mTilePosition;
 
-	sf::Vector2i mSpawnPosition;
 	sf::IntRect mBoundingBox;
 	
 	// Animation related 

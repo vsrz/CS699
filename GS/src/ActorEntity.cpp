@@ -1,6 +1,7 @@
 #include "ActorEntity.h"
 #include "Pathfinder.h"
 #include "World.h"
+#include "Glob.h"
 #include <iostream>
 
 ActorEntity::ActorEntity(World* world)
@@ -110,7 +111,7 @@ void ActorEntity::update(sf::Time dt)
  */
 void ActorEntity::moveToTile(sf::Vector2i screenPosition)
 {
-	mSpriteDestination = toSpritePosition(toTilePosition(screenPosition));
+	setDestination(toTilePosition(screenPosition));
 }
 
 void ActorEntity::moveToTile(int x, int y)
@@ -130,7 +131,7 @@ void ActorEntity::setDestination(sf::Vector2i destination)
 	// Find the tile that was clicked
 	Pathfinder p(&mWorld->mTilemap);
 	while (!mTravelPath.empty()) mTravelPath.pop();
-	p.findPath(getTilePosition(), toTilePosition(destination));
+	p.findPath(getTilePosition(), destination);
 	for (auto& i : p.getPath())
 	{
 		mTravelPath.push(i);	
