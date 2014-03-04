@@ -1,6 +1,11 @@
 #ifndef GLOB_H
 #define GLOB_H
 
+
+#include <sstream>
+#include <SFML/Window.hpp>
+#include <SFML/Graphics.hpp>
+
 /* Dirty global configuration area, for now (forever?) */
 namespace Config
 {
@@ -11,10 +16,6 @@ namespace Config
 	static int			GWORLD_WIDTH	= 20;
 	static int			GWORLD_HEIGHT = 12;
 }
-
-#include <sstream>
-#include <SFML/Window.hpp>
-#include <SFML/Graphics.hpp>
 
 template <typename T>
 std::string toString(const T& value)

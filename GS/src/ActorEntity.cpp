@@ -91,11 +91,11 @@ void ActorEntity::update(sf::Time dt)
 
 		// Move the sprite and update the position
 		currentPosition = moveSprite(mSprite.getPosition(), destPosition);
+		checkDirection();
 
 		// update movement animation and direction if necessary
 		if (mElapsedTime > sf::seconds(0.12f))
 		{
-			checkDirection();
 			mElapsedTime -= sf::seconds(0.12f);
 			advanceFrame();
 		}
