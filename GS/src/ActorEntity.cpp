@@ -81,6 +81,7 @@ sf::Vector2f ActorEntity::moveSprite(sf::Vector2f pos, sf::Vector2f dest)
 
 void ActorEntity::update(sf::Time dt)
 {
+	mElapsedTime += dt;
 	// Check for movement
 	if (!mTravelPath.empty())
 	{
@@ -93,7 +94,7 @@ void ActorEntity::update(sf::Time dt)
 		currentPosition = moveSprite(mSprite.getPosition(), destPosition);
 		checkDirection();
 
-		// update movement animation and direction if necessary
+		// update movement animation if necessary
 		if (mElapsedTime > sf::seconds(0.12f))
 		{
 			mElapsedTime -= sf::seconds(0.12f);
