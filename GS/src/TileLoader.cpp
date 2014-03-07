@@ -1,4 +1,5 @@
 #include "TileLoader.h"
+#include "Glob.h"
 #include <iostream>
 
 TileLoader::TileLoader(const char* filename)
@@ -13,7 +14,7 @@ sf::Vector2i TileLoader::getWorldSize()
 
 sf::Vector2f TileLoader::getWorldPosition(int x, int y)
 {
-	return sf::Vector2f(static_cast<float>(x) * 32.f, static_cast<float>(y) * 32.f);
+	return sf::Vector2f(static_cast<float>(x) * Config::TILE_WIDTH, static_cast<float>(y) * Config::TILE_HEIGHT);
 }
 
 void TileLoader::loadFromFile(const char* filename)

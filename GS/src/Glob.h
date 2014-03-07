@@ -1,7 +1,6 @@
 #ifndef GLOB_H
 #define GLOB_H
 
-
 #include <sstream>
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
@@ -9,12 +8,21 @@
 /* Dirty global configuration area, for now (forever?) */
 namespace Config
 {
-	// Manager Config
-	static float		GMANAGER_SPEED= 0.5f;
+	// Manager (PC) Config
+	static float		MANAGER_SPEED = 0.5f;
 
 	// World Config
-	static int			GWORLD_WIDTH	= 20;
-	static int			GWORLD_HEIGHT = 12;
+	static int			WORLD_WIDTH	= 20;
+	static int			WORLD_HEIGHT = 12;
+	static float		WORLD_SCALE = 2.f;
+	
+	// Tiles
+	const char*	const	TILEMAP_FILENAME = "res/Tilemap.tmx";		
+	static float		TILE_WIDTH = 32.f;
+	static float		TILE_HEIGHT = 32.f;
+
+	// Pathfinder
+	static int			MAX_SEARCH = 500;
 }
 
 template <typename T>

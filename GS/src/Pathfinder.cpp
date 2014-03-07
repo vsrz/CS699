@@ -1,5 +1,5 @@
 #include "Pathfinder.h"
-
+#include "Glob.h"
 
 Pathfinder::Pathfinder(Tilemap* tilemap)
 	: mTilemap(tilemap)
@@ -44,7 +44,7 @@ sf::Vector2i Pathfinder::findValidDestination(sf::Vector2i destination)
 	while (1)
 	{
 		// First try the tiles that are directly adjacent, without diagonals
-		if (destination.y + 1 + offset <= WORLD_HEIGHT - 1 &&
+		if (destination.y + 1 + offset <= Config::WORLD_HEIGHT - 1 &&
 			!mTilemap->isTileOccupied(destination.x, destination.y + 1 + offset))
 			return sf::Vector2i(destination.x, destination.y + 1 + offset);
 
@@ -52,7 +52,7 @@ sf::Vector2i Pathfinder::findValidDestination(sf::Vector2i destination)
 			!mTilemap->isTileOccupied(destination.x + -1 - offset, destination.y))
 			return sf::Vector2i(destination.x - 1 - offset, destination.y);
 
-		if (destination.x + 1 <= WORLD_WIDTH - 1 &&
+		if (destination.x + 1 <= Config::WORLD_WIDTH - 1 &&
 			!mTilemap->isTileOccupied(destination.x + 1 + offset, destination.y))
 			return sf::Vector2i(destination.x + 1 + offset, destination.y);
 
@@ -61,17 +61,17 @@ sf::Vector2i Pathfinder::findValidDestination(sf::Vector2i destination)
 			return sf::Vector2i(destination.x, destination.y - 1 - offset);
 
 		// Now, try the tile diagonally in a circle
-		if (destination.x + 1 + offset <= WORLD_WIDTH - 1 && 
-			destination.y + 1 + offset <= WORLD_HEIGHT - 1 &&
+		if (destination.x + 1 + offset <= Config::WORLD_WIDTH - 1 && 
+			destination.y + 1 + offset <= Config::WORLD_HEIGHT - 1 &&
 			!mTilemap->isTileOccupied(destination.x + 1 + offset, destination.y + 1 + offset))
 			return sf::Vector2i(destination.x + 1 + offset, destination.y + 1 + offset);
 
 		if (destination.x - 1 - offset >= 0 &&
-			destination.y + 1 + offset <= WORLD_HEIGHT - 1 &&
+			destination.y + 1 + offset <= Config::WORLD_HEIGHT - 1 &&
 			!mTilemap->isTileOccupied(destination.x - 1 - offset, destination.y + 1 + offset))
 			return sf::Vector2i(destination.x - 1 - offset, destination.y + 1 + offset);
 
-		if (destination.x + 1 + offset <= WORLD_WIDTH - 1 &&
+		if (destination.x + 1 + offset <= Config::WORLD_WIDTH - 1 &&
 			destination.y - 1 - offset >= 0 &&
 			!mTilemap->isTileOccupied(destination.x + 1 + offset, destination.y - 1 - offset))
 			return sf::Vector2i(destination.x + 1 + offset, destination.y - 1 - offset);
@@ -114,7 +114,7 @@ void Pathfinder::findPath(sf::Vector2i currentPosition, sf::Vector2i destPositio
 	}
 	
 	// Once the start and goal have been initialized, begin the pathfinding
-	while (!mFoundGoal && finder < MAX_SEARCH)
+	while (!mFoundGoal && finder < Config::MAX_SEARCH)
 	{
 		if (mInitializedStartGoal)
 		{

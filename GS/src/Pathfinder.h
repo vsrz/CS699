@@ -16,9 +16,7 @@
 
 // Maximum amount of squares it will search during pathfinding
 // before giving up
-#define MAX_SEARCH 500
-#define WORLD_WIDTH 20
-#define WORLD_HEIGHT 12
+
 
 class Pathfinder
 {

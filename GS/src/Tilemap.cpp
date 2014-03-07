@@ -2,12 +2,12 @@
 #include <stdexcept>
 
 Tilemap::Tilemap(int worldTileWidth, int worldTileHeight, 
-				 int tileWidth, int tileHeight, int worldScale)
+				 float tileWidth, float tileHeight, float worldScale)
 	: mWorldWidth(worldTileWidth)
 	, mWorldHeight(worldTileHeight)
-	, mWorldScale(worldScale)
-	, mTileWidth(tileWidth)
-	, mTileHeight(tileHeight)
+	, mWorldScale(static_cast<int>(worldScale))
+	, mTileWidth(static_cast<int>(tileWidth))
+	, mTileHeight(static_cast<int>(tileHeight))
 {
 
 }

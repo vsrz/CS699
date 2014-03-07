@@ -12,7 +12,7 @@
 Player::Player(const TextureManager& textures, World* worldContext) 
 	: ActorEntity(worldContext)
 	, mWorld(worldContext)
-	, mSpeed(Config::GMANAGER_SPEED)
+	, mSpeed(Config::MANAGER_SPEED)
 	, mScale(mWorld->getWorldScale())
 	, mElapsedTime(sf::Time::Zero)
 {

@@ -19,7 +19,7 @@ class Tilemap
 {
 public:
 	Tilemap(int worldTileWidth, int worldTileHeight,
-	int tileWidth, int tileHeight, int worldScale);
+	float tileWidth, float tileHeight, float worldScale);
 	bool isTileOccupied(int x, int y);
 	bool isTileOccupied(sf::Vector2i screenPosition);
 	bool isTileOccupied(sf::Vector2f screenPosition);

@@ -62,6 +62,7 @@ private:
 	TextureManager mTextures;
 	CommandQueue mCommandQueue;
 
+	void loadLayer(const char* layerName, unsigned int id);
 	void loadTextures();
 	void buildScene();
 
