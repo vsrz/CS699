@@ -40,9 +40,11 @@ private:
 	{
 		Background,
 		Floor,
-		Object,
+		IntermediateBlocking,
+		IntermediateDecorative,
+		ObjectBlocking,
 		Entity,
-		PassableObject,
+		ObjectDecorative,
 		Gui,
 		Debug,
 		LayerCount

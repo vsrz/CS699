@@ -113,12 +113,12 @@ void World::handleEvent(const sf::Event& event)
 	}
 
 	#ifdef DEBUG
+	/* Pressing F4 brings up a collision overlay */
 	else if (event.type == sf::Event::KeyPressed && 
 		event.key.code == sf::Keyboard::F4)
 	{
 		std::unique_ptr<SpriteNode> tile;
 
-		/* Debug layer */
 		for (int y = 0; y < mTileLoader.getWorldSize().y; y++)
 		{
 			for (int x = 0; x < mTileLoader.getWorldSize().x; x++)
@@ -140,6 +140,7 @@ void World::handleEvent(const sf::Event& event)
 	#endif
 }
 
+/* Loads a layer of the world from the tilemap. The layer must exist in the Tilemap datafile */
 void World::loadLayer(const char* layerName, unsigned int id)
 {
 
@@ -162,7 +163,7 @@ void World::loadLayer(const char* layerName, unsigned int id)
 			tile = std::unique_ptr<SpriteNode>(new SpriteNode(texture, textureRect));
 			tile->setPosition(worldPos);
 			tile->setScale(mWorldScale);
-			if (id == SceneLayer::Object)
+			if (id == SceneLayer::ObjectBlocking || id == SceneLayer::IntermediateBlocking)
 			{
 				mTilemap.setTileProperty(x, y, Tiles::Property::Occupied);
 			}
@@ -184,8 +185,10 @@ void World::buildScene()
 	}
 	
 	loadLayer("Floor", SceneLayer::Floor);
-	loadLayer("Object", SceneLayer::Object);
-	loadLayer("PassableObject", SceneLayer::PassableObject);
+	loadLayer("IntermediateBlocking", SceneLayer::IntermediateBlocking);
+	loadLayer("IntermediateDecorative", SceneLayer::IntermediateDecorative);
+	loadLayer("ObjectBlocking", SceneLayer::ObjectBlocking);
+	loadLayer("ObjectDecorative", SceneLayer::ObjectDecorative);
 	
 	/* Add a test player to the screen */
 	std::unique_ptr<Player> player(new Player(mTextures, this));
