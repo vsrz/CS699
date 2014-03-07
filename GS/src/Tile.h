@@ -14,6 +14,7 @@ namespace Tiles
 	{
 		None = 0,
 		Occupied = 1 << 0,
+		WaitingChair = 2 << 0,
 	};
 };
 
@@ -25,6 +26,9 @@ public:
 	
 	void setProperty(unsigned int property);
 	bool isOccupied();
+	bool isWaitingChair();
+
+	unsigned int getTileProperty();
 
 private:
 	unsigned int mProperties;

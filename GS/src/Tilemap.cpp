@@ -56,6 +56,13 @@ bool Tilemap::isTileOccupied(sf::Vector2f screenPosition)
 
 }
 
+template<typename T>
+bool Tilemap::isWaitingChair(T screenPosition)
+{
+	return mTiles[toTileNumber(T)].isWaitingChair();
+}
+
+
 int Tilemap::toTileNumber(sf::Vector2i screenPosition)
 {
 	return toTileNumber(

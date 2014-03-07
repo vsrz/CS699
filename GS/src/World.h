@@ -18,6 +18,8 @@
 #include "Tilemap.h"
 #include "TileLoader.h"
 #include "Player.h"
+#include "World.h"
+#include "ChairEntity.h"
 
 class World
 {
@@ -55,6 +57,7 @@ private:
 	sf::RenderWindow& mWindow;
 	sf::View mWorldView;
 	
+	/* Scene Graph builds the drawable world */
 	SceneNode mSceneGraph;
 	std::array<SceneNode*, LayerCount> mSceneLayers;
 
@@ -64,7 +67,9 @@ private:
 	TextureManager mTextures;
 	CommandQueue mCommandQueue;
 
+	std::array<std::unique_ptr<ChairEntity>, 5u> mWaitingChairs;
 	void loadLayer(const char* layerName, unsigned int id);
+	void buildProps();
 	void loadTextures();
 	void buildScene();
 

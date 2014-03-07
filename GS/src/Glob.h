@@ -1,6 +1,9 @@
 #ifndef GLOB_H
 #define GLOB_H
 
+
+#include <array>
+#include <map>
 #include <sstream>
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
@@ -23,6 +26,23 @@ namespace Config
 
 	// Pathfinder
 	static int			MAX_SEARCH = 500;
+
+	// Waiting room chairs
+	namespace Chairs
+	{
+		const std::array<sf::Vector2i, 5>	WAITING_CHAIR_POSITIONS = 
+		{
+			sf::Vector2i(3, 5),
+			sf::Vector2i(5, 7),
+			sf::Vector2i(5, 8),
+			sf::Vector2i(1, 7),
+			sf::Vector2i(1, 8),
+
+		};
+		
+
+	}
+	
 }
 
 template <typename T>

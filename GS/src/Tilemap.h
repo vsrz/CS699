@@ -20,9 +20,14 @@ class Tilemap
 public:
 	Tilemap(int worldTileWidth, int worldTileHeight,
 	float tileWidth, float tileHeight, float worldScale);
+
+	/* Tile property checkers */
 	bool isTileOccupied(int x, int y);
 	bool isTileOccupied(sf::Vector2i screenPosition);
 	bool isTileOccupied(sf::Vector2f screenPosition);
+	template<typename T>
+	bool isWaitingChair(T screenPosition);
+
 	void setTileProperty(int x, int y, unsigned int tileProperty);
 	sf::Vector2f getTilePixelPosition(int x, int y);
 	

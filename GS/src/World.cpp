@@ -4,6 +4,7 @@
 #include <map>
 #include <algorithm>
 #include "Glob.h"
+#include "ChairEntity.h"
 
 World::World(sf::RenderWindow& window)
 	: mWindow(window)
@@ -169,10 +170,19 @@ void World::loadLayer(const char* layerName, unsigned int id)
 			}
 			mSceneLayers[id]->attachChild(std::move(tile));
 		}
-
 	}
-
 }
+
+void World::buildProps()
+{
+	int index = 0;
+	for (auto& i : Config::Chairs::WAITING_CHAIR_POSITIONS)
+	{
+		std::unique_ptr<ChairEntity> c(new ChairEntity(i,  this));
+		mWaitingChairs[index++] = std::move(c);
+	}
+}
+
 
 void World::buildScene()
 {
@@ -195,6 +205,8 @@ void World::buildScene()
 	mPlayer = player.get();
 	mSceneLayers[Entity]->attachChild(std::move(player));
 
+	/* Initialize the chairs */
+	buildProps();
 }
 
 
