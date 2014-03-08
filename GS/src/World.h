@@ -18,6 +18,7 @@
 #include "Tilemap.h"
 #include "TileLoader.h"
 #include "Player.h"
+#include "Customer.h"
 #include "World.h"
 #include "ChairEntity.h"
 
@@ -80,7 +81,7 @@ private:
 	Player* mPlayer;
 
 	// Customers
-	std::stack<std::unique_ptr<Player>> mCustomers;
+	std::stack<std::unique_ptr<Customer>> mCustomers;
 	sf::Time mLastCustomerReleased;
 	void updateCustomers(sf::Time dt);
 

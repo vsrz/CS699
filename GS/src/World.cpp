@@ -189,7 +189,7 @@ void World::buildProps()
 
 void World::addCustomer(unsigned int customerType)
 {
-	std::unique_ptr<Player> cust(new Player(mTextures, this, customerType));
+	std::unique_ptr<Customer> cust(new Customer(mTextures, this, customerType));
 	mCustomers.push(std::move(cust));
 	
 }
@@ -229,7 +229,7 @@ void World::updateCustomers(sf::Time dt)
 	mLastCustomerReleased += dt;
 	if (mLastCustomerReleased > sf::seconds(Config::Customer::RELEASE_INTERVAL))
 	{
-		// If there are any customers left, release them into the scene.
+		// If there are any customers left, add one to the scene node
 		if (mCustomers.size() > 0)
 		{
 			mSceneLayers[Entity]->attachChild(std::move(mCustomers.top()));

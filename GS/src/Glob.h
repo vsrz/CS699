@@ -44,6 +44,7 @@ namespace Config
 
 	namespace Customer
 	{
+		// Amount of time in seconds to wait between customer arrivals
 		const float							RELEASE_INTERVAL = 5.f;
 	};
 	
