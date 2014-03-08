@@ -23,6 +23,7 @@
     <ClInclude Include="..\..\..\..\src\ClickObject.h" />
     <ClInclude Include="..\..\..\..\src\Command.h" />
     <ClInclude Include="..\..\..\..\src\CommandQueue.h" />
+    <ClInclude Include="..\..\..\..\src\Customer.h" />
     <ClInclude Include="..\..\..\..\src\DebugScreenState.h" />
     <ClInclude Include="..\..\..\..\src\Entity.h" />
     <ClInclude Include="..\..\..\..\src\GameState.h" />
@@ -148,6 +149,7 @@
     <ClCompile Include="..\..\..\..\src\ClickObject.cpp" />
     <ClCompile Include="..\..\..\..\src\Command.cpp" />
     <ClCompile Include="..\..\..\..\src\CommandQueue.cpp" />
+    <ClCompile Include="..\..\..\..\src\Customer.cpp" />
     <ClCompile Include="..\..\..\..\src\DebugScreenState.cpp" />
     <ClCompile Include="..\..\..\..\src\Entity.cpp" />
     <ClCompile Include="..\..\..\..\src\GameState.cpp" />

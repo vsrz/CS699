@@ -189,7 +189,7 @@ void World::buildProps()
 
 void World::addCustomer(unsigned int customerType)
 {
-	std::unique_ptr<Player> cust(new Player(mTextures, this, Player::ID::ManOveralls));
+	std::unique_ptr<Player> cust(new Player(mTextures, this, customerType));
 	mCustomers.push(std::move(cust));
 	
 }
@@ -218,6 +218,9 @@ void World::buildScene()
 
 	/* Initialize the chairs */
 	buildProps();
+
+	/* Build the customer queue */
+	addCustomer(Player::ID::ManOveralls);
 }
 
 /* Update the customer stack and release a customer if necessary */
@@ -226,9 +229,11 @@ void World::updateCustomers(sf::Time dt)
 	mLastCustomerReleased += dt;
 	if (mLastCustomerReleased > sf::seconds(Config::Customer::RELEASE_INTERVAL))
 	{
+		// If there are any customers left, release them into the scene.
 		if (mCustomers.size() > 0)
 		{
-			//std::unique_ptr<Player> p = mCustomers.pop();
+			mSceneLayers[Entity]->attachChild(std::move(mCustomers.top()));
+			mCustomers.pop();
 		}
 		mLastCustomerReleased = sf::Time::Zero;
 	}

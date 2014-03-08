@@ -68,17 +68,19 @@ private:
 	TextureManager mTextures;
 	CommandQueue mCommandQueue;
 
+	// Props
 	std::array<std::unique_ptr<ChairEntity>, 5u> mWaitingChairs;
-	void loadLayer(const char* layerName, unsigned int id);
 	void buildProps();
 	void loadTextures();
 	void addCustomer(unsigned int customerType);
 	void buildScene();
 
+	void loadLayer(const char* layerName, unsigned int id);
 	TileLoader mTileLoader;
 	Player* mPlayer;
+
+	// Customers
 	std::stack<std::unique_ptr<Player>> mCustomers;
-	std::vector<std::unique_ptr<Player>> mActiveCustomers;
 	sf::Time mLastCustomerReleased;
 	void updateCustomers(sf::Time dt);
 

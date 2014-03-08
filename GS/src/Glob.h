@@ -12,21 +12,21 @@
 namespace Config
 {
 	// Manager (PC) Config
-	static float		MANAGER_SPEED = 0.8f;
-	static float		MIDAGE_MAN_SPEED = 0.5f;
+	const float								MANAGER_SPEED = 0.8f;
+	const float								MIDAGE_MAN_SPEED = 0.5f;
 
 	// World Config
-	static int			WORLD_WIDTH	= 20;
-	static int			WORLD_HEIGHT = 12;
-	static float		WORLD_SCALE = 2.f;
+	const int								WORLD_WIDTH	= 20;
+	const int								WORLD_HEIGHT = 12;
+	const float								WORLD_SCALE = 2.f;
 	
 	// Tiles
-	const char*	const	TILEMAP_FILENAME = "res/Tilemap.tmx";		
-	static float		TILE_WIDTH = 32.f;
-	static float		TILE_HEIGHT = 32.f;
+	const char*	const						TILEMAP_FILENAME = "res/Tilemap.tmx";		
+	const float								TILE_WIDTH = 32.f;
+	const float								TILE_HEIGHT = 32.f;
 
 	// Pathfinder
-	static int			MAX_SEARCH = 500;
+	const int								MAX_SEARCH = 500;
 
 	// Waiting room chairs
 	namespace Chairs
@@ -44,7 +44,7 @@ namespace Config
 
 	namespace Customer
 	{
-		float			RELEASE_INTERVAL = 5.f;
+		const float							RELEASE_INTERVAL = 5.f;
 	};
 	
 }
