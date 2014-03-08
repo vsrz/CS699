@@ -12,7 +12,8 @@
 namespace Config
 {
 	// Manager (PC) Config
-	static float		MANAGER_SPEED = 0.5f;
+	static float		MANAGER_SPEED = 0.8f;
+	static float		MIDAGE_MAN_SPEED = 0.5f;
 
 	// World Config
 	static int			WORLD_WIDTH	= 20;
@@ -39,9 +40,12 @@ namespace Config
 			sf::Vector2i(1, 8),
 
 		};
-		
-
 	}
+
+	namespace Customer
+	{
+		float			RELEASE_INTERVAL = 5.f;
+	};
 	
 }
 

@@ -4,8 +4,8 @@
 #pragma once
 
 #include <memory>
+#include <SFML/Graphics.hpp>
 #include "Entity.h"
-#include <SFML/System.hpp>
 
 class World;
 

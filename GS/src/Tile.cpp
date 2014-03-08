@@ -10,7 +10,7 @@ Tile::Tile()
 // Set metadata for this tile
 void Tile::setProperty(unsigned int property)
 {
-	mProperties = property;
+	mProperties |= property;
 }
 
 // Returns true if the tile is occupied by an object that may not be passed through

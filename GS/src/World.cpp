@@ -9,16 +9,18 @@
 World::World(sf::RenderWindow& window)
 	: mWindow(window)
 	, mWorldView(window.getDefaultView())
-	, mSceneGraph()
-	, mSceneLayers()
-	, mTextures()
-	, mTileLoader()
-	, mWorldScale(2.f, 2.f)
 	, mTilemap(Config::WORLD_WIDTH, Config::WORLD_HEIGHT, Config::TILE_WIDTH, Config::TILE_HEIGHT, Config::WORLD_SCALE)
 {
+	initalize();
 	loadTextures();
 	buildScene();	
 
+
+}
+
+void World::initalize()
+{
+	mWorldScale = sf::Vector2f(Config::WORLD_SCALE, Config::WORLD_SCALE);
 
 }
 
@@ -27,10 +29,11 @@ sf::Vector2f World::getWorldScale()
 	return mWorldScale;
 }
 
+
 void World::update(sf::Time dt)
 {
 	mSceneGraph.update(dt);
-
+	updateCustomers(dt);
 }
 
 void World::draw()
@@ -48,7 +51,8 @@ CommandQueue& World::getCommandQueue()
 void World::loadTextures()
 {
 	mTextures.load(Textures::TestGuy, "res/TestGuy.png");
-	mTextures.load(Textures::TestTileset, "res/TestTileset.png");	
+	mTextures.load(Textures::TestTileset, "res/TestTileset.png");
+	mTextures.load(Textures::ManOveralls, "res/man01.png");
 	mTileLoader.loadFromFile(Config::TILEMAP_FILENAME);
 }
 
@@ -101,8 +105,8 @@ void World::handleEvent(const sf::Event& event)
 
 		// Update some debug tile stuff
 		g_debugData["TileNum"] = toString(mTileLoader.getTileNumber(mouseTilePosition.x, mouseTilePosition.y));
-		g_debugData["Occupied"] = toString(mTilemap.isTileOccupied(mousePosition));
-		g_debugData["Tile"] = toString(mouseTilePosition.x) + "," + toString(mouseTilePosition.y);
+		g_debugData["TileData"] = toString(mTilemap.getTileProperty(mousePosition));
+		g_debugData["TilePos"] = toString(mouseTilePosition.x) + "," + toString(mouseTilePosition.y);
 		#endif
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
@@ -183,6 +187,13 @@ void World::buildProps()
 	}
 }
 
+void World::addCustomer(unsigned int customerType)
+{
+	std::unique_ptr<Player> cust(new Player(mTextures, this, Player::ID::ManOveralls));
+	mCustomers.push(std::move(cust));
+	
+}
+
 
 void World::buildScene()
 {
@@ -207,6 +218,20 @@ void World::buildScene()
 
 	/* Initialize the chairs */
 	buildProps();
+}
+
+/* Update the customer stack and release a customer if necessary */
+void World::updateCustomers(sf::Time dt)
+{
+	mLastCustomerReleased += dt;
+	if (mLastCustomerReleased > sf::seconds(Config::Customer::RELEASE_INTERVAL))
+	{
+		if (mCustomers.size() > 0)
+		{
+			//std::unique_ptr<Player> p = mCustomers.pop();
+		}
+		mLastCustomerReleased = sf::Time::Zero;
+	}
 }
 
 

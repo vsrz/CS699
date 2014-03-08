@@ -6,25 +6,40 @@
 #include <string>
 #include "World.h"
 
-#define TILE_HEIGHT 32
-#define TILE_WIDTH 32
- 
 Player::Player(const TextureManager& textures, World* worldContext) 
 	: ActorEntity(worldContext)
 	, mWorld(worldContext)
 	, mSpeed(Config::MANAGER_SPEED)
-	, mScale(mWorld->getWorldScale())
-	, mElapsedTime(sf::Time::Zero)
 {
-	mSprite.setTexture(textures.get(Textures::TestGuy));
+	initalize(textures);
+}
+Player::Player(const TextureManager& textures, World* worldContext, unsigned int playerID) 
+	: ActorEntity(worldContext)
+	, mWorld(worldContext)
+{
+	initalize(textures);
+	
+	if (playerID & ID::ManOveralls)
+		mSpeed = Config::MIDAGE_MAN_SPEED;
+	else
+		mSpeed = Config::MANAGER_SPEED;
+
+}
+
+void Player::initalize(const TextureManager& t)
+{
+	mSprite.setTexture(t.get(Textures::TestGuy));
 	mSprite.setTextureRect(sf::IntRect(sf::Vector2i(mFrame,mFrameOffset), mFrameSize));
 	mSprite.setOrigin(0.f,32.f);
-	mSprite.setScale(mScale);
+	mSprite.setScale(mWorld->getWorldScale());
 	mTilePosition = sf::Vector2i(7,3);
 	mTileDestination = mTilePosition;
 	mSprite.setPosition(toSpritePosition(mTilePosition));
 	mBoundingBox = sf::IntRect(0, 0, mFrameSize.x, mFrameSize.y);
+	mElapsedTime = sf::Time::Zero;
+
 }
+
 
 void Player::updateCurrent(sf::Time dt)
 {

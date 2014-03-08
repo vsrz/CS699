@@ -29,6 +29,8 @@ public:
 	bool isWaitingChair(T screenPosition);
 
 	void setTileProperty(int x, int y, unsigned int tileProperty);
+	unsigned int getTileProperty(sf::Vector2i screenPosition);
+	unsigned int getTileProperty(int x, int y);
 	sf::Vector2f getTilePixelPosition(int x, int y);
 	
 	Tile* getTile(int x, int y);

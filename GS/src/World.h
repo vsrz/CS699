@@ -52,6 +52,7 @@ private:
 		LayerCount
 	};
 
+	void initalize();
 	sf::Vector2f mWorldScale;
 	
 	sf::RenderWindow& mWindow;
@@ -71,10 +72,16 @@ private:
 	void loadLayer(const char* layerName, unsigned int id);
 	void buildProps();
 	void loadTextures();
+	void addCustomer(unsigned int customerType);
 	void buildScene();
 
 	TileLoader mTileLoader;
 	Player* mPlayer;
+	std::stack<std::unique_ptr<Player>> mCustomers;
+	std::vector<std::unique_ptr<Player>> mActiveCustomers;
+	sf::Time mLastCustomerReleased;
+	void updateCustomers(sf::Time dt);
+
 };
 
 #endif

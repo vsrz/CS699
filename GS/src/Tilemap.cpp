@@ -23,6 +23,17 @@ Tile* Tilemap::getTile(int x, int y)
 	
 }
 
+unsigned int Tilemap::getTileProperty(int x, int y)
+{
+	return mTiles[toTileNumber(x, y)].getTileProperty();
+}
+
+
+unsigned int Tilemap::getTileProperty(sf::Vector2i screenPosition)
+{
+	return mTiles[toTileNumber(screenPosition)].getTileProperty();
+}
+
 // set the property of a specific tile on the map
 void Tilemap::setTileProperty(int x, int y, unsigned int tileProperty)
 {

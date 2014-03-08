@@ -1,12 +1,11 @@
+#include "Entity.h"
 #include "ChairEntity.h"
-#include "Tile.h"
 #include "World.h"
+
 
 ChairEntity::ChairEntity(sf::Vector2i tilePosition, World* wp)
 	: Entity(wp)
-
 {
-	setPosition(tilePosition);
 	mOccupied = false;
 	wp->mTilemap.setTileProperty(tilePosition.x, tilePosition.y, Tiles::Property::WaitingChair);
 }

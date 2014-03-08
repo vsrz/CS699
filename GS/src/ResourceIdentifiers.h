@@ -19,7 +19,8 @@ namespace Textures
 		SalonTileset,
 		RedClick,
 		TestGuy,
-		TestTileset
+		TestTileset,
+		ManOveralls,
 	};
 
 }

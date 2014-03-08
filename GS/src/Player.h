@@ -18,11 +18,19 @@ class Player
 {
 public:
 	Player(const TextureManager& textures, World* worldContext);
+	Player(const TextureManager& textures, World* worldContext, unsigned int playerID);
+
+	enum ID
+	{
+		None = 0,
+		Manager = 1 << 0,
+		ManOveralls = 2 << 0,
+	};
 
 private:
 
 	virtual void updateCurrent(sf::Time dt);
-
+	void initalize(const TextureManager& t);
 	World* mWorld;
 	bool hasReachedDestination();
 	float mSpeed;
