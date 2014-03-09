@@ -25,11 +25,13 @@ public:
 	explicit ActorEntity(World* world);
 	virtual ~ActorEntity();
 	void setDestination(sf::Vector2i destination);
+	void setTravelPath(std::stack<sf::Vector2i> travelPath);
 	void moveToTile(int x, int y);
 	void moveToTile(sf::Vector2i screenPosition);
-
+	
 	void setSpeed(float speed);
 	float getSpeed();
+	bool isMoving();
 protected:
 	enum Direction
 	{
@@ -43,7 +45,6 @@ protected:
 	
 	unsigned int mDirection;
 	void checkDirection();
-	
 
 	void update(sf::Time dt);
 	sf::Time mElapsedTime;
@@ -56,12 +57,15 @@ protected:
 	std::size_t mFrame;
 	std::size_t mNumFrames;
 	std::size_t mFrameOffset;
-	float mSpeed;
 
 	bool hasReachedDestination();
 
 private:
+	void updateTilemap(sf::Vector2f c, sf::Vector2f n);
+
 	sf::Vector2f moveSprite(sf::Vector2f currentPosition, sf::Vector2f destPosition);
+	float mSpeed;
+
 };
 
 #endif

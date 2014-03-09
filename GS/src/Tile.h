@@ -15,6 +15,7 @@ namespace Tiles
 		None = 0,
 		Occupied = 1 << 0,
 		WaitingChair = 2 << 0,
+		HasActor = 3 << 0,
 	};
 };
 
@@ -25,8 +26,10 @@ public:
 	Tile();
 	
 	void setProperty(unsigned int property);
+	void unsetProperty(unsigned int property);
 	bool isOccupied();
 	bool isWaitingChair();
+	bool hasActor();
 
 	unsigned int getTileProperty();
 

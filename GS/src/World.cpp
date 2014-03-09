@@ -5,6 +5,7 @@
 #include <algorithm>
 #include "Glob.h"
 #include "ChairEntity.h"
+#include "DoorEntity.h"
 
 World::World(sf::RenderWindow& window)
 	: mWindow(window)
@@ -53,6 +54,7 @@ void World::loadTextures()
 	mTextures.load(Textures::TestGuy, "res/TestGuy.png");
 	mTextures.load(Textures::TestTileset, "res/TestTileset.png");
 	mTextures.load(Textures::ManOveralls, "res/man01.png");
+	mTextures.load(Textures::AutoDoors, "res/doors02.png");
 	mTileLoader.loadFromFile(Config::TILEMAP_FILENAME);
 }
 
@@ -180,11 +182,18 @@ void World::loadLayer(const char* layerName, unsigned int id)
 void World::buildProps()
 {
 	int index = 0;
+	
+	/* Waiting room chairs */
 	for (auto& i : Config::Chairs::WAITING_CHAIR_POSITIONS)
 	{
 		std::unique_ptr<ChairEntity> c(new ChairEntity(i,  this));
 		mWaitingChairs[index++] = std::move(c);
 	}
+
+	/* Walk in door */
+	std::unique_ptr<DoorEntity> f(new DoorEntity(mTextures, this));
+	mSceneLayers[ObjectDecorative]->attachChild(std::move(f));
+
 }
 
 void World::addCustomer(unsigned int customerType)

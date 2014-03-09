@@ -21,6 +21,7 @@ namespace Textures
 		TestGuy,
 		TestTileset,
 		ManOveralls,
+		AutoDoors,
 	};
 
 }

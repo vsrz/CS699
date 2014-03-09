@@ -24,7 +24,9 @@
     <ClInclude Include="..\..\..\..\src\Command.h" />
     <ClInclude Include="..\..\..\..\src\CommandQueue.h" />
     <ClInclude Include="..\..\..\..\src\Customer.h" />
+    <ClInclude Include="..\..\..\..\src\CustomerState.h" />
     <ClInclude Include="..\..\..\..\src\DebugScreenState.h" />
+    <ClInclude Include="..\..\..\..\src\DoorEntity.h" />
     <ClInclude Include="..\..\..\..\src\Entity.h" />
     <ClInclude Include="..\..\..\..\src\GameState.h" />
     <ClInclude Include="..\..\..\..\src\Glob.h" />
@@ -150,7 +152,9 @@
     <ClCompile Include="..\..\..\..\src\Command.cpp" />
     <ClCompile Include="..\..\..\..\src\CommandQueue.cpp" />
     <ClCompile Include="..\..\..\..\src\Customer.cpp" />
+    <ClCompile Include="..\..\..\..\src\CustomerState.cpp" />
     <ClCompile Include="..\..\..\..\src\DebugScreenState.cpp" />
+    <ClCompile Include="..\..\..\..\src\DoorEntity.cpp" />
     <ClCompile Include="..\..\..\..\src\Entity.cpp" />
     <ClCompile Include="..\..\..\..\src\GameState.cpp" />
     <ClCompile Include="..\..\..\..\src\LoadingState.cpp" />

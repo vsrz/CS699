@@ -10,36 +10,39 @@ class Animation
 {
 public:
 	Animation(void);
-	explicit Animation(const sf::Texture& texture);
 	void initalizeObject(void);
 
 	void setFrameOffset(sf::Vector2i frameOffset);
 	void setFrameSize(sf::Vector2i frameSize);
-	void setNumFrames(std::size_t frames);
-	void setDuration(sf::Time duration);
+	void setNumFrames(int frames);
+	void setFrameDuration(sf::Time duration);
 	void setRepeating(bool repeat);
-	void setTexture(const sf::Texture& texture);
+	void setStartingFrame(int startingFrame);
+	void setReverse(bool reverse);
+	void reset();
 
-	sf::Sprite& getSprite();
 
+	sf::IntRect getFrameWindow();
 	sf::Vector2i getFrameSize();
-	std::size_t getFrames();
+	int getFrames();
 	sf::Time getDuration();
 	bool getRepeating();
+	bool isComplete();
 
-	void update(sf::Time dt);
+	sf::IntRect update(sf::Time dt);
 
 private:
 	sf::Vector2i mFrameOffset;
 	sf::Vector2i mFrameSize;
-	std::size_t mNumFrames;
-	std::size_t mCurrentFrame;
-	sf::Time mDuration;
+	int mNumFrames;
+	int mCurrentFrame;
+	int mStartingFrame;
+
+	sf::Time mFrameDuration;
 	sf::Time mElapsedTime;
 	bool mRepeat;
-
-	sf::Sprite mSprite;
-
+	bool mReverse;
+	int mComplete;
 
 
 };

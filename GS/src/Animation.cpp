@@ -5,21 +5,16 @@ Animation::Animation(void)
 {
 }
 
-Animation::Animation(const sf::Texture& texture)
-{
-	setTexture(texture);
-}
-
-
 void Animation::initalizeObject()
 {
 	mFrameSize = sf::Vector2i(0,0);
 	mNumFrames = 0;
 	mCurrentFrame = 0;
-	mDuration = sf::Time::Zero;
+	mFrameDuration = sf::Time::Zero;
 	mElapsedTime = sf::Time::Zero;
 	mRepeat = false;
-
+	mComplete = -1;
+	mReverse = false;
 
 }
 
@@ -29,6 +24,7 @@ void Animation::setFrameOffset(sf::Vector2i frameOffset)
 	mFrameOffset = frameOffset;
 }
 
+
 // The size of each animation frame in the texture
 void Animation::setFrameSize(sf::Vector2i frameSize)
 {
@@ -36,15 +32,15 @@ void Animation::setFrameSize(sf::Vector2i frameSize)
 }
 
 // Number of frames to render for this animation
-void Animation::setNumFrames(std::size_t frames)
+void Animation::setNumFrames(int frames)
 {
 	mNumFrames = frames;
 }
 
 // The length of time to display a frame
-void Animation::setDuration(sf::Time duration)
+void Animation::setFrameDuration(sf::Time duration)
 {
-	mDuration = duration;
+	mFrameDuration = duration;
 }
 
 // When true, the animation will be repeated as long as update is called
@@ -53,10 +49,34 @@ void Animation::setRepeating(bool repeat)
 	mRepeat = repeat;
 }
 
-// The base texture used 
-void Animation::setTexture(const sf::Texture& texture)
+void Animation::setReverse(bool reverse)
 {
-	mSprite.setTexture(texture);
+	mReverse = reverse;
+}
+
+void Animation::setStartingFrame(int frame)
+{
+	mStartingFrame = frame;
+	mCurrentFrame = frame;
+}
+
+
+sf::IntRect Animation::getFrameWindow()
+{
+	return sf::IntRect(
+		sf::Vector2i(
+			mFrameOffset.x,
+			mFrameOffset.y + (mFrameSize.y * mCurrentFrame)),
+		sf::Vector2i(
+			mFrameSize.x,
+			mFrameSize.y)
+		);
+}
+
+void Animation::reset()
+{
+	mCurrentFrame = mStartingFrame;
+	mComplete = -1;
 }
 
 // Returns the size of each frame
@@ -66,7 +86,7 @@ sf::Vector2i Animation::getFrameSize()
 }
 
 // Returns the number of frames in this animation
-std::size_t Animation::getFrames()
+int Animation::getFrames()
 {
 	return mNumFrames;
 }
@@ -74,7 +94,7 @@ std::size_t Animation::getFrames()
 // Returns the duration of each frame
 sf::Time Animation::getDuration()
 {
-	return mDuration;
+	return mFrameDuration;
 }
 
 bool Animation::getRepeating()
@@ -82,13 +102,50 @@ bool Animation::getRepeating()
 	return mRepeat;
 }
 
-// Returns a reference to the sprite
-sf::Sprite& Animation::getSprite()
+bool Animation::isComplete()
 {
-	return mSprite;
+	return mComplete == 1;
 }
 
-void Animation::update(sf::Time dt)
-{
 
+// Update the frame and return the new position in the animation
+sf::IntRect Animation::update(sf::Time dt)
+{
+	mElapsedTime += dt;
+	if (mElapsedTime >= mFrameDuration)
+	{
+		mElapsedTime -= mFrameDuration;
+
+		if (mReverse)
+		{
+			// Loop the animation, or stop if repeating is disabled
+			if (mCurrentFrame + mStartingFrame - 1 < 0 + mStartingFrame)
+			{
+				if (mRepeat)
+					mCurrentFrame = mStartingFrame;
+				mComplete = 1;
+			}
+			else
+			{
+				mCurrentFrame--;			
+				mComplete = 0;
+			}
+		}
+		else
+		{
+			// Loop the animation, or stop if repeating is disabled
+			if (mCurrentFrame - mStartingFrame + 1 > mNumFrames)
+			{
+				if (mRepeat)
+					mCurrentFrame = mStartingFrame;
+				mComplete = 1;
+			}
+			else
+			{
+				mCurrentFrame++;			
+				mComplete = 0;
+			}
+		}
+	}
+	return getFrameWindow();
 }

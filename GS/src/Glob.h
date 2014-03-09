@@ -12,8 +12,8 @@
 namespace Config
 {
 	// Manager (PC) Config
-	const float								MANAGER_SPEED = 0.8f;
-	const float								MIDAGE_MAN_SPEED = 0.5f;
+	const float								MANAGER_SPEED = 5.f;
+	const float								MIDAGE_MAN_SPEED = 3.f;
 
 	// World Config
 	const int								WORLD_WIDTH	= 20;

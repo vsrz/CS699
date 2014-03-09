@@ -33,6 +33,7 @@ public:
 	sf::Vector2f getPixelsFromTilePosition(const sf::Vector2i& tilePos);
 	sf::Vector2f getPixelPosition(const sf::Vector2i& tilePos);
 	sf::Vector2f getWorldScale();
+
 	int getTileIndex(int x, int y);
 	void handleEvent(const sf::Event& event);
 	CommandQueue& getCommandQueue();
@@ -70,7 +71,7 @@ private:
 	CommandQueue mCommandQueue;
 
 	// Props
-	std::array<std::unique_ptr<ChairEntity>, 5u> mWaitingChairs;
+	std::array<std::unique_ptr<ChairEntity>, 5u> mWaitingChairs;	
 	void buildProps();
 	void loadTextures();
 	void addCustomer(unsigned int customerType);

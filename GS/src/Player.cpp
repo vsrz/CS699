@@ -9,7 +9,6 @@
 Player::Player(const TextureManager& textures, World* worldContext) 
 	: ActorEntity(worldContext)
 	, mWorld(worldContext)
-	, mSpeed(Config::MANAGER_SPEED)
 {
 	initalize(textures);
 }
@@ -18,11 +17,7 @@ Player::Player(const TextureManager& textures, World* worldContext, unsigned int
 	, mWorld(worldContext)
 {
 	initalize(textures);
-	
-	if (playerID & ID::ManOveralls)
-		mSpeed = Config::MIDAGE_MAN_SPEED;
-	else
-		mSpeed = Config::MANAGER_SPEED;
+	ActorEntity::setSpeed(Config::MANAGER_SPEED);
 
 }
 
@@ -32,7 +27,7 @@ void Player::initalize(const TextureManager& t)
 	mSprite.setTextureRect(sf::IntRect(sf::Vector2i(mFrame,mFrameOffset), mFrameSize));
 	mSprite.setOrigin(0.f,32.f);
 	mSprite.setScale(mWorld->getWorldScale());
-	mTilePosition = sf::Vector2i(7,3);
+	mTilePosition = sf::Vector2i(11,4);
 	mTileDestination = mTilePosition;
 	mSprite.setPosition(toSpritePosition(mTilePosition));
 	mBoundingBox = sf::IntRect(0, 0, mFrameSize.x, mFrameSize.y);

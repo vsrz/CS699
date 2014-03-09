@@ -13,6 +13,11 @@ void Tile::setProperty(unsigned int property)
 	mProperties |= property;
 }
 
+void Tile::unsetProperty(unsigned int property)
+{
+	mProperties &= ~property;
+}
+
 // Returns true if the tile is occupied by an object that may not be passed through
 bool Tile::isOccupied()
 {
@@ -27,4 +32,9 @@ bool Tile::isWaitingChair()
 unsigned int Tile::getTileProperty()
 {
 	return mProperties;
+}
+
+bool Tile::hasActor()
+{
+	return (mProperties & Tiles::Property::HasActor);
 }

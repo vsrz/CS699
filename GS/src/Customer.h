@@ -3,6 +3,7 @@
 
 #pragma once
 #include "ActorEntity.h"
+#include "CustomerState.h"
 
 class World;
 
@@ -23,7 +24,14 @@ public:
 
 private:
 	void initalize(const TextureManager& t, unsigned int customerID);
+	
+	
 	void moveToWaitingArea();
+	void enterSalon();
+	void checkAIState();
+	
+	CustomerState mState;
+	sf::Time mElapsedTime;
 	
 
 };

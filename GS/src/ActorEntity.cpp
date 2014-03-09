@@ -12,7 +12,6 @@ ActorEntity::ActorEntity(World* world)
 	, mFrame(0)
 	, mNumFrames(6)
 	, mSpeed(5.f)
-
 {
 	mSpriteDestination = mSprite.getPosition();
 }
@@ -79,6 +78,16 @@ sf::Vector2f ActorEntity::moveSprite(sf::Vector2f pos, sf::Vector2f dest)
 	return pos;
 }
 
+void ActorEntity::updateTilemap(sf::Vector2f c, sf::Vector2f n)
+{
+	sf::Vector2i currentTilePos = toTilePosition(c);
+	sf::Vector2i newTilePos = toTilePosition(n);
+	mWorld->mTilemap.unsetTileProperty(currentTilePos.x, currentTilePos.y, Tiles::HasActor);
+	mWorld->mTilemap.setTileProperty(newTilePos.x, newTilePos.y, Tiles::HasActor);
+
+
+}
+
 void ActorEntity::update(sf::Time dt)
 {
 	mElapsedTime += dt;
@@ -88,10 +97,12 @@ void ActorEntity::update(sf::Time dt)
 		mTileDestination = mTravelPath.top();
 		mSpriteDestination = toSpritePosition(mTileDestination);
 		sf::Vector2f destPosition = toSpritePosition(mTileDestination);
-		sf::Vector2f currentPosition;
+		sf::Vector2f currentPosition = mSprite.getPosition();
+		sf::Vector2f newPosition;
 
 		// Move the sprite and update the position
-		currentPosition = moveSprite(mSprite.getPosition(), destPosition);
+		newPosition = moveSprite(mSprite.getPosition(), destPosition);
+		updateTilemap(currentPosition, newPosition);
 		checkDirection();
 
 		// update movement animation if necessary
@@ -156,6 +167,12 @@ void ActorEntity::setDestination(sf::Vector2i destination)
 	}
 }
 
+// Allows you to override the Travel Path with a custom path. It's a stack, so 
+// make sure the final destination is at the bottom of the stack
+void ActorEntity::setTravelPath(std::stack<sf::Vector2i> travelPath)
+{
+	mTravelPath = travelPath;
+}
 
 bool ActorEntity::hasReachedDestination()
 {
@@ -184,4 +201,9 @@ void ActorEntity::checkDirection()
 	if (mDirection & Direction::East)
 		mFrameOffset = 3;
 
+}
+
+bool ActorEntity::isMoving()
+{
+	return (mTravelPath.size() > 0);
 }

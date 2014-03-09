@@ -40,6 +40,11 @@ void Tilemap::setTileProperty(int x, int y, unsigned int tileProperty)
 	mTiles[toTileNumber(x, y)].setProperty(tileProperty);
 }
 
+void Tilemap::unsetTileProperty(int x, int y, unsigned int tileProperty)
+{
+	mTiles[toTileNumber(x, y)].unsetProperty(tileProperty);
+}
+
 /* Given a tile coordinate, return the pixel position of the top left 
  corner of the tile relative to the window */
 sf::Vector2f Tilemap::getTilePixelPosition(int x, int y)
