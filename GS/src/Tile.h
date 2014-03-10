@@ -13,9 +13,9 @@ namespace Tiles
 	enum Property
 	{
 		None = 0,
-		Occupied = 1 << 0,
-		WaitingChair = 2 << 0,
-		HasActor = 3 << 0,
+		Occupied = 1 << 1,
+		WaitingChair = 1 << 2,
+		HasActor = 1 << 3,
 	};
 };
 

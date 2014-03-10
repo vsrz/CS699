@@ -15,7 +15,7 @@ void Tile::setProperty(unsigned int property)
 
 void Tile::unsetProperty(unsigned int property)
 {
-	mProperties &= ~property;
+	mProperties &= ~(property);
 }
 
 // Returns true if the tile is occupied by an object that may not be passed through

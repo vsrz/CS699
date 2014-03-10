@@ -198,8 +198,11 @@ void World::buildProps()
 
 void World::addCustomer(unsigned int customerType)
 {
-	std::unique_ptr<Customer> cust(new Customer(mTextures, this, customerType));
-	mCustomers.push(std::move(cust));
+	for (int i = 0; i < 5; ++i)
+	{
+		std::unique_ptr<Customer> cust(new Customer(mTextures, this, customerType));
+		mCustomers.push(std::move(cust));
+	}
 	
 }
 
