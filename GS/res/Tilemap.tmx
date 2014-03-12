@@ -748,10 +748,10 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="18"/>
-   <tile gid="18"/>
-   <tile gid="18"/>
-   <tile gid="18"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -768,10 +768,10 @@
    <tile gid="725"/>
    <tile gid="726"/>
    <tile gid="0"/>
-   <tile gid="761"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="764"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="96"/>
@@ -788,10 +788,10 @@
    <tile gid="733"/>
    <tile gid="734"/>
    <tile gid="0"/>
-   <tile gid="765"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="768"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="49"/>
    <tile gid="63"/>
@@ -992,6 +992,10 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="18"/>
+   <tile gid="18"/>
+   <tile gid="18"/>
+   <tile gid="18"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -1008,14 +1012,10 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="761"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="764"/>
    <tile gid="0"/>
    <tile gid="206"/>
    <tile gid="0"/>
@@ -1032,10 +1032,10 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="765"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="768"/>
    <tile gid="0"/>
    <tile gid="55"/>
    <tile gid="0"/>
@@ -1229,7 +1229,7 @@
    <tile gid="0"/>
   </data>
  </layer>
- <layer name="Test Layer" width="20" height="12" visible="0">
+ <layer name="Test Layer" width="20" height="12">
   <data>
    <tile gid="0"/>
    <tile gid="0"/>
