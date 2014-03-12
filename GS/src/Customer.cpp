@@ -16,7 +16,7 @@ void Customer::initalize(const TextureManager& t, unsigned int customerID)
 	mSprite.setTexture(t.get(Textures::TestGuy));
 	mSprite.setTextureRect(sf::IntRect(sf::Vector2i(mFrame,mFrameOffset), mFrameSize));
 	mSprite.setScale(mWorld->getWorldScale());
-	mSprite.setPosition(toSpritePosition(sf::Vector2i(18,0)));
+	mSprite.setPosition(toSpritePosition(sf::Vector2i(7,0)));
 	mState.setState(CustomerState::ID::None);
 	mElapsedTime = sf::Time::Zero;
 
@@ -36,10 +36,10 @@ void Customer::moveToWaitingArea()
 void Customer::enterSalon()
 {
 	std::stack<sf::Vector2i> travelPath;
-	travelPath.push(sf::Vector2i(6,4));
-	travelPath.push(sf::Vector2i(6,0));
-	travelPath.push(sf::Vector2i(9,0));
-	travelPath.push(sf::Vector2i(18,0));
+	travelPath.push(sf::Vector2i(7,4));
+	travelPath.push(sf::Vector2i(7,0));
+//	travelPath.push(sf::Vector2i(9,0));
+//	travelPath.push(sf::Vector2i(18,0));
 	mState.setState(CustomerState::ID::EnteringSalon);
 	setTravelPath(travelPath);
 }
