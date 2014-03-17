@@ -1,5 +1,6 @@
 #include "Entity.h"
 #include "World.h"
+#include "Glob.h"
 
 Entity::Entity(World* world)
 	: mWorld(world)
@@ -31,6 +32,18 @@ sf::Vector2i Entity::getTilePosition()
 void Entity::setTilePosition(sf::Vector2i position)
 {
 	mPosition = toSpritePosition(position);
+}
+
+void Entity::setPosition(sf::Vector2f position)
+{
+	mPosition = position;
+	mBasePosition = position.y + (mWorld->getWorldScale().y * mSprite.getLocalBounds().height) - mSprite.getOrigin().y;
+	mSprite.setPosition(position);
+}
+
+void Entity::setPosition(sf::Vector2i position)
+{
+	mSprite.setPosition(toVector2f(position));
 }
 
 sf::Vector2i Entity::toTilePosition(sf::Vector2f position)

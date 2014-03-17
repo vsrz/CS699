@@ -74,7 +74,7 @@ sf::Vector2f ActorEntity::moveSprite(sf::Vector2f pos, sf::Vector2f dest)
 	if (abs(dest.y - pos.y) < 2.f)
 		pos.y = dest.y;
 
-	mSprite.setPosition(pos);
+	setPosition(pos);
 	return pos;
 }
 

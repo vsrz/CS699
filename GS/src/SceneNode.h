@@ -24,12 +24,18 @@ public:
 	void attachChild(Ptr child);
 	Ptr detachChild(const SceneNode& node);
 	void update(sf::Time dt);
-
+	void sortChildren();
+	
+	float getBasePos();
 	sf::Vector2f getWorldPosition() const;
 	sf::Transform getWorldTransform() const;
 
 	virtual unsigned int getCategory() const;
 	void onCommand(const Command& command, sf::Time dt);
+
+protected:
+	sf::Vector2f mPosition;
+	float mBasePosition;
 
 
 private:

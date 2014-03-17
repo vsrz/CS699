@@ -33,6 +33,7 @@ sf::Vector2f World::getWorldScale()
 
 void World::update(sf::Time dt)
 {
+	mSceneLayers[Entity]->sortChildren();
 	mSceneGraph.update(dt);
 	updateCustomers(dt);
 }
@@ -198,11 +199,8 @@ void World::buildProps()
 
 void World::addCustomer(unsigned int customerType)
 {
-	for (int i = 0; i < 5; ++i)
-	{
-		std::unique_ptr<Customer> cust(new Customer(mTextures, this, customerType));
-		mCustomers.push(std::move(cust));
-	}
+	std::unique_ptr<Customer> cust(new Customer(mTextures, this, customerType));
+	mCustomers.push(std::move(cust));
 	
 }
 

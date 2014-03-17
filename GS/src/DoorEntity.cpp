@@ -10,7 +10,7 @@ DoorEntity::DoorEntity(const TextureManager& textures, World* world)
 	: Entity(world)
 {
 	mSprite.setTexture(textures.get(Textures::AutoDoors));
-	mSprite.setPosition(toSpritePosition(sf::Vector2i(5,1)));
+	setPosition(toSpritePosition(sf::Vector2i(5,1)));
 	mSprite.setScale(world->getWorldScale());
 	
 	initalize();

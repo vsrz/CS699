@@ -16,7 +16,7 @@ void Customer::initalize(const TextureManager& t, unsigned int customerID)
 	mSprite.setTexture(t.get(Textures::TestGuy));
 	mSprite.setTextureRect(sf::IntRect(sf::Vector2i(mFrame,mFrameOffset), mFrameSize));
 	mSprite.setScale(mWorld->getWorldScale());
-	mSprite.setPosition(toSpritePosition(sf::Vector2i(7,0)));
+	setPosition(toSpritePosition(sf::Vector2i(7,0)));
 	mState.setState(CustomerState::ID::None);
 	mElapsedTime = sf::Time::Zero;
 

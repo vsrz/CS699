@@ -31,6 +31,7 @@ public:
 	void setSprite(sf::Sprite &sprite);
 	void setTextureRect(sf::IntRect rect);
 	void setPosition(sf::Vector2i position);
+	void setPosition(sf::Vector2f position);
 	sf::IntRect getTextureRect();
 
 	/* Tile and sprite positioning utility fns */
@@ -47,7 +48,6 @@ protected:
 	World* mWorld;
 
 private:
-	sf::Vector2f mPosition;
 	sf::RectangleShape mTextureRect;
 	void updateCurrent(sf::Time dt);
 	void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
