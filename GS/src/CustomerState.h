@@ -11,17 +11,17 @@ public:
 	enum ID
 	{
 		None = 0,
-		EnteringSalon = 1 << 0,
-		Arrived = 2 << 0,
-		MovingToWaitingArea = 3 << 0,
-		WaitingForService = 4 << 0,
-		MovingToHaircutArea = 5 << 0,
-		Haircut = 6 << 0,
-		MovingToDryer = 7 << 0,
-		Drier = 8 << 0,
-		MovingToRegister = 9 << 0,
-		WaitingToPay = 10 << 0,
-		Leaving = 11 << 0,			
+		EnteringSalon = 1 << 1,
+		Arrived = 1 << 2,
+		MovingToWaitingArea = 1 << 3,
+		WaitingForService = 1 << 4,
+		MovingToHaircutArea = 1 << 5,
+		Haircut = 1 << 6,
+		MovingToDryer = 1 << 7,
+		Drier = 1 << 8,
+		MovingToRegister = 1 << 9,
+		WaitingToPay = 1 << 10,
+		Leaving = 1 << 11,			
 	};
 
 	unsigned int getState();
