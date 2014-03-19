@@ -11,15 +11,16 @@ DoorEntity::DoorEntity(const TextureManager& textures, World* world)
 {
 	mSprite.setTexture(textures.get(Textures::AutoDoors));
 	setPosition(toSpritePosition(sf::Vector2i(5,1)));
-	mBasePosition = mSprite.getPosition().y + mWorld->getWorldScale().y * Config::TILE_HEIGHT * 2;
 	mSprite.setScale(world->getWorldScale());
-	
-	
 	initalize();
 }
 
 void DoorEntity::initalize()
 {
+	// Since we never actually move this object, set its Y-position statically
+	mBasePosition = mSprite.getPosition().y + mWorld->getWorldScale().y * Config::TILE_HEIGHT * 2;
+	
+	// Initialize both animations
 	mElapsedTime = sf::Time::Zero;
 	mAnimDoorOpen.setFrameDuration(sf::milliseconds(80));
 	mAnimDoorOpen.setFrameOffset(sf::Vector2i(0,0));
@@ -28,7 +29,6 @@ void DoorEntity::initalize()
 	mAnimDoorOpen.setRepeating(false);
 	mAnimDoorOpen.setStartingFrame(0);
 	mAnimDoorOpen.setReverse(false);
-
 
 	mAnimDoorClose.setFrameDuration(sf::milliseconds(80));
 	mAnimDoorClose.setFrameOffset(sf::Vector2i(0,0));

@@ -199,9 +199,12 @@ void World::buildProps()
 
 void World::addCustomer(unsigned int customerType)
 {
-	std::unique_ptr<Customer> cust(new Customer(mTextures, this, customerType));
-	mCustomers.push(std::move(cust));
-	
+	for (int i = 0; i < 5; ++i)
+	{
+		std::unique_ptr<Customer> cust(new Customer(mTextures, this, customerType));
+		mCustomers.push(std::move(cust));
+
+	}
 }
 
 
@@ -244,6 +247,10 @@ void World::updateCustomers(sf::Time dt)
 		{
 			mSceneLayers[Entity]->attachChild(std::move(mCustomers.top()));
 			mCustomers.pop();
+
+			/*  Takes care of a rendering order issue when a 
+				first enters the scene */
+			mSceneLayers[Entity]->sortChildren();
 		}
 		mLastCustomerReleased = sf::Time::Zero;
 	}
