@@ -193,7 +193,7 @@ void World::buildProps()
 
 	/* Walk in door */
 	std::unique_ptr<DoorEntity> f(new DoorEntity(mTextures, this));
-	mSceneLayers[ObjectDecorative]->attachChild(std::move(f));
+	mSceneLayers[Entity]->attachChild(std::move(f));
 
 }
 

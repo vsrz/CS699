@@ -41,7 +41,7 @@ void Player::updateCurrent(sf::Time dt)
 #ifdef DEBUG
 	extern std::map<std::string, std::string> g_debugData;
 	g_debugData["TilePos"] = toString(toTilePosition(mTilePosition).x) + toString(toTilePosition(mTilePosition).y);
-
+	g_debugData["Actor YPos"] = toString(mBasePosition);
 #endif
 	mElapsedTime += dt;
 	ActorEntity::update(dt);

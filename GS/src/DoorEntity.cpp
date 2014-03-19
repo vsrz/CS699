@@ -11,7 +11,9 @@ DoorEntity::DoorEntity(const TextureManager& textures, World* world)
 {
 	mSprite.setTexture(textures.get(Textures::AutoDoors));
 	setPosition(toSpritePosition(sf::Vector2i(5,1)));
+	mBasePosition = mSprite.getPosition().y + mWorld->getWorldScale().y * Config::TILE_HEIGHT * 2;
 	mSprite.setScale(world->getWorldScale());
+	
 	
 	initalize();
 }
@@ -103,5 +105,9 @@ void DoorEntity::updateCurrent(sf::Time dt)
 		}
 	}
 	mSprite.setTextureRect(mActiveAnimation->getFrameWindow());
+#ifdef DEBUG
+	extern std::map<std::string, std::string> g_debugData;
+	g_debugData["Door Ypos"] = toString(mBasePosition);
+#endif
 }
 
