@@ -16,6 +16,7 @@ void Customer::initalize(const TextureManager& t, unsigned int customerID)
 	mSprite.setTexture(t.get(Textures::TestGuy));
 	mSprite.setTextureRect(sf::IntRect(sf::Vector2i(mFrame,mFrameOffset), mFrameSize));
 	mSprite.setScale(mWorld->getWorldScale());
+	mSprite.setOrigin(0.f,32.f);
 	setPosition(toSpritePosition(sf::Vector2i(7,0)));
 	mState.setState(CustomerState::ID::None);
 	mElapsedTime = sf::Time::Zero;
@@ -28,9 +29,31 @@ void Customer::updateCurrent(sf::Time dt)
 	ActorEntity::update(dt);
 }
 
+ChairEntity* Customer::findAvailableChair()
+{
+	WaitingChairsPtr chairs = mWorld->getWaitingRoomChairs();
+
+	for (auto& chair : *chairs)
+	{
+		if (!chair->isOccupied())
+		{
+			return chair.get();
+		}
+	}
+	return nullptr;
+}
+
 void Customer::moveToWaitingArea()
 {
-	std::cout << std::endl << "I'm in the salon!";
+	ChairEntity* chair = findAvailableChair();
+	if (chair == nullptr)
+	{
+		std::cout << "No chair available.";
+	}
+	setDestination(toVector2i(toSpritePosition(chair->getTilePosition())));
+	chair->setOccupied(true, this);
+
+
 }
 
 void Customer::enterSalon()
@@ -57,6 +80,28 @@ void Customer::checkAIState()
 		{
 			moveToWaitingArea();
 			mState.setState(CustomerState::ID::MovingToWaitingArea);
+		}
+	}
+
+	else if (state == CustomerState::ID::MovingToWaitingArea)
+	{
+		if (!isMoving())
+		{
+			// Find the waiting room chair that is occupied
+			ChairEntity* chair;
+			for (auto& chair : *mWorld->getWaitingRoomChairs())
+			{
+				// Put them in the chair if they aren't already sitting and update their state
+				if (this == chair->getOccupant() && 
+					toVector2i(mPosition) != chair->getChairLocation())
+				{
+					std::stack<sf::Vector2i> s;
+					s.push(sf::Vector2i(chair->getChairLocation()));
+					setTravelPath(s);
+					mState.setState(CustomerState::ID::WaitingForService);
+
+				}
+			}
 		}
 	}
 }

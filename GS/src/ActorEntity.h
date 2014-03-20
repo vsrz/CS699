@@ -28,7 +28,8 @@ public:
 	void setTravelPath(std::stack<sf::Vector2i> travelPath);
 	void moveToTile(int x, int y);
 	void moveToTile(sf::Vector2i screenPosition);
-	
+
+	void moveToTilePosition(sf::Vector2i tilePosition);
 	void setSpeed(float speed);
 	float getSpeed();
 	bool isMoving();

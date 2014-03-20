@@ -26,7 +26,7 @@ sf::IntRect Entity::getTextureRect()
 // Return the current position that the entity is currently occupying
 sf::Vector2i Entity::getTilePosition()
 {
-	return toTilePosition(mSprite.getPosition());
+	return toTilePosition(mPosition);
 }
 
 void Entity::setTilePosition(sf::Vector2i position)
@@ -54,16 +54,17 @@ sf::Vector2i Entity::toTilePosition(sf::Vector2f position)
 sf::Vector2i Entity::toTilePosition(sf::Vector2i position)
 {
 	return sf::Vector2i(
-		static_cast<int>(position.x  / (32.f * mWorld->getWorldScale().x)),
-		static_cast<int>(position.y  / (32.f * mWorld->getWorldScale().y)));
+		static_cast<int>(position.x  / (Config::WORLD_SCALE * Config::TILE_WIDTH)),
+		static_cast<int>(position.y  / (Config::WORLD_SCALE * Config::TILE_HEIGHT))
+	);
 
 }
 
 sf::Vector2f Entity::toSpritePosition(sf::Vector2i tilePosition)
 {
 	return sf::Vector2f(
-		tilePosition.x * mWorld->getWorldScale().x * 32.f + 0.f,
-		tilePosition.y * mWorld->getWorldScale().y * 32.f + 0.f);
+		tilePosition.x * mWorld->getWorldScale().x * Config::TILE_WIDTH,
+		tilePosition.y * mWorld->getWorldScale().y * Config::TILE_HEIGHT);
 }
 
 

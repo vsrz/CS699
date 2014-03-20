@@ -8,6 +8,10 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 
+typedef sf::Vector2i Tilepos;
+typedef sf::Vector2i MousePos;
+typedef sf::Vector2f SpritePos;
+
 /* Dirty global configuration area, for now (forever?) */
 namespace Config
 {
@@ -31,14 +35,25 @@ namespace Config
 	// Waiting room chairs
 	namespace Chairs
 	{
+		// The position they move to before sitting
 		const std::array<sf::Vector2i, 5>	WAITING_CHAIR_POSITIONS = 
+		{
+			sf::Vector2i(3, 6),
+			sf::Vector2i(4, 7),
+			sf::Vector2i(4, 8),
+			sf::Vector2i(2, 7),
+			sf::Vector2i(2, 8),
+
+		};
+
+		// The position they actually wait at
+		const std::array<sf::Vector2i, 5>	WAITING_CHAIR_SEATS =
 		{
 			sf::Vector2i(3, 5),
 			sf::Vector2i(5, 7),
 			sf::Vector2i(5, 8),
 			sf::Vector2i(1, 7),
 			sf::Vector2i(1, 8),
-
 		};
 	}
 

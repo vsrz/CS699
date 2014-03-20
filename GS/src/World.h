@@ -33,6 +33,7 @@ public:
 	sf::Vector2f getPixelsFromTilePosition(const sf::Vector2i& tilePos);
 	sf::Vector2f getPixelPosition(const sf::Vector2i& tilePos);
 	sf::Vector2f getWorldScale();
+	std::array<std::unique_ptr<ChairEntity>, 5u>* getWaitingRoomChairs();
 
 	int getTileIndex(int x, int y);
 	void handleEvent(const sf::Event& event);

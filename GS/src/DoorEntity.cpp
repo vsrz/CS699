@@ -18,7 +18,7 @@ DoorEntity::DoorEntity(const TextureManager& textures, World* world)
 void DoorEntity::initalize()
 {
 	// Since we never actually move this object, set its Y-position statically
-	mBasePosition = mSprite.getPosition().y + mWorld->getWorldScale().y * Config::TILE_HEIGHT * 2;
+	mBasePosition = 256.f;
 	
 	// Initialize both animations
 	mElapsedTime = sf::Time::Zero;
@@ -53,8 +53,10 @@ void DoorEntity::setTriggerTiles()
 	triggerTiles.push_back(sf::Vector2i(7,1));
 	triggerTiles.push_back(sf::Vector2i(6,2));
 	triggerTiles.push_back(sf::Vector2i(7,2));
+	triggerTiles.push_back(sf::Vector2i(5,3));
 	triggerTiles.push_back(sf::Vector2i(6,3));
 	triggerTiles.push_back(sf::Vector2i(7,3));
+	triggerTiles.push_back(sf::Vector2i(8,3));
 }
 
 // See if there's an entity near the door and open or close it

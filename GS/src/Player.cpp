@@ -30,6 +30,7 @@ void Player::initalize(const TextureManager& t)
 	mTilePosition = sf::Vector2i(11,4);
 	mTileDestination = mTilePosition;
 	mSprite.setPosition(toSpritePosition(mTilePosition));
+	mPosition = mSprite.getPosition();
 	mBoundingBox = sf::IntRect(0, 0, mFrameSize.x, mFrameSize.y);
 	mElapsedTime = sf::Time::Zero;
 

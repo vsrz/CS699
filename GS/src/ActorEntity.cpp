@@ -143,6 +143,14 @@ void ActorEntity::moveToTile(sf::Vector2i screenPosition)
 	setDestination(screenPosition);
 }
 
+//	Move to a tile based on the tile coordinate itself 
+void ActorEntity::moveToTilePosition(sf::Vector2i tilePosition)
+{
+	moveToTile(
+		toVector2i(toSpritePosition(tilePosition))
+		);
+}
+
 void ActorEntity::moveToTile(int x, int y)
 {
 	// Get the ultimate destination based on the Origin of the drawTexture

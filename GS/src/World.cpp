@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <map>
+#include <memory>
 #include <algorithm>
 #include "Glob.h"
 #include "ChairEntity.h"
@@ -71,6 +72,12 @@ sf::Vector2i World::getTilePosition(sf::Vector2i windowPos)
 	return position;
 }
 
+std::array<std::unique_ptr<ChairEntity>, 5u>* World::getWaitingRoomChairs()
+{
+	return &mWaitingChairs;
+}
+
+
 // Return the pixel position given a tile coordinate
 sf::Vector2f World::getPixelsFromTilePosition(const sf::Vector2i& tilePos)
 {
@@ -103,16 +110,32 @@ void World::handleEvent(const sf::Event& event)
 	sf::Vector2i mouseTilePosition = getTilePosition(mousePosition);
 	if (event.type == sf::Event::MouseButtonPressed)
 	{
-		#ifdef DEBUG
+#ifdef DEBUG
 		extern std::map<std::string, std::string> g_debugData;
 
 		// Update some debug tile stuff
 		g_debugData["TileNum"] = toString(mTileLoader.getTileNumber(mouseTilePosition.x, mouseTilePosition.y));
 		g_debugData["TileData"] = toString(mTilemap.getTileProperty(mousePosition));
 		g_debugData["TilePos"] = toString(mouseTilePosition.x) + "," + toString(mouseTilePosition.y);
-		#endif
+#endif
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
+			Tilepos clickedTile = getTilePosition(mousePosition);
+			// Find out if the tile clicked was a chair, and if its occupied
+			for (auto& chair : mWaitingChairs)
+			{
+				if (chair->getChairLocation() == clickedTile &&
+					chair->isOccupied())
+				{
+					Customer* customer;
+					customer = chair->getOccupant();
+					customer->moveToTilePosition(sf::Vector2i(5,5));
+					chair->setOccupied(false);
+					
+
+				}
+			}
+
 			mPlayer->moveToTile(mousePosition);
 			#ifdef DEBUG
 			g_debugData["Destination:"] = toString(mousePosition.x) + "," + toString(mousePosition.y);
@@ -188,6 +211,7 @@ void World::buildProps()
 	for (auto& i : Config::Chairs::WAITING_CHAIR_POSITIONS)
 	{
 		std::unique_ptr<ChairEntity> c(new ChairEntity(i,  this));
+		c->setChairLocation(Config::Chairs::WAITING_CHAIR_SEATS[index]);
 		mWaitingChairs[index++] = std::move(c);
 	}
 
