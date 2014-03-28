@@ -15,6 +15,7 @@ Application::Application(void)
 	, mStateStack(State::Context(mWindow, mTextures, mFonts))
 {
 	mWindow.setKeyRepeatEnabled(false);
+	mWindow.setVerticalSyncEnabled(true);
 	mFonts.load(Fonts::Default, "res/Sansation.ttf");
 	mTextures.load(Textures::TitleScreen, "res/TitleScreen.png");
 	mTextures.load(Textures::RedClick, "res/RedClick.png");
@@ -56,6 +57,7 @@ void Application::run(void)
 			}
 		}
 		render();
+
 	}
 }
 
