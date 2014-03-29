@@ -9,11 +9,12 @@ ClickObject::ClickObject(sf::Texture& texture)
 }
 
 // createa a new click event
-void ClickObject::addClickEvent(sf::Vector2f position, sf::Vector2f imageScale)
+void ClickObject::addClickEvent(sf::Vector2f position)
 {
 	Click click;
+	float scale = Config::WORLD_SCALE;
 	click.sprite.setPosition(position);
-	click.sprite.setScale(imageScale.x, imageScale.y);
+	click.sprite.setScale(scale, scale);
 	click.sprite.setTexture(mTexture);
 	click.time = mDuration;
 	click.fade = 255;

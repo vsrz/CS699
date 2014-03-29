@@ -1,4 +1,3 @@
-
 #ifndef PATHFINDER_H
 #define PATHFINDER_H
 
@@ -13,25 +12,22 @@
 #include <algorithm>
 #include "Tilemap.h"
 #include "PathNode.h"
-
-// Maximum amount of squares it will search during pathfinding
-// before giving up
-
+#include "Glob.h"
 
 class Pathfinder
 {
 public:
 	Pathfinder(Tilemap* tilemap);
 	
-	sf::Vector2i findValidDestination(sf::Vector2i destination);
-	void findPath(sf::Vector2i currentPosition, sf::Vector2i destPosition);
-	sf::Vector2i nextPath();
+	TilePosition findValidDestination(TilePosition destination);
+	void findPath(TilePosition currentPosition, TilePosition destPosition);
+	TilePosition nextPath();
 
 
 	void clearOpenList();
 	void clearVisitedList();
 	void clearPath();
-	std::vector<sf::Vector2i> getPath();
+	std::vector<TilePosition> getPath();
 
 
 private:
@@ -39,9 +35,9 @@ private:
 	bool mInitializedStartGoal;
 	bool mFoundGoal;
 	std::vector<PathNode*> mOpenList, mVisitedList;
-	std::vector<sf::Vector2i> mPath;
+	std::vector<TilePosition> mPath;
 	PathNode *mStartNode, *mGoalNode;
-	sf::Vector2i nextPathPos();
+	TilePosition nextPathPos();
 
 	void setStartAndGoal(PathNode start, PathNode goal);
 	void pathOpened(int x, int y, int cost, PathNode* parent);

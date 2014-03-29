@@ -24,59 +24,34 @@ sf::IntRect Entity::getTextureRect()
 }
 
 // Return the current position that the entity is currently occupying
-sf::Vector2i Entity::getTilePosition()
+TilePosition Entity::getTilePosition()
 {
-	return toTilePosition(mPosition);
+	return toTilePosition(mSprite.getPosition());
 }
 
-void Entity::setTilePosition(sf::Vector2i position)
+void Entity::setTilePosition(TilePosition position)
 {
-	mPosition = toSpritePosition(position);
+	SpritePosition pos = toSpritePosition(position);
+	mSprite.setPosition(pos);
 }
 
-void Entity::setPosition(sf::Vector2f position)
+void Entity::setPosition(SpritePosition position)
 {
-	mPosition = position;
-	mBasePosition = position.y + (mWorld->getWorldScale().y * mSprite.getLocalBounds().height) - mSprite.getOrigin().y;
 	mSprite.setPosition(position);
 }
 
-void Entity::setPosition(sf::Vector2i position)
-{
-	mSprite.setPosition(toVector2f(position));
-}
-
-sf::Vector2i Entity::toTilePosition(sf::Vector2f position)
-{
-	return toTilePosition(sf::Vector2i(position.x, position.y));
-}
-
-sf::Vector2i Entity::toTilePosition(sf::Vector2i position)
-{
-	return sf::Vector2i(
-		static_cast<int>(position.x  / (Config::WORLD_SCALE * Config::TILE_WIDTH)),
-		static_cast<int>(position.y  / (Config::WORLD_SCALE * Config::TILE_HEIGHT))
-	);
-
-}
-
-sf::Vector2f Entity::toSpritePosition(sf::Vector2i tilePosition)
-{
-	return sf::Vector2f(
-		tilePosition.x * mWorld->getWorldScale().x * Config::TILE_WIDTH,
-		tilePosition.y * mWorld->getWorldScale().y * Config::TILE_HEIGHT);
-}
-
-
 void Entity::updateCurrent(sf::Time dt)
 {
-
-
 }
 
 void Entity::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(mSprite, states);
 
+}
+
+float Entity::getZPosition()
+{
+	return mSprite.getPosition().y;
 }
 

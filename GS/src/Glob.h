@@ -8,9 +8,9 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 
-typedef sf::Vector2i Tilepos;
-typedef sf::Vector2i MousePos;
-typedef sf::Vector2f SpritePos;
+typedef sf::Vector2i MousePosition;
+typedef sf::Vector2f TilePosition;
+typedef sf::Vector2f SpritePosition;
 
 /* Dirty global configuration area, for now (forever?) */
 namespace Config
@@ -20,8 +20,8 @@ namespace Config
 	const float								MIDAGE_MAN_SPEED = 3.f;
 
 	// World Config
-	const int								WORLD_WIDTH	= 20;
-	const int								WORLD_HEIGHT = 12;
+	const float								WORLD_WIDTH	= 20.f;
+	const float								WORLD_HEIGHT = 12.f;
 	const float								WORLD_SCALE = 2.f;
 	
 	// Tiles
@@ -36,24 +36,24 @@ namespace Config
 	namespace Chairs
 	{
 		// The position they move to before sitting
-		const std::array<sf::Vector2i, 5>	WAITING_CHAIR_POSITIONS = 
+		const std::array<TilePosition, 5>	WAITING_CHAIR_POSITIONS = 
 		{
-			sf::Vector2i(3, 6),
-			sf::Vector2i(4, 7),
-			sf::Vector2i(4, 8),
-			sf::Vector2i(2, 7),
-			sf::Vector2i(2, 8),
+			TilePosition(3, 6),
+			TilePosition(4, 7),
+			TilePosition(4, 8),
+			TilePosition(2, 7),
+			TilePosition(2, 8),
 
 		};
 
 		// The position they actually wait at
-		const std::array<sf::Vector2i, 5>	WAITING_CHAIR_SEATS =
+		const std::array<TilePosition, 5>	WAITING_CHAIR_SEATS =
 		{
-			sf::Vector2i(3, 5),
-			sf::Vector2i(5, 7),
-			sf::Vector2i(5, 8),
-			sf::Vector2i(1, 7),
-			sf::Vector2i(1, 8),
+			TilePosition(3, 5),
+			TilePosition(5, 7),
+			TilePosition(5, 8),
+			TilePosition(1, 7),
+			TilePosition(1, 8),
 		};
 	}
 
@@ -97,7 +97,50 @@ sf::Vector2f toVector2f(T v)
 		static_cast<int>(v.y));
 }
 
+// Get the X,Y coordinate of a tile given a pixel
+template<typename T>
+TilePosition toTilePosition(T pixelPosition)
+{
+	sf::Vector2f pos = snapToSpritePosition(pixelPosition);
+	pos.x = pixelPosition.x / (Config::TILE_WIDTH * Config::WORLD_SCALE);
+	pos.y = pixelPosition.y / (Config::TILE_HEIGHT * Config::WORLD_SCALE);
+	return pos;
+}
 
+// Given a pixel on the screen, snap to the tile grid, returning the pixel in 
+// the top left corner of the corresponding tile
+template<typename T>
+SpritePosition snapToSpritePosition(T pixelPosition)
+{
+	SpritePosition pos;
+	for (float y = 0.f; 
+		y <		Config::TILE_HEIGHT * Config::WORLD_HEIGHT * Config::WORLD_SCALE; 
+		y +=	Config::TILE_HEIGHT * Config::WORLD_SCALE)	
+	{
+		for (float x = 0.f; 
+				x <		Config::TILE_WIDTH * Config::WORLD_WIDTH * Config::WORLD_SCALE; 
+				x +=	Config::TILE_WIDTH* Config::WORLD_SCALE)
+		{			
+			if (pixelPosition.x >= x)
+				pos.x = x;
+			if (pixelPosition.y >= y)
+				pos.y = y;
+			
+		}
+	}
+	return pos;
+}
+
+// Get the pixel at the top left corner of a tile given a tile position
+template<typename T>
+SpritePosition toSpritePosition(T tilePosition)
+{
+	SpritePosition pos;
+	
+	pos.x = tilePosition.x * Config::TILE_WIDTH * Config::WORLD_SCALE;
+	pos.y = tilePosition.y * Config::TILE_HEIGHT * Config::WORLD_SCALE;
+	return snapToSpritePosition(pos);
+}
 
 #endif
 

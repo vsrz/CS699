@@ -27,7 +27,7 @@ class TileLoader
 {
 public:
 	TileLoader(const char* filename);
-	TileLoader(void){}
+	TileLoader(){}
 	void loadFromFile(const char* filename);
 	
 	sf::Vector2i getWorldSize();

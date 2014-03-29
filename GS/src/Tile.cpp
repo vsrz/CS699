@@ -36,5 +36,5 @@ unsigned int Tile::getTileProperty()
 
 bool Tile::hasActor()
 {
-	return (mProperties & Tiles::Property::HasActor);
+	return (mProperties & Tiles::Property::HasActor) == true;
 }

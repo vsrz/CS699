@@ -15,6 +15,7 @@
 #include "ResourceIdentifiers.h"
 #include "ResourceManager.h"
 #include "Entity.h"
+#include "Glob.h"
 
 class World;
 
@@ -24,12 +25,11 @@ class ActorEntity
 public:
 	explicit ActorEntity(World* world);
 	virtual ~ActorEntity();
-	void setDestination(sf::Vector2i destination);
-	void setTravelPath(std::stack<sf::Vector2i> travelPath);
-	void moveToTile(int x, int y);
-	void moveToTile(sf::Vector2i screenPosition);
+	void setTravelPath(std::stack<TilePosition> travelPath);	
+	
+	void moveToTile(TilePosition tilePosition);
+	void moveToTile(std::stack<TilePosition> path);
 
-	void moveToTilePosition(sf::Vector2i tilePosition);
 	void setSpeed(float speed);
 	float getSpeed();
 	bool isMoving();
@@ -50,9 +50,9 @@ protected:
 	void update(sf::Time dt);
 	sf::Time mElapsedTime;
 
-	std::stack<sf::Vector2i> mTravelPath;
-	sf::Vector2i mTileDestination;
-	sf::Vector2f mSpriteDestination;
+	std::stack<TilePosition> mTravelPath;
+	TilePosition mTileDestination;
+	SpritePosition mSpriteDestination;
 	void advanceFrame();
 	sf::Vector2i mFrameSize;
 	std::size_t mFrame;
@@ -64,7 +64,8 @@ protected:
 private:
 	void updateTilemap(sf::Vector2f c, sf::Vector2f n);
 
-	sf::Vector2f moveSprite(sf::Vector2f currentPosition, sf::Vector2f destPosition);
+	std::stack<TilePosition> findPath(TilePosition destination);
+	sf::Vector2f moveSprite(SpritePosition currentPosition, SpritePosition destPosition);
 	float mSpeed;
 
 };

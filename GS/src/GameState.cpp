@@ -75,8 +75,8 @@ bool GameState::handleEvent(const sf::Event& event)
 		sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
 		// Send the click to the world to find out which tile was clicked
-		sf::Vector2f pos = mWorld.getPixelPosition(sf::Mouse::getPosition(*getContext().window));
-		mClick.addClickEvent(pos, mWorld.getWorldScale());
+		sf::Vector2i mousePos = sf::Mouse::getPosition(*getContext().window);
+		mClick.addClickEvent(toSpritePosition(mousePos));
 	}
 
 	return true;

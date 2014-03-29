@@ -1,6 +1,5 @@
 #include "PathNode.h"
 
-
 PathNode::PathNode(void)
 	: mParent(nullptr)
 	, mClosed(false)
@@ -13,12 +12,12 @@ PathNode::PathNode(void)
 
 PathNode::PathNode(int x, int y, PathNode* parent)
 	: mParent(parent)
-	, mCoordinates(sf::Vector2i(x, y))
+	, mCoordinates(TilePosition(x, y))
 {
 
 }
 
-PathNode::PathNode(sf::Vector2i coordinate, PathNode* parent)
+PathNode::PathNode(TilePosition coordinate, PathNode* parent)
 	: mParent(parent)
 	, mCoordinates(coordinate)
 {
@@ -56,12 +55,12 @@ void PathNode::setParent(PathNode* parent)
 	mParent = parent;
 }
 
-void PathNode::setCoordinates(sf::Vector2i coordinate)
+void PathNode::setCoordinates(TilePosition coordinate)
 {
 	mCoordinates = coordinate;
 }
 
-sf::Vector2i PathNode::getCoordinates()
+TilePosition PathNode::getCoordinates()
 {
 	return mCoordinates;
 }

@@ -27,10 +27,9 @@ void Player::initalize(const TextureManager& t)
 	mSprite.setTextureRect(sf::IntRect(sf::Vector2i(mFrame,mFrameOffset), mFrameSize));
 	mSprite.setOrigin(0.f,32.f);
 	mSprite.setScale(mWorld->getWorldScale());
-	mTilePosition = sf::Vector2i(11,4);
+	mTilePosition = TilePosition(11,4);
 	mTileDestination = mTilePosition;
 	mSprite.setPosition(toSpritePosition(mTilePosition));
-	mPosition = mSprite.getPosition();
 	mBoundingBox = sf::IntRect(0, 0, mFrameSize.x, mFrameSize.y);
 	mElapsedTime = sf::Time::Zero;
 
@@ -42,7 +41,7 @@ void Player::updateCurrent(sf::Time dt)
 #ifdef DEBUG
 	extern std::map<std::string, std::string> g_debugData;
 	g_debugData["TilePos"] = toString(toTilePosition(mTilePosition).x) + toString(toTilePosition(mTilePosition).y);
-	g_debugData["Actor YPos"] = toString(mBasePosition);
+	g_debugData["Actor YPos"] = toString(getPosition().y);
 #endif
 	mElapsedTime += dt;
 	ActorEntity::update(dt);

@@ -3,12 +3,12 @@
 #include "World.h"
 
 
-ChairEntity::ChairEntity(sf::Vector2i tilePosition, World* wp)
+ChairEntity::ChairEntity(TilePosition tilePosition, World* wp)
 	: Entity(wp)
 {
 	mOccupied = false;
 	wp->mTilemap.setTileProperty(tilePosition.x, tilePosition.y, Tiles::Property::WaitingChair);
-	mPosition = toSpritePosition(tilePosition);
+	setTilePosition(tilePosition);
 }
 
 bool ChairEntity::isOccupied()
@@ -34,12 +34,12 @@ bool ChairEntity::setOccupied(bool occupied, Customer* occupant)
 	return true;
 }
 
-void ChairEntity::setChairLocation(sf::Vector2i tileLocation)
+void ChairEntity::setChairLocation(TilePosition tileLocation)
 {
 	mSeatLocation = tileLocation;
 }
 
-sf::Vector2i ChairEntity::getChairLocation()
+TilePosition ChairEntity::getChairLocation()
 {
 	return mSeatLocation;
 }

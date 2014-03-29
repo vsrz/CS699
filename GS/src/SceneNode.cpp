@@ -46,14 +46,9 @@ void SceneNode::sortChildren()
 	std::sort(mChildren.begin(), mChildren.end(), 
 		[] (const Ptr &lhs, const Ptr &rhs)
 		{
-			return lhs->getBasePos() < rhs->getBasePos();
+			return lhs->getZPosition() < rhs->getZPosition();
 		}
 	);
-}
-
-float SceneNode::getBasePos()
-{
-	return mBasePosition;
 }
 
 sf::Vector2f SceneNode::getWorldPosition() const
@@ -127,6 +122,11 @@ void SceneNode::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) c
 void SceneNode::updateCurrent(sf::Time dt)
 {
 
+}
+
+float SceneNode::getZPosition()
+{
+	return 0.f;
 }
 
 void SceneNode::updateChildren(sf::Time dt)

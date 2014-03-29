@@ -10,16 +10,13 @@ DoorEntity::DoorEntity(const TextureManager& textures, World* world)
 	: Entity(world)
 {
 	mSprite.setTexture(textures.get(Textures::AutoDoors));
-	setPosition(toSpritePosition(sf::Vector2i(5,1)));
+	setTilePosition(TilePosition(5,1));
 	mSprite.setScale(world->getWorldScale());
 	initalize();
 }
 
 void DoorEntity::initalize()
 {
-	// Since we never actually move this object, set its Y-position statically
-	mBasePosition = 256.f;
-	
 	// Initialize both animations
 	mElapsedTime = sf::Time::Zero;
 	mAnimDoorOpen.setFrameDuration(sf::milliseconds(80));
@@ -109,7 +106,7 @@ void DoorEntity::updateCurrent(sf::Time dt)
 	mSprite.setTextureRect(mActiveAnimation->getFrameWindow());
 #ifdef DEBUG
 	extern std::map<std::string, std::string> g_debugData;
-	g_debugData["Door Ypos"] = toString(mBasePosition);
+	g_debugData["Door Ypos"] = toString(getPosition().y);
 #endif
 }
 

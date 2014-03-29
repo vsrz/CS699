@@ -5,6 +5,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "State.h"
+#include "Glob.h"
 
 /* Defines a click animation */
 
@@ -13,7 +14,7 @@ class ClickObject
 {
 public:
 	ClickObject(sf::Texture& texture);
-	void addClickEvent(sf::Vector2f position, sf::Vector2f imageScale);
+	void addClickEvent(TilePosition position);
 
 	void update(sf::Time dt);
 	void draw(sf::RenderWindow& window);

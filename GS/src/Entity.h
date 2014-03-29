@@ -15,6 +15,7 @@
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 #include "SceneNode.h"
+#include "Glob.h"
 
 class World;
 
@@ -22,6 +23,7 @@ class Entity
 	: public SceneNode
 {
 public:
+
 	Entity(World *mWorld);
 	virtual ~Entity();
 
@@ -30,16 +32,14 @@ public:
 	/* Sprite manipulation */
 	void setSprite(sf::Sprite &sprite);
 	void setTextureRect(sf::IntRect rect);
-	void setPosition(sf::Vector2i position);
-	void setPosition(sf::Vector2f position);
+	void setTilePosition(TilePosition position);
+	void setPosition(SpritePosition position);
 	sf::IntRect getTextureRect();
 
 	/* Tile and sprite positioning utility fns */
-	sf::Vector2i getTilePosition();
+	sf::Vector2f getTilePosition();
 	void setTilePosition(sf::Vector2i position);
-	sf::Vector2i toTilePosition(sf::Vector2i position);
-	sf::Vector2i toTilePosition(sf::Vector2f position);
-	sf::Vector2f toSpritePosition(sf::Vector2i tilePosition);
+
 
 protected:
 
@@ -51,6 +51,7 @@ private:
 	sf::RectangleShape mTextureRect;
 	void updateCurrent(sf::Time dt);
 	void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
+	float getZPosition();
 
 };
 

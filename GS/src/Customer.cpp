@@ -17,7 +17,7 @@ void Customer::initalize(const TextureManager& t, unsigned int customerID)
 	mSprite.setTextureRect(sf::IntRect(sf::Vector2i(mFrame,mFrameOffset), mFrameSize));
 	mSprite.setScale(mWorld->getWorldScale());
 	mSprite.setOrigin(0.f,32.f);
-	setPosition(toSpritePosition(sf::Vector2i(7,0)));
+	setTilePosition(TilePosition(7.f,0.f));
 	mState.setState(CustomerState::ID::None);
 	mElapsedTime = sf::Time::Zero;
 
@@ -50,7 +50,7 @@ void Customer::moveToWaitingArea()
 	{
 		std::cout << "No chair available.";
 	}
-	setDestination(toVector2i(toSpritePosition(chair->getTilePosition())));
+	moveToTile(chair->getTilePosition());
 	chair->setOccupied(true, this);
 
 
@@ -58,11 +58,11 @@ void Customer::moveToWaitingArea()
 
 void Customer::enterSalon()
 {
-	std::stack<sf::Vector2i> travelPath;
-	travelPath.push(sf::Vector2i(7,4));
-	travelPath.push(sf::Vector2i(7,0));
+	std::stack<TilePosition> travelPath;
+	travelPath.push(TilePosition(7,4));
+	travelPath.push(TilePosition(7,0));
 	mState.setState(CustomerState::ID::EnteringSalon);
-	setTravelPath(travelPath);
+	moveToTile(travelPath);
 }
 
 void Customer::checkAIState()
@@ -93,11 +93,13 @@ void Customer::checkAIState()
 			{
 				// Put them in the chair if they aren't already sitting and update their state
 				if (this == chair->getOccupant() && 
-					toVector2i(mPosition) != chair->getChairLocation())
+					toTilePosition(getPosition()) != chair->getChairLocation())
 				{
-					std::stack<sf::Vector2i> s;
-					s.push(sf::Vector2i(chair->getChairLocation()));
-					setTravelPath(s);
+					
+					// Create a custom path and push it into the travel path queue
+					std::stack<TilePosition> s;
+					s.push(TilePosition(chair->getChairLocation()));					
+					moveToTile(s);
 					mState.setState(CustomerState::ID::WaitingForService);
 
 				}

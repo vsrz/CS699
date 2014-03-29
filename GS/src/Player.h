@@ -33,7 +33,7 @@ private:
 	void initalize(const TextureManager& t);
 	World* mWorld;
 	bool hasReachedDestination();
-	sf::Vector2i mTilePosition;
+	TilePosition mTilePosition;
 
 	sf::IntRect mBoundingBox;
 	

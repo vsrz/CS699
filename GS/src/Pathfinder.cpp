@@ -1,5 +1,4 @@
 #include "Pathfinder.h"
-#include "Glob.h"
 
 Pathfinder::Pathfinder(Tilemap* tilemap)
 	: mTilemap(tilemap)
@@ -30,7 +29,7 @@ void Pathfinder::clearPath()
 
 // Finds a valid destination. If the user clicks an "Occupied Tile" it will
 // find the nest best tile to travel to
-sf::Vector2i Pathfinder::findValidDestination(sf::Vector2i destination)
+TilePosition Pathfinder::findValidDestination(TilePosition destination)
 {
 	int offset = 0;
 
@@ -46,47 +45,47 @@ sf::Vector2i Pathfinder::findValidDestination(sf::Vector2i destination)
 		// First try the tiles that are directly adjacent, without diagonals
 		if (destination.y + 1 + offset <= Config::WORLD_HEIGHT - 1 &&
 			!mTilemap->isTileOccupied(destination.x, destination.y + 1 + offset))
-			return sf::Vector2i(destination.x, destination.y + 1 + offset);
+			return TilePosition(destination.x, destination.y + 1 + offset);
 
 		if (destination.x - 1 - offset >= 0 &&
 			!mTilemap->isTileOccupied(destination.x + -1 - offset, destination.y))
-			return sf::Vector2i(destination.x - 1 - offset, destination.y);
+			return TilePosition(destination.x - 1 - offset, destination.y);
 
 		if (destination.x + 1 <= Config::WORLD_WIDTH - 1 &&
 			!mTilemap->isTileOccupied(destination.x + 1 + offset, destination.y))
-			return sf::Vector2i(destination.x + 1 + offset, destination.y);
+			return TilePosition(destination.x + 1 + offset, destination.y);
 
 		if (destination.y - 1 - offset >= 0 &&
 			!mTilemap->isTileOccupied(destination.x, destination.y - 1 - offset))
-			return sf::Vector2i(destination.x, destination.y - 1 - offset);
+			return TilePosition(destination.x, destination.y - 1 - offset);
 
 		// Now, try the tile diagonally in a circle
 		if (destination.x + 1 + offset <= Config::WORLD_WIDTH - 1 && 
 			destination.y + 1 + offset <= Config::WORLD_HEIGHT - 1 &&
 			!mTilemap->isTileOccupied(destination.x + 1 + offset, destination.y + 1 + offset))
-			return sf::Vector2i(destination.x + 1 + offset, destination.y + 1 + offset);
+			return TilePosition(destination.x + 1 + offset, destination.y + 1 + offset);
 
 		if (destination.x - 1 - offset >= 0 &&
 			destination.y + 1 + offset <= Config::WORLD_HEIGHT - 1 &&
 			!mTilemap->isTileOccupied(destination.x - 1 - offset, destination.y + 1 + offset))
-			return sf::Vector2i(destination.x - 1 - offset, destination.y + 1 + offset);
+			return TilePosition(destination.x - 1 - offset, destination.y + 1 + offset);
 
 		if (destination.x + 1 + offset <= Config::WORLD_WIDTH - 1 &&
 			destination.y - 1 - offset >= 0 &&
 			!mTilemap->isTileOccupied(destination.x + 1 + offset, destination.y - 1 - offset))
-			return sf::Vector2i(destination.x + 1 + offset, destination.y - 1 - offset);
+			return TilePosition(destination.x + 1 + offset, destination.y - 1 - offset);
 
 		if (destination.x - 1 - offset >= 0 &&
 			destination.y - 1 - offset >= 0 &&
 			!mTilemap->isTileOccupied(destination.x - 1 - offset, destination.y - 1 - offset))
-			return sf::Vector2i(destination.x - 1 - offset, destination.y - 1 - offset);
+			return TilePosition(destination.x - 1 - offset, destination.y - 1 - offset);
 
 		offset++;
 	}
 }
 
 
-void Pathfinder::findPath(sf::Vector2i currentPosition, sf::Vector2i destPosition)
+void Pathfinder::findPath(TilePosition currentPosition, TilePosition destPosition)
 {
 	// Maximum amount of tilesearches before pathfinding gives up
 	int finder = 0;
@@ -124,7 +123,7 @@ void Pathfinder::findPath(sf::Vector2i currentPosition, sf::Vector2i destPositio
 	}
 }
 
-std::vector<sf::Vector2i> Pathfinder::getPath()
+std::vector<TilePosition> Pathfinder::getPath()
 {
 	return mPath;
 }
@@ -193,7 +192,7 @@ void Pathfinder::pathOpened(int x, int y, int cost, PathNode* parent)
 	}
 
 	// Do not visit any nodes already visited
-	sf::Vector2i coordinate(x, y);
+	TilePosition coordinate(x, y);
 	for (int i = 0; i < mVisitedList.size(); i++)
 	{
 		if (coordinate == mVisitedList[i]->getCoordinates())
@@ -304,12 +303,12 @@ void Pathfinder::continuePath()
 
 }
 
-sf::Vector2i Pathfinder::nextPathPos()
+TilePosition Pathfinder::nextPathPos()
 {
 	// get the first position from the shortest path on the list
 	int index = 1;
 
-	sf::Vector2i nextNode;
+	TilePosition nextNode;
 	nextNode.x = mPath[mPath.size() - index].x;
 	nextNode.y = mPath[mPath.size() - index].y;
 

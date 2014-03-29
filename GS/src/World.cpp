@@ -60,31 +60,9 @@ void World::loadTextures()
 	mTileLoader.loadFromFile(Config::TILEMAP_FILENAME);
 }
 
-// Return a tile coordinate relative to a pixel coordinate on the screen
-sf::Vector2i World::getTilePosition(sf::Vector2i windowPos)
-{
-	sf::Vector2i position;
-	position.x = windowPos.x / 
-		(mTileLoader.getTileSize().x * mWorldScale.x);
-	position.y = windowPos.y /
-		(mTileLoader.getTileSize().y * mWorldScale.y);
-
-	return position;
-}
-
 std::array<std::unique_ptr<ChairEntity>, 5u>* World::getWaitingRoomChairs()
 {
 	return &mWaitingChairs;
-}
-
-
-// Return the pixel position given a tile coordinate
-sf::Vector2f World::getPixelsFromTilePosition(const sf::Vector2i& tilePos)
-{
-	return sf::Vector2f(
-		static_cast<float>(tilePos.x * mWorldScale.x * mTileLoader.getTileSize().x),
-		static_cast<float>(tilePos.y * mWorldScale.y * mTileLoader.getTileSize().y)
-		);
 }
 
 // Returns the mTiles index ID using the x,y coordinate of 
@@ -93,21 +71,10 @@ int World::getTileIndex(int x, int y)
 	return mTileLoader.getTileNumber(x,y);
 }
 
-// Return the pixel position of a tile given the position of a pixel
-sf::Vector2f World::getPixelPosition(const sf::Vector2i& pixelPos)
-{
-	sf::Vector2i p = getTilePosition(pixelPos);
-	sf::Vector2f position(static_cast<float>(p.x), static_cast<float>(p.y));
-		
-	position.x = position.x * mWorldScale.x * mTileLoader.getTileSize().x;
-	position.y = position.y * mWorldScale.y * mTileLoader.getTileSize().y;
-	return position;
-}
-
 void World::handleEvent(const sf::Event& event)
 {
-	sf::Vector2i mousePosition = sf::Mouse::getPosition(mWindow);
-	sf::Vector2i mouseTilePosition = getTilePosition(mousePosition);
+	MousePosition mousePosition = sf::Mouse::getPosition(mWindow);
+	TilePosition mouseTilePosition = toTilePosition(mousePosition);
 	if (event.type == sf::Event::MouseButtonPressed)
 	{
 #ifdef DEBUG
@@ -120,7 +87,7 @@ void World::handleEvent(const sf::Event& event)
 #endif
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
-			Tilepos clickedTile = getTilePosition(mousePosition);
+			TilePosition clickedTile = toTilePosition(mousePosition);
 			// Find out if the tile clicked was a chair, and if its occupied
 			for (auto& chair : mWaitingChairs)
 			{
@@ -129,14 +96,14 @@ void World::handleEvent(const sf::Event& event)
 				{
 					Customer* customer;
 					customer = chair->getOccupant();
-					customer->moveToTilePosition(sf::Vector2i(5,5));
+					customer->moveToTile(TilePosition(5,5));
 					chair->setOccupied(false);
 					
 
 				}
 			}
 
-			mPlayer->moveToTile(mousePosition);
+			mPlayer->moveToTile(toTilePosition(mousePosition));
 			#ifdef DEBUG
 			g_debugData["Destination:"] = toString(mousePosition.x) + "," + toString(mousePosition.y);
 			#endif

@@ -26,22 +26,18 @@ public:
 	void update(sf::Time dt);
 	void sortChildren();
 	
-	float getBasePos();
 	sf::Vector2f getWorldPosition() const;
 	sf::Transform getWorldTransform() const;
 
 	virtual unsigned int getCategory() const;
 	void onCommand(const Command& command, sf::Time dt);
 
-protected:
-	sf::Vector2f mPosition;
-	float mBasePosition;
-
 
 private:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
 	virtual void updateCurrent(sf::Time dt);
+	virtual float getZPosition();
 	void updateChildren(sf::Time dt);
 
 	std::vector<Ptr> mChildren;

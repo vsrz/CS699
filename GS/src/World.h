@@ -29,9 +29,6 @@ public:
 	void update(sf::Time dt);
 	void draw();
 
-	sf::Vector2i getTilePosition(sf::Vector2i windowPos);
-	sf::Vector2f getPixelsFromTilePosition(const sf::Vector2i& tilePos);
-	sf::Vector2f getPixelPosition(const sf::Vector2i& tilePos);
 	sf::Vector2f getWorldScale();
 	std::array<std::unique_ptr<ChairEntity>, 5u>* getWaitingRoomChairs();
 
