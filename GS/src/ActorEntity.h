@@ -12,6 +12,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <stack>
+#include <queue>
 #include "ResourceIdentifiers.h"
 #include "ResourceManager.h"
 #include "Entity.h"
@@ -23,12 +24,13 @@ class ActorEntity
 	: public Entity
 {
 public:
+	typedef std::queue<TilePosition> Path;
 	explicit ActorEntity(World* world);
 	virtual ~ActorEntity();
-	void setTravelPath(std::stack<TilePosition> travelPath);	
+	void setTravelPath(Path travelPath);	
 	
 	void moveToTile(TilePosition tilePosition);
-	void moveToTile(std::stack<TilePosition> path);
+	void moveToTile(Path path);
 
 	void setSpeed(float speed);
 	float getSpeed();
@@ -50,7 +52,7 @@ protected:
 	void update(sf::Time dt);
 	sf::Time mElapsedTime;
 
-	std::stack<TilePosition> mTravelPath;
+	Path mTravelPath;
 	TilePosition mTileDestination;
 	SpritePosition mSpriteDestination;
 	void advanceFrame();
@@ -64,7 +66,7 @@ protected:
 private:
 	void updateTilemap(sf::Vector2f c, sf::Vector2f n);
 
-	std::stack<TilePosition> findPath(TilePosition destination);
+	Path findPath(TilePosition destination);
 	sf::Vector2f moveSprite(SpritePosition currentPosition, SpritePosition destPosition);
 	float mSpeed;
 

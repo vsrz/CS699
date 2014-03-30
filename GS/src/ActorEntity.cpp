@@ -94,7 +94,7 @@ void ActorEntity::update(sf::Time dt)
 	// Check for movement
 	if (!mTravelPath.empty())
 	{
-		mTileDestination = mTravelPath.top();
+		mTileDestination = mTravelPath.front();
 		mSpriteDestination = toSpritePosition(mTileDestination);
 		sf::Vector2f destPosition = toSpritePosition(mTileDestination);
 		sf::Vector2f currentPosition = mSprite.getPosition();
@@ -147,20 +147,20 @@ void ActorEntity::moveToTile(TilePosition tilePosition)
 // Allows you to override the Travel Path with a custom path. It's a stack, so 
 // make sure the final destination is at the bottom of the stack. This ignores
 // the pathfinding algorithm
-void ActorEntity::moveToTile(std::stack<TilePosition> path)
+void ActorEntity::moveToTile(Path path)
 {
 	mTravelPath = path;
 }
 
 
-std::stack<TilePosition> ActorEntity::findPath(TilePosition destination)
+ActorEntity::Path ActorEntity::findPath(TilePosition destination)
 {
 	mElapsedTime = sf::Time::Zero;
 	mFrame = 2;
-	std::stack<TilePosition> travelPath;
+	std::stack<TilePosition> pathStack;
 	
 	// Initalize an empty stack
-	while (!travelPath.empty()) travelPath.pop();
+	while (!pathStack.empty()) pathStack.pop();
 
 	// Calculate the ultimate destination, centering the feet of the sprite on the tile
 	// Find the tile that was clicked
@@ -168,9 +168,17 @@ std::stack<TilePosition> ActorEntity::findPath(TilePosition destination)
 	p.findPath(getTilePosition(), destination);
 	for (auto& i : p.getPath())
 	{
-		travelPath.push(i);	
+		pathStack.push(i);	
 	}
-	return travelPath;
+
+	// Take the path out of the pathfinder stack and return a queue
+	Path path;
+	while(!pathStack.empty()) 
+	{
+		path.push(pathStack.top());
+		pathStack.pop();
+	}
+	return path;
 }
 
 bool ActorEntity::hasReachedDestination()

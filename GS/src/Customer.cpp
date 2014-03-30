@@ -58,9 +58,9 @@ void Customer::moveToWaitingArea()
 
 void Customer::enterSalon()
 {
-	std::stack<TilePosition> travelPath;
-	travelPath.push(TilePosition(7,4));
+	Path travelPath;
 	travelPath.push(TilePosition(7,0));
+	travelPath.push(TilePosition(7,4));
 	mState.setState(CustomerState::ID::EnteringSalon);
 	moveToTile(travelPath);
 }
@@ -97,7 +97,7 @@ void Customer::checkAIState()
 				{
 					
 					// Create a custom path and push it into the travel path queue
-					std::stack<TilePosition> s;
+					Path s;
 					s.push(TilePosition(chair->getChairLocation()));					
 					moveToTile(s);
 					mState.setState(CustomerState::ID::WaitingForService);
