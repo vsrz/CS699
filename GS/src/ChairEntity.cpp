@@ -36,12 +36,12 @@ bool ChairEntity::setOccupied(bool occupied, Customer* occupant)
 
 void ChairEntity::setChairLocation(TilePosition tileLocation)
 {
-	mSeatLocation = tileLocation;
+	mSeatingPosition = tileLocation;
 }
 
 TilePosition ChairEntity::getChairLocation()
 {
-	return mSeatLocation;
+	return mSeatingPosition;
 }
 
 void ChairEntity::updateCurrent(sf::Time dt)

@@ -78,6 +78,13 @@ sf::Vector2f ActorEntity::moveSprite(sf::Vector2f pos, sf::Vector2f dest)
 	return pos;
 }
 
+void ActorEntity::setDirection(Direction d)
+{
+	mDirection = d;
+
+}
+
+
 void ActorEntity::updateTilemap(sf::Vector2f c, sf::Vector2f n)
 {
 	TilePosition currentTilePos = toTilePosition(c);

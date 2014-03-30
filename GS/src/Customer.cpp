@@ -106,4 +106,11 @@ void Customer::checkAIState()
 			}
 		}
 	}
+	else if (state == CustomerState::ID::WaitingForService)
+	{
+		// Set the sprite to be waiting in the chair
+		
+		// Face the correct direction
+		setDirection(Direction::South);
+	}
 }

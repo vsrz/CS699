@@ -27,7 +27,10 @@ public:
 private:
 	Customer* mOccupant;
 	bool mOccupied;
-	TilePosition mSeatLocation;
+	TilePosition mStagingPosition;
+	TilePosition mSeatingPosition;
+	Direction mFacing;
+
 	void updateCurrent(sf::Time dt);
 	void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
 };

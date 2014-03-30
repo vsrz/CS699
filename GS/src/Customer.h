@@ -32,8 +32,8 @@ private:
 	ChairEntity* findAvailableChair();
 	void moveToWaitingArea();
 	void enterSalon();
-	void checkAIState();
-	
+	void checkAIState(); 
+
 	CustomerState mState;
 	sf::Time mElapsedTime;
 	

@@ -173,10 +173,10 @@ void World::buildProps()
 	int index = 0;
 	
 	/* Waiting room chairs */
-	for (auto& i : Config::Chairs::WAITING_CHAIR_POSITIONS)
+	for (auto& i : Config::Chairs::WAITING_CHAIR_SEATING_POSITION)
 	{
 		std::unique_ptr<ChairEntity> c(new ChairEntity(i,  this));
-		c->setChairLocation(Config::Chairs::WAITING_CHAIR_SEATS[index]);
+		c->setChairLocation(Config::Chairs::WAITING_CHAIR_SEATING_POSITION[index]);
 		mWaitingChairs[index++] = std::move(c);
 	}
 

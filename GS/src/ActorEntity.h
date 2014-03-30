@@ -32,20 +32,12 @@ public:
 	void moveToTile(TilePosition tilePosition);
 	void moveToTile(Path path);
 
+	void setDirection(Direction d);
 	void setSpeed(float speed);
 	float getSpeed();
 	bool isMoving();
 protected:
-	enum Direction
-	{
-		None = 0,
-		South = 1 << 1,
-		North = 1 << 2,
-		West = 1 << 3,
-		East = 1 << 4,
-	};
 
-	
 	unsigned int mDirection;
 	void checkDirection();
 

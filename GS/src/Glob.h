@@ -12,6 +12,15 @@ typedef sf::Vector2i MousePosition;
 typedef sf::Vector2f TilePosition;
 typedef sf::Vector2f SpritePosition;
 
+enum Direction
+{
+	None = 0,
+	South = 1 << 1,
+	North = 1 << 2,
+	West = 1 << 3,
+	East = 1 << 4,
+};
+
 /* Dirty global configuration area, for now (forever?) */
 namespace Config
 {
@@ -36,7 +45,7 @@ namespace Config
 	namespace Chairs
 	{
 		// The position they move to before sitting
-		const std::array<TilePosition, 5>	WAITING_CHAIR_POSITIONS = 
+		const std::array<TilePosition, 5>	WAITING_CHAIR_STAGING_POSITION = 
 		{
 			TilePosition(3, 6),
 			TilePosition(4, 7),
@@ -47,7 +56,7 @@ namespace Config
 		};
 
 		// The position they actually wait at
-		const std::array<TilePosition, 5>	WAITING_CHAIR_SEATS =
+		const std::array<TilePosition, 5>	WAITING_CHAIR_SEATING_POSITION =
 		{
 			TilePosition(3, 5),
 			TilePosition(5, 7),
@@ -55,6 +64,17 @@ namespace Config
 			TilePosition(1, 7),
 			TilePosition(1, 8),
 		};
+
+		// The direction they are facing when they sit
+		const std::array<Direction, 5>	WAITING_CHAIR_SEATING_DIRECTION =
+		{
+			Direction::South,
+			Direction::West,
+			Direction::West,
+			Direction::East,
+			Direction::East,
+		};
+
 	}
 
 	namespace Customer
@@ -64,6 +84,7 @@ namespace Config
 	};
 	
 }
+
 
 template <typename T>
 std::string toString(const T& value)
