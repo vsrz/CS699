@@ -104,6 +104,8 @@ TilePosition toTilePosition(T pixelPosition)
 	sf::Vector2f pos = snapToSpritePosition(pixelPosition);
 	pos.x = pixelPosition.x / (Config::TILE_WIDTH * Config::WORLD_SCALE);
 	pos.y = pixelPosition.y / (Config::TILE_HEIGHT * Config::WORLD_SCALE);
+	pos.x = floor(pos.x);
+	pos.y = floor(pos.y);
 	return pos;
 }
 

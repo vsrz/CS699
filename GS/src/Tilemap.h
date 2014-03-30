@@ -14,6 +14,7 @@
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
 #include "Tile.h"
+#include "Glob.h"
 
 class Tilemap
 {
@@ -23,21 +24,19 @@ public:
 
 	/* Tile property checkers */
 	bool isTileOccupied(int x, int y);
-	bool isTileOccupied(sf::Vector2i screenPosition);
-	bool isTileOccupied(sf::Vector2f screenPosition);
+	bool isTileOccupied(TilePosition screenPosition);
 	template<typename T>
 	bool isWaitingChair(T screenPosition);
 
 	void setTileProperty(int x, int y, unsigned int tileProperty);
 	void unsetTileProperty(int x, int y, unsigned int tileProperty);
-	unsigned int getTileProperty(sf::Vector2i screenPosition);
+	unsigned int getTileProperty(TilePosition screenPosition);
 	unsigned int getTileProperty(int x, int y);
 	sf::Vector2f getTilePixelPosition(int x, int y);
 	
 	Tile* getTile(int x, int y);
 private:
-	int toTileNumber(sf::Vector2i screenPosition);
-	int toTileNumber(sf::Vector2f screenPosition);
+	int toTileNumber(TilePosition screenPosition);
 	int toTileNumber(int x, int y);
 
 	int mWorldWidth;

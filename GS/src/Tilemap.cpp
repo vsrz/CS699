@@ -29,7 +29,7 @@ unsigned int Tilemap::getTileProperty(int x, int y)
 }
 
 
-unsigned int Tilemap::getTileProperty(sf::Vector2i screenPosition)
+unsigned int Tilemap::getTileProperty(TilePosition screenPosition)
 {
 	return mTiles[toTileNumber(screenPosition)].getTileProperty();
 }
@@ -60,17 +60,15 @@ bool Tilemap::isTileOccupied(int x, int y)
 	return mTiles[toTileNumber(x,y)].isOccupied();
 }
 
-bool Tilemap::isTileOccupied(sf::Vector2i screenPosition)
+bool Tilemap::isTileOccupied(TilePosition screenPosition)
 {
-	return mTiles[toTileNumber(screenPosition)].isOccupied();
+	TilePosition pos;
+	pos.x = floor(screenPosition.x);
+	pos.y = floor(screenPosition.y);
+	return mTiles[toTileNumber(pos)].isOccupied();
 
 }
 
-bool Tilemap::isTileOccupied(sf::Vector2f screenPosition)
-{
-	return mTiles[toTileNumber(screenPosition)].isOccupied();
-
-}
 
 template<typename T>
 bool Tilemap::isWaitingChair(T screenPosition)
@@ -79,22 +77,15 @@ bool Tilemap::isWaitingChair(T screenPosition)
 }
 
 
-int Tilemap::toTileNumber(sf::Vector2i screenPosition)
+int Tilemap::toTileNumber(TilePosition screenPosition)
 {
-	return toTileNumber(
-		screenPosition.x / (mTileWidth * mWorldScale), 
-		screenPosition.y / (mTileHeight * mWorldScale)
-	);
-}
+	int x = static_cast<int>(floor(screenPosition.x));
+	int y = static_cast<int>(floor(screenPosition.y));
 
-int Tilemap::toTileNumber(sf::Vector2f screenPosition)
-{
 	return toTileNumber(
-		sf::Vector2i(
-			static_cast<int>(screenPosition.x),
-			static_cast<int>(screenPosition.y)
-			)
-		);
+		x / (mTileWidth * mWorldScale), 
+		y / (mTileHeight * mWorldScale)
+	);
 }
 
 int Tilemap::toTileNumber(int x, int y)

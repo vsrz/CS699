@@ -165,7 +165,7 @@ std::stack<TilePosition> ActorEntity::findPath(TilePosition destination)
 	// Calculate the ultimate destination, centering the feet of the sprite on the tile
 	// Find the tile that was clicked
 	Pathfinder p(&mWorld->mTilemap);
-	p.findPath(getTilePosition(), toTilePosition(destination));
+	p.findPath(getTilePosition(), destination);
 	for (auto& i : p.getPath())
 	{
 		travelPath.push(i);	

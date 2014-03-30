@@ -82,7 +82,7 @@ void World::handleEvent(const sf::Event& event)
 
 		// Update some debug tile stuff
 		g_debugData["TileNum"] = toString(mTileLoader.getTileNumber(mouseTilePosition.x, mouseTilePosition.y));
-		g_debugData["TileData"] = toString(mTilemap.getTileProperty(mousePosition));
+		g_debugData["TileData"] = toString(mTilemap.getTileProperty(snapToSpritePosition(mousePosition)));
 		g_debugData["TilePos"] = toString(mouseTilePosition.x) + "," + toString(mouseTilePosition.y);
 #endif
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
@@ -98,8 +98,6 @@ void World::handleEvent(const sf::Event& event)
 					customer = chair->getOccupant();
 					customer->moveToTile(TilePosition(5,5));
 					chair->setOccupied(false);
-					
-
 				}
 			}
 
