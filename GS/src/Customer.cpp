@@ -29,23 +29,58 @@ void Customer::updateCurrent(sf::Time dt)
 	ActorEntity::update(dt);
 }
 
-ChairEntity* Customer::findAvailableChair()
+// Check the current state and handle the click 
+void Customer::customerClicked()
 {
-	WaitingChairsPtr chairs = mWorld->getWaitingRoomChairs();
+	unsigned int state = mState.getState();
+	ChairEntity* chair;
 
-	for (auto& chair : *chairs)
+	if (state == CustomerState::ID::WaitingForService)
+	{
+		chair = getOccupiedChair();
+		if (chair != nullptr)
+		{
+			std::cout << "Here";
+
+		}
+
+	}
+}
+
+ChairEntity* Customer::findAvailableChair(ChairEntity::Type chairType)
+{
+	std::vector<ChairEntity*> chairs = mWorld->getChairs(chairType);
+
+	for (auto& chair : chairs)
 	{
 		if (!chair->isOccupied())
 		{
-			return chair.get();
+			return chair;
 		}
 	}
 	return nullptr;
 }
 
+// If the customer is sitting in a chair, return a pointer to it
+ChairEntity* Customer::getOccupiedChair()
+{
+	// Find the waiting room chair that is occupied
+	for (auto& chair : mWorld->getChairs(ChairEntity::Type::All))
+	{
+		// Put them in the chair if they aren't already sitting and update their state
+		if (this == chair->getOccupant() && 
+			toTilePosition(getPosition()) != chair->getChairLocation())
+		{
+			return chair;
+		}
+	}
+	return nullptr;
+
+}
+
 void Customer::moveToWaitingArea()
 {
-	ChairEntity* chair = findAvailableChair();
+	ChairEntity* chair = findAvailableChair(ChairEntity::Type::Waiting);
 	if (chair == nullptr)
 	{
 		std::cout << "No chair available.";
@@ -87,30 +122,20 @@ void Customer::checkAIState()
 	{
 		if (!isMoving())
 		{
-			// Find the waiting room chair that is occupied
-			ChairEntity* chair;
-			for (auto& chair : *mWorld->getWaitingRoomChairs())
+			ChairEntity* chair = getOccupiedChair();
+			if (chair != nullptr)
 			{
-				// Put them in the chair if they aren't already sitting and update their state
-				if (this == chair->getOccupant() && 
-					toTilePosition(getPosition()) != chair->getChairLocation())
-				{
-					
-					// Create a custom path and push it into the travel path queue
-					Path s;
-					s.push(TilePosition(chair->getChairLocation()));					
-					moveToTile(s);
-					mState.setState(CustomerState::ID::WaitingForService);
+				Path s;
+				s.push(TilePosition(chair->getChairLocation()));					
+				moveToTile(s);
+				mState.setState(CustomerState::ID::WaitingForService);
 
-				}
 			}
 		}
 	}
 	else if (state == CustomerState::ID::WaitingForService)
 	{
 		// Set the sprite to be waiting in the chair
-		
-		// Face the correct direction
-		setDirection(Direction::South);
+
 	}
 }

@@ -30,7 +30,7 @@ public:
 	void draw();
 
 	sf::Vector2f getWorldScale();
-	std::array<std::unique_ptr<ChairEntity>, 5u>* getWaitingRoomChairs();
+	std::vector<ChairEntity*> getChairs(ChairEntity::Type chairType);
 
 	int getTileIndex(int x, int y);
 	void handleEvent(const sf::Event& event);
@@ -69,7 +69,7 @@ private:
 	CommandQueue mCommandQueue;
 
 	// Props
-	std::array<std::unique_ptr<ChairEntity>, 5u> mWaitingChairs;	
+	std::vector<std::unique_ptr<ChairEntity>> mChairs;	
 	void buildProps();
 	void loadTextures();
 	void addCustomer(unsigned int customerType);

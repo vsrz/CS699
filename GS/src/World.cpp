@@ -60,9 +60,17 @@ void World::loadTextures()
 	mTileLoader.loadFromFile(Config::TILEMAP_FILENAME);
 }
 
-std::array<std::unique_ptr<ChairEntity>, 5u>* World::getWaitingRoomChairs()
+std::vector<ChairEntity*> World::getChairs(ChairEntity::Type chairType)
 {
-	return &mWaitingChairs;
+	std::vector<ChairEntity*> chairs;
+	for (auto& i : mChairs)
+	{
+		if (i.get()->getChairType() == chairType || chairType == ChairEntity::Type::All)
+		{
+			chairs.push_back(i.get());
+		}
+	}
+	return chairs;
 }
 
 // Returns the mTiles index ID using the x,y coordinate of 
@@ -89,15 +97,15 @@ void World::handleEvent(const sf::Event& event)
 		{
 			TilePosition clickedTile = toTilePosition(mousePosition);
 			// Find out if the tile clicked was a chair, and if its occupied
-			for (auto& chair : mWaitingChairs)
+			for (auto& chair : mChairs)
 			{
 				if (chair->getChairLocation() == clickedTile &&
 					chair->isOccupied())
 				{
 					Customer* customer;
 					customer = chair->getOccupant();
-					customer->moveToTile(TilePosition(5,5));
-					chair->setOccupied(false);
+					customer->customerClicked();
+					return;
 				}
 			}
 
@@ -173,11 +181,12 @@ void World::buildProps()
 	int index = 0;
 	
 	/* Waiting room chairs */
-	for (auto& i : Config::Chairs::WAITING_CHAIR_SEATING_POSITION)
+	for (auto& i : Config::Chairs::SEATING_POSITION)
 	{
 		std::unique_ptr<ChairEntity> c(new ChairEntity(i,  this));
-		c->setChairLocation(Config::Chairs::WAITING_CHAIR_SEATING_POSITION[index]);
-		mWaitingChairs[index++] = std::move(c);
+		c->setChairLocation(Config::Chairs::SEATING_POSITION[index]);
+		c->setChairType(static_cast<ChairEntity::Type>(Config::Chairs::TYPE[index]));
+		mChairs.push_back(std::move(c));
 	}
 
 	/* Walk in door */

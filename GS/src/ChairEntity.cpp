@@ -9,6 +9,7 @@ ChairEntity::ChairEntity(TilePosition tilePosition, World* wp)
 	mOccupied = false;
 	wp->mTilemap.setTileProperty(tilePosition.x, tilePosition.y, Tiles::Property::WaitingChair);
 	setTilePosition(tilePosition);
+	mType = Type::Waiting;
 }
 
 bool ChairEntity::isOccupied()
@@ -32,6 +33,20 @@ bool ChairEntity::setOccupied(bool occupied, Customer* occupant)
 	mOccupant = occupant;
 	mOccupied = occupied;
 	return true;
+}
+
+ChairEntity::Type ChairEntity::getChairType()
+{
+	return mType;
+}
+
+void ChairEntity::setChairType(Type type)
+{
+	mType = Waiting;
+	if (type < All)
+	{
+		mType = type;
+	}
 }
 
 void ChairEntity::setChairLocation(TilePosition tileLocation)

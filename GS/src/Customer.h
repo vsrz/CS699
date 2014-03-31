@@ -23,13 +23,16 @@ public:
 
 	Customer(const TextureManager& textures, World* world, unsigned int customerID);
 	virtual void updateCurrent(sf::Time dt);
+	
+	void customerClicked();
 
 private:
-	typedef std::array<std::unique_ptr<ChairEntity>, 5u>* WaitingChairsPtr;
 
 	void initalize(const TextureManager& t, unsigned int customerID);
 	
-	ChairEntity* findAvailableChair();
+	ChairEntity* findAvailableChair(ChairEntity::Type chairType);
+	ChairEntity* getOccupiedChair();
+
 	void moveToWaitingArea();
 	void enterSalon();
 	void checkAIState(); 
