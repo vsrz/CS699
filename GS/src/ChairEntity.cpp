@@ -42,14 +42,34 @@ void ChairEntity::setChairType(Type type)
 	}
 }
 
-void ChairEntity::setChairLocation(TilePosition tileLocation)
+void ChairEntity::setChairPosition(TilePosition tilePosition)
 {
-	mSeatingPosition = tileLocation;
+	mSeatingPosition = tilePosition;
 }
 
-TilePosition ChairEntity::getChairLocation()
+void ChairEntity::setDirection(unsigned int direction)
+{
+	mDirection = direction;
+}
+
+unsigned int ChairEntity::getDirection()
+{
+	return mDirection;
+}
+
+TilePosition ChairEntity::getChairPosition()
 {
 	return mSeatingPosition;
+}
+
+TilePosition ChairEntity::getStagingPosition()
+{
+	return mStagingPosition;
+}
+
+void ChairEntity::setStagingPosition(TilePosition tilePosition)
+{
+	mStagingPosition = tilePosition;
 }
 
 void ChairEntity::updateCurrent(sf::Time dt)

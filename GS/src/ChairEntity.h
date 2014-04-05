@@ -20,6 +20,8 @@ public:
 	{
 		Waiting,
 		Washing,
+		Cutting,
+		Dry,
 		All,
 	};
 
@@ -30,14 +32,19 @@ public:
 	Type getChairType();
 	void setChairType(Type type);
 
-	void setChairLocation(TilePosition tileLocation);
-	TilePosition getChairLocation();
+	void setChairPosition(TilePosition tilePosition);
+	void setStagingPosition(TilePosition tilePosition);
+	void setDirection(unsigned int direction);
+
+	TilePosition getChairPosition();
+	TilePosition getStagingPosition();
+	unsigned int getDirection();
 
 private:
 	Customer* mOccupant;
 	TilePosition mStagingPosition;
 	TilePosition mSeatingPosition;
-	Direction mFacing;
+	unsigned int mDirection;
 
 	Type mType;
 	void updateCurrent(sf::Time dt);

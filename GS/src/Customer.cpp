@@ -9,6 +9,7 @@
 
 Customer::Customer(const TextureManager& textures, World* world, unsigned int customerType)
 	: ActorEntity(world)
+	, mType(customerType)
 {
 	initalize(textures, customerType);
 }
@@ -21,7 +22,7 @@ void Customer::initalize(const TextureManager& t, unsigned int customerType)
 	mSprite.setOrigin(0.f,32.f);
 	setTilePosition(TilePosition(7.f,0.f));
 	mState.setState(CustomerState::ID::None);
-	
+	mType = customerType;
 	setSpeed();
 	setNeeds();
 	setPatience();
@@ -42,6 +43,18 @@ void Customer::updateCurrent(sf::Time dt)
 	ActorEntity::update(dt);
 }
 
+void Customer::moveToChair(ChairEntity* chair)
+{
+	// Unoccupy any chair they might already be sitting in
+	ChairEntity* currentChair = getOccupiedChair();
+	currentChair->setOccupied(nullptr);
+
+	// Occupy the new chair then move to it
+	chair->setOccupied(this);
+	moveToTile(chair->getStagingPosition());
+}
+
+
 // Check the current state and handle the click 
 void Customer::customerClicked()
 {
@@ -54,9 +67,36 @@ void Customer::customerClicked()
 		chair = getOccupiedChair();
 		if (chair != nullptr)
 		{
+			// If they want a washing service
+			if (mNeeds & Needs::Wash)
+			{
+				// Find an available chair at the washing service
+				ChairEntity* washChair = findAvailableChair(ChairEntity::Type::Washing);
+				if (washChair != nullptr)
+				{
+					moveToChair(washChair);
+					mState.setState(CustomerState::ID::MovingToWashingArea);
+
+				}
+			}
 			
+			else if (mNeeds & Needs::Cut)
+			{
+				// Find available chair at the haircut stations
+				ChairEntity* cutChair = findAvailableChair(ChairEntity::Type::Cutting);
+				if (cutChair != nullptr)
+				{
+					moveToChair(cutChair);
+					mState.setState(CustomerState::ID::MovingToHaircutArea);
+				}
+			}
 
 		}
+	}
+
+	// Customer is waiting for a haircut
+	if (state == CustomerState::ID::WaitingForWashService)
+	{
 
 	}
 }
@@ -83,7 +123,7 @@ ChairEntity* Customer::getOccupiedChair()
 	{
 		// Put them in the chair if they aren't already sitting and update their state
 		if (this == chair->getOccupant() && 
-			toTilePosition(getPosition()) != chair->getChairLocation())
+			toTilePosition(getPosition()) != chair->getChairPosition())
 		{
 			return chair;
 		}
@@ -94,59 +134,187 @@ ChairEntity* Customer::getOccupiedChair()
 
 // Generate a random patience level for this customer
 // Patience level is rated 0-10, when customer reaches 0 patience, they walk out
-// TODO: Create some dependence on the customer type
 void Customer::setPatience(float bonus)
 {
 	float patience = (rand() % 10) + 1;
-	patience *= 1.25f;
-	patience += bonus;
+	
+	switch(mType)
+	{
+	case Type::ManOld:
+	case Type::ManTeen:
+		bonus += .35f;
+		break;
+	case Type::WomanTeen:
+		bonus -= .30f;
+		break;
+	case Type::ManYoung:
+	case Type::WomanYoung:
+	case Type::ManMiddle:
+	case Type::WomanOld:
+	case Type::WomanMiddle:
+	default:
+		bonus += .25f;
+	}
+	
 	if (patience > 10.f) patience = 10.f;
 	mPatience = patience;
 }
 
-// TODO: Create some form of classification for different customer types (IDs)
+// Generate this customers needs based on who they are
 void Customer::setNeeds()
 {
-	/**
-	 * 15% chance of wanting only product
-	 * 40% chance of wanting a wash and cut
-	 * 10% chance of wanting a wash, cut, and color
-	 * 30% chance of wanting only a cut
-	 * 5% chance of wanting only a wash
-	 */
 	int roll = getRand(0,99);
-	if (roll < 15)
+	switch (mType)
 	{
-		mNeeds = Needs::Product;
-	}
+	case Type::WomanYoung:
+	case Type::ManYoung:
+	case Type::ManTeen:
+		/**
+		 *	60% chance for a cut only
+		 *  40% chance for wash and cut
+		 **/
+		if (roll < 60)
+		{
+			mNeeds = Needs::Cut;
+		}
 
-	else if (roll < 55)
-	{
-		mNeeds = Needs::Wash | Needs::Cut;
-	}
+		else
+		{
+			mNeeds = Needs::Cut | Needs::Wash;
+		}
+		break;
+	case Type::ManMiddle:
+		/**
+		 *	50% chance for a cut
+		 *	30% chance for a wash and cut
+		 *  10% chance for product only
+		 **/
+		if (roll < 50)
+		{
+			mNeeds = Needs::Cut;
+		}
 
-	else if (roll < 65)
-	{
-		mNeeds = Needs::Wash | Needs::Cut | Needs::Color;
-	}
+		else if (roll < 70)
+		{
+			mNeeds = Needs::Cut | Needs::Wash;
+		}
 
-	else if (roll < 95)
-	{
-		mNeeds = Needs::Cut;
-	}
+		else 
+		{
+			mNeeds = Needs::Product;
+		}
+		break;
+	case Type::WomanTeen:
+	case Type::ManOld:
+		/**
+		 *	15% chance for a cut
+		 *  25% chance for a wash and cut
+		 *	40% chance for a wash, cut, and color
+		 *  20% chance for product only
+		 **/
+		if (roll < 15)
+		{
+			mNeeds = Needs::Cut;
+		}
 
-	else if (roll < 100)
-	{
-		mNeeds = Needs::Wash;
+		else if (roll < 40)
+		{
+			mNeeds = Needs::Cut | Needs::Wash;
+		}
+
+		else if (roll < 80)
+		{
+			mNeeds = Needs::Cut | Needs::Wash | Needs::Color;
+		}
+
+		else 
+		{
+			mNeeds = Needs::Product;
+		}
+		break;
+	case Type::WomanMiddle:
+		/**
+		 *  30% chance for a wash and cut
+		 *	50% chance for a wash, cut, and color
+		 *  20% chance for product only
+		 **/
+		if (roll < 30)
+		{
+			mNeeds = Needs::Cut | Needs::Wash;
+		}
+
+		else if (roll < 80)
+		{
+			mNeeds = Needs::Cut | Needs::Wash | Needs::Color;
+		}
+
+		else {
+			mNeeds = Needs::Product;
+		}
+		break;
+	
+	case Type::WomanOld:
+		break;
+	default:
+		/**
+		 * 15% chance of wanting only product
+		 * 40% chance of wanting a wash and cut
+		 * 10% chance of wanting a wash, cut, and color
+		 * 30% chance of wanting only a cut
+		 * 5% chance of wanting only a wash
+		 */
+		if (roll < 15)
+		{
+			mNeeds = Needs::Product;
+		}
+
+		else if (roll < 55)
+		{
+			mNeeds = Needs::Wash | Needs::Cut;
+		}
+
+		else if (roll < 65)
+		{
+			mNeeds = Needs::Wash | Needs::Cut | Needs::Color;
+		}
+
+		else if (roll < 95)
+		{
+			mNeeds = Needs::Cut;
+		}
+
+		else
+		{
+			mNeeds = Needs::Wash;
+		}
 	}
 	assert(mNeeds > 0);
 	
 }
 
-// TODO: Come up with some form of depth here to calculate speed
+// Set their speed based on the customer type
 void Customer::setSpeed()
 {
 	float speed = 3.f;
+	switch(mType)
+	{
+	case Type::ManYoung:
+		speed = 5.f;
+		break;
+	case Type::ManTeen:
+	case Type::ManMiddle:
+		speed = 4.5f;
+		break;
+	case Type::WomanTeen:
+	case Type::WomanMiddle:
+	case Type::WomanYoung:
+		speed = 3.f;
+		break;
+	case Type::ManOld:
+	case Type::WomanOld:
+	default:
+		speed = 2.f;
+	}
 	ActorEntity::setSpeed(speed);
 	
 }
@@ -159,11 +327,10 @@ void Customer::moveToWaitingArea()
 	{
 		std::cout << "No chair available.";
 	}
-	moveToTile(chair->getTilePosition());
+	moveToTile(chair->getStagingPosition());
 	chair->setOccupied(this);
-
-
 }
+
 
 void Customer::enterSalon()
 {
@@ -174,9 +341,11 @@ void Customer::enterSalon()
 	moveToTile(travelPath);
 }
 
+
 void Customer::checkAIState()
 {
 	unsigned int state = mState.getState();
+	ChairEntity* occupiedChair = getOccupiedChair();
 
 	if (state == CustomerState::ID::None)
 	{
@@ -196,14 +365,12 @@ void Customer::checkAIState()
 	{
 		if (!isMoving())
 		{
-			ChairEntity* chair = getOccupiedChair();
-			if (chair != nullptr)
+			if (occupiedChair != nullptr)
 			{
-				Path s;
-				s.push(TilePosition(chair->getChairLocation()));					
-				moveToTile(s);
+				// TODO: Replace this with a sitting texture
+				TilePosition t = occupiedChair->getChairPosition();
+				Entity::setTilePosition(t);
 				mState.setState(CustomerState::ID::WaitingForService);
-
 			}
 		}
 	}
@@ -214,6 +381,25 @@ void Customer::checkAIState()
 		{
 
 		}
-
 	}
+
+	else if (state == CustomerState::ID::MovingToWashingArea)
+	{
+		if (!isMoving())
+		{
+			TilePosition t = occupiedChair->getChairPosition();
+			Entity::setTilePosition(t);
+			mState.setState(CustomerState::ID::WaitingForWashService);
+		}
+	}
+	else if (state == CustomerState::ID::MovingToHaircutArea)
+	{
+		if (!isMoving())
+		{
+			TilePosition t = occupiedChair->getChairPosition();
+			Entity::setTilePosition(t);
+			mState.setState(CustomerState::ID::WaitingForHaircutService);
+		}
+	}
+
 }

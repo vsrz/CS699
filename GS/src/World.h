@@ -72,7 +72,7 @@ private:
 	std::vector<std::unique_ptr<ChairEntity>> mChairs;	
 	void buildProps();
 	void loadTextures();
-	void addCustomer(unsigned int customerType);
+	void addCustomers();
 	void buildScene();
 
 	void loadLayer(const char* layerName, unsigned int id);

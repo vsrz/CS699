@@ -99,13 +99,23 @@ void World::handleEvent(const sf::Event& event)
 			// Find out if the tile clicked was a chair, and if its occupied
 			for (auto& chair : mChairs)
 			{
-				if (chair->getChairLocation() == clickedTile &&
+				if (chair->getChairPosition() == clickedTile &&
 					chair->isOccupied())
 				{
 					Customer* customer;
 					customer = chair->getOccupant();
 					customer->customerClicked();
-					return;
+					
+					// If it's a waiting chair, you don't go to it
+					if (chair->getChairType() == ChairEntity::Type::Waiting)
+					{
+						return;
+					}
+
+					else 
+					{
+
+					}
 				}
 			}
 
@@ -184,9 +194,12 @@ void World::buildProps()
 	for (auto& i : Config::Chairs::SEATING_POSITION)
 	{
 		std::unique_ptr<ChairEntity> c(new ChairEntity(i,  this));
-		c->setChairLocation(Config::Chairs::SEATING_POSITION[index]);
-		c->setChairType(static_cast<ChairEntity::Type>(Config::Chairs::TYPE[index]));
+		c->setChairPosition(Config::Chairs::SEATING_POSITION[index]);
+		c->setStagingPosition(Config::Chairs::STAGING_POSITION[index]);
+		c->setDirection(Config::Chairs::SEATING_DIRECTION[index]);
+		c->setChairType(static_cast<ChairEntity::Type>(Config::Chairs::TYPE[index++]));
 		mChairs.push_back(std::move(c));
+
 	}
 
 	/* Walk in door */
@@ -195,13 +208,20 @@ void World::buildProps()
 
 }
 
-void World::addCustomer(unsigned int customerType)
+void World::addCustomers()
 {
+	std::array<unsigned int, 5u> customers = {
+		Customer::Type::ManTeen,
+		Customer::Type::WomanOld,
+		Customer::Type::ManTeen,
+		Customer::Type::ManYoung,
+		Customer::Type::WomanTeen,
+	};
+
 	for (int i = 0; i < 5; ++i)
 	{
-		std::unique_ptr<Customer> cust(new Customer(mTextures, this, customerType));
+		std::unique_ptr<Customer> cust(new Customer(mTextures, this, customers[i]));
 		mCustomers.push(std::move(cust));
-
 	}
 }
 
@@ -231,7 +251,7 @@ void World::buildScene()
 	buildProps();
 
 	/* Build the customer queue */
-	addCustomer(Player::ID::ManOveralls);
+	addCustomers();
 }
 
 /* Update the customer stack and release a customer if necessary */

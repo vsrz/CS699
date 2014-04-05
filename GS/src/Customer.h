@@ -16,16 +16,16 @@ public:
 
 	enum Type
 	{
-		None = 0,
-		Manager = 1 << 1,
-		ManYoung = 1 << 2,
-		ManTeen = 1 << 3,
-		ManMiddle = 1 << 4,
-		ManOld = 1 << 5,
-		WomanYoung = 1 << 6,
-		WomanTeen = 1 << 7,
-		WomanMiddle = 1 << 8,
-		WomanOld = 1 << 9,
+		None,
+		Manager,
+		ManYoung,
+		ManTeen,
+		ManMiddle,
+		ManOld,
+		WomanYoung,
+		WomanTeen,
+		WomanMiddle,
+		WomanOld,
 	};
 
 	enum Needs
@@ -54,11 +54,12 @@ private:
 	ChairEntity* getOccupiedChair();
 	
 	// Random value generation
-	void setPatience(float bonus = 0.f);
+	void setPatience(float bonus = 1.f);
 	void setNeeds();
 	void setSpeed();
 
 	void moveToWaitingArea();
+	void moveToChair(ChairEntity* chair);
 	void enterSalon();
 	void checkAIState(); 
 
@@ -66,6 +67,7 @@ private:
 	sf::Time mElapsedTime;
 	
 	unsigned int mNeeds;
+	unsigned int mType;
 	float mPatience;
 };
 

@@ -47,7 +47,7 @@ namespace Config
 	namespace Chairs
 	{
 				// The position they move to before sitting
-		const std::array<TilePosition, 7u> STAGING_POSITION = 
+		const std::array<TilePosition, 11u> STAGING_POSITION = 
 		{
 			TilePosition(3, 6),
 			TilePosition(4, 7),
@@ -56,10 +56,14 @@ namespace Config
 			TilePosition(2, 8),
 			TilePosition(17, 8),
 			TilePosition(17, 10),
+			TilePosition(16, 6),
+			TilePosition(18, 6),
+			TilePosition(10, 9),
+			TilePosition(12, 9),
 		};
 
 		// The position they actually wait at
-		const std::array<TilePosition, 7u> SEATING_POSITION =
+		const std::array<TilePosition, 11u> SEATING_POSITION =
 		{
 			TilePosition(3, 5),
 			TilePosition(5, 7),
@@ -68,10 +72,14 @@ namespace Config
 			TilePosition(1, 8),
 			TilePosition(18, 8),
 			TilePosition(18, 10),
+			TilePosition(16, 5),
+			TilePosition(18, 5),
+			TilePosition(10, 8),
+			TilePosition(12, 8),
 		};
 
 		// The direction they are facing when they sit
-		const std::array<Direction, 7u>	SEATING_DIRECTION =
+		const std::array<Direction, 11u>	SEATING_DIRECTION =
 		{
 			Direction::South,
 			Direction::West,
@@ -80,10 +88,14 @@ namespace Config
 			Direction::East,
 			Direction::West,
 			Direction::West,
+			Direction::South,
+			Direction::South,
+			Direction::South,
+			Direction::South,
 		};
 
 		// The direction they are facing when they sit
-		const std::array<unsigned int, 7u> TYPE =
+		const std::array<unsigned int, 11u> TYPE =
 		{
 			0,
 			0,
@@ -92,6 +104,10 @@ namespace Config
 			0,
 			1,
 			1,
+			2,
+			2,
+			3,
+			3,
 		};
 	}
 
