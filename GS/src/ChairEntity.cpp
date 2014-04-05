@@ -6,15 +6,15 @@
 ChairEntity::ChairEntity(TilePosition tilePosition, World* wp)
 	: Entity(wp)
 {
-	mOccupied = false;
 	wp->mTilemap.setTileProperty(tilePosition.x, tilePosition.y, Tiles::Property::WaitingChair);
 	setTilePosition(tilePosition);
 	mType = Type::Waiting;
+	mOccupant = nullptr;
 }
 
 bool ChairEntity::isOccupied()
 {
-	return mOccupied;
+	return mOccupant != nullptr;
 }
 
 Customer* ChairEntity::getOccupant()
@@ -23,16 +23,9 @@ Customer* ChairEntity::getOccupant()
 }
 
 // returns true if the operation was a success
-bool ChairEntity::setOccupied(bool occupied, Customer* occupant)
+void ChairEntity::setOccupied(Customer* occupant)
 {
-	if (mOccupied == occupied)
-	{
-		mOccupant = nullptr;
-		return false;
-	}
 	mOccupant = occupant;
-	mOccupied = occupied;
-	return true;
 }
 
 ChairEntity::Type ChairEntity::getChairType()

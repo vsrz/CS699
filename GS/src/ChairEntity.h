@@ -25,7 +25,7 @@ public:
 
 	ChairEntity(TilePosition location, World* wp);
 	bool isOccupied();
-	bool setOccupied(bool occupied, Customer* occupant = nullptr);
+	void setOccupied(Customer* occupant = nullptr);
 	Customer* getOccupant();
 	Type getChairType();
 	void setChairType(Type type);
@@ -35,7 +35,6 @@ public:
 
 private:
 	Customer* mOccupant;
-	bool mOccupied;
 	TilePosition mStagingPosition;
 	TilePosition mSeatingPosition;
 	Direction mFacing;

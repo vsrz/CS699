@@ -37,6 +37,7 @@
     <ClInclude Include="..\..\..\..\src\PathNode.h" />
     <ClInclude Include="..\..\..\..\src\PauseState.h" />
     <ClInclude Include="..\..\..\..\src\Player.h" />
+    <ClInclude Include="..\..\..\..\src\prng.h" />
     <ClInclude Include="..\..\..\..\src\ResourceManager.h" />
     <ClInclude Include="..\..\..\..\src\ResourceIdentifiers.h" />
     <ClInclude Include="..\..\..\..\src\SceneNode.h" />
