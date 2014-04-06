@@ -357,7 +357,14 @@ void Customer::checkAIState()
 		if (!isMoving())
 		{
 			moveToWaitingArea();
-			mState.setState(CustomerState::ID::MovingToWaitingArea);
+			if (mNeeds != Needs::Product)
+			{
+				mState.setState(CustomerState::ID::MovingToWaitingArea);
+			} else
+			{
+				std::cout << "I want product.\n";
+			}
+
 		}
 	}
 
