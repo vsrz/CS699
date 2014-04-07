@@ -43,6 +43,37 @@ void Customer::updateCurrent(sf::Time dt)
 	ActorEntity::update(dt);
 }
 
+// Get the state object for the customer
+void Customer::leaveStore()
+{
+	moveToTile(Config::EXIT_TILE);
+	mState.setState(CustomerState::ID::Leaving);
+}
+
+bool Customer::isReadyToDelete()
+{
+	return mState.getState() == CustomerState::ID::Delete;
+}
+
+void Customer::washHair()
+{
+	mNeeds &= (Needs::Wash);
+
+	// If they need to go to another station, lets do that
+	if (mNeeds & Needs::Cut)
+	{
+		mState.setState(CustomerState::ID::WaitingToMoveToHaircutArea);
+	}
+	
+	// Otherwise, get up and pay
+	else
+	{
+		mState.setState(CustomerState::ID::MovingToRegister);
+	}
+
+
+}
+
 void Customer::moveToChair(ChairEntity* chair)
 {
 	// Unoccupy any chair they might already be sitting in
@@ -288,6 +319,12 @@ void Customer::setNeeds()
 			mNeeds = Needs::Wash;
 		}
 	}
+	// Register testing
+	// mNeeds = Needs::Product;
+
+	// TODO: Remove this
+	// Wash to Register test
+	mNeeds = Needs::Wash;
 	assert(mNeeds > 0);
 	
 }
@@ -428,6 +465,20 @@ void Customer::checkAIState()
 			mState.setState(CustomerState::ID::WaitingToPay);
 
 		}
+	}
+	
+	else if (state == CustomerState::ID::Leaving)
+	{
+		if (!isMoving())
+		{
+			mState.setState(CustomerState::ID::Delete);
+		}
+	}
+
+	// Customer has exited the store and is no longer needed in the scenegraph
+	else if (state == CustomerState::ID::Delete)
+	{
+		
 	}
 
 }

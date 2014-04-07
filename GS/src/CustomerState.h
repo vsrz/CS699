@@ -10,13 +10,14 @@ public:
 
 	enum ID
 	{
-		None = 0,
+		None ,
 		EnteringSalon,
 		Arrived,
 		MovingToWaitingArea,
 		WaitingForService,
 		MovingToWashingArea,
 		WaitingForWashService,
+		WaitingToMoveToHaircutArea,
 		MovingToHaircutArea,
 		WaitingForHaircutService,
 		MovingToDryer,
@@ -24,6 +25,7 @@ public:
 		MovingToRegister,
 		WaitingToPay,
 		Leaving,
+		Delete,
 	};
 
 	unsigned int getState();

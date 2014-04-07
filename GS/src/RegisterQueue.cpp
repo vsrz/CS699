@@ -6,15 +6,20 @@ RegisterQueue::RegisterQueue()
 
 }
 
-bool RegisterQueue::isQueueFull()
+bool RegisterQueue::isFull()
 {
 	return mQueue.size() == 8;
+}
+
+bool RegisterQueue::isEmpty()
+{
+	return mQueue.size() == 0;
 }
 
 // Returns the tile position where they will land in the queue
 bool RegisterQueue::enqueue(Customer* customer)
 {
-	if (!isQueueFull())
+	if (!isFull())
 	{
 		mQueue.push(customer);
 		customer->moveToTile(Config::RegisterQueue::POSITION[mQueue.size()-1]);
@@ -22,6 +27,7 @@ bool RegisterQueue::enqueue(Customer* customer)
 	}
 	return false;
 }
+
 
 int RegisterQueue::getQueuePosition(const Customer* cust)
 {
@@ -40,14 +46,15 @@ int RegisterQueue::getQueuePosition(const Customer* cust)
 }
 
 // Remove a customer from the queue, and move everyone up one position
-Customer* RegisterQueue::dequeue()
+void RegisterQueue::dequeue()
 {
 	Customer* cust = mQueue.front();
+	cust->leaveStore();
 	mQueue.pop();
 	std::queue<Customer*> line;
-	
+	unsigned int size = mQueue.size();
 	// For each customer in line, move them up the line one position
-	for (int i = 0; i < mQueue.size(); i++)
+	for (int i = 0; i < size; i++)
 	{
 		Customer* c = mQueue.front();
 		c->moveToTile(Config::RegisterQueue::POSITION[i]);
@@ -55,6 +62,5 @@ Customer* RegisterQueue::dequeue()
 		mQueue.pop();
 	}
 	mQueue = line;
-	return cust;
 }
 

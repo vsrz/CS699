@@ -44,7 +44,12 @@ public:
 	unsigned int getNeeds();	
 	virtual void updateCurrent(sf::Time dt);
 	
+
+	// Various exposed methods for directly altering the state of the customer
 	void customerClicked();
+	void leaveStore();
+	bool isReadyToDelete();
+	void washHair();
 
 private:
 

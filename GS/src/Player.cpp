@@ -5,6 +5,9 @@
 #include <map>
 #include <string>
 #include "World.h"
+#include "RegisterQueue.h"
+#include "ChairEntity.h"
+#include "Customer.h"
 
 Player::Player(const TextureManager& textures, World* worldContext) 
 	: ActorEntity(worldContext)
@@ -32,6 +35,7 @@ void Player::initalize(const TextureManager& t)
 	mSprite.setPosition(toSpritePosition(mTilePosition));
 	mBoundingBox = sf::IntRect(0, 0, mFrameSize.x, mFrameSize.y);
 	mElapsedTime = sf::Time::Zero;
+	mCurrentAction = None;
 
 }
 
@@ -46,6 +50,50 @@ void Player::setState(unsigned int state)
 	mState = state;
 }
 
+void Player::useRegister(RegisterQueue* queue)
+{
+	mCurrentAction = Action::UsingRegister;
+	mRegisterQueue = queue;
+	setState(State::Busy);
+
+}
+
+void Player::useStation(ChairEntity* chair)
+{
+	unsigned int chairType = chair->getChairType();
+
+	switch (chairType)
+	{
+	case ChairEntity::Washing:
+		mCurrentAction = Action::WashingHair;
+		break;
+	case ChairEntity::Cutting:
+		mCurrentAction = Action::CuttingHair;
+		break;
+	case ChairEntity::Dry:
+		mCurrentAction = Action::DryingHair;
+		break;
+	default:
+		mCurrentAction = Action::None;
+	}
+	
+	// Store the customer we're working on so we can manipulate them
+	if (mCurrentAction > Action::None)
+	{
+		mCurrentCustomer = chair->getOccupant();
+	}
+
+}
+
+// Set the player to be busy for the amount of seconds
+// While the player is busy, they cannot perform any actions except
+// ordering customers to move to the next station
+void Player::setBusy(sf::Time seconds)
+{
+	mBusyTime = seconds;
+	setState(State::Busy);
+}
+
 void Player::updateCurrent(sf::Time dt)
 {
 #ifdef DEBUG
@@ -55,6 +103,48 @@ void Player::updateCurrent(sf::Time dt)
 #endif
 	mElapsedTime += dt;
 	ActorEntity::update(dt);
+	
+	if (mBusyTime > sf::Time::Zero)
+	{
+		mBusyTime -= dt;
+	}
+	else
+	{
+		// If they are currently using the register
+		if (mCurrentAction == Action::UsingRegister)
+		{
+			// Ring someone up
+			mRegisterQueue->dequeue();
+
+			// If there is nobody else in line, change the action and remove their busy toggle
+			if (mRegisterQueue->isEmpty())
+			{
+				mCurrentAction = Action::None;
+				mRegisterQueue = nullptr;
+				setState(State::Idle);
+			}
+
+			// Otherwise, take another customer, after the USE_TIME elapses
+			else
+			{
+				mBusyTime += sf::seconds(Config::REGISTER_USE_TIME);
+			}
+		}
+		else if (mCurrentAction == Action::WashingHair)
+		{
+			if (getState() != State::Busy)
+			{
+				mBusyTime += sf::seconds(Config::WASH_USE_TIME);
+				setState(State::Busy);
+			}
+			else
+			{
+				mCurrentCustomer->washHair();
+				setState(State::Idle);
+			}
+		}
+
+	}
 
 }
 

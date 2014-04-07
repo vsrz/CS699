@@ -44,6 +44,15 @@ namespace Config
 	// Pathfinder
 	const int								MAX_SEARCH = 500;
 
+	// Tile you move to when leaving the scene
+	const TilePosition						EXIT_TILE = TilePosition(7,0);
+
+	// The different times it takes to use each station
+	const float								WASH_USE_TIME = 4.f;
+	const float								CUT_USE_TIME = 6.f;
+	const float								DRY_USE_TIME = 1.f;
+	const float								REGISTER_USE_TIME = 1.f;
+
 	// Waiting room chairs
 	namespace Chairs
 	{
@@ -135,10 +144,12 @@ namespace Config
 			TilePosition(10,9),
 			TilePosition(12,9),
 		};
+
 	}
 
 	namespace RegisterQueue
 	{
+		// Size of the queue
 		const int SIZE = 8u;
 
 		const std::array<TilePosition, SIZE> POSITION =

@@ -129,6 +129,7 @@ void World::handleEvent(const sf::Event& event)
 					{
 						if (mPlayer->getState() == Player::State::Busy)
 								return;
+						// TODO: washing station queue processing
 						if (mPlayer->getTilePosition() == chair->getOperatingPosition())
 						{
 							Customer* cust = chair->getOccupant();
@@ -161,7 +162,10 @@ void World::handleEvent(const sf::Event& event)
 					if (mPlayer->getTilePosition() == opPos)
 					{
 						// TODO: Operate the register!
-						std::cout << "\nOperate the register!";
+						if (!mRegisterQueue.isEmpty())
+						{
+							mPlayer->useRegister(&mRegisterQueue);
+						}
 						return;
 					}
 
@@ -330,6 +334,7 @@ void World::updateCustomers(sf::Time dt)
 		}
 		mLastCustomerReleased = sf::Time::Zero;
 	}
+
 }
 
 RegisterQueue* World::getQueue()

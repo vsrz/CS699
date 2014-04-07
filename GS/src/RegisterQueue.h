@@ -10,10 +10,12 @@ class RegisterQueue
 {
 public:
 	RegisterQueue();
-	bool isQueueFull();
+	bool isFull();
+	bool isEmpty();
 	int getQueuePosition(const Customer* cust);
 	bool enqueue(Customer* customer);
-	Customer* dequeue();
+	void dequeue();
+
 private:
 	std::queue<Customer*> mQueue;
 };
