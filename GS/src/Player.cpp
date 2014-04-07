@@ -36,6 +36,16 @@ void Player::initalize(const TextureManager& t)
 }
 
 
+unsigned int Player::getState()
+{
+	return mState;
+}
+
+void Player::setState(unsigned int state)
+{
+	mState = state;
+}
+
 void Player::updateCurrent(sf::Time dt)
 {
 #ifdef DEBUG

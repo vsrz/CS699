@@ -18,6 +18,7 @@
     <ClInclude Include="..\..\..\..\src\ActorEntity.h" />
     <ClInclude Include="..\..\..\..\src\Animation.h" />
     <ClInclude Include="..\..\..\..\src\Application.h" />
+    <ClInclude Include="..\..\..\..\src\CashRegister.h" />
     <ClInclude Include="..\..\..\..\src\Category.h" />
     <ClInclude Include="..\..\..\..\src\ChairEntity.h" />
     <ClInclude Include="..\..\..\..\src\ClickObject.h" />
@@ -38,6 +39,7 @@
     <ClInclude Include="..\..\..\..\src\PauseState.h" />
     <ClInclude Include="..\..\..\..\src\Player.h" />
     <ClInclude Include="..\..\..\..\src\prng.h" />
+    <ClInclude Include="..\..\..\..\src\RegisterQueue.h" />
     <ClInclude Include="..\..\..\..\src\ResourceManager.h" />
     <ClInclude Include="..\..\..\..\src\ResourceIdentifiers.h" />
     <ClInclude Include="..\..\..\..\src\SceneNode.h" />
@@ -148,6 +150,7 @@
     <ClCompile Include="..\..\..\..\src\ActorEntity.cpp" />
     <ClCompile Include="..\..\..\..\src\Animation.cpp" />
     <ClCompile Include="..\..\..\..\src\Application.cpp" />
+    <ClCompile Include="..\..\..\..\src\CashRegister.cpp" />
     <ClCompile Include="..\..\..\..\src\ChairEntity.cpp" />
     <ClCompile Include="..\..\..\..\src\ClickObject.cpp" />
     <ClCompile Include="..\..\..\..\src\Command.cpp" />
@@ -166,6 +169,7 @@
     <ClCompile Include="..\..\..\..\src\PathNode.cpp" />
     <ClCompile Include="..\..\..\..\src\PauseState.cpp" />
     <ClCompile Include="..\..\..\..\src\Player.cpp" />
+    <ClCompile Include="..\..\..\..\src\RegisterQueue.cpp" />
     <ClCompile Include="..\..\..\..\src\SceneNode.cpp" />
     <ClCompile Include="..\..\..\..\src\Source.cpp" />
     <ClCompile Include="..\..\..\..\src\SpriteNode.cpp" />

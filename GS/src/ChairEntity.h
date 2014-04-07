@@ -34,16 +34,19 @@ public:
 
 	void setChairPosition(TilePosition tilePosition);
 	void setStagingPosition(TilePosition tilePosition);
+	void setOperatingPosition(TilePosition tilePosition);
 	void setDirection(unsigned int direction);
 
 	TilePosition getChairPosition();
 	TilePosition getStagingPosition();
+	TilePosition getOperatingPosition();
 	unsigned int getDirection();
 
 private:
 	Customer* mOccupant;
 	TilePosition mStagingPosition;
 	TilePosition mSeatingPosition;
+	TilePosition mOperatingPosition;
 	unsigned int mDirection;
 
 	Type mType;

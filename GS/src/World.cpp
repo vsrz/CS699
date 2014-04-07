@@ -96,29 +96,86 @@ void World::handleEvent(const sf::Event& event)
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
 			TilePosition clickedTile = toTilePosition(mousePosition);
-			// Find out if the tile clicked was a chair, and if its occupied
+			// Find out if the tile clicked was a chair
 			for (auto& chair : mChairs)
 			{
-				if (chair->getChairPosition() == clickedTile &&
-					chair->isOccupied())
+				if (chair->getChairPosition() == clickedTile)
 				{
-					Customer* customer;
-					customer = chair->getOccupant();
-					customer->customerClicked();
-					
-					// If it's a waiting chair, you don't go to it
-					if (chair->getChairType() == ChairEntity::Type::Waiting)
+					// Waiting room case
+					if (chair->getChairType() == ChairEntity::Waiting)
 					{
-						return;
+						// If the chair is occupied, try to send the customer in the chair
+						// to the next station
+						if (chair->isOccupied())
+						{
+							Customer* customer;
+							customer = chair->getOccupant();
+							customer->customerClicked();
+							return;
+						}
+
+						// If it's not occupied, just go to the staging area position
+						else 
+						{
+							if (mPlayer->getState() == Player::State::Busy)
+								return;
+							mPlayer->moveToTile(chair->getStagingPosition());
+							return;
+						}
 					}
-
-					else 
+					
+					// If it's not a waiting chair
+					else
 					{
+						if (mPlayer->getState() == Player::State::Busy)
+								return;
+						if (mPlayer->getTilePosition() == chair->getOperatingPosition())
+						{
+							Customer* cust = chair->getOccupant();
+							if (cust != nullptr)
+							{
 
+							}
+							return;
+						}
+
+						// They are not standing in this chair's operating position, move there
+						else 
+						{
+							mPlayer->moveToTile(chair->getOperatingPosition());
+							return;
+						}
 					}
 				}
 			}
 
+			// Find out if we clicked the cash regsiter
+			for (auto& cReg : mCashRegister.getTilePositions())
+			{
+				if (mPlayer->getState() == Player::State::Busy)
+					return;
+				if (cReg == clickedTile)
+				{
+					TilePosition opPos = Config::RegisterQueue::OPERATING_POSITION[0];
+					// If we're already standing in the operation position, operate the register
+					if (mPlayer->getTilePosition() == opPos)
+					{
+						// TODO: Operate the register!
+						std::cout << "\nOperate the register!";
+						return;
+					}
+
+					// Otherwise, move to the operating position
+					else
+					{
+						mPlayer->moveToTile(opPos);
+						return;
+					}
+				}
+
+			}
+			if (mPlayer->getState() == Player::State::Busy)
+				return;						
 			mPlayer->moveToTile(toTilePosition(mousePosition));
 			#ifdef DEBUG
 			g_debugData["Destination:"] = toString(mousePosition.x) + "," + toString(mousePosition.y);
@@ -196,6 +253,7 @@ void World::buildProps()
 		std::unique_ptr<ChairEntity> c(new ChairEntity(i,  this));
 		c->setChairPosition(Config::Chairs::SEATING_POSITION[index]);
 		c->setStagingPosition(Config::Chairs::STAGING_POSITION[index]);
+		c->setOperatingPosition(Config::Chairs::OPERATING_POSITION[index]);
 		c->setDirection(Config::Chairs::SEATING_DIRECTION[index]);
 		c->setChairType(static_cast<ChairEntity::Type>(Config::Chairs::TYPE[index++]));
 		mChairs.push_back(std::move(c));
@@ -274,4 +332,8 @@ void World::updateCustomers(sf::Time dt)
 	}
 }
 
+RegisterQueue* World::getQueue()
+{
+	return &mRegisterQueue;
+}
 

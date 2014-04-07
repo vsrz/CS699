@@ -5,6 +5,7 @@
 #include <array>
 #include <map>
 #include <sstream>
+#include <queue>
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 
@@ -46,8 +47,10 @@ namespace Config
 	// Waiting room chairs
 	namespace Chairs
 	{
-				// The position they move to before sitting
-		const std::array<TilePosition, 11u> STAGING_POSITION = 
+		const int SIZE = 11u;
+
+		// The position they move to before sitting
+		const std::array<TilePosition, SIZE> STAGING_POSITION = 
 		{
 			TilePosition(3, 6),
 			TilePosition(4, 7),
@@ -63,7 +66,7 @@ namespace Config
 		};
 
 		// The position they actually wait at
-		const std::array<TilePosition, 11u> SEATING_POSITION =
+		const std::array<TilePosition, SIZE> SEATING_POSITION =
 		{
 			TilePosition(3, 5),
 			TilePosition(5, 7),
@@ -79,7 +82,7 @@ namespace Config
 		};
 
 		// The direction they are facing when they sit
-		const std::array<Direction, 11u>	SEATING_DIRECTION =
+		const std::array<Direction, SIZE>	SEATING_DIRECTION =
 		{
 			Direction::South,
 			Direction::West,
@@ -94,8 +97,14 @@ namespace Config
 			Direction::South,
 		};
 
-		// The direction they are facing when they sit
-		const std::array<unsigned int, 11u> TYPE =
+		/** 
+		 *	The type of chair this is
+		 *  0 for waiting
+		 *	1 for washing
+		 *	2 for cutting
+		 *	3 for drying
+		 **/
+		const std::array<unsigned int, SIZE> TYPE =
 		{
 			0,
 			0,
@@ -109,7 +118,72 @@ namespace Config
 			3,
 			3,
 		};
+
+		// The position you need to be standing in order to operate the chair
+		// We don't operate on waiting room chairs, so those are defaulted
+		const std::array<TilePosition, SIZE> OPERATING_POSITION =
+		{
+			TilePosition(0,0),
+			TilePosition(0,0),
+			TilePosition(0,0),
+			TilePosition(0,0),
+			TilePosition(0,0),
+			TilePosition(18,7),
+			TilePosition(18,9),
+			TilePosition(16,4),
+			TilePosition(18,4),
+			TilePosition(10,9),
+			TilePosition(12,9),
+		};
 	}
+
+	namespace RegisterQueue
+	{
+		const int SIZE = 8u;
+
+		const std::array<TilePosition, SIZE> POSITION =
+		{
+			TilePosition(9,4),
+			TilePosition(9,5),
+			TilePosition(9,6),
+			TilePosition(9,7),
+			TilePosition(8,7),
+			TilePosition(7,7),
+			TilePosition(6,7),
+			TilePosition(6,8),
+
+		};
+
+		// The direction they will stand when they are in a specific part of the line
+		const std::array<Direction, SIZE> DIRECTION =
+		{
+			Direction::East,
+			Direction::North,
+			Direction::North,
+			Direction::North,
+			Direction::East,
+			Direction::North,
+			Direction::North,
+			Direction::North,
+		};
+
+		// The spot you need to be standing in order to use the register
+		// There's only 1 register to operate, so there's only one spot
+		const std::array<TilePosition,1u> OPERATING_POSITION = 
+		{ 
+			TilePosition(11,4), 
+		};
+
+		// We're going to have two register positions since the art
+		// looks a little awkward
+		const std::array<TilePosition,2u> REGISTER_POSITION =
+		{
+			TilePosition(10,3),
+			TilePosition(10,4),
+		};
+		
+		
+	};
 
 	namespace Customer
 	{

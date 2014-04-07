@@ -21,6 +21,8 @@
 #include "Customer.h"
 #include "World.h"
 #include "ChairEntity.h"
+#include "RegisterQueue.h"
+#include "CashRegister.h"
 
 class World
 {
@@ -36,6 +38,10 @@ public:
 	void handleEvent(const sf::Event& event);
 	CommandQueue& getCommandQueue();
 	Tilemap mTilemap;
+	
+	RegisterQueue* getQueue();
+
+	bool isRegisterLineFull();
 	
 private:
 	enum SceneLayer
@@ -68,21 +74,22 @@ private:
 	TextureManager mTextures;
 	CommandQueue mCommandQueue;
 
-	// Props
+	// World objects
 	std::vector<std::unique_ptr<ChairEntity>> mChairs;	
+	RegisterQueue mRegisterQueue;
+	TileLoader mTileLoader;
+	Player* mPlayer;
+	std::stack<std::unique_ptr<Customer>> mCustomers;
+	sf::Time mLastCustomerReleased;
+	CashRegister mCashRegister;
+	
+	// Scene building
+	void loadLayer(const char* layerName, unsigned int id);
+	void updateCustomers(sf::Time dt);
 	void buildProps();
 	void loadTextures();
 	void addCustomers();
 	void buildScene();
-
-	void loadLayer(const char* layerName, unsigned int id);
-	TileLoader mTileLoader;
-	Player* mPlayer;
-
-	// Customers
-	std::stack<std::unique_ptr<Customer>> mCustomers;
-	sf::Time mLastCustomerReleased;
-	void updateCustomers(sf::Time dt);
 
 };
 

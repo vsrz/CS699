@@ -57,19 +57,33 @@ unsigned int ChairEntity::getDirection()
 	return mDirection;
 }
 
+// This is the actual seating position of the chair
 TilePosition ChairEntity::getChairPosition()
 {
 	return mSeatingPosition;
 }
 
+// This is the position that the customer will stand in before getting into the chair
 TilePosition ChairEntity::getStagingPosition()
 {
 	return mStagingPosition;
 }
 
+// This is the position that the manager should be in when performing a service
+// for this chair
+TilePosition ChairEntity::getOperatingPosition()
+{
+	return mOperatingPosition;
+}
+
 void ChairEntity::setStagingPosition(TilePosition tilePosition)
 {
 	mStagingPosition = tilePosition;
+}
+
+void ChairEntity::setOperatingPosition(TilePosition tilePosition)
+{
+	mOperatingPosition = tilePosition;
 }
 
 void ChairEntity::updateCurrent(sf::Time dt)

@@ -68,10 +68,10 @@ sf::Vector2f ActorEntity::moveSprite(sf::Vector2f pos, sf::Vector2f dest)
 
 	// Snaps the player to a square. This is used when the correct pixel
 	// position for a tile is rounded and caused by floating point divison 
-	if (abs(dest.x - pos.x) < 5.f)
+	if (abs(dest.x - pos.x) < mSpeed)
 		pos.x = dest.x;
 	
-	if (abs(dest.y - pos.y) < 5.f)
+	if (abs(dest.y - pos.y) < mSpeed)
 		pos.y = dest.y;
 
 	setPosition(pos);

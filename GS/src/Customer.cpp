@@ -339,6 +339,14 @@ void Customer::enterSalon()
 	travelPath.push(TilePosition(7,4));
 	mState.setState(CustomerState::ID::EnteringSalon);
 	moveToTile(travelPath);
+#ifdef DEBUG
+	std::cout << std::endl << "Needs: ";
+	if (mNeeds & Needs::Wash) std::cout << "Wash ";
+	if (mNeeds & Needs::Cut) std::cout << "Cut ";
+	if (mNeeds & Needs::Dry) std::cout << "Dry ";
+	if (mNeeds & Needs::Color) std::cout << "Color ";
+	if (mNeeds & Needs::Product) std::cout << "Product ";
+#endif
 }
 
 
@@ -360,9 +368,11 @@ void Customer::checkAIState()
 			if (mNeeds != Needs::Product)
 			{
 				mState.setState(CustomerState::ID::MovingToWaitingArea);
-			} else
+			} 
+			else
 			{
-				std::cout << "I want product.\n";
+				mWorld->getQueue()->enqueue(this);
+				mState.setState(CustomerState::ID::MovingToRegister);
 			}
 
 		}
@@ -406,6 +416,17 @@ void Customer::checkAIState()
 			TilePosition t = occupiedChair->getChairPosition();
 			Entity::setTilePosition(t);
 			mState.setState(CustomerState::ID::WaitingForHaircutService);
+		}
+	}
+	else if (state == CustomerState::ID::MovingToRegister)
+	{
+		if (!isMoving())
+		{			
+			int queuePos = mWorld->getQueue()->getQueuePosition(this);
+			if (queuePos < 0) queuePos = 0;
+			setDirection(Config::RegisterQueue::DIRECTION[queuePos]);
+			mState.setState(CustomerState::ID::WaitingToPay);
+
 		}
 	}
 

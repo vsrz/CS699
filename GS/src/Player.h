@@ -27,6 +27,16 @@ public:
 		ManOveralls = 2 << 0,
 	};
 
+	enum State
+	{
+		Idle,
+		Walking,
+		Busy,
+
+	};
+
+	unsigned int getState();
+	void setState(unsigned int state);
 private:
 
 	virtual void updateCurrent(sf::Time dt);
@@ -36,13 +46,13 @@ private:
 	TilePosition mTilePosition;
 
 	sf::IntRect mBoundingBox;
+	unsigned int mState;
 	
 	// Animation related 
 	void advanceFrame();
 	void checkDirection();
 	sf::Vector2f mScale;
 	sf::Time mElapsedTime;
-
 	unsigned int getCategory() const;
 };
 
