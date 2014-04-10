@@ -31,14 +31,16 @@ public:
 	
 	void moveToTile(TilePosition tilePosition);
 	void moveToTile(Path path);
-
+	
+	Direction getDirection();
 	void setDirection(Direction d);
+	
 	void setSpeed(float speed);
 	float getSpeed();
 	bool isMoving();
 protected:
 
-	unsigned int mDirection;
+	Direction mDirection;
 	void checkDirection();
 
 	void update(sf::Time dt);

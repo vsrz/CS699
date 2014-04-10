@@ -17,11 +17,11 @@ class ChairEntity;
 
 enum Direction
 {
-	None = 0,
-	South = 1 << 1,
-	North = 1 << 2,
-	West = 1 << 3,
-	East = 1 << 4,
+	None,
+	South,
+	North,
+	West,
+	East,
 };
 
 /* Dirty global configuration area, for now (forever?) */

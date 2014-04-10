@@ -22,8 +22,8 @@ namespace Textures
 		TestTileset,
 		ManOveralls,
 		AutoDoors,
-		WomanTeenWalk01,
-		WomanTeenSit01,
+		WomanTeen01,
+		ManTeen01,
 	};
 
 }	

@@ -47,12 +47,12 @@ void ChairEntity::setChairPosition(TilePosition tilePosition)
 	mSeatingPosition = tilePosition;
 }
 
-void ChairEntity::setDirection(unsigned int direction)
+void ChairEntity::setDirection(Direction direction)
 {
 	mDirection = direction;
 }
 
-unsigned int ChairEntity::getDirection()
+Direction ChairEntity::getDirection()
 {
 	return mDirection;
 }

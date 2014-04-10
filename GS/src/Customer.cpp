@@ -24,9 +24,13 @@ void Customer::initalize(const TextureManager& t, unsigned int customerType)
 	switch(customerType)
 	{
 	case Type::WomanTeen:
-		mSprite.setTexture(t.get(Textures::WomanTeenWalk01));
+		mSprite.setTexture(t.get(Textures::WomanTeen01));
+		break;
+	case Type::ManTeen:
+		mSprite.setTexture(t.get(Textures::ManTeen01));
+		break;
 	default:
-		mSprite.setTexture(t.get(Textures::WomanTeenWalk01));
+		mSprite.setTexture(t.get(Textures::WomanTeen01));
 	}
 	
 	mSprite.setTextureRect(sf::IntRect(Config::Customer::SPRITE_ANIM_OFFSET, Config::Customer::SPRITE_ANIM_FRAME_SIZE));
@@ -433,9 +437,10 @@ void Customer::checkAIState()
 		{
 			if (occupiedChair != nullptr)
 			{
-				// TODO: Replace this with a sitting texture
 				TilePosition t = occupiedChair->getChairPosition();
 				Entity::setTilePosition(t);
+				setDirection(occupiedChair->getDirection());
+				mFrameOffset = 3 + getDirection();
 				mState.setState(CustomerState::ID::WaitingForService);
 			}
 		}
@@ -445,6 +450,7 @@ void Customer::checkAIState()
 		// Set the sprite to be waiting in the chair
 		if (!isMoving())
 		{
+			
 
 		}
 	}
@@ -458,6 +464,16 @@ void Customer::checkAIState()
 			mState.setState(CustomerState::ID::WaitingForWashService);
 		}
 	}
+
+	else if (state == CustomerState::ID::WaitingForWashService)
+	{
+		if (!isMoving())
+		{				
+			setDirection(occupiedChair->getDirection());
+			mFrameOffset = 3 + getDirection();
+		}
+	}
+
 	else if (state == CustomerState::ID::MovingToHaircutArea)
 	{
 		if (!isMoving())

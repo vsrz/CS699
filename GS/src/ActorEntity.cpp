@@ -84,6 +84,11 @@ void ActorEntity::setDirection(Direction d)
 
 }
 
+Direction ActorEntity::getDirection()
+{
+	return mDirection;
+
+}
 
 void ActorEntity::updateTilemap(sf::Vector2f c, sf::Vector2f n)
 {
@@ -205,13 +210,13 @@ void ActorEntity::advanceFrame()
 
 void ActorEntity::checkDirection()
 {
-	if (mDirection & Direction::South)
+	if (mDirection == Direction::South)
 		mFrameOffset = 0;
-	if (mDirection & Direction::North)
+	if (mDirection == Direction::North)
 		mFrameOffset = 1;
-	if (mDirection & Direction::West)
+	if (mDirection == Direction::West)
 		mFrameOffset = 2;
-	if (mDirection & Direction::East)
+	if (mDirection == Direction::East)
 		mFrameOffset = 3;
 
 }
