@@ -3,6 +3,7 @@
 #include "World.h"
 #include "Glob.h"
 #include <iostream>
+#include "ChairEntity.h"
 
 ActorEntity::ActorEntity(World* world)
 	: mTravelPath()
@@ -12,6 +13,7 @@ ActorEntity::ActorEntity(World* world)
 	, mFrame(0)
 	, mNumFrames(4)
 	, mSpeed(5.f)
+	, mSitting(false)
 {
 	mSpriteDestination = mSprite.getPosition();
 }
@@ -36,7 +38,7 @@ sf::Vector2f ActorEntity::moveSprite(sf::Vector2f pos, sf::Vector2f dest)
 {
 	SpritePosition movement;
 	float speed = mSpeed;
-		
+
 	// Set the movement direction 
 	if (dest.x > pos.x)
 	{
@@ -81,13 +83,76 @@ sf::Vector2f ActorEntity::moveSprite(sf::Vector2f pos, sf::Vector2f dest)
 void ActorEntity::setDirection(Direction d)
 {
 	mDirection = d;
-
 }
 
 Direction ActorEntity::getDirection()
 {
 	return mDirection;
 
+}
+
+void ActorEntity::sit(ChairEntity* chair)
+{
+	TilePosition tile = chair->getChairPosition();
+	Direction direction = chair->getDirection();
+	float x_offset = Config::Customer::BASE_SPRITE_ORIGIN_X;
+	float y_offset = Config::Customer::BASE_SPRITE_ORIGIN_Y;
+
+	switch(direction)
+	{
+	case Direction::South:
+		y_offset -= 2.f;		
+		break;
+	case Direction::East:
+		x_offset -= 8.f;
+		break;
+	case Direction::West:
+		x_offset += 8.f;
+	}
+
+	// Shift the texture rect to the correct frame
+	mFrameOffset = 3 + direction;
+
+	// Shift the sprite origin over a bit to fit the tileset
+	mSprite.setOrigin(x_offset, y_offset);
+	setTilePosition(tile);
+	setDirection(direction);
+	mSitting = true;
+}
+
+bool ActorEntity::isSitting()
+{
+	return mSitting;
+}
+
+void ActorEntity::stand(ChairEntity* chair)
+{
+	TilePosition tile = chair->getStagingPosition();
+	Direction direction;
+
+	switch(chair->getDirection())
+	{
+	case Direction::South:
+		direction = Direction::North;		
+		break;
+	case Direction::East:
+		direction = Direction::West;
+		break;
+	case Direction::West:
+		direction = Direction::East;
+		break;
+	case Direction::North:
+	default:
+		direction = Direction::South;
+	}
+	
+	// Reposition the sprite
+	mFrameOffset = direction;
+	mSitting = false;	
+	setDirection(direction);
+	setTilePosition(tile);
+	mSprite.setOrigin(Config::Customer::BASE_SPRITE_ORIGIN_X, Config::Customer::BASE_SPRITE_ORIGIN_Y);
+	
 }
 
 void ActorEntity::updateTilemap(sf::Vector2f c, sf::Vector2f n)

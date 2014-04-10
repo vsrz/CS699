@@ -24,6 +24,8 @@ namespace Textures
 		AutoDoors,
 		WomanTeen01,
 		ManTeen01,
+		WomanMidage01,
+		WomanOld01,
 	};
 
 }	

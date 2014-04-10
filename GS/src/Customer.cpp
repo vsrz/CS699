@@ -29,6 +29,12 @@ void Customer::initalize(const TextureManager& t, unsigned int customerType)
 	case Type::ManTeen:
 		mSprite.setTexture(t.get(Textures::ManTeen01));
 		break;
+	case Type::WomanMiddle:
+		mSprite.setTexture(t.get(Textures::WomanMidage01));
+		break;
+	case Type::WomanOld:
+		mSprite.setTexture(t.get(Textures::WomanOld01));
+		break;
 	default:
 		mSprite.setTexture(t.get(Textures::WomanTeen01));
 	}
@@ -121,8 +127,10 @@ void Customer::customerClicked()
 				ChairEntity* washChair = findAvailableChair(ChairEntity::Type::Washing);
 				if (washChair != nullptr)
 				{
-					moveToChair(washChair);
+					
 					mState.setState(CustomerState::ID::MovingToWashingArea);
+					stand(chair);
+					moveToChair(washChair);
 
 				}
 			}
@@ -133,8 +141,10 @@ void Customer::customerClicked()
 				ChairEntity* cutChair = findAvailableChair(ChairEntity::Type::Cutting);
 				if (cutChair != nullptr)
 				{
-					moveToChair(cutChair);
+					
 					mState.setState(CustomerState::ID::MovingToHaircutArea);
+					stand(chair);
+					moveToChair(cutChair);
 				}
 			}
 
@@ -437,11 +447,10 @@ void Customer::checkAIState()
 		{
 			if (occupiedChair != nullptr)
 			{
-				TilePosition t = occupiedChair->getChairPosition();
-				Entity::setTilePosition(t);
-				setDirection(occupiedChair->getDirection());
-				mFrameOffset = 3 + getDirection();
-				mState.setState(CustomerState::ID::WaitingForService);
+				if (!isSitting())
+					sit(occupiedChair);
+				else
+					mState.setState(CustomerState::ID::WaitingForService);
 			}
 		}
 	}
@@ -459,9 +468,10 @@ void Customer::checkAIState()
 	{
 		if (!isMoving())
 		{
-			TilePosition t = occupiedChair->getChairPosition();
-			Entity::setTilePosition(t);
-			mState.setState(CustomerState::ID::WaitingForWashService);
+			if (!isSitting())
+				sit(occupiedChair);
+			else
+				mState.setState(CustomerState::ID::WaitingForWashService);
 		}
 	}
 
@@ -469,8 +479,7 @@ void Customer::checkAIState()
 	{
 		if (!isMoving())
 		{				
-			setDirection(occupiedChair->getDirection());
-			mFrameOffset = 3 + getDirection();
+			
 		}
 	}
 

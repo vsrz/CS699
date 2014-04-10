@@ -19,6 +19,7 @@
 #include "Glob.h"
 
 class World;
+class ChairEntity;
 
 class ActorEntity
 	: public Entity
@@ -34,6 +35,10 @@ public:
 	
 	Direction getDirection();
 	void setDirection(Direction d);
+
+	void sit(ChairEntity* chair);
+	void stand(ChairEntity* chair);
+	bool isSitting();
 	
 	void setSpeed(float speed);
 	float getSpeed();
@@ -54,6 +59,7 @@ protected:
 	std::size_t mFrame;
 	std::size_t mNumFrames;
 	std::size_t mFrameOffset;
+	bool mSitting;
 
 	bool hasReachedDestination();
 
