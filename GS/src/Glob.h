@@ -200,6 +200,20 @@ namespace Config
 	{
 		// Amount of time in seconds to wait between customer arrivals
 		const float							RELEASE_INTERVAL = 5.f;
+
+		// The position the sprite is placed when they are introduced into the scene
+		const TilePosition					SPAWN_POSITION = TilePosition(7.f, 0.f);
+		
+		// The adjustment needed to draw the sprite on the tile they consume since
+		// each sprite is actually two tiles in height
+		const float							BASE_SPRITE_ORIGIN_X = 0.f;
+		const float							BASE_SPRITE_ORIGIN_Y = 32.f;
+
+		// The starting offset of the sprite
+		const sf::Vector2i					SPRITE_ANIM_OFFSET(0.f,0.f);
+
+		// The size of each frame
+		const sf::Vector2i					SPRITE_ANIM_FRAME_SIZE(32.f, 64.f);
 	};
 	
 }

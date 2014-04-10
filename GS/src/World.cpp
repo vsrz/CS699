@@ -54,6 +54,7 @@ CommandQueue& World::getCommandQueue()
 void World::loadTextures()
 {
 	mTextures.load(Textures::TestGuy, "res/TestGuy.png");
+	mTextures.load(Textures::WomanTeenWalk01, "res/woman_teen_01.png");
 	mTextures.load(Textures::TestTileset, "res/TestTileset.png");
 	mTextures.load(Textures::ManOveralls, "res/man01.png");
 	mTextures.load(Textures::AutoDoors, "res/doors02.png");

@@ -22,9 +22,11 @@ namespace Textures
 		TestTileset,
 		ManOveralls,
 		AutoDoors,
+		WomanTeenWalk01,
+		WomanTeenSit01,
 	};
 
-}
+}	
 
 namespace Images
 {

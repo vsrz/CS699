@@ -16,13 +16,24 @@ Customer::Customer(const TextureManager& textures, World* world, unsigned int cu
 
 void Customer::initalize(const TextureManager& t, unsigned int customerType)
 {
-	mSprite.setTexture(t.get(Textures::TestGuy));
-	mSprite.setTextureRect(sf::IntRect(sf::Vector2i(mFrame,mFrameOffset), mFrameSize));
-	mSprite.setScale(mWorld->getWorldScale());
-	mSprite.setOrigin(0.f,32.f);
-	setTilePosition(TilePosition(7.f,0.f));
-	mState.setState(CustomerState::ID::None);
 	mType = customerType;
+	
+	// Roll is used for selecting between different customer textures
+	int roll = getRand(0,99);
+	
+	switch(customerType)
+	{
+	case Type::WomanTeen:
+		mSprite.setTexture(t.get(Textures::WomanTeenWalk01));
+	default:
+		mSprite.setTexture(t.get(Textures::WomanTeenWalk01));
+	}
+	
+	mSprite.setTextureRect(sf::IntRect(Config::Customer::SPRITE_ANIM_OFFSET, Config::Customer::SPRITE_ANIM_FRAME_SIZE));
+	mSprite.setScale(mWorld->getWorldScale());
+	mSprite.setOrigin(Config::Customer::BASE_SPRITE_ORIGIN_X,Config::Customer::BASE_SPRITE_ORIGIN_Y);
+	setTilePosition(Config::Customer::SPAWN_POSITION);
+	mState.setState(CustomerState::ID::None);
 	setSpeed();
 	setNeeds();
 	setPatience();
@@ -30,6 +41,7 @@ void Customer::initalize(const TextureManager& t, unsigned int customerType)
 	mElapsedTime = sf::Time::Zero;
 
 }
+
 
 unsigned int Customer::getNeeds()
 {

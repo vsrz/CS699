@@ -8,9 +8,9 @@ ActorEntity::ActorEntity(World* world)
 	: mTravelPath()
 	, Entity(world)
 	, mFrameSize(32.f, 64.f)
-	, mFrameOffset(3)
+	, mFrameOffset(0)
 	, mFrame(0)
-	, mNumFrames(6)
+	, mNumFrames(4)
 	, mSpeed(5.f)
 {
 	mSpriteDestination = mSprite.getPosition();

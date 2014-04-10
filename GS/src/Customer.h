@@ -54,7 +54,7 @@ public:
 private:
 
 	void initalize(const TextureManager& t, unsigned int customerType);
-	
+		
 	ChairEntity* findAvailableChair(ChairEntity::Type chairType);
 	ChairEntity* getOccupiedChair();
 	
@@ -74,6 +74,8 @@ private:
 	unsigned int mNeeds;
 	unsigned int mType;
 	float mPatience;
+	sf::Sprite sittingSprite;
+
 };
 
 #endif
