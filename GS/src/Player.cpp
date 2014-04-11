@@ -139,6 +139,7 @@ void Player::updateCurrent(sf::Time dt)
 			}
 			else
 			{
+				mCurrentAction = Action::None;
 				mCurrentCustomer->washHair();
 				setState(State::Idle);
 			}

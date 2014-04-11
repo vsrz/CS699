@@ -50,6 +50,7 @@ public:
 	void leaveStore();
 	bool isReadyToDelete();
 	void washHair();
+	void cashOut();
 
 private:
 
@@ -62,7 +63,7 @@ private:
 	void setPatience(float bonus = 1.f);
 	void setNeeds();
 	void setSpeed();
-
+	
 	void moveToWaitingArea();
 	void moveToChair(ChairEntity* chair);
 	void enterSalon();

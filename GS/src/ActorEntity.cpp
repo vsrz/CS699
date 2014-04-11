@@ -129,6 +129,7 @@ void ActorEntity::stand(ChairEntity* chair)
 {
 	TilePosition tile = chair->getStagingPosition();
 	Direction direction;
+	chair->setOccupied(nullptr);
 
 	switch(chair->getDirection())
 	{
@@ -152,7 +153,6 @@ void ActorEntity::stand(ChairEntity* chair)
 	setDirection(direction);
 	setTilePosition(tile);
 	mSprite.setOrigin(Config::Customer::BASE_SPRITE_ORIGIN_X, Config::Customer::BASE_SPRITE_ORIGIN_Y);
-	
 }
 
 void ActorEntity::updateTilemap(sf::Vector2f c, sf::Vector2f n)

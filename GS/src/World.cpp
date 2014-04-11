@@ -140,7 +140,8 @@ void World::handleEvent(const sf::Event& event)
 							Customer* cust = chair->getOccupant();
 							if (cust != nullptr)
 							{
-
+								if (cust->isSitting())
+									mPlayer->useStation(chair.get());
 							}
 							return;
 						}

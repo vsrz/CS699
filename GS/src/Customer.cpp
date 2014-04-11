@@ -61,11 +61,13 @@ unsigned int Customer::getNeeds()
 	return mNeeds;
 }
 
+
 void Customer::updateCurrent(sf::Time dt)
 {
 	mElapsedTime += dt;
 	checkAIState();
 	ActorEntity::update(dt);
+	
 }
 
 // Get the state object for the customer
@@ -82,18 +84,25 @@ bool Customer::isReadyToDelete()
 
 void Customer::washHair()
 {
-	mNeeds &= (Needs::Wash);
-
+	mNeeds &= ~(Needs::Wash);
+	ChairEntity* occupiedChair = getOccupiedChair();
 	// If they need to go to another station, lets do that
 	if (mNeeds & Needs::Cut)
 	{
-		mState.setState(CustomerState::ID::WaitingToMoveToHaircutArea);
+		ChairEntity* haircutChair = findAvailableChair(ChairEntity::Type::Cutting);
+		if (haircutChair != nullptr)
+		{
+			mState.setState(CustomerState::ID::WaitingToMoveToHaircutArea);
+			stand(occupiedChair);
+			moveToTile(haircutChair->getStagingPosition());
+		}
 	}
 	
 	// Otherwise, get up and pay
 	else
 	{
-		mState.setState(CustomerState::ID::MovingToRegister);
+		stand(occupiedChair);
+		cashOut();		
 	}
 
 
@@ -101,10 +110,6 @@ void Customer::washHair()
 
 void Customer::moveToChair(ChairEntity* chair)
 {
-	// Unoccupy any chair they might already be sitting in
-	ChairEntity* currentChair = getOccupiedChair();
-	currentChair->setOccupied(nullptr);
-
 	// Occupy the new chair then move to it
 	chair->setOccupied(this);
 	moveToTile(chair->getStagingPosition());
@@ -154,10 +159,10 @@ void Customer::customerClicked()
 		}
 	}
 
-	// Customer is waiting for a haircut
-	if (state == CustomerState::ID::WaitingForWashService)
+	// Customer is waiting for a hairwash
+	else if (state == CustomerState::ID::WaitingForWashService)
 	{
-
+		washHair();
 	}
 }
 
@@ -415,6 +420,11 @@ void Customer::enterSalon()
 #endif
 }
 
+void Customer::cashOut()
+{
+	mWorld->getQueue()->enqueue(this);
+	mState.setState(CustomerState::ID::MovingToRegister);
+}
 
 void Customer::checkAIState()
 {
@@ -437,8 +447,7 @@ void Customer::checkAIState()
 			} 
 			else
 			{
-				mWorld->getQueue()->enqueue(this);
-				mState.setState(CustomerState::ID::MovingToRegister);
+				cashOut();
 			}
 
 		}
@@ -472,9 +481,10 @@ void Customer::checkAIState()
 		if (!isMoving())
 		{
 			if (!isSitting())
+			{
 				sit(occupiedChair);
-			else
 				mState.setState(CustomerState::ID::WaitingForWashService);
+			}
 		}
 	}
 
