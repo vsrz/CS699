@@ -57,6 +57,7 @@ void World::loadTextures()
 	mTextures.load(Textures::WomanTeen01, "res/woman_teen_01.png");
 	mTextures.load(Textures::WomanMidage01, "res/woman_midage_01.png");
 	mTextures.load(Textures::WomanOld01, "res/woman_old_01.png");
+	mTextures.load(Textures::ManYoung01, "res/man_young_01.png");
 	mTextures.load(Textures::ManTeen01, "res/man_teen_01.png");
 	mTextures.load(Textures::TestTileset, "res/TestTileset.png");
 	mTextures.load(Textures::ManOveralls, "res/man01.png");

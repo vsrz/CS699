@@ -35,6 +35,9 @@ void Customer::initalize(const TextureManager& t, unsigned int customerType)
 	case Type::WomanOld:
 		mSprite.setTexture(t.get(Textures::WomanOld01));
 		break;
+	case Type::ManYoung:
+		mSprite.setTexture(t.get(Textures::ManYoung01));
+		break;
 	default:
 		mSprite.setTexture(t.get(Textures::WomanTeen01));
 	}

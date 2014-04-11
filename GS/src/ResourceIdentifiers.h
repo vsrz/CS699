@@ -26,6 +26,7 @@ namespace Textures
 		ManTeen01,
 		WomanMidage01,
 		WomanOld01,
+		ManYoung01,
 	};
 
 }	
