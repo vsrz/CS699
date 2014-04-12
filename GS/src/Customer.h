@@ -6,7 +6,7 @@
 #include "ActorEntity.h"
 #include "CustomerState.h"
 #include "ChairEntity.h"
-
+#include "prng.h"
 class World;
 
 class Customer :
@@ -76,6 +76,8 @@ private:
 	unsigned int mType;
 	float mPatience;
 	sf::Sprite sittingSprite;
+
+	Prng rng;
 
 };
 

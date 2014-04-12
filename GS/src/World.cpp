@@ -52,6 +52,10 @@ CommandQueue& World::getCommandQueue()
 	return mCommandQueue;
 }
 
+TilePosition World::getPlayerPosition()
+{
+	return mPlayer->getTilePosition();
+}
 void World::loadTextures()
 {
 	mTextures.load(Textures::TestGuy, "res/TestGuy.png");

@@ -2,7 +2,6 @@
 #include "Glob.h"
 #include "World.h"
 #include "Pathfinder.h"
-#include "prng.h"
 #include <iostream>
 #include <cstdlib>
 #include <cassert>
@@ -19,7 +18,7 @@ void Customer::initalize(const TextureManager& t, unsigned int customerType)
 	mType = customerType;
 	
 	// Roll is used for selecting between different customer textures
-	int roll = getRand(0,99);
+	int roll = rng.getRand(0,99);
 	
 	switch(customerType)
 	{
@@ -228,7 +227,7 @@ void Customer::setPatience(float bonus)
 // Generate this customers needs based on who they are
 void Customer::setNeeds()
 {
-	int roll = getRand(0,99);
+	int roll = rng.getRand(0,99);
 	switch (mType)
 	{
 	case Type::WomanYoung:

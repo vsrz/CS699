@@ -42,7 +42,7 @@ public:
 	RegisterQueue* getQueue();
 
 	bool isRegisterLineFull();
-	
+	TilePosition getPlayerPosition();
 private:
 	enum SceneLayer
 	{

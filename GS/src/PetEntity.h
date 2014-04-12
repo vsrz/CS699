@@ -3,7 +3,9 @@
 
 #pragma once
 
+#include "Glob.h"
 #include "ActorEntity.h"
+
 
 class World;
 
@@ -14,7 +16,24 @@ public:
 	PetEntity(const TextureManager& textures, World* world);
 
 private:
+	enum State
+	{
+		Idle,
+		Random,
+		FollowingManager,
+		Consumption,
+		Sleeping,
+		FindingPlayer,
+	};
 	void initalize(const TextureManager& t);
+	
+	TilePosition moveNearPlayer();
+	TilePosition findNearestAdjacentTile(TilePosition tile);
+	State mState;
+	sf::Time mElapsedTime;
+
+	void updateState();
+	void updateCurrent(sf::Time dt);
 };
 
 #endif
