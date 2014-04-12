@@ -215,6 +215,14 @@ namespace Config
 		// The size of each frame
 		const sf::Vector2i					SPRITE_ANIM_FRAME_SIZE(32.f, 64.f);
 	};
+
+	namespace Pet
+	{
+		const TilePosition					SPAWN_POSITION = TilePosition(8,8);
+		const sf::Vector2i					SPRITE_ANIM_OFFSET(0.f,0.f);
+		const sf::Vector2i					SPRITE_ANIM_FRAME_SIZE(32.f, 64.f);
+
+	}
 	
 }
 

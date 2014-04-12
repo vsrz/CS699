@@ -7,6 +7,7 @@
 #include "Glob.h"
 #include "ChairEntity.h"
 #include "DoorEntity.h"
+#include "PetEntity.h"
 
 World::World(sf::RenderWindow& window)
 	: mWindow(window)
@@ -62,6 +63,7 @@ void World::loadTextures()
 	mTextures.load(Textures::TestTileset, "res/TestTileset.png");
 	mTextures.load(Textures::ManOveralls, "res/man01.png");
 	mTextures.load(Textures::AutoDoors, "res/doors02.png");
+	mTextures.load(Textures::Kitty, "res/feline_01.png");
 	mTileLoader.loadFromFile(Config::TILEMAP_FILENAME);
 }
 
@@ -314,6 +316,10 @@ void World::buildScene()
 	std::unique_ptr<Player> player(new Player(mTextures, this));
 	mPlayer = player.get();
 	mSceneLayers[Entity]->attachChild(std::move(player));
+
+	/* Add the pet */
+	std::unique_ptr<PetEntity> pet(new PetEntity(mTextures, this));
+	mSceneLayers[Entity]->attachChild(std::move(pet));
 
 	/* Initialize the chairs */
 	buildProps();

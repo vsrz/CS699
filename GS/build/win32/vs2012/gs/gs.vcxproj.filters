@@ -399,6 +399,9 @@
     <ClInclude Include="..\..\..\..\src\CashRegister.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\src\PetEntity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\..\src\SFML-2.1\include\SFML\Graphics\Rect.inl">
@@ -530,6 +533,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\src\CashRegister.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\PetEntity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

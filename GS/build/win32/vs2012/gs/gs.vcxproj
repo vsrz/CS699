@@ -37,6 +37,7 @@
     <ClInclude Include="..\..\..\..\src\Pathfinder.h" />
     <ClInclude Include="..\..\..\..\src\PathNode.h" />
     <ClInclude Include="..\..\..\..\src\PauseState.h" />
+    <ClInclude Include="..\..\..\..\src\PetEntity.h" />
     <ClInclude Include="..\..\..\..\src\Player.h" />
     <ClInclude Include="..\..\..\..\src\prng.h" />
     <ClInclude Include="..\..\..\..\src\RegisterQueue.h" />
@@ -168,6 +169,7 @@
     <ClCompile Include="..\..\..\..\src\Pathfinder.cpp" />
     <ClCompile Include="..\..\..\..\src\PathNode.cpp" />
     <ClCompile Include="..\..\..\..\src\PauseState.cpp" />
+    <ClCompile Include="..\..\..\..\src\PetEntity.cpp" />
     <ClCompile Include="..\..\..\..\src\Player.cpp" />
     <ClCompile Include="..\..\..\..\src\RegisterQueue.cpp" />
     <ClCompile Include="..\..\..\..\src\SceneNode.cpp" />
