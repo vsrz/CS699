@@ -22,6 +22,7 @@ private:
 		Random,
 		FollowingManager,
 		Consumption,
+		GoingToSleep,
 		Sleeping,
 		FindingPlayer,
 	};
@@ -29,9 +30,12 @@ private:
 	
 	TilePosition moveNearPlayer();
 	TilePosition findNearestAdjacentTile(TilePosition tile);
+	void checkProximity();
+	void sleep();
 	State mState;
 	sf::Time mElapsedTime;
 
+	
 	void updateState();
 	void updateCurrent(sf::Time dt);
 };

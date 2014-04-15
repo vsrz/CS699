@@ -217,6 +217,8 @@ void ActorEntity::update(sf::Time dt)
 void ActorEntity::moveToTile(TilePosition tilePosition)
 {
 	// TODO: Turn mTravelPath into a queue so we can queue up multiple destinations
+
+	//if (mSprite.getOrigin().y > 0) tilePosition.y -= 1.f;
 	mTravelPath = findPath(tilePosition);
 }
 
@@ -241,6 +243,10 @@ ActorEntity::Path ActorEntity::findPath(TilePosition destination)
 	// Calculate the ultimate destination, centering the feet of the sprite on the tile
 	// Find the tile that was clicked
 	Pathfinder p(&mWorld->mTilemap);
+
+	// TODO: There's a problem with the sprite origin and the click position
+	// causes moveToTile() to move to one tile below the real place
+
 	p.findPath(getTilePosition(), destination);
 	for (auto& i : p.getPath())
 	{

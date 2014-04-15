@@ -90,6 +90,7 @@ int World::getTileIndex(int x, int y)
 	return mTileLoader.getTileNumber(x,y);
 }
 
+
 void World::handleEvent(const sf::Event& event)
 {
 	MousePosition mousePosition = sf::Mouse::getPosition(mWindow);
