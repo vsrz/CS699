@@ -33,6 +33,7 @@ public:
 	unsigned int getTileProperty(TilePosition screenPosition);
 	unsigned int getTileProperty(int x, int y);
 	sf::Vector2f getTilePixelPosition(int x, int y);
+	bool isValidTile(TilePosition tile);
 	
 	Tile* getTile(int x, int y);
 private:

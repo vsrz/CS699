@@ -218,7 +218,6 @@ void ActorEntity::moveToTile(TilePosition tilePosition)
 {
 	// TODO: Turn mTravelPath into a queue so we can queue up multiple destinations
 
-	//if (mSprite.getOrigin().y > 0) tilePosition.y -= 1.f;
 	mTravelPath = findPath(tilePosition);
 }
 

@@ -38,11 +38,13 @@ public:
 	void handleEvent(const sf::Event& event);
 	CommandQueue& getCommandQueue();
 	Tilemap mTilemap;
-	
+
 	RegisterQueue* getQueue();
 
 	bool isRegisterLineFull();
 	TilePosition getPlayerPosition();
+	std::vector<Customer*> getCustomers();
+
 private:
 	enum SceneLayer
 	{
@@ -79,7 +81,7 @@ private:
 	RegisterQueue mRegisterQueue;
 	TileLoader mTileLoader;
 	Player* mPlayer;
-	std::stack<std::unique_ptr<Customer>> mCustomers;
+	std::vector<std::unique_ptr<Customer>> mCustomers;
 	sf::Time mLastCustomerReleased;
 	CashRegister mCashRegister;
 	

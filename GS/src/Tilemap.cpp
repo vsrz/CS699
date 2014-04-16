@@ -60,6 +60,11 @@ bool Tilemap::isTileOccupied(int x, int y)
 	return mTiles[toTileNumber(x,y)].isOccupied();
 }
 
+bool Tilemap::isValidTile(TilePosition tile)
+{
+	return toTileNumber(tile) <= mTiles.size();
+}
+
 bool Tilemap::isTileOccupied(TilePosition screenPosition)
 {
 	TilePosition pos;

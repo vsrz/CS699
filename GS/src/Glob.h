@@ -221,10 +221,12 @@ namespace Config
 		const TilePosition					SPAWN_POSITION = TilePosition(8,8);
 		const sf::Vector2i					SPRITE_ANIM_OFFSET(0.f,0.f);
 		const sf::Vector2i					SPRITE_ANIM_FRAME_SIZE(32.f, 64.f);
+		const float							SPRITE_ORIGIN_X = 0.f;
+		const float							SPRITE_ORIGIN_Y = 32.f;
 		const std::array<TilePosition, 2u>  SLEEP_TILE = 
 		{
 			TilePosition(0,4),
-			TilePosition(9,2),
+			TilePosition(9,3),
 		};
 
 	}

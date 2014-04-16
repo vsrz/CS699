@@ -30,8 +30,12 @@ private:
 	
 	TilePosition moveNearPlayer();
 	TilePosition findNearestAdjacentTile(TilePosition tile);
+	TilePosition randomTile();
 	void checkProximity();
+	
+
 	void sleep();
+	int mIrritation;
 	State mState;
 	sf::Time mElapsedTime;
 

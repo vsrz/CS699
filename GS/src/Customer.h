@@ -37,13 +37,10 @@ public:
 		Dry = 1 << 4,
 		Product = 1 << 5,
 	};
-	
-
 
 	Customer(const TextureManager& textures, World* world, unsigned int customerType);
 	unsigned int getNeeds();	
 	virtual void updateCurrent(sf::Time dt);
-	
 
 	// Various exposed methods for directly altering the state of the customer
 	void customerClicked();
@@ -75,7 +72,6 @@ private:
 	unsigned int mNeeds;
 	unsigned int mType;
 	float mPatience;
-	sf::Sprite sittingSprite;
 
 	Prng rng;
 

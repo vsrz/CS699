@@ -193,6 +193,7 @@ void World::handleEvent(const sf::Event& event)
 			}
 			if (mPlayer->getState() == Player::State::Busy)
 				return;						
+//			mousePosition.y += Config::TILE_HEIGHT * Config::WORLD_SCALE;
 			mPlayer->moveToTile(toTilePosition(mousePosition));
 			#ifdef DEBUG
 			g_debugData["Destination:"] = toString(mousePosition.x) + "," + toString(mousePosition.y);
@@ -296,10 +297,20 @@ void World::addCustomers()
 	for (int i = 0; i < 5; ++i)
 	{
 		std::unique_ptr<Customer> cust(new Customer(mTextures, this, customers[i]));
-		mCustomers.push(std::move(cust));
+		mCustomers.push_back(std::move(cust));
 	}
 }
 
+std::vector<Customer*> World::getCustomers()
+{
+	std::vector<Customer*> cPtrs;
+	for (int i = 0; i < mCustomers.size(); i++)
+	{
+		if (mCustomers[i].get()->isMoving())
+			cPtrs.push_back(mCustomers[i].get());
+	}
+	return cPtrs;
+}
 
 void World::buildScene()
 {
@@ -342,9 +353,8 @@ void World::updateCustomers(sf::Time dt)
 		// If there are any customers left, add one to the scene node
 		if (mCustomers.size() > 0)
 		{
-			mSceneLayers[Entity]->attachChild(std::move(mCustomers.top()));
-			mCustomers.pop();
-
+			mSceneLayers[Entity]->attachChild(std::move(mCustomers.back()));
+			mCustomers.pop_back();
 			/*  Takes care of a rendering order issue when a 
 				first enters the scene */
 			mSceneLayers[Entity]->sortChildren();
