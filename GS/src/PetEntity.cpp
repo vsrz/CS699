@@ -91,7 +91,7 @@ void PetEntity::updateState()
 {
 	Prng r;
 	int roll = r.getRand(0,99);
-	roll = 89;
+
 	// Pet will go to her food
 	if (roll < 5)
 	{
