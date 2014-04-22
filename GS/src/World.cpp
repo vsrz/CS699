@@ -193,7 +193,7 @@ void World::handleEvent(const sf::Event& event)
 			}
 			if (mPlayer->getState() == Player::State::Busy)
 				return;						
-//			mousePosition.y += Config::TILE_HEIGHT * Config::WORLD_SCALE;
+
 			mPlayer->moveToTile(toTilePosition(mousePosition));
 			#ifdef DEBUG
 			g_debugData["Destination:"] = toString(mousePosition.x) + "," + toString(mousePosition.y);
@@ -361,6 +361,9 @@ void World::updateCustomers(sf::Time dt)
 		}
 		mLastCustomerReleased = sf::Time::Zero;
 	}
+
+	/* Check the scene for any customers that need to be removed */
+	
 
 }
 
