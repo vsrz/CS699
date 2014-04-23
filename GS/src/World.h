@@ -22,6 +22,7 @@
 #include "World.h"
 #include "ChairEntity.h"
 #include "RegisterQueue.h"
+#include "ActionAnimator.h"
 #include "CashRegister.h"
 
 class World
@@ -85,6 +86,8 @@ private:
 	sf::Time mLastCustomerReleased;
 	CashRegister mCashRegister;
 	int getRemainingWaitingChairs();
+	std::vector<std::unique_ptr<ActionAnimator>> mActionAnimations;
+	
 	// Scene building
 	void loadLayer(const char* layerName, unsigned int id);
 	void updateCustomers(sf::Time dt);
@@ -92,6 +95,7 @@ private:
 	void loadTextures();
 	void addCustomers();
 	void buildScene();
+	void buildAnimations();
 
 };
 

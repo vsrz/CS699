@@ -42,6 +42,7 @@ public:
 	unsigned int getState();
 	void setState(unsigned int state);
 	void setBusy(sf::Time seconds);
+	unsigned int getCurrentAction();
 
 	// Action methods
 	void useRegister(RegisterQueue* queue);

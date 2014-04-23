@@ -46,6 +46,11 @@ unsigned int Player::getState()
 	return mState;
 }
 
+unsigned int Player::getCurrentAction()
+{
+	return mCurrentAction;
+}
+
 void Player::setState(unsigned int state)
 {
 	mState = state;

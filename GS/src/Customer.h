@@ -6,6 +6,7 @@
 #include "ActorEntity.h"
 #include "CustomerState.h"
 #include "ChairEntity.h"
+#include "HeartEntity.h"
 #include "prng.h"
 class World;
 
@@ -39,6 +40,8 @@ public:
 	};
 
 	Customer(const TextureManager& textures, World* world, unsigned int customerType);
+	std::unique_ptr<HeartEntity> getHeartEntityPtr();
+
 	unsigned int getNeeds();	
 	virtual void updateCurrent(sf::Time dt);
 
@@ -76,6 +79,7 @@ private:
 	unsigned int mNeeds;
 	unsigned int mType;
 	float mPatience;
+	std::unique_ptr<HeartEntity> mHeartDisplay;
 
 	Prng rng;
 

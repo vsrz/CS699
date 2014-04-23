@@ -48,9 +48,9 @@ namespace Config
 	const TilePosition						EXIT_TILE = TilePosition(7,0);
 
 	// The different times it takes to use each station
-	const float								WASH_USE_TIME = 2.f;
+	const float								WASH_USE_TIME = 3.f;
 	const float								CUT_USE_TIME = 3.f;
-	const float								COLOR_USE_TIME = 1.f;
+	const float								COLOR_USE_TIME = 3.f;
 	const float								REGISTER_USE_TIME = 1.f;
 
 	// Waiting room chairs
@@ -105,6 +105,7 @@ namespace Config
 			Direction::South,
 			Direction::South,
 		};
+
 
 		/** 
 		 *	The type of chair this is

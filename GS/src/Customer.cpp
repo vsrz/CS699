@@ -52,6 +52,16 @@ void Customer::initalize(const TextureManager& t, unsigned int customerType)
 	
 	mElapsedTime = sf::Time::Zero;
 
+	/* Make a unique ptr to the heart display so it can be added to the scene during init */
+	std::unique_ptr<HeartEntity> h = std::unique_ptr<HeartEntity>(new HeartEntity(t, mWorld, mPatience, this));
+
+}
+
+// Used to return the heart entity object during initialization so it may be added to the scene
+std::unique_ptr<HeartEntity> Customer::getHeartEntityPtr()
+{
+	if (mHeartDisplay == nullptr) return nullptr;
+	return std::move(mHeartDisplay);
 }
 
 
@@ -413,8 +423,8 @@ void Customer::setNeeds()
 			mNeeds = Needs::Wash;
 		}
 	}
-	// Register testing
-	// mNeeds = Needs::Product;
+	// TODO: Remove this test code
+	//mNeeds = Needs::Wash;
 
 	// TODO: Remove this
 	// Wash to Register test
@@ -499,9 +509,9 @@ void Customer::checkAIState()
 	{
 		if (!isMoving())
 		{
-			moveToWaitingArea();
 			if (mNeeds != Needs::Product)
 			{
+				moveToWaitingArea();
 				mState.setState(CustomerState::ID::MovingToWaitingArea);
 			} 
 			else
@@ -601,3 +611,4 @@ void Customer::checkAIState()
 	}
 
 }
+

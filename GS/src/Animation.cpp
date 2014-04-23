@@ -107,7 +107,6 @@ bool Animation::isComplete()
 	return mComplete == 1;
 }
 
-
 // Update the frame and return the new position in the animation
 sf::IntRect Animation::update(sf::Time dt)
 {

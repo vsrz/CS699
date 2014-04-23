@@ -28,6 +28,10 @@ namespace Textures
 		WomanOld01,
 		ManYoung01,
 		Kitty,
+		Hearts,
+		AnimWash,
+		AnimCut,
+		AnimColor,
 	};
 
 }	

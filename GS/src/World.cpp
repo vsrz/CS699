@@ -9,6 +9,7 @@
 #include "DoorEntity.h"
 #include "PetEntity.h"
 
+
 World::World(sf::RenderWindow& window)
 	: mWindow(window)
 	, mWorldView(window.getDefaultView())
@@ -64,10 +65,13 @@ void World::loadTextures()
 	mTextures.load(Textures::WomanOld01, "res/woman_old_01.png");
 	mTextures.load(Textures::ManYoung01, "res/man_young_01.png");
 	mTextures.load(Textures::ManTeen01, "res/man_teen_01.png");
-	mTextures.load(Textures::TestTileset, "res/TestTileset.png");
 	mTextures.load(Textures::ManOveralls, "res/man01.png");
 	mTextures.load(Textures::AutoDoors, "res/doors02.png");
 	mTextures.load(Textures::Kitty, "res/feline_01.png");
+	mTextures.load(Textures::AnimWash, "res/anim_wash_01.png");
+	mTextures.load(Textures::AnimCut, "res/anim_cut_01.png");
+	mTextures.load(Textures::AnimColor, "res/anim_color_01.png");
+	mTextures.load(Textures::Hearts, "res/hearts_01.png");
 	mTileLoader.loadFromFile(Config::TILEMAP_FILENAME);
 }
 
@@ -336,6 +340,45 @@ std::vector<Customer*> World::getCustomers()
 	return cPtrs;
 }
 
+
+void World::buildAnimations()
+{
+	/**
+	 * Probably should config file this stuff at a later time
+	 */
+	std::unique_ptr<ActionAnimator> anim = 
+		std::unique_ptr<ActionAnimator>(new ActionAnimator(mTextures, this, ActionAnimator::Type::Wash, mPlayer));
+	anim.get()->setAnimationLocation(TilePosition(18,7));
+	anim.get()->setTriggerTile(TilePosition(18,7));
+	mSceneLayers[ObjectDecorative]->attachChild(std::move(anim));
+
+	anim = std::unique_ptr<ActionAnimator>(new ActionAnimator(mTextures, this, ActionAnimator::Type::Wash, mPlayer));
+	anim.get()->setAnimationLocation(TilePosition(18,9));
+	anim.get()->setTriggerTile(TilePosition(18,9));
+	mSceneLayers[ObjectDecorative]->attachChild(std::move(anim));
+
+	anim = std::unique_ptr<ActionAnimator>(new ActionAnimator(mTextures, this, ActionAnimator::Type::Cut, mPlayer));
+	anim.get()->setAnimationLocation(TilePosition(16,4));
+	anim.get()->setTriggerTile(TilePosition(15,5));
+	mSceneLayers[ObjectDecorative]->attachChild(std::move(anim));
+
+	anim = std::unique_ptr<ActionAnimator>(new ActionAnimator(mTextures, this, ActionAnimator::Type::Cut, mPlayer));
+	anim.get()->setAnimationLocation(TilePosition(18,4));
+	anim.get()->setTriggerTile(TilePosition(19,5));
+	mSceneLayers[ObjectDecorative]->attachChild(std::move(anim));
+
+	anim = std::unique_ptr<ActionAnimator>(new ActionAnimator(mTextures, this, ActionAnimator::Type::Color, mPlayer));
+	anim.get()->setAnimationLocation(TilePosition(10,7));
+	anim.get()->setTriggerTile(TilePosition(10,9));
+	mSceneLayers[ObjectDecorative]->attachChild(std::move(anim));
+
+	anim = std::unique_ptr<ActionAnimator>(new ActionAnimator(mTextures, this, ActionAnimator::Type::Color, mPlayer));
+	anim.get()->setAnimationLocation(TilePosition(12,7));
+	anim.get()->setTriggerTile(TilePosition(12,9));
+	mSceneLayers[ObjectDecorative]->attachChild(std::move(anim));
+
+}
+
 void World::buildScene()
 {
 	for (std::size_t i = 0; i < LayerCount; ++i)
@@ -366,6 +409,9 @@ void World::buildScene()
 
 	/* Build the customer queue */
 	addCustomers();
+
+	/* Initialize the animations */
+	buildAnimations();
 }
 
 int World::getRemainingWaitingChairs()
@@ -391,7 +437,10 @@ void World::updateCustomers(sf::Time dt)
 		// Make sure there is a place for them to sit
 		if (mCustomers.size() > 0)
 		{
-			mSceneLayers[Entity]->attachChild(std::move(mCustomers.back()));
+			std::unique_ptr<Customer> customer = std::move(mCustomers.back());
+			//std::unique_ptr<HeartEntity> heartDisplay = std::move(customer->getHeartEntityPtr());
+			//mSceneLayers[Entity]->attachChild(std::move(heartDisplay));
+			mSceneLayers[Entity]->attachChild(std::move(customer));
 			mCustomers.pop_back();
 			/*  Takes care of a rendering order issue when a 
 				first enters the scene */
