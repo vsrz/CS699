@@ -9,6 +9,7 @@
 #include "ChairEntity.h"
 #include "Customer.h"
 
+
 Player::Player(const TextureManager& textures, World* worldContext) 
 	: ActorEntity(worldContext)
 	, mWorld(worldContext)
@@ -65,13 +66,16 @@ void Player::useStation(ChairEntity* chair)
 	switch (chairType)
 	{
 	case ChairEntity::Washing:
-		mCurrentAction = Action::WashingHair;
+		if (chair->getOccupant()->getState() == CustomerState::ID::WaitingForWashService)
+			mCurrentAction = Action::WashingHair;
 		break;
 	case ChairEntity::Cutting:
-		mCurrentAction = Action::CuttingHair;
+		if (chair->getOccupant()->getState() == CustomerState::ID::WaitingForHaircutService)
+			mCurrentAction = Action::CuttingHair;
 		break;
-	case ChairEntity::Dry:
-		mCurrentAction = Action::DryingHair;
+	case ChairEntity::Coloring:
+		if (chair->getOccupant()->getState() == CustomerState::ID::WaitingForColorService)
+			mCurrentAction = Action::ColoringHair;
 		break;
 	default:
 		mCurrentAction = Action::None;
@@ -141,6 +145,34 @@ void Player::updateCurrent(sf::Time dt)
 			{
 				mCurrentAction = Action::None;
 				mCurrentCustomer->washHair();
+				setState(State::Idle);
+			}
+		}
+		else if (mCurrentAction == Action::CuttingHair)
+		{
+			if (getState() != State::Busy)
+			{
+				mBusyTime += sf::seconds(Config::CUT_USE_TIME);
+				setState(State::Busy);
+			}
+			else
+			{
+				mCurrentAction = Action::None;
+				mCurrentCustomer->cutHair();
+				setState(State::Idle);
+			}
+		}
+		else if (mCurrentAction == Action::ColoringHair)
+		{
+			if (getState() != State::Busy)
+			{
+				mBusyTime += sf::seconds(Config::COLOR_USE_TIME);
+				setState(State::Busy);
+			}
+			else
+			{
+				mCurrentAction = Action::None;
+				mCurrentCustomer->colorHair();
 				setState(State::Idle);
 			}
 		}

@@ -43,10 +43,14 @@ public:
 	virtual void updateCurrent(sf::Time dt);
 
 	// Various exposed methods for directly altering the state of the customer
+	unsigned int getState();
 	void customerClicked();
 	void leaveStore();
+	bool isWaitingToMoveToStation();
 	bool isReadyToDelete();
 	void washHair();
+	void cutHair();
+	void colorHair();
 	void cashOut();
 
 private:

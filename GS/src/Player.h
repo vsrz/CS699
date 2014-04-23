@@ -36,7 +36,7 @@ public:
 		UsingRegister,
 		WashingHair,
 		CuttingHair,
-		DryingHair,
+		ColoringHair,
 	};
 
 	unsigned int getState();

@@ -48,9 +48,9 @@ namespace Config
 	const TilePosition						EXIT_TILE = TilePosition(7,0);
 
 	// The different times it takes to use each station
-	const float								WASH_USE_TIME = 4.f;
-	const float								CUT_USE_TIME = 6.f;
-	const float								DRY_USE_TIME = 1.f;
+	const float								WASH_USE_TIME = 2.f;
+	const float								CUT_USE_TIME = 3.f;
+	const float								COLOR_USE_TIME = 1.f;
 	const float								REGISTER_USE_TIME = 1.f;
 
 	// Waiting room chairs
@@ -111,7 +111,7 @@ namespace Config
 		 *  0 for waiting
 		 *	1 for washing
 		 *	2 for cutting
-		 *	3 for drying
+		 *	3 for color
 		 **/
 		const std::array<unsigned int, SIZE> TYPE =
 		{
@@ -139,8 +139,8 @@ namespace Config
 			TilePosition(0,0),
 			TilePosition(18,7),
 			TilePosition(18,9),
-			TilePosition(16,4),
-			TilePosition(18,4),
+			TilePosition(15,5),
+			TilePosition(19,5),
 			TilePosition(10,9),
 			TilePosition(12,9),
 		};

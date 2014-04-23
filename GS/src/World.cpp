@@ -116,8 +116,7 @@ void World::handleEvent(const sf::Event& event)
 					// Waiting room case
 					if (chair->getChairType() == ChairEntity::Waiting)
 					{
-						// If the chair is occupied, try to send the customer in the chair
-						// to the next station
+						// If the chair is occupied, call customerClicked() for the customer in the chair
 						if (chair->isOccupied())
 						{
 							Customer* customer;
@@ -147,8 +146,10 @@ void World::handleEvent(const sf::Event& event)
 							Customer* cust = chair->getOccupant();
 							if (cust != nullptr)
 							{
-								if (cust->isSitting())
+								if (cust->isSitting() && !cust->isWaitingToMoveToStation())
 									mPlayer->useStation(chair.get());
+								else
+									cust->customerClicked();
 							}
 							return;
 						}
@@ -156,7 +157,20 @@ void World::handleEvent(const sf::Event& event)
 						// They are not standing in this chair's operating position, move there
 						else 
 						{
-							mPlayer->moveToTile(chair->getOperatingPosition());
+							// If the chair is occupied and a customer is waiting to move to the next
+							// station, move them, otherwise move to its operating position
+							bool clicked = false;
+							if (chair->isOccupied())
+							{
+								if (chair->getOccupant()->isWaitingToMoveToStation())
+								{
+									clicked = true;
+									chair->getOccupant()->customerClicked();
+								}
+							}
+							if (!clicked)
+								mPlayer->moveToTile(chair->getOperatingPosition());
+							
 							return;
 						}
 					}
@@ -285,8 +299,18 @@ void World::buildProps()
 }
 
 void World::addCustomers()
-{
-	std::array<unsigned int, 5u> customers = {
+{	
+	std::array<unsigned int, 15u> customers = {
+		Customer::Type::ManTeen,
+		Customer::Type::WomanMiddle,
+		Customer::Type::WomanOld,
+		Customer::Type::ManYoung,
+		Customer::Type::WomanTeen,
+		Customer::Type::ManTeen,
+		Customer::Type::WomanMiddle,
+		Customer::Type::WomanOld,
+		Customer::Type::ManYoung,
+		Customer::Type::WomanTeen,
 		Customer::Type::ManTeen,
 		Customer::Type::WomanMiddle,
 		Customer::Type::WomanOld,
@@ -294,7 +318,7 @@ void World::addCustomers()
 		Customer::Type::WomanTeen,
 	};
 
-	for (int i = 0; i < 5; ++i)
+	for (int i = 0; i < 15; ++i)
 	{
 		std::unique_ptr<Customer> cust(new Customer(mTextures, this, customers[i]));
 		mCustomers.push_back(std::move(cust));
@@ -344,13 +368,27 @@ void World::buildScene()
 	addCustomers();
 }
 
+int World::getRemainingWaitingChairs()
+{
+	int total = 5;
+	for (auto& chairs : mChairs)
+	{
+		if (chairs->getChairType() == ChairEntity::Type::Waiting && chairs->isOccupied())
+			total--;
+	}
+	return total;
+}
+
+
 /* Update the customer stack and release a customer if necessary */
 void World::updateCustomers(sf::Time dt)
 {
 	mLastCustomerReleased += dt;
-	if (mLastCustomerReleased > sf::seconds(Config::Customer::RELEASE_INTERVAL))
+	if (mLastCustomerReleased > sf::seconds(Config::Customer::RELEASE_INTERVAL) && 
+		getRemainingWaitingChairs() > 0)
 	{
 		// If there are any customers left, add one to the scene node
+		// Make sure there is a place for them to sit
 		if (mCustomers.size() > 0)
 		{
 			mSceneLayers[Entity]->attachChild(std::move(mCustomers.back()));

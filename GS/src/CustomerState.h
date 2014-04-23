@@ -14,17 +14,23 @@ public:
 		EnteringSalon,
 		Arrived,
 		MovingToWaitingArea,
+		
 		WaitingForService,
 		MovingToWashingArea,
 		WaitingForWashService,
+		
 		WaitingToMoveToHaircutArea,
 		MovingToHaircutArea,
 		WaitingForHaircutService,
-		MovingToDryer,
-		Drier,
+		
+		WaitingToMoveToColorArea,
+		MovingToColorArea,
+		WaitingForColorService,
+		
 		MovingToRegister,
 		WaitingToPay,
 		Leaving,
+		
 		Delete,
 	};
 

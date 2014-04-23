@@ -84,7 +84,7 @@ private:
 	std::vector<std::unique_ptr<Customer>> mCustomers;
 	sf::Time mLastCustomerReleased;
 	CashRegister mCashRegister;
-	
+	int getRemainingWaitingChairs();
 	// Scene building
 	void loadLayer(const char* layerName, unsigned int id);
 	void updateCustomers(sf::Time dt);

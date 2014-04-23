@@ -81,6 +81,17 @@ bool Customer::isReadyToDelete()
 	return mState.getState() == CustomerState::ID::Delete;
 }
 
+// Returns true if the customer is waiting to move to another station
+bool Customer::isWaitingToMoveToStation()
+{
+	unsigned int state = mState.getState();
+	return (
+		state == CustomerState::ID::WaitingForService ||
+		state == CustomerState::ID::WaitingToMoveToColorArea ||
+		state == CustomerState::ID::WaitingToMoveToHaircutArea
+		);
+}
+
 void Customer::washHair()
 {
 	mNeeds &= ~(Needs::Wash);
@@ -88,13 +99,8 @@ void Customer::washHair()
 	// If they need to go to another station, lets do that
 	if (mNeeds & Needs::Cut)
 	{
-		ChairEntity* haircutChair = findAvailableChair(ChairEntity::Type::Cutting);
-		if (haircutChair != nullptr)
-		{
-			mState.setState(CustomerState::ID::WaitingToMoveToHaircutArea);
-			stand(occupiedChair);
-			moveToTile(haircutChair->getStagingPosition());
-		}
+		mState.setState(CustomerState::ID::WaitingToMoveToHaircutArea);
+
 	}
 	
 	// Otherwise, get up and pay
@@ -105,6 +111,37 @@ void Customer::washHair()
 	}
 
 
+}
+
+void Customer::cutHair()
+{
+	mNeeds &= ~(Needs::Cut);
+	ChairEntity* occupiedChair = getOccupiedChair();
+	// If they need to go to another station, lets do that
+	if (mNeeds & Needs::Color)
+	{
+		ChairEntity* haircutChair = findAvailableChair(ChairEntity::Type::Coloring);
+		if (haircutChair != nullptr)
+		{
+			mState.setState(CustomerState::ID::WaitingToMoveToColorArea);
+		}
+	}
+	
+	// Otherwise, get up and pay
+	else
+	{
+		stand(occupiedChair);
+		cashOut();		
+	}
+
+}
+
+void Customer::colorHair()
+{
+	mNeeds &= ~(Needs::Color);
+	ChairEntity* occupiedChair = getOccupiedChair();
+	stand(occupiedChair);
+	cashOut();		
 }
 
 void Customer::moveToChair(ChairEntity* chair)
@@ -156,15 +193,39 @@ void Customer::customerClicked()
 			}
 
 		}
+	}	
+
+	// Customer is waiting to move to the haircut area, so if they are clicked, find a seat and move them
+	else if (state == CustomerState::ID::WaitingToMoveToHaircutArea)
+	{
+		ChairEntity* haircutChair = findAvailableChair(ChairEntity::Type::Cutting);
+		ChairEntity* occupiedChair = getOccupiedChair();
+		if (haircutChair != nullptr)
+		{
+			mState.setState(CustomerState::ID::MovingToHaircutArea);
+			stand(occupiedChair);
+			moveToChair(haircutChair);
+		}
 	}
 
-	// Customer is waiting for a hairwash
-	else if (state == CustomerState::ID::WaitingForWashService)
+	else if (state == CustomerState::ID::WaitingToMoveToColorArea)
 	{
-		washHair();
+		ChairEntity* colorChair = findAvailableChair(ChairEntity::Type::Coloring);
+		ChairEntity* occupiedChair = getOccupiedChair();
+		if (colorChair != nullptr)
+		{
+			mState.setState(CustomerState::ID::MovingToColorArea);
+			stand(occupiedChair);
+			moveToChair(colorChair);
+		}
 	}
 }
 
+unsigned int Customer::getState()
+{
+	return mState.getState();
+
+}
 ChairEntity* Customer::findAvailableChair(ChairEntity::Type chairType)
 {
 	std::vector<ChairEntity*> chairs = mWorld->getChairs(chairType);
@@ -357,7 +418,6 @@ void Customer::setNeeds()
 
 	// TODO: Remove this
 	// Wash to Register test
-	mNeeds = Needs::Wash;
 	assert(mNeeds > 0);
 	
 }
@@ -500,8 +560,18 @@ void Customer::checkAIState()
 		if (!isMoving())
 		{
 			TilePosition t = occupiedChair->getChairPosition();
-			Entity::setTilePosition(t);
+			sit(occupiedChair);
 			mState.setState(CustomerState::ID::WaitingForHaircutService);
+		}
+	}
+
+	else if (state == CustomerState::ID::MovingToColorArea)
+	{
+		if (!isMoving())
+		{
+			TilePosition t = occupiedChair->getChairPosition();
+			sit(occupiedChair);
+			mState.setState(CustomerState::ID::WaitingForColorService);
 		}
 	}
 	else if (state == CustomerState::ID::MovingToRegister)

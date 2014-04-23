@@ -21,7 +21,7 @@ public:
 		Waiting,
 		Washing,
 		Cutting,
-		Dry,
+		Coloring,
 		All,
 	};
 
