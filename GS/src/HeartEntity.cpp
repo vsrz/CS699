@@ -2,12 +2,16 @@
 #include "HeartEntity.h"
 
 
-HeartEntity::HeartEntity(const TextureManager& textures, World* world, float love, Customer* customer)
+HeartEntity::HeartEntity(const TextureManager& textures, World* world, Customer* customer)
 	: Entity(world)
 { 
 	mSprite.setTexture(textures.get(Textures::ID::Hearts));
 	mSprite.setScale(mWorld->getWorldScale());	
 	mCustomer = customer;
+	mLoveMax = 100.f;
+	updateStatusPosition();
+	updateFrame();
+	mOffset = SpritePosition(0, -116.f);
 }
 
 void HeartEntity::setMaxFill(float fill)
@@ -21,10 +25,15 @@ void HeartEntity::setFill(float fill)
 	mLove = fill;
 }
 
+void HeartEntity::setCustomerHeightOffset(SpritePosition offset)
+{
+	mOffset = offset;
+}
+
 // Updates the frame number based on the percentage of love left
 void HeartEntity::updateFrame()
 {
-	float percent = mLove / mLoveMax;
+	float percent = mLove / mLoveMax * 100;
 	int frame = 0;
 
 	if (percent <= 85)
@@ -41,7 +50,6 @@ void HeartEntity::updateFrame()
 		frame++;
 	if (percent <= 3)
 		frame = 7;
-
 	setFrame(frame);
 
 }
@@ -51,7 +59,7 @@ void HeartEntity::setFrame(int frame)
 {
 	mFrame = frame;
 	sf::Vector2i pos(0,0);
-	sf::Vector2i frameSize(Config::TILE_HEIGHT * Config::WORLD_SCALE, Config::TILE_WIDTH * Config::WORLD_SCALE);
+	sf::Vector2i frameSize(Config::TILE_HEIGHT, Config::TILE_WIDTH);
 
 	if (mFrame == 0 || mFrame % 2 > 0)
 		pos.x = 0;
@@ -66,12 +74,13 @@ void HeartEntity::setFrame(int frame)
 
 void HeartEntity::updateStatusPosition()
 {
-	mSprite.setPosition(mCustomer->getPosition());
+	mSprite.setPosition(mCustomer->getSpritePosition() + mOffset);
 }
 
 void HeartEntity::updateCurrent(sf::Time dt)
 {
-
-	Entity::update(dt);
+	mLove = mCustomer->getPatience();
+	updateStatusPosition();
+	updateFrame();
 }
 

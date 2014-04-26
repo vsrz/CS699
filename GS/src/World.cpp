@@ -8,7 +8,8 @@
 #include "ChairEntity.h"
 #include "DoorEntity.h"
 #include "PetEntity.h"
-
+#include "HeartEntity.h"
+#include "StatusNotifierEntity.h"
 
 World::World(sf::RenderWindow& window)
 	: mWindow(window)
@@ -71,7 +72,8 @@ void World::loadTextures()
 	mTextures.load(Textures::AnimWash, "res/anim_wash_01.png");
 	mTextures.load(Textures::AnimCut, "res/anim_cut_01.png");
 	mTextures.load(Textures::AnimColor, "res/anim_color_01.png");
-	mTextures.load(Textures::Hearts, "res/hearts_01.png");
+	mTextures.load(Textures::Hearts, "res/hearts_02.png");
+	mTextures.load(Textures::StatusNotifiers, "res/notifiers_01.png");
 	mTileLoader.loadFromFile(Config::TILEMAP_FILENAME);
 }
 
@@ -425,6 +427,19 @@ int World::getRemainingWaitingChairs()
 	return total;
 }
 
+/* Attaches a heart display to the customer object */
+void World::attachHeartDisplay(Customer* customer)
+{
+	std::unique_ptr<HeartEntity> hearts = std::unique_ptr<HeartEntity>(new HeartEntity(mTextures, this, customer));
+	mSceneLayers[Gui]->attachChild(std::move(hearts));
+}
+
+void World::attachStatusDisplay(Customer* customer)
+{
+	std::unique_ptr<StatusNotifierEntity> stat = std::unique_ptr<StatusNotifierEntity>(new StatusNotifierEntity(mTextures, this, customer));
+	mSceneLayers[Gui]->attachChild(std::move(stat));
+}
+
 
 /* Update the customer stack and release a customer if necessary */
 void World::updateCustomers(sf::Time dt)
@@ -438,13 +453,15 @@ void World::updateCustomers(sf::Time dt)
 		if (mCustomers.size() > 0)
 		{
 			std::unique_ptr<Customer> customer = std::move(mCustomers.back());
-			//std::unique_ptr<HeartEntity> heartDisplay = std::move(customer->getHeartEntityPtr());
-			//mSceneLayers[Entity]->attachChild(std::move(heartDisplay));
+			attachHeartDisplay(customer.get());
+			attachStatusDisplay(customer.get());
 			mSceneLayers[Entity]->attachChild(std::move(customer));
 			mCustomers.pop_back();
+
 			/*  Takes care of a rendering order issue when a 
 				first enters the scene */
 			mSceneLayers[Entity]->sortChildren();
+
 		}
 		mLastCustomerReleased = sf::Time::Zero;
 	}

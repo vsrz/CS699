@@ -96,6 +96,8 @@ private:
 	void addCustomers();
 	void buildScene();
 	void buildAnimations();
+	void attachHeartDisplay(Customer* customer);
+	void attachStatusDisplay(Customer* customer);
 
 };
 

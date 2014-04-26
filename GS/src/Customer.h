@@ -40,9 +40,10 @@ public:
 	};
 
 	Customer(const TextureManager& textures, World* world, unsigned int customerType);
-	std::unique_ptr<HeartEntity> getHeartEntityPtr();
 
 	unsigned int getNeeds();	
+	float getPatience();
+	float getHeight();
 	virtual void updateCurrent(sf::Time dt);
 
 	// Various exposed methods for directly altering the state of the customer
@@ -79,8 +80,8 @@ private:
 	unsigned int mNeeds;
 	unsigned int mType;
 	float mPatience;
-	std::unique_ptr<HeartEntity> mHeartDisplay;
-
+	float mHeight;
+	
 	Prng rng;
 
 };

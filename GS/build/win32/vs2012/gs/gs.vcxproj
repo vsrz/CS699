@@ -131,6 +131,7 @@
     <ClInclude Include="..\..\..\..\src\State.h" />
     <ClInclude Include="..\..\..\..\src\StateIdentifiers.h" />
     <ClInclude Include="..\..\..\..\src\StateStack.h" />
+    <ClInclude Include="..\..\..\..\src\StatusNotifierEntity.h" />
     <ClInclude Include="..\..\..\..\src\Tests.h" />
     <ClInclude Include="..\..\..\..\src\Tile.h" />
     <ClInclude Include="..\..\..\..\src\TileLoader.h" />
@@ -181,6 +182,7 @@
     <ClCompile Include="..\..\..\..\src\SpriteNode.cpp" />
     <ClCompile Include="..\..\..\..\src\State.cpp" />
     <ClCompile Include="..\..\..\..\src\StateStack.cpp" />
+    <ClCompile Include="..\..\..\..\src\StatusNotifierEntity.cpp" />
     <ClCompile Include="..\..\..\..\src\Tests.cpp" />
     <ClCompile Include="..\..\..\..\src\Tile.cpp" />
     <ClCompile Include="..\..\..\..\src\TileLoader.cpp" />

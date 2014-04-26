@@ -52,24 +52,24 @@ void Customer::initalize(const TextureManager& t, unsigned int customerType)
 	
 	mElapsedTime = sf::Time::Zero;
 
-	/* Make a unique ptr to the heart display so it can be added to the scene during init */
-	std::unique_ptr<HeartEntity> h = std::unique_ptr<HeartEntity>(new HeartEntity(t, mWorld, mPatience, this));
-
 }
-
-// Used to return the heart entity object during initialization so it may be added to the scene
-std::unique_ptr<HeartEntity> Customer::getHeartEntityPtr()
-{
-	if (mHeartDisplay == nullptr) return nullptr;
-	return std::move(mHeartDisplay);
-}
-
 
 unsigned int Customer::getNeeds()
 {
 	return mNeeds;
 }
 
+float Customer::getPatience()
+{
+	return mPatience;		
+}
+
+/*	Returns the highest pixel on the customer image. Useful for making sure the icons
+	don't float too high or too low above the head of the customer */
+float Customer::getHeight()
+{
+	return mHeight;
+}
 
 void Customer::updateCurrent(sf::Time dt)
 {
@@ -271,16 +271,16 @@ ChairEntity* Customer::getOccupiedChair()
 // Patience level is rated 0-10, when customer reaches 0 patience, they walk out
 void Customer::setPatience(float bonus)
 {
-	float patience = (rand() % 10) + 1;
+	float patience = (rand() % 50) + 50;
 	
 	switch(mType)
 	{
 	case Type::ManOld:
 	case Type::ManTeen:
-		bonus += .35f;
+		bonus += 35.f;
 		break;
 	case Type::WomanTeen:
-		bonus -= .30f;
+		bonus -= 30.f;
 		break;
 	case Type::ManYoung:
 	case Type::WomanYoung:
@@ -288,10 +288,10 @@ void Customer::setPatience(float bonus)
 	case Type::WomanOld:
 	case Type::WomanMiddle:
 	default:
-		bonus += .25f;
+		bonus += 25.f;
 	}
 	
-	if (patience > 10.f) patience = 10.f;
+	if (patience < 30.f) patience = 30.f;
 	mPatience = patience;
 }
 

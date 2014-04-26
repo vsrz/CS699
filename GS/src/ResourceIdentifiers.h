@@ -32,6 +32,7 @@ namespace Textures
 		AnimWash,
 		AnimCut,
 		AnimColor,
+		StatusNotifiers,
 	};
 
 }	

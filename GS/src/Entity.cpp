@@ -23,6 +23,11 @@ sf::IntRect Entity::getTextureRect()
 	return mSprite.getTextureRect();
 }
 
+SpritePosition Entity::getSpritePosition()
+{
+	return mSprite.getPosition();
+}
+
 // Return the current position that the entity is currently occupying
 TilePosition Entity::getTilePosition()
 {

@@ -408,6 +408,9 @@
     <ClInclude Include="..\..\..\..\src\ActionAnimator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\src\StatusNotifierEntity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\..\src\SFML-2.1\include\SFML\Graphics\Rect.inl">
@@ -548,6 +551,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\src\ActionAnimator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\StatusNotifierEntity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

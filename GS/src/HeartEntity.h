@@ -13,7 +13,7 @@ class HeartEntity :
 	public Entity
 {
 public:
-	HeartEntity(const TextureManager& textures, World* world, float love, Customer* customer);
+	HeartEntity(const TextureManager& textures, World* world, Customer* customer);
 
 	void setMaxFill(float fill);
 	void setFill(float fill);
@@ -21,9 +21,11 @@ private:
 	float mLove;
 	float mLoveMax;
 	int mFrame;
+	SpritePosition mOffset;
 	
-	void updateCurrent(sf::Time dt);
+	virtual void updateCurrent(sf::Time dt);
 	void updateStatusPosition();
+	void setCustomerHeightOffset(SpritePosition offset);
 	void updateFrame();
 	void setFrame(int frame);
 	Customer *mCustomer;

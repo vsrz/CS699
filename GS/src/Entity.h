@@ -38,6 +38,7 @@ public:
 
 	/* Tile and sprite positioning utility fns */
 	sf::Vector2f getTilePosition();
+	SpritePosition getSpritePosition();
 	void setTilePosition(sf::Vector2i position);
 
 
