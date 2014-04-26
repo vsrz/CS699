@@ -1,9 +1,9 @@
 #include "CustomerState.h"
-
-
+#include <iostream>
 CustomerState::CustomerState(void)
 	: mState(ID::None)
 {
+	mClock.restart();
 }
 
 unsigned int CustomerState::getState()
@@ -13,6 +13,8 @@ unsigned int CustomerState::getState()
 
 void CustomerState::setState(unsigned int stateId)
 {
-	mState = stateId;
+	mState = stateId;	
+	mLastStateChange = mClock.getElapsedTime();
+	mClock.restart();
 }
 

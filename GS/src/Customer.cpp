@@ -76,6 +76,20 @@ void Customer::updateCurrent(sf::Time dt)
 	mElapsedTime += dt;
 	checkAIState();
 	ActorEntity::update(dt);
+	if (mElapsedTime.asSeconds() > 1)
+	{
+		updatePatience();
+		mElapsedTime = sf::Time::Zero;
+	}
+
+	if (mPatience <= 0)
+	{
+		ChairEntity* chair = getOccupiedChair();
+		mNeeds = 0;
+		if (chair != nullptr)
+			stand(getOccupiedChair());
+		leaveStore();
+	}
 	
 }
 
@@ -495,6 +509,22 @@ void Customer::cashOut()
 	mState.setState(CustomerState::ID::MovingToRegister);
 }
 
+/* Decreases or increases patience based on current action */
+void Customer::updatePatience()
+{
+
+	// Don't penalize if they haven't entered the scene yet
+	if (mState.getState() == CustomerState::ID::Arrived || mState.getState() == CustomerState::ID::EnteringSalon)
+	{
+		return;
+	}
+
+	// Otherwise, penalize them
+	mPatience -= 10;
+
+
+}
+
 void Customer::checkAIState()
 {
 	unsigned int state = mState.getState();
@@ -598,7 +628,7 @@ void Customer::checkAIState()
 	
 	else if (state == CustomerState::ID::Leaving)
 	{
-		if (!isMoving())
+		if (getTilePosition() == Config::EXIT_TILE && !isMoving())
 		{
 			mState.setState(CustomerState::ID::Delete);
 		}

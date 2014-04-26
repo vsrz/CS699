@@ -61,7 +61,7 @@ void HeartEntity::setFrame(int frame)
 	sf::Vector2i pos(0,0);
 	sf::Vector2i frameSize(Config::TILE_HEIGHT, Config::TILE_WIDTH);
 
-	if (mFrame == 0 || mFrame % 2 > 0)
+	if (mFrame == 0 || mFrame % 2 == 0)
 		pos.x = 0;
 	else
 		pos.x = Config::TILE_WIDTH;

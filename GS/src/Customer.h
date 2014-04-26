@@ -73,6 +73,7 @@ private:
 	void moveToChair(ChairEntity* chair);
 	void enterSalon();
 	void checkAIState(); 
+	void updatePatience();
 
 	CustomerState mState;
 	sf::Time mElapsedTime;
@@ -81,7 +82,7 @@ private:
 	unsigned int mType;
 	float mPatience;
 	float mHeight;
-	
+
 	Prng rng;
 
 };
