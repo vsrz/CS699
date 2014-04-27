@@ -37,6 +37,12 @@
     <Filter Include="Source Files\TinyXML2">
       <UniqueIdentifier>{201b4a55-45e6-4f74-842f-e59a74259aa6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\md5-hasher">
+      <UniqueIdentifier>{b077e74a-947d-4bba-ad1f-76ee2de45107}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\md5-hasher">
+      <UniqueIdentifier>{48051a2a-8482-4409-8785-3e876b3e3fb4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\src\Application.h">
@@ -414,6 +420,15 @@
     <ClInclude Include="..\..\..\..\src\EndState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\src\md5-hasher\md5.h">
+      <Filter>Header Files\md5-hasher</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\md5-hasher\md5_wrapper.h">
+      <Filter>Header Files\md5-hasher</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\ScoreGenerator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\..\src\SFML-2.1\include\SFML\Graphics\Rect.inl">
@@ -560,6 +575,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\src\EndState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\md5-hasher\md5.cpp">
+      <Filter>Source Files\md5-hasher</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\md5-hasher\md5_wrapper.cpp">
+      <Filter>Source Files\md5-hasher</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\ScoreGenerator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

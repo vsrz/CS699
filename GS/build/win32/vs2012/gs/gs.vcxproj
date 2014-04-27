@@ -35,6 +35,8 @@
     <ClInclude Include="..\..\..\..\src\Glob.h" />
     <ClInclude Include="..\..\..\..\src\HeartEntity.h" />
     <ClInclude Include="..\..\..\..\src\LoadingState.h" />
+    <ClInclude Include="..\..\..\..\src\md5-hasher\md5.h" />
+    <ClInclude Include="..\..\..\..\src\md5-hasher\md5_wrapper.h" />
     <ClInclude Include="..\..\..\..\src\MenuState.h" />
     <ClInclude Include="..\..\..\..\src\ParallelTask.h" />
     <ClInclude Include="..\..\..\..\src\Pathfinder.h" />
@@ -47,6 +49,7 @@
     <ClInclude Include="..\..\..\..\src\ResourceManager.h" />
     <ClInclude Include="..\..\..\..\src\ResourceIdentifiers.h" />
     <ClInclude Include="..\..\..\..\src\SceneNode.h" />
+    <ClInclude Include="..\..\..\..\src\ScoreGenerator.h" />
     <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Audio.hpp" />
     <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Audio\Export.hpp" />
     <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Audio\Listener.hpp" />
@@ -171,6 +174,8 @@
     <ClCompile Include="..\..\..\..\src\HeartEntity.cpp" />
     <ClCompile Include="..\..\..\..\src\LoadingState.cpp" />
     <ClCompile Include="..\..\..\..\src\main.cpp" />
+    <ClCompile Include="..\..\..\..\src\md5-hasher\md5.cpp" />
+    <ClCompile Include="..\..\..\..\src\md5-hasher\md5_wrapper.cpp" />
     <ClCompile Include="..\..\..\..\src\MenuState.cpp" />
     <ClCompile Include="..\..\..\..\src\ParallelTask.cpp" />
     <ClCompile Include="..\..\..\..\src\Pathfinder.cpp" />
@@ -180,6 +185,7 @@
     <ClCompile Include="..\..\..\..\src\Player.cpp" />
     <ClCompile Include="..\..\..\..\src\RegisterQueue.cpp" />
     <ClCompile Include="..\..\..\..\src\SceneNode.cpp" />
+    <ClCompile Include="..\..\..\..\src\ScoreGenerator.cpp" />
     <ClCompile Include="..\..\..\..\src\Source.cpp" />
     <ClCompile Include="..\..\..\..\src\SpriteNode.cpp" />
     <ClCompile Include="..\..\..\..\src\State.cpp" />
@@ -263,7 +269,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>SFML_STATIC;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SFML_STATIC;WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)..\..\..\..\src\SFML-2.1\include</AdditionalIncludeDirectories>
       <SDLCheck>true</SDLCheck>
     </ClCompile>

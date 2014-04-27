@@ -1,10 +1,10 @@
 #include "EndState.h"
-
+#include <iostream>
 
 EndState::EndState(StateStack& stack, Context context)
 	: State(stack, context)
 {
-
+	temp = false;
 }
 
 void EndState::draw()
@@ -15,8 +15,19 @@ void EndState::draw()
 	window.draw(shape);
 }
 
+void EndState::setScore(ScoreGenerator score)
+{
+	mScore = score;
+}
+
 bool EndState::update(sf::Time dt)
 {
+	if (temp == false)
+	{
+		std::cout << mScore.getScoreString() << "\n";
+		temp = true;
+	}
+
 	return true;
 }
 

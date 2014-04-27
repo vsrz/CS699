@@ -15,6 +15,7 @@ World::World(sf::RenderWindow& window)
 	: mWindow(window)
 	, mWorldView(window.getDefaultView())
 	, mTilemap(Config::WORLD_WIDTH, Config::WORLD_HEIGHT, Config::TILE_WIDTH, Config::TILE_HEIGHT, Config::WORLD_SCALE)
+	, mScore()
 {
 	initalize();
 	loadTextures();
@@ -25,9 +26,7 @@ World::World(sf::RenderWindow& window)
 
 void World::initalize()
 {
-	mWorldScale = sf::Vector2f(Config::WORLD_SCALE, Config::WORLD_SCALE);
-	mAngryCustomers = mCustomersServed = mTipsMade = mTotalCash = 0;
-
+	mWorldScale = sf::Vector2f(Config::WORLD_SCALE, Config::WORLD_SCALE);	
 }
 
 sf::Vector2f World::getWorldScale()
@@ -56,10 +55,16 @@ CommandQueue& World::getCommandQueue()
 	return mCommandQueue;
 }
 
+ScoreGenerator* World::getScoreObject()
+{
+	return &mScore;
+}
+
 TilePosition World::getPlayerPosition()
 {
 	return mPlayer->getTilePosition();
 }
+
 void World::loadTextures()
 {
 	mTextures.load(Textures::TestGuy, "res/TestGuy.png");
@@ -75,7 +80,7 @@ void World::loadTextures()
 	mTextures.load(Textures::AnimCut, "res/anim_cut_01.png");
 	mTextures.load(Textures::AnimColor, "res/anim_color_01.png");
 	mTextures.load(Textures::Hearts, "res/hearts_02.png");
-	mTextures.load(Textures::StatusNotifiers, "res/notifiers_01.png");
+	mTextures.load(Textures::StatusNotifiers, "res/notifiers_02.png");
 	mTileLoader.loadFromFile(Config::TILEMAP_FILENAME);
 }
 

@@ -24,6 +24,7 @@
 #include "RegisterQueue.h"
 #include "ActionAnimator.h"
 #include "CashRegister.h"
+#include "ScoreGenerator.h"
 
 class World
 {
@@ -46,11 +47,7 @@ public:
 	TilePosition getPlayerPosition();
 	std::vector<Customer*> getCustomers();
 
-	// Scoring
-	int mAngryCustomers;
-	int mCustomersServed;
-	int mTipsMade;
-	int mTotalCash;
+	ScoreGenerator* getScoreObject();
 
 private:
 	enum SceneLayer
@@ -104,6 +101,9 @@ private:
 	void buildAnimations();
 	void attachHeartDisplay(Customer* customer);
 	void attachStatusDisplay(Customer* customer);
+
+	// Scoring
+	ScoreGenerator mScore;
 
 };
 

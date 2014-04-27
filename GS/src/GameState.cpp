@@ -24,7 +24,7 @@ bool GameState::update(sf::Time dt)
 	mWorld.update(dt);
 	mClick.update(dt);
 	CommandQueue& commands = mWorld.getCommandQueue();
-	if (mWorld.mCustomersServed + mWorld.mAngryCustomers >= Config::TOTAL_CUSTOMERS)
+	if (mWorld.getScoreObject()->getTotalCustomers() >= Config::TOTAL_CUSTOMERS)
 	{
 		requestStackPop();
 		requestStackPush(States::End);

@@ -2,6 +2,7 @@
 #include "Glob.h"
 #include "World.h"
 #include "Pathfinder.h"
+#include "ScoreGenerator.h"
 #include <iostream>
 #include <cstdlib>
 #include <cassert>
@@ -715,12 +716,12 @@ void Customer::checkAIState()
 			mScored = true;
 			if (mPatience <= 0)
 			{
-				mWorld->mAngryCustomers++;
-			} else mWorld->mCustomersServed++;
+				mWorld->getScoreObject()->addUnserved();
+			} else mWorld->getScoreObject()->addServed();
 
 			// Just round
-			mWorld->mTipsMade += int(getTipAmount());
-			mWorld->mTotalCash += mPayment;
+			mWorld->getScoreObject()->addTips(int(getTipAmount()));
+			mWorld->getScoreObject()->addRevenue(mPayment);
 
 		}
 	}
