@@ -23,7 +23,7 @@ void StatusNotifierEntity::updateStatus()
 
 	if (needs & Customer::Needs::Product)
 	{
-		mFrame = Status::Walk;
+		mFrame = Status::None;
 	}
 
 	else if (needs & Customer::Needs::Wash)
@@ -69,10 +69,10 @@ void StatusNotifierEntity::updateFrame()
 		pos.y = 64.f;
 		break;
 	case Status::Color:
-		pos.y = 128.f;
+		pos.y = 96.f;
 		break;
 	case Status::Pay:
-		pos.y = 160.f;
+		pos.y = 128.f;
 		break;
 	default:
 		frameSize.x = 0;
@@ -80,7 +80,6 @@ void StatusNotifierEntity::updateFrame()
 		break;
 	
 	}
-	pos.y = (mFrame / 2) * Config::TILE_HEIGHT;
 	
 	sf::IntRect rect(pos, frameSize);
 	mSprite.setTextureRect(rect);

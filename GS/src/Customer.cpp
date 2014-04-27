@@ -73,23 +73,20 @@ float Customer::getHeight()
 
 void Customer::updateCurrent(sf::Time dt)
 {
+	Prng n;
 	mElapsedTime += dt;
 	checkAIState();
 	ActorEntity::update(dt);
-	if (mElapsedTime.asSeconds() > 1)
+
+	// Controls how often the patience for a customer is reduced
+	if (mElapsedTime.asSeconds() > 10 + 
+		mWorld->getCustomers().size() + 
+		n.getRand(0, 10))
 	{
 		updatePatience();
 		mElapsedTime = sf::Time::Zero;
 	}
 
-	if (mPatience <= 0)
-	{
-		ChairEntity* chair = getOccupiedChair();
-		mNeeds = 0;
-		if (chair != nullptr)
-			stand(getOccupiedChair());
-		leaveStore();
-	}
 	
 }
 
@@ -514,15 +511,35 @@ void Customer::updatePatience()
 {
 
 	// Don't penalize if they haven't entered the scene yet
-	if (mState.getState() == CustomerState::ID::Arrived || mState.getState() == CustomerState::ID::EnteringSalon)
+	if (mState.getState() == CustomerState::ID::Arrived || 
+		mState.getState() == CustomerState::ID::EnteringSalon || 
+		mState.getState() == CustomerState::ID::Leaving || 
+		mState.getState() == CustomerState::ID::Delete)
 	{
 		return;
 	}
 
 	// Otherwise, penalize them
-	mPatience -= 10;
+	Prng n;
+	mPatience -= 5 + n.getRand(0,4) + 1;
 
+	if (mPatience < 0) mPatience = 0;
+	
 
+	// Leave the salon if we've got no patience left
+	if (mPatience <= 0 && 
+		(mState.getState() != CustomerState::ID::Leaving || 
+		mState.getState() != CustomerState::ID::Delete ||
+		mState.getState() != CustomerState::ID::WaitingToPay ||
+		mState.getState() != CustomerState::ID::MovingToRegister))
+	{
+		ChairEntity* chair = getOccupiedChair();
+		mNeeds = 0;
+		if (chair != nullptr)
+			stand(getOccupiedChair());
+		leaveStore();
+	}
+	
 }
 
 void Customer::checkAIState()
