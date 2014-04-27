@@ -17,16 +17,12 @@ public:
 
 	enum Type
 	{
-		None,
-		Manager,
 		ManYoung,
 		ManTeen,
-		ManMiddle,
-		ManOld,
-		WomanYoung,
 		WomanTeen,
 		WomanMiddle,
 		WomanOld,
+		Count,
 	};
 
 	enum Needs
@@ -84,6 +80,11 @@ private:
 	float mHeight;
 
 	Prng rng;
+
+	// Scoring
+	float getTipAmount();
+	float mPayment;
+	bool mScored;
 
 };
 

@@ -44,7 +44,7 @@ void StatusNotifierEntity::updateStatus()
 	// No needs left
 	else
 	{
-		mFrame = Status::Pay;
+		mFrame = Status::None;
 	}
 		
 

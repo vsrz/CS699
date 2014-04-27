@@ -51,6 +51,7 @@ namespace Fonts
 	enum ID
 	{
 		Default,
+		Bit,
 	};
 }
 template <typename Resource, typename Identifier>

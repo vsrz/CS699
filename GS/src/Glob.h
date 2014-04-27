@@ -53,6 +53,8 @@ namespace Config
 	const float								COLOR_USE_TIME = 3.f;
 	const float								REGISTER_USE_TIME = 1.f;
 
+	const int								TOTAL_CUSTOMERS = 15;
+
 	// Waiting room chairs
 	namespace Chairs
 	{
@@ -215,6 +217,13 @@ namespace Config
 
 		// The size of each frame
 		const sf::Vector2i					SPRITE_ANIM_FRAME_SIZE(32.f, 64.f);
+
+		// Payment amounts
+		const float							PAYMENT_WASH = 5.f;
+		const float							PAYMENT_CUT = 25.f;
+		const float							PAYMENT_COLOR = 25.f;
+		const float							PAYMENT_PRODUCT = 40.f;
+
 	};
 
 	namespace Pet

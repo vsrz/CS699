@@ -26,6 +26,7 @@ World::World(sf::RenderWindow& window)
 void World::initalize()
 {
 	mWorldScale = sf::Vector2f(Config::WORLD_SCALE, Config::WORLD_SCALE);
+	mAngryCustomers = mCustomersServed = mTipsMade = mTotalCash = 0;
 
 }
 
@@ -40,6 +41,7 @@ void World::update(sf::Time dt)
 	mSceneLayers[Entity]->sortChildren();
 	mSceneGraph.update(dt);
 	updateCustomers(dt);
+
 }
 
 void World::draw()
@@ -306,25 +308,24 @@ void World::buildProps()
 
 void World::addCustomers()
 {	
-	std::array<unsigned int, 15u> customers = {
-		Customer::Type::ManTeen,
-		Customer::Type::WomanMiddle,
-		Customer::Type::WomanOld,
-		Customer::Type::ManYoung,
-		Customer::Type::WomanTeen,
-		Customer::Type::ManTeen,
-		Customer::Type::WomanMiddle,
-		Customer::Type::WomanOld,
-		Customer::Type::ManYoung,
-		Customer::Type::WomanTeen,
-		Customer::Type::ManTeen,
-		Customer::Type::WomanMiddle,
-		Customer::Type::WomanOld,
-		Customer::Type::ManYoung,
-		Customer::Type::WomanTeen,
-	};
-
-	for (int i = 0; i < 15; ++i)
+	Prng rand;
+	std::array<unsigned int, Config::TOTAL_CUSTOMERS> customers;
+	unsigned int last = 99;
+	int num;
+	
+	for (int i = 0; i < Config::TOTAL_CUSTOMERS; i++)
+	{
+		// Try not to get two of the same customers in a row
+		do
+		{
+			num = rand.getRand(0,Customer::Type::Count-1);
+		} while (num == last);
+		std::cout<<num<<std::endl;
+		last = num;
+		customers[i] = num;
+	}
+	
+	for (int i = 0; i < Config::TOTAL_CUSTOMERS; ++i)
 	{
 		std::unique_ptr<Customer> cust(new Customer(mTextures, this, customers[i]));
 		mCustomers.push_back(std::move(cust));

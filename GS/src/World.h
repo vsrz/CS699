@@ -46,6 +46,12 @@ public:
 	TilePosition getPlayerPosition();
 	std::vector<Customer*> getCustomers();
 
+	// Scoring
+	int mAngryCustomers;
+	int mCustomersServed;
+	int mTipsMade;
+	int mTotalCash;
+
 private:
 	enum SceneLayer
 	{

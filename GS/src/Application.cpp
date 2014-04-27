@@ -5,6 +5,7 @@
 #include "PauseState.h"
 #include "DebugScreenState.h"
 #include "LoadingState.h"
+#include "EndState.h"
 
 const sf::Time Application::TimePerFrame = sf::seconds(1.f/60.f);
 
@@ -17,6 +18,7 @@ Application::Application(void)
 	mWindow.setKeyRepeatEnabled(false);
 	mWindow.setVerticalSyncEnabled(true);
 	mFonts.load(Fonts::Default, "res/Sansation.ttf");
+	mFonts.load(Fonts::Bit, "res/8b.ttf");
 	mTextures.load(Textures::TitleScreen, "res/TitleScreen.png");
 	mTextures.load(Textures::RedClick, "res/RedClick.png");
 
@@ -98,5 +100,6 @@ void Application::registerStates()
 	mStateStack.registerState<PauseState>(States::Pause);
 	mStateStack.registerState<DebugScreenState>(States::Debug);
 	mStateStack.registerState<LoadingState>(States::Loading);
+	mStateStack.registerState<EndState>(States::End);
 }
 

@@ -11,6 +11,8 @@ Customer::Customer(const TextureManager& textures, World* world, unsigned int cu
 	, mType(customerType)
 {
 	initalize(textures, customerType);
+	mScored = false;
+	mPayment = 0;
 }
 
 void Customer::initalize(const TextureManager& t, unsigned int customerType)
@@ -116,6 +118,7 @@ bool Customer::isWaitingToMoveToStation()
 void Customer::washHair()
 {
 	mNeeds &= ~(Needs::Wash);
+	mPayment += Config::Customer::PAYMENT_WASH;
 	ChairEntity* occupiedChair = getOccupiedChair();
 	// If they need to go to another station, lets do that
 	if (mNeeds & Needs::Cut)
@@ -137,6 +140,7 @@ void Customer::washHair()
 void Customer::cutHair()
 {
 	mNeeds &= ~(Needs::Cut);
+	mPayment += Config::Customer::PAYMENT_CUT;
 	ChairEntity* occupiedChair = getOccupiedChair();
 	// If they need to go to another station, lets do that
 	if (mNeeds & Needs::Color)
@@ -160,6 +164,7 @@ void Customer::cutHair()
 void Customer::colorHair()
 {
 	mNeeds &= ~(Needs::Color);
+	mPayment += Config::Customer::PAYMENT_COLOR;
 	ChairEntity* occupiedChair = getOccupiedChair();
 	stand(occupiedChair);
 	cashOut();		
@@ -286,7 +291,7 @@ void Customer::setPatience(float bonus)
 	
 	switch(mType)
 	{
-	case Type::ManOld:
+	//case Type::ManOld:
 	case Type::ManTeen:
 		bonus += 35.f;
 		break;
@@ -294,8 +299,8 @@ void Customer::setPatience(float bonus)
 		bonus -= 30.f;
 		break;
 	case Type::ManYoung:
-	case Type::WomanYoung:
-	case Type::ManMiddle:
+	//case Type::WomanYoung:
+	//case Type::ManMiddle:
 	case Type::WomanOld:
 	case Type::WomanMiddle:
 	default:
@@ -312,7 +317,7 @@ void Customer::setNeeds()
 	int roll = rng.getRand(0,99);
 	switch (mType)
 	{
-	case Type::WomanYoung:
+	//case Type::WomanYoung:
 	case Type::ManYoung:
 	case Type::ManTeen:
 		/**
@@ -329,7 +334,7 @@ void Customer::setNeeds()
 			mNeeds = Needs::Cut | Needs::Wash;
 		}
 		break;
-	case Type::ManMiddle:
+	//case Type::ManMiddle:
 		/**
 		 *	50% chance for a cut
 		 *	30% chance for a wash and cut
@@ -351,7 +356,7 @@ void Customer::setNeeds()
 		}
 		break;
 	case Type::WomanTeen:
-	case Type::ManOld:
+	//case Type::ManOld:
 		/**
 		 *	15% chance for a cut
 		 *  25% chance for a wash and cut
@@ -453,15 +458,15 @@ void Customer::setSpeed()
 		speed = 5.f;
 		break;
 	case Type::ManTeen:
-	case Type::ManMiddle:
+	//case Type::ManMiddle:
 		speed = 4.5f;
 		break;
 	case Type::WomanTeen:
 	case Type::WomanMiddle:
-	case Type::WomanYoung:
+	//case Type::WomanYoung:
 		speed = 3.f;
 		break;
-	case Type::ManOld:
+	//case Type::ManOld:
 	case Type::WomanOld:
 	default:
 		speed = 2.f;
@@ -502,6 +507,12 @@ void Customer::enterSalon()
 
 void Customer::cashOut()
 {
+	if (mNeeds & Needs::Product)
+	{
+		mNeeds &= ~(Needs::Product);
+		mPayment += Config::Customer::PAYMENT_PRODUCT;
+
+	}
 	mWorld->getQueue()->enqueue(this);
 	mState.setState(CustomerState::ID::MovingToRegister);
 }
@@ -541,6 +552,51 @@ void Customer::updatePatience()
 	}
 	
 }
+
+float Customer::getTipAmount()
+{
+	float percent;
+
+	if (mPatience < 10.f)
+	{
+		percent = 0.02f;
+	}
+
+	else if (mPatience < 20.f)
+	{
+		percent = 0.05f;
+	}
+
+	else if (mPatience < 35.f)
+	{
+		percent = 0.1f;
+	}
+
+	else if (mPatience < 50.f)
+	{
+		percent = 0.13f;
+	}
+
+	else if (mPatience < 65.f)
+	{
+		percent = 0.15f;
+	}
+
+	else if (mPatience < 75.f)
+	{
+		percent = 0.2f;
+	}
+
+	else
+	{
+		percent = 0.25f;
+	}
+
+	return mPayment * percent;
+
+
+}
+
 
 void Customer::checkAIState()
 {
@@ -654,7 +710,19 @@ void Customer::checkAIState()
 	// Customer has exited the store and is no longer needed in the scenegraph
 	else if (state == CustomerState::ID::Delete)
 	{
-		
+		if (mScored == false)
+		{
+			mScored = true;
+			if (mPatience <= 0)
+			{
+				mWorld->mAngryCustomers++;
+			} else mWorld->mCustomersServed++;
+
+			// Just round
+			mWorld->mTipsMade += int(getTipAmount());
+			mWorld->mTotalCash += mPayment;
+
+		}
 	}
 
 }
