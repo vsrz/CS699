@@ -49,6 +49,7 @@
     <ClInclude Include="..\..\..\..\src\ResourceManager.h" />
     <ClInclude Include="..\..\..\..\src\ResourceIdentifiers.h" />
     <ClInclude Include="..\..\..\..\src\SceneNode.h" />
+    <ClInclude Include="..\..\..\..\src\ScoreDisplay.h" />
     <ClInclude Include="..\..\..\..\src\ScoreGenerator.h" />
     <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Audio.hpp" />
     <ClInclude Include="..\..\..\..\src\SFML-2.1\include\SFML\Audio\Export.hpp" />
@@ -185,6 +186,7 @@
     <ClCompile Include="..\..\..\..\src\Player.cpp" />
     <ClCompile Include="..\..\..\..\src\RegisterQueue.cpp" />
     <ClCompile Include="..\..\..\..\src\SceneNode.cpp" />
+    <ClCompile Include="..\..\..\..\src\ScoreDisplay.cpp" />
     <ClCompile Include="..\..\..\..\src\ScoreGenerator.cpp" />
     <ClCompile Include="..\..\..\..\src\Source.cpp" />
     <ClCompile Include="..\..\..\..\src\SpriteNode.cpp" />

@@ -429,6 +429,9 @@
     <ClInclude Include="..\..\..\..\src\ScoreGenerator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\src\ScoreDisplay.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\..\src\SFML-2.1\include\SFML\Graphics\Rect.inl">
@@ -584,6 +587,9 @@
       <Filter>Source Files\md5-hasher</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\src\ScoreGenerator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\ScoreDisplay.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

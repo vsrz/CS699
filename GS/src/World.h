@@ -78,6 +78,7 @@ private:
 	sf::Vector2i mSpawnPosition;
 
 	TextureManager mTextures;
+	FontManager mFonts;
 	CommandQueue mCommandQueue;
 
 	// World objects

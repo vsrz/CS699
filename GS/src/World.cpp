@@ -10,6 +10,7 @@
 #include "PetEntity.h"
 #include "HeartEntity.h"
 #include "StatusNotifierEntity.h"
+#include "ScoreDisplay.h"
 
 World::World(sf::RenderWindow& window)
 	: mWindow(window)
@@ -18,15 +19,14 @@ World::World(sf::RenderWindow& window)
 	, mScore()
 {
 	initalize();
-	loadTextures();
-	buildScene();	
-
-
 }
 
 void World::initalize()
 {
-	mWorldScale = sf::Vector2f(Config::WORLD_SCALE, Config::WORLD_SCALE);	
+	mWorldScale = sf::Vector2f(Config::WORLD_SCALE, Config::WORLD_SCALE);
+	loadTextures();
+	mFonts.load(Fonts::ID::Bit, "res/8b.ttf");
+	buildScene();
 }
 
 sf::Vector2f World::getWorldScale()
@@ -420,6 +420,10 @@ void World::buildScene()
 
 	/* Initialize the animations */
 	buildAnimations();
+
+	/* Put up the scoreboard */
+	std::unique_ptr<ScoreDisplay> score = std::unique_ptr<ScoreDisplay>(new ScoreDisplay(getScoreObject(), mFonts.get(Fonts::Bit)));
+	mSceneLayers[Gui]->attachChild(std::move(score));
 }
 
 int World::getRemainingWaitingChairs()

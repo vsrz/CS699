@@ -26,7 +26,7 @@ bool GameState::update(sf::Time dt)
 	CommandQueue& commands = mWorld.getCommandQueue();
 	if (mWorld.getScoreObject()->getTotalCustomers() >= Config::TOTAL_CUSTOMERS)
 	{
-		requestStackPop();
+//		requestStackPop();
 		requestStackPush(States::End);
 	}
 	return true;
@@ -45,6 +45,7 @@ bool GameState::handleEvent(const sf::Event& event)
 		return false;
 	}
 
+#ifdef DEBUG
 	// F3 is pressed, so bring up the debug overlay
 	else if (event.type == sf::Event::KeyPressed && 
 		event.key.code == sf::Keyboard::F3)
@@ -61,10 +62,13 @@ bool GameState::handleEvent(const sf::Event& event)
 		}
 		return false;
 	}
+#endif
 
 	else if (event.type == sf::Event::LostFocus)
 	{
-//		requestStackPush(States::Pause);
+#ifdef RELEASE
+		requestStackPush(States::Pause);
+#endif		
 		return false;
 	}
 
