@@ -16,10 +16,7 @@ public:
 	
 
 private:
-	sf::Text mRevenue;
-	sf::Text mTip;
-	sf::Text mServed;
-	sf::Text mAngry;
+	sf::Text mDisplay;
 	sf::Font mFont;
 
 	void initalize();

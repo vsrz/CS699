@@ -87,17 +87,19 @@ private:
 	TileLoader mTileLoader;
 	Player* mPlayer;
 	std::vector<std::unique_ptr<Customer>> mCustomers;
+	std::vector<Customer*> mCustomersInScene;
 	sf::Time mLastCustomerReleased;
 	CashRegister mCashRegister;
 	int getRemainingWaitingChairs();
 	std::vector<std::unique_ptr<ActionAnimator>> mActionAnimations;
+	
 	
 	// Scene building
 	void loadLayer(const char* layerName, unsigned int id);
 	void updateCustomers(sf::Time dt);
 	void buildProps();
 	void loadTextures();
-	void addCustomers();
+	void generateCustomers();
 	void buildScene();
 	void buildAnimations();
 	void attachHeartDisplay(Customer* customer);

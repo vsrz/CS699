@@ -151,16 +151,18 @@ void World::handleEvent(const sf::Event& event)
 					// If it's not a waiting chair
 					else
 					{
-						if (mPlayer->getState() == Player::State::Busy)
-								return;
 						// TODO: washing station queue processing
 						if (mPlayer->getTilePosition() == chair->getOperatingPosition())
 						{
 							Customer* cust = chair->getOccupant();
 							if (cust != nullptr)
 							{
-								if (cust->isSitting() && !cust->isWaitingToMoveToStation())
+								if (cust->isSitting() && 
+									!cust->isWaitingToMoveToStation() && 
+									mPlayer->getState() != Player::State::Busy)
+								{
 									mPlayer->useStation(chair.get());
+								}
 								else
 									cust->customerClicked();
 							}
@@ -181,7 +183,7 @@ void World::handleEvent(const sf::Event& event)
 									chair->getOccupant()->customerClicked();
 								}
 							}
-							if (!clicked)
+							if (!clicked && mPlayer->getState() != Player::Busy)
 								mPlayer->moveToTile(chair->getOperatingPosition());
 							
 							return;
@@ -201,7 +203,6 @@ void World::handleEvent(const sf::Event& event)
 					// If we're already standing in the operation position, operate the register
 					if (mPlayer->getTilePosition() == opPos)
 					{
-						// TODO: Operate the register!
 						if (!mRegisterQueue.isEmpty())
 						{
 							mPlayer->useRegister(&mRegisterQueue);
@@ -311,7 +312,7 @@ void World::buildProps()
 
 }
 
-void World::addCustomers()
+void World::generateCustomers()
 {	
 	Prng rand;
 	std::array<unsigned int, Config::TOTAL_CUSTOMERS> customers;
@@ -416,7 +417,7 @@ void World::buildScene()
 	buildProps();
 
 	/* Build the customer queue */
-	addCustomers();
+	generateCustomers();
 
 	/* Initialize the animations */
 	buildAnimations();
@@ -459,10 +460,10 @@ void World::updateCustomers(sf::Time dt)
 		getRemainingWaitingChairs() > 0)
 	{
 		// If there are any customers left, add one to the scene node
-		// Make sure there is a place for them to sit
 		if (mCustomers.size() > 0)
 		{
 			std::unique_ptr<Customer> customer = std::move(mCustomers.back());
+			mCustomersInScene.push_back(customer.get());
 			attachHeartDisplay(customer.get());
 			attachStatusDisplay(customer.get());
 			mSceneLayers[Entity]->attachChild(std::move(customer));
@@ -477,7 +478,7 @@ void World::updateCustomers(sf::Time dt)
 	}
 
 	/* Check the scene for any customers that need to be removed */
-	
+	//for (auto& cust
 
 }
 
