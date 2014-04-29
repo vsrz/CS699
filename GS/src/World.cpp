@@ -73,7 +73,6 @@ void World::loadTextures()
 	mTextures.load(Textures::WomanOld01, "res/woman_old_01.png");
 	mTextures.load(Textures::ManYoung01, "res/man_young_01.png");
 	mTextures.load(Textures::ManTeen01, "res/man_teen_01.png");
-	mTextures.load(Textures::ManOveralls, "res/man01.png");
 	mTextures.load(Textures::AutoDoors, "res/doors02.png");
 	mTextures.load(Textures::Kitty, "res/feline_01.png");
 	mTextures.load(Textures::AnimWash, "res/anim_wash_01.png");
@@ -110,14 +109,12 @@ void World::handleEvent(const sf::Event& event)
 	TilePosition mouseTilePosition = toTilePosition(mousePosition);
 	if (event.type == sf::Event::MouseButtonPressed)
 	{
-#ifdef DEBUG
 		extern std::map<std::string, std::string> g_debugData;
 
 		// Update some debug tile stuff
 		g_debugData["TileNum"] = toString(mTileLoader.getTileNumber(mouseTilePosition.x, mouseTilePosition.y));
 		g_debugData["TileData"] = toString(mTilemap.getTileProperty(snapToSpritePosition(mousePosition)));
 		g_debugData["TilePos"] = toString(mouseTilePosition.x) + "," + toString(mouseTilePosition.y);
-#endif
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
 			TilePosition clickedTile = toTilePosition(mousePosition);
