@@ -8,7 +8,7 @@
 ActorEntity::ActorEntity(World* world)
 	: mTravelPath()
 	, Entity(world)
-	, mFrameSize(32.f, 64.f)
+	, mFrameSize(32, 64)
 	, mFrameOffset(0)
 	, mFrame(0)
 	, mNumFrames(4)
@@ -159,8 +159,14 @@ void ActorEntity::updateTilemap(sf::Vector2f c, sf::Vector2f n)
 {
 	TilePosition currentTilePos = toTilePosition(c);
 	TilePosition newTilePos = toTilePosition(n);
-	mWorld->mTilemap.unsetTileProperty(currentTilePos.x, currentTilePos.y, Tiles::HasActor);
-	mWorld->mTilemap.setTileProperty(newTilePos.x, newTilePos.y, Tiles::HasActor);
+	mWorld->mTilemap.unsetTileProperty(
+			static_cast<int>(currentTilePos.x)
+		,	static_cast<int>(currentTilePos.y)
+		,	Tiles::HasActor);
+	mWorld->mTilemap.setTileProperty(
+			static_cast<int>(newTilePos.x)
+		,	static_cast<int>(newTilePos.y)
+		,	Tiles::HasActor);
 
 }
 

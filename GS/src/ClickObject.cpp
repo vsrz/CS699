@@ -30,7 +30,7 @@ void ClickObject::update(sf::Time dt)
 			iter->time -= dt;
 			iter->fade = 255 * 
 				(iter->time.asMilliseconds() 
-				/ static_cast<float>(mDuration.asMilliseconds()));
+				/ mDuration.asMilliseconds());
 		} else iter->fade = 0;
 		iter->sprite.setColor(sf::Color(255,255,255,iter->fade));
 	} 

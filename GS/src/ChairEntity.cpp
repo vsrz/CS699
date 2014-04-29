@@ -6,7 +6,10 @@
 ChairEntity::ChairEntity(TilePosition tilePosition, World* wp)
 	: Entity(wp)
 {
-	wp->mTilemap.setTileProperty(tilePosition.x, tilePosition.y, Tiles::Property::WaitingChair);
+	wp->mTilemap.setTileProperty(
+			static_cast<int>(tilePosition.x)
+		,	static_cast<int>(tilePosition.y)
+		,	Tiles::Property::WaitingChair);
 	setTilePosition(tilePosition);
 	mType = Type::Waiting;
 	mOccupant = nullptr;

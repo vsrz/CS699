@@ -59,14 +59,14 @@ void HeartEntity::setFrame(int frame)
 {
 	mFrame = frame;
 	sf::Vector2i pos(0,0);
-	sf::Vector2i frameSize(Config::TILE_HEIGHT, Config::TILE_WIDTH);
+	sf::Vector2i frameSize(static_cast<int>(Config::TILE_HEIGHT), static_cast<int>(Config::TILE_WIDTH));
 
 	if (mFrame == 0 || mFrame % 2 == 0)
 		pos.x = 0;
 	else
-		pos.x = Config::TILE_WIDTH;
+		pos.x = static_cast<int>(Config::TILE_WIDTH);
 
-	pos.y = (mFrame / 2) * Config::TILE_HEIGHT;
+	pos.y = (mFrame / 2) * static_cast<int>(Config::TILE_HEIGHT);
 	
 	sf::IntRect rect(pos, frameSize);
 	mSprite.setTextureRect(rect);

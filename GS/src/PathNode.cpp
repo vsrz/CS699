@@ -12,7 +12,7 @@ PathNode::PathNode(void)
 
 PathNode::PathNode(int x, int y, PathNode* parent)
 	: mParent(parent)
-	, mCoordinates(TilePosition(x, y))
+	, mCoordinates(TilePosition(static_cast<int>(x), static_cast<int>(y)))
 {
 
 }
@@ -31,8 +31,8 @@ PathNode::PathNode(TilePosition coordinate, PathNode* parent)
 
 void PathNode::setHeuristic(PathNode* end)
 {
-	mHeuristic = abs(mCoordinates.x - end->getCoordinates().x) +
-		abs(mCoordinates.y - end->getCoordinates().y);
+	mHeuristic = static_cast<int>(abs(mCoordinates.x - end->getCoordinates().x) +
+		abs(mCoordinates.y - end->getCoordinates().y));
 }
 
 PathNode* PathNode::getParent()

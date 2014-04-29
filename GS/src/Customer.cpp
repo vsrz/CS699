@@ -288,7 +288,7 @@ ChairEntity* Customer::getOccupiedChair()
 // Patience level is rated 0-10, when customer reaches 0 patience, they walk out
 void Customer::setPatience(float bonus)
 {
-	float patience = (rand() % 50) + 50;
+	float patience = (rand() % 50) + 50.f;
 	
 	switch(mType)
 	{
@@ -721,7 +721,7 @@ void Customer::checkAIState()
 
 			// Just round
 			mWorld->getScoreObject()->addTips(int(getTipAmount()));
-			mWorld->getScoreObject()->addRevenue(mPayment);
+			mWorld->getScoreObject()->addRevenue(static_cast<int>(mPayment));
 
 		}
 	}

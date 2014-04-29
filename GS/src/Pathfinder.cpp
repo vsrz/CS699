@@ -34,50 +34,55 @@ TilePosition Pathfinder::findValidDestination(TilePosition destination)
 	int offset = 0;
 
 	// If the destination tile chosen is valid, return the original destination
-	if (mTilemap->getTile(destination.x, destination.y) && 
-		!mTilemap->isTileOccupied(destination.x, destination.y))
+	if (mTilemap->getTile(
+			static_cast<int>(destination.x)
+		,	static_cast<int>(destination.y)) && 
+		!mTilemap->isTileOccupied(
+			static_cast<int>(destination.x)
+		,	static_cast<int>(destination.y)))
 		return destination;
 
 	// Start from the original tile and go in a circle outward until
 	// you find the first available valid tile to travel to
+	sf::Vector2i dst(static_cast<int>(destination.x), static_cast<int>(destination.y));
 	while (1)
 	{
 		// First try the tiles that are directly adjacent, without diagonals
-		if (destination.y + 1 + offset <= Config::WORLD_HEIGHT - 1 &&
-			!mTilemap->isTileOccupied(destination.x, destination.y + 1 + offset))
+		if (dst.y + 1 + offset <= Config::WORLD_HEIGHT - 1 &&
+			!mTilemap->isTileOccupied(dst.x, dst.y + 1 + offset))
 			return TilePosition(destination.x, destination.y + 1 + offset);
 
-		if (destination.x - 1 - offset >= 0 &&
-			!mTilemap->isTileOccupied(destination.x + -1 - offset, destination.y))
+		if (dst.x - 1 - offset >= 0 &&
+			!mTilemap->isTileOccupied(dst.x + -1 - offset, dst.y))
 			return TilePosition(destination.x - 1 - offset, destination.y);
 
-		if (destination.x + 1 <= Config::WORLD_WIDTH - 1 &&
-			!mTilemap->isTileOccupied(destination.x + 1 + offset, destination.y))
+		if (dst.x + 1 <= Config::WORLD_WIDTH - 1 &&
+			!mTilemap->isTileOccupied(dst.x + 1 + offset, dst.y))
 			return TilePosition(destination.x + 1 + offset, destination.y);
 
-		if (destination.y - 1 - offset >= 0 &&
-			!mTilemap->isTileOccupied(destination.x, destination.y - 1 - offset))
+		if (dst.y - 1 - offset >= 0 &&
+			!mTilemap->isTileOccupied(dst.x, dst.y - 1 - offset))
 			return TilePosition(destination.x, destination.y - 1 - offset);
 
 		// Now, try the tile diagonally in a circle
-		if (destination.x + 1 + offset <= Config::WORLD_WIDTH - 1 && 
-			destination.y + 1 + offset <= Config::WORLD_HEIGHT - 1 &&
-			!mTilemap->isTileOccupied(destination.x + 1 + offset, destination.y + 1 + offset))
+		if (dst.x + 1 + offset <= Config::WORLD_WIDTH - 1 && 
+			dst.y + 1 + offset <= Config::WORLD_HEIGHT - 1 &&
+			!mTilemap->isTileOccupied(dst.x + 1 + offset, dst.y + 1 + offset))
 			return TilePosition(destination.x + 1 + offset, destination.y + 1 + offset);
 
-		if (destination.x - 1 - offset >= 0 &&
-			destination.y + 1 + offset <= Config::WORLD_HEIGHT - 1 &&
-			!mTilemap->isTileOccupied(destination.x - 1 - offset, destination.y + 1 + offset))
+		if (dst.x - 1 - offset >= 0 &&
+			dst.y + 1 + offset <= Config::WORLD_HEIGHT - 1 &&
+			!mTilemap->isTileOccupied(dst.x - 1 - offset, dst.y + 1 + offset))
 			return TilePosition(destination.x - 1 - offset, destination.y + 1 + offset);
 
-		if (destination.x + 1 + offset <= Config::WORLD_WIDTH - 1 &&
-			destination.y - 1 - offset >= 0 &&
-			!mTilemap->isTileOccupied(destination.x + 1 + offset, destination.y - 1 - offset))
+		if (dst.x + 1 + offset <= Config::WORLD_WIDTH - 1 &&
+			dst.y - 1 - offset >= 0 &&
+			!mTilemap->isTileOccupied(dst.x + 1 + offset, dst.y - 1 - offset))
 			return TilePosition(destination.x + 1 + offset, destination.y - 1 - offset);
 
-		if (destination.x - 1 - offset >= 0 &&
-			destination.y - 1 - offset >= 0 &&
-			!mTilemap->isTileOccupied(destination.x - 1 - offset, destination.y - 1 - offset))
+		if (dst.x - 1 - offset >= 0 &&
+			dst.y - 1 - offset >= 0 &&
+			!mTilemap->isTileOccupied(dst.x - 1 - offset, dst.y - 1 - offset))
 			return TilePosition(destination.x - 1 - offset, destination.y - 1 - offset);
 
 		offset++;
@@ -151,7 +156,8 @@ PathNode* Pathfinder::getNextNode()
 	PathNode* nextNode = nullptr;
 
 	// Look through the openlist and get the node with the lowest total cost
-	for (int i = 0; i < mOpenList.size(); i++)
+	unsigned int size = mOpenList.size();
+	for (int i = 0; i < size; i++)
 	{
 		if (mOpenList[i]->getScore() < lowestCost)
 		{
@@ -192,8 +198,9 @@ void Pathfinder::pathOpened(int x, int y, int cost, PathNode* parent)
 	}
 
 	// Do not visit any nodes already visited
-	TilePosition coordinate(x, y);
-	for (int i = 0; i < mVisitedList.size(); i++)
+	TilePosition coordinate(static_cast<float>(x), static_cast<float>(y));
+	size_t size = mVisitedList.size();
+	for (int i = 0; i < size; i++)
 	{
 		if (coordinate == mVisitedList[i]->getCoordinates())
 			return;
@@ -205,6 +212,7 @@ void Pathfinder::pathOpened(int x, int y, int cost, PathNode* parent)
 	//std::cout << "New child";
 	// With the new child, check to see if there was a better
 	// way to get to this node that had been found previously
+	size = mOpenList.size();
 	for (int i = 0; i < mOpenList.size(); i++)
 	{
 		if (coordinate == mOpenList[i]->getCoordinates())
@@ -260,8 +268,10 @@ void Pathfinder::continuePath()
 	else
 	{
 		// Right square
-		pathOpened(currentNode->getCoordinates().x + 1, currentNode->getCoordinates().y, 
-			currentNode->getCost() + 10, currentNode);
+		pathOpened(
+				static_cast<int>(currentNode->getCoordinates().x) + 1
+			,	static_cast<int>(currentNode->getCoordinates().y)
+			,   currentNode->getCost() + 10, currentNode);
 
 		// Left square
 		pathOpened(currentNode->getCoordinates().x - 1, currentNode->getCoordinates().y, 

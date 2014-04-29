@@ -14,7 +14,7 @@ void ActionAnimator::initalize(const TextureManager& t, unsigned int animationTy
 {
 	/* Default animation frame values */
 	sf::Time frameDuration = sf::milliseconds(70);
-	sf::Vector2i frameSize(Config::TILE_WIDTH,Config::TILE_HEIGHT);
+	sf::Vector2i frameSize(static_cast<int>(Config::TILE_WIDTH),static_cast<int>(Config::TILE_HEIGHT));
 	sf::Vector2i frameOffset(0,0);
 	int frameCount = 0;
 	bool animRepeat = false;
