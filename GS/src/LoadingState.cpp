@@ -5,6 +5,7 @@
 
 LoadingState::LoadingState(StateStack& stack, Context context)
 	: State(stack, context)
+	, mLoadingTask(context)
 {
 	sf::RenderWindow& window = *getContext().window;	
 	sf::Font& font = context.fonts->get(Fonts::Default);
@@ -23,12 +24,13 @@ LoadingState::LoadingState(StateStack& stack, Context context)
 		, mLoadingText.getPosition().y + 40.f));
 
 	// Initialize the progress bar itself
-	mProgressBar.setFillColor(sf::Color::Green);
-	mProgressBar.setSize(sf::Vector2f(200,10));
+	mProgressBar.setFillColor(sf::Color::Blue);
+	mMaxProgressSize = mProgressBarBackground.getSize().x;
+	mProgressBar.setSize(sf::Vector2f(0, 10));
 	mProgressBar.setPosition(mProgressBarBackground.getPosition().x,
 		mProgressBarBackground.getPosition().y);
 	
-	setCompletion(0.f);
+	setCompletion(20.f);
 
 	mLoadingTask.execute();
 
@@ -53,7 +55,6 @@ void LoadingState::draw()
 {
 	sf::RenderWindow& window = *getContext().window;
 	window.setView(window.getDefaultView());
-
 	window.draw(mLoadingText);
 	window.draw(mProgressBarBackground);
 	window.draw(mProgressBar);
@@ -72,8 +73,7 @@ bool LoadingState::setCompletion(float percent)
 	if (percent > 1.f) percent = 1.f;
 
 	// Fill the progress bar based on the percentage amount
-	mProgressBar.setSize(sf::Vector2f(mProgressBarBackground.getSize().x
-		* percent, mProgressBar.getSize().y));
+	mProgressBar.setSize(sf::Vector2f(mMaxProgressSize* percent * 2, mProgressBar.getSize().y));
 
 	return true;
 }

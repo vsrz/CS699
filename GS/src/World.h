@@ -29,7 +29,7 @@
 class World
 {
 public:
-	explicit World(sf::RenderWindow& window);
+	explicit World(sf::RenderWindow& window, TextureManager& textures);
 	void update(sf::Time dt);
 	void draw();
 
@@ -77,7 +77,7 @@ private:
 	sf::FloatRect mWorldBounds;
 	sf::Vector2i mSpawnPosition;
 
-	TextureManager mTextures;
+	TextureManager& mTextures;
 	FontManager mFonts;
 	CommandQueue mCommandQueue;
 

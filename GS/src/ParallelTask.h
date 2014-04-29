@@ -4,11 +4,12 @@
 #pragma once
 
 #include <SFML/System.hpp>
+#include "State.h"
 
 class ParallelTask
 {
 public:
-	ParallelTask(void);
+	ParallelTask(State::Context context);
 	
 	void execute();
 	bool isFinished();
@@ -21,6 +22,7 @@ private:
 	bool mFinished;
 	sf::Clock mElapsedTime;
 	sf::Mutex mMutex;
+	State::Context mContext;
 };
 
 #endif

@@ -12,13 +12,15 @@
 #include "StatusNotifierEntity.h"
 #include "ScoreDisplay.h"
 
-World::World(sf::RenderWindow& window)
+World::World(sf::RenderWindow& window, TextureManager& textures)
 	: mWindow(window)
 	, mWorldView(window.getDefaultView())
 	, mTilemap(Config::WORLD_WIDTH, Config::WORLD_HEIGHT, Config::TILE_WIDTH, Config::TILE_HEIGHT, Config::WORLD_SCALE)
 	, mScore()
+	, mTextures(textures)
 {
 	initalize();
+	
 }
 
 void World::initalize()
@@ -66,7 +68,8 @@ TilePosition World::getPlayerPosition()
 }
 
 void World::loadTextures()
-{
+{	
+	/*
 	mTextures.load(Textures::TestGuy, "res/TestGuy.png");
 	mTextures.load(Textures::WomanTeen01, "res/woman_teen_01.png");
 	mTextures.load(Textures::WomanMidage01, "res/woman_midage_01.png");
@@ -79,7 +82,8 @@ void World::loadTextures()
 	mTextures.load(Textures::AnimCut, "res/anim_cut_01.png");
 	mTextures.load(Textures::AnimColor, "res/anim_color_01.png");
 	mTextures.load(Textures::Hearts, "res/hearts_02.png");
-	mTextures.load(Textures::StatusNotifiers, "res/notifiers_02.png");
+	*/
+	//mTextures.load(Textures::StatusNotifiers, "res/notifiers_02.png");
 	mTileLoader.loadFromFile(Config::TILEMAP_FILENAME);
 }
 

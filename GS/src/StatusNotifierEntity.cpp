@@ -6,7 +6,7 @@ StatusNotifierEntity::StatusNotifierEntity(const TextureManager& textures, World
 	: Entity(world)
 
 {
-	mSprite.setTexture(textures.get(Textures::ID::StatusNotifiers));
+	mSprite.setTexture(textures.get(Textures::StatusNotifiers));
 	mSprite.setScale(world->getWorldScale());
 	mCustomer = customer;
 	mWorld = world;

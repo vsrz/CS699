@@ -21,6 +21,7 @@ public:
 private:
 	sf::Text mLoadingText;
 	sf::RectangleShape mProgressBar;
+	float mMaxProgressSize;
 	sf::RectangleShape mProgressBarBackground;
 	ParallelTask mLoadingTask;
 };
