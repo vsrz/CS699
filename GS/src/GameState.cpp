@@ -6,7 +6,7 @@
 
 GameState::GameState(StateStack& stack, Context context)
 	: State(stack, context)
-	, mWorld(*context.window, *context.textures)
+	, mWorld(*context.window, *context.textures, *context.score)
 	, mDebugOverlay(false)
 	, mClick(context.textures->get(Textures::RedClick))
 {

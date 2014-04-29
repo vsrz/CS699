@@ -213,10 +213,10 @@ namespace Config
 		const float							BASE_SPRITE_ORIGIN_Y = 32.f;
 
 		// The starting offset of the sprite
-		const sf::Vector2i					SPRITE_ANIM_OFFSET(0.f,0.f);
+		const sf::Vector2i					SPRITE_ANIM_OFFSET(0,0);
 
 		// The size of each frame
-		const sf::Vector2i					SPRITE_ANIM_FRAME_SIZE(32.f, 64.f);
+		const sf::Vector2i					SPRITE_ANIM_FRAME_SIZE(32, 64);
 
 		// Payment amounts
 		const float							PAYMENT_WASH = 5.f;
@@ -229,8 +229,8 @@ namespace Config
 	namespace Pet
 	{
 		const TilePosition					SPAWN_POSITION = TilePosition(8,8);
-		const sf::Vector2i					SPRITE_ANIM_OFFSET(0.f,0.f);
-		const sf::Vector2i					SPRITE_ANIM_FRAME_SIZE(32.f, 64.f);
+		const sf::Vector2i					SPRITE_ANIM_OFFSET(0,0);
+		const sf::Vector2i					SPRITE_ANIM_FRAME_SIZE(32, 64);
 		const float							SPRITE_ORIGIN_X = 0.f;
 		const float							SPRITE_ORIGIN_Y = 32.f;
 		const std::array<TilePosition, 2u>  SLEEP_TILE = 

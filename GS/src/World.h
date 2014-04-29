@@ -29,7 +29,7 @@
 class World
 {
 public:
-	explicit World(sf::RenderWindow& window, TextureManager& textures);
+	explicit World(sf::RenderWindow& window, TextureManager& textures, ScoreGenerator& score);
 	void update(sf::Time dt);
 	void draw();
 
@@ -106,7 +106,7 @@ private:
 	void attachStatusDisplay(Customer* customer);
 
 	// Scoring
-	ScoreGenerator mScore;
+	ScoreGenerator& mScore;
 
 };
 

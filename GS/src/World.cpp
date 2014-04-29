@@ -12,12 +12,12 @@
 #include "StatusNotifierEntity.h"
 #include "ScoreDisplay.h"
 
-World::World(sf::RenderWindow& window, TextureManager& textures)
+World::World(sf::RenderWindow& window, TextureManager& textures, ScoreGenerator& score)
 	: mWindow(window)
 	, mWorldView(window.getDefaultView())
 	, mTilemap(Config::WORLD_WIDTH, Config::WORLD_HEIGHT, Config::TILE_WIDTH, Config::TILE_HEIGHT, Config::WORLD_SCALE)
-	, mScore()
 	, mTextures(textures)
+	, mScore(score)
 {
 	initalize();
 	

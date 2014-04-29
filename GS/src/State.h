@@ -10,6 +10,7 @@
 #include <SFML/Window.hpp>
 #include <memory>
 #include "ClickObject.h"
+#include "ScoreGenerator.h"
 
 namespace sf
 {
@@ -26,10 +27,11 @@ public:
 
 	struct Context
 	{
-		Context(sf::RenderWindow& window, TextureManager& textures, FontManager& fonts);
+		Context(sf::RenderWindow& window, TextureManager& textures, FontManager& fonts, ScoreGenerator& score);
 		sf::RenderWindow* window;
 		TextureManager* textures;
 		FontManager* fonts;
+		ScoreGenerator* score;
 	};
 
 	State(StateStack& Stack, Context context);

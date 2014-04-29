@@ -10,6 +10,7 @@
 #include "World.h"
 #include "Glob.h"
 #include "StateStack.h"
+#include "ScoreGenerator.h"
 
 
 class Application
@@ -36,6 +37,7 @@ private:
 	TextureManager mTextures;
 	FontManager mFonts;
 	StateStack mStateStack;
+	ScoreGenerator mScore;
 
 };
 

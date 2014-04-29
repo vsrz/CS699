@@ -13,7 +13,7 @@ Application::Application(void)
 	: mWindow(sf::VideoMode(1280, 768), "GS", sf::Style::Close)
 	, mFonts()
 	, mTextures()
-	, mStateStack(State::Context(mWindow, mTextures, mFonts))
+	, mStateStack(State::Context(mWindow, mTextures, mFonts, mScore))
 {
 	mWindow.setKeyRepeatEnabled(false);
 	mWindow.setVerticalSyncEnabled(true);
@@ -22,6 +22,7 @@ Application::Application(void)
 
 	mTextures.load(Textures::TitleScreen, "res/TitleScreen.png");
 	mTextures.load(Textures::RedClick, "res/RedClick.png");
+
 	registerStates();
 #ifdef DEBUG
 	mStateStack.pushState(States::Loading);
