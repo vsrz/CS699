@@ -105,11 +105,9 @@ void Player::setBusy(sf::Time seconds)
 
 void Player::updateCurrent(sf::Time dt)
 {
-#ifdef DEBUG
 	extern std::map<std::string, std::string> g_debugData;
 	g_debugData["TilePos"] = toString(toTilePosition(mTilePosition).x) + toString(toTilePosition(mTilePosition).y);
 	g_debugData["Actor YPos"] = toString(getPosition().y);
-#endif
 	mElapsedTime += dt;
 	ActorEntity::update(dt);
 	

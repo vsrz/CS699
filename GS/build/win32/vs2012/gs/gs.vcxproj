@@ -327,24 +327,37 @@ xcopy /E /Y /I "$(SolutionDir)..\..\..\..\res" "$(OutDir)\res"
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SFML_STATIC;WIN32;NDEBUG;_CONSOLE;RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\..\..\src\SFML-2.1\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>sfml-graphics-s.lib;sfml-window-s.lib;sfml-system-s.lib;sfml-network-s.lib;sfml-audio-s.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\..\..\..\src\SFML-2.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
       <Command>REM</Command>
     </PreBuildEvent>
     <PreLinkEvent>
       <Command>mkdir res
-mkdir lib
-xcopy /E /Y /I "$(SolutionDir)..\..\..\..\src\SFML-2.1\lib" "$(OutDir)\lib"
-xcopy /E /Y /I "$(SolutionDir)..\..\..\..\res" "$(OutDir)\res"
+xcopy /Y /I "$(SolutionDir)..\..\..\..\res\*.png" "$(OutDir)\res"
+xcopy /Y /I "$(SolutionDir)..\..\..\..\res\*.ttf" "$(OutDir)\res"
+xcopy /Y /I "$(SolutionDir)..\..\..\..\res\*.tmx" "$(OutDir)\res"
 </Command>
     </PreLinkEvent>
+    <PostBuildEvent>
+      <Command>del /Q "$(OutDir)*.obj"
+del /Q "$(OutDir)*.pdb"
+del /Q "$(OutDir)*.tlog"
+del /Q "$(OutDir)*.lastbuildstate"
+del /Q "$(OutDir)*.log"
+
+
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

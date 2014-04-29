@@ -7,10 +7,8 @@
 #include "Application.h"
 #include "Tests.h"
 
-#ifdef DEBUG
-	std::map<std::string, std::string> g_debugData;
-	bool g_collisionOverlay = false;
-#endif
+std::map<std::string, std::string> g_debugData;
+bool g_collisionOverlay = false;
 
 
 int main()
