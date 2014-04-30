@@ -73,7 +73,6 @@ bool LoadingState::setCompletion(float percent)
 	if (percent > 1.f) percent = 1.f;
 
 	// Fill the progress bar based on the percentage 
-	std::cout << percent << "\n";
 	mProgressBar.setSize(sf::Vector2f(mMaxProgressSize* percent, mProgressBar.getSize().y));
 
 	return true;

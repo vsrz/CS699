@@ -62,12 +62,11 @@ void ParallelTask::runTask()
 	mContext.textures->load(Textures::Hearts, "res/hearts_02.png");
 	mCompletion++;
 	mContext.textures->load(Textures::RedClick, "res/RedClick.png");
-	mCompletion++;
+	mCompletion = mTasks;
 
 	// mFinished could be accessed from multiple threads
 	{
 		sf::Lock lock(mMutex);
-		mCompletion = mTasks;
 		mFinished = true;
 	}
 }

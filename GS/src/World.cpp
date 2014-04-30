@@ -316,7 +316,6 @@ void World::generateCustomers()
 		{
 			num = rand.getRand(0,Customer::Type::Count-1);
 		} while (num == last);
-		std::cout<<num<<std::endl;
 		last = num;
 		customers[i] = num;
 	}

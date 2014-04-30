@@ -33,7 +33,7 @@ int RegisterQueue::getQueuePosition(const Customer* cust)
 {
 	std::queue<Customer*> line = mQueue;
 
-	for (int i = 0; i < line.size(); i++)
+	for (size_t i = 0; i < line.size(); i++)
 	{
 		Customer* c = line.front();
 		if (c == cust)

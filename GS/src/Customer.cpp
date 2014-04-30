@@ -402,7 +402,6 @@ void Customer::setNeeds()
 		break;
 	
 	case Type::WomanOld:
-		break;
 	default:
 		/**
 		 * 15% chance of wanting only product
@@ -452,21 +451,21 @@ void Customer::setSpeed()
 	switch(mType)
 	{
 	case Type::ManYoung:
-		speed = 5.f;
+		speed = 5.2f;
 		break;
 	case Type::ManTeen:
 	//case Type::ManMiddle:
-		speed = 4.5f;
+		speed = 4.8f;
 		break;
 	case Type::WomanTeen:
 	case Type::WomanMiddle:
 	//case Type::WomanYoung:
-		speed = 3.f;
+		speed = 3.8f;
 		break;
 	//case Type::ManOld:
 	case Type::WomanOld:
 	default:
-		speed = 2.f;
+		speed = 2.8f;
 	}
 	ActorEntity::setSpeed(speed);
 	
@@ -478,7 +477,9 @@ void Customer::moveToWaitingArea()
 	ChairEntity* chair = findAvailableChair(ChairEntity::Type::Waiting);
 	if (chair == nullptr)
 	{
+#ifdef DEBUG
 		std::cout << "No chair available.";
+#endif
 	}
 	moveToTile(chair->getStagingPosition());
 	chair->setOccupied(this);

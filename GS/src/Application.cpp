@@ -8,12 +8,19 @@
 #include "EndState.h"
 
 const sf::Time Application::TimePerFrame = sf::seconds(1.f/60.f);
-
+#ifdef DEBUG
 Application::Application(void) 
 	: mWindow(sf::VideoMode(1280, 768), "GS", sf::Style::Close)
 	, mFonts()
 	, mTextures()
 	, mStateStack(State::Context(mWindow, mTextures, mFonts, mScore))
+#else
+Application::Application(void) 
+	: mWindow(sf::VideoMode(1280, 768), "Gracie's Salon", sf::Style::Fullscreen)
+	, mFonts()
+	, mTextures()
+	, mStateStack(State::Context(mWindow, mTextures, mFonts, mScore))
+#endif
 {
 	mWindow.setKeyRepeatEnabled(false);
 	mWindow.setVerticalSyncEnabled(true);
