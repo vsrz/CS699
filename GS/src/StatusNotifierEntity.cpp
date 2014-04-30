@@ -55,24 +55,24 @@ void StatusNotifierEntity::updateStatus()
 void StatusNotifierEntity::updateFrame()
 {
 	sf::Vector2i pos(0,0);
-	sf::Vector2i frameSize(Config::TILE_HEIGHT, Config::TILE_WIDTH);
+	sf::Vector2i frameSize(static_cast<int>(Config::TILE_HEIGHT), static_cast<int>(Config::TILE_WIDTH));
 
 	switch(mFrame)
 	{
 	case Status::Cut:
-		pos.y = 0.f;
+		pos.y = 0;
 		break;
 	case Status::Wash:
-		pos.y = 32.f;
+		pos.y = 32;
 		break;
 	case Status::Walk:
-		pos.y = 64.f;
+		pos.y = 64;
 		break;
 	case Status::Color:
-		pos.y = 96.f;
+		pos.y = 96;
 		break;
 	case Status::Pay:
-		pos.y = 128.f;
+		pos.y = 128;
 		break;
 	default:
 		frameSize.x = 0;

@@ -36,19 +36,19 @@ void HeartEntity::updateFrame()
 	float percent = mLove / mLoveMax * 100;
 	int frame = 0;
 
-	if (percent <= 85)
+	if (percent <= 88)
 		frame++;
-	if (percent <= 70)
+	if (percent <= 76)
 		frame++;
-	if (percent <= 55)
+	if (percent <= 64)
+		frame++;
+	if (percent <= 52)
 		frame++;
 	if (percent <= 40)
 		frame++;
-	if (percent <= 25)
+	if (percent <= 28)
 		frame++;
-	if (percent <= 10)
-		frame++;
-	if (percent <= 3)
+	if (percent <= 16)
 		frame = 7;
 	setFrame(frame);
 

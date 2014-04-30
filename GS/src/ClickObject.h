@@ -26,7 +26,7 @@ private:
 	struct Click
 	{
 		sf::Sprite sprite;
-		int fade;
+		float fade;
 		sf::Time time;	
 	};
 

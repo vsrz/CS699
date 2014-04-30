@@ -55,6 +55,9 @@ namespace Config
 
 	const int								TOTAL_CUSTOMERS = 15;
 
+	// The number of seconds it takes before heart penalties are enforced between state changes
+	const float								STATE_CHANGE_COOLDOWN = 10.f;
+
 	// Waiting room chairs
 	namespace Chairs
 	{
@@ -153,7 +156,7 @@ namespace Config
 	namespace RegisterQueue
 	{
 		// Size of the queue
-		const int SIZE = 8u;
+		const size_t SIZE = 15;
 
 		const std::array<TilePosition, SIZE> POSITION =
 		{
@@ -165,6 +168,12 @@ namespace Config
 			TilePosition(7,7),
 			TilePosition(6,7),
 			TilePosition(6,8),
+			TilePosition(6,9),
+			TilePosition(6,10),
+			TilePosition(5,10),
+			TilePosition(4,10),
+			TilePosition(3,10),
+			TilePosition(2,10),
 
 		};
 
@@ -172,13 +181,20 @@ namespace Config
 		const std::array<Direction, SIZE> DIRECTION =
 		{
 			Direction::East,
-			Direction::North,
+			Direction::East,
 			Direction::North,
 			Direction::North,
 			Direction::East,
 			Direction::North,
 			Direction::North,
 			Direction::North,
+			Direction::North,
+			Direction::North,
+			Direction::North,
+			Direction::East,
+			Direction::East,
+			Direction::East,
+			Direction::East,
 		};
 
 		// The spot you need to be standing in order to use the register

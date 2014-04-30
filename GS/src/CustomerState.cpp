@@ -18,3 +18,7 @@ void CustomerState::setState(unsigned int stateId)
 	mClock.restart();
 }
 
+sf::Time CustomerState::getLastStateChange()
+{
+	return mLastStateChange;
+}

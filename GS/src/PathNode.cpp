@@ -12,7 +12,7 @@ PathNode::PathNode(void)
 
 PathNode::PathNode(int x, int y, PathNode* parent)
 	: mParent(parent)
-	, mCoordinates(TilePosition(static_cast<int>(x), static_cast<int>(y)))
+	, mCoordinates(TilePosition(static_cast<float>(x), static_cast<float>(y)))
 {
 
 }

@@ -8,7 +8,7 @@ RegisterQueue::RegisterQueue()
 
 bool RegisterQueue::isFull()
 {
-	return mQueue.size() == 8;
+	return mQueue.size() == Config::RegisterQueue::SIZE;
 }
 
 bool RegisterQueue::isEmpty()
@@ -32,7 +32,7 @@ bool RegisterQueue::enqueue(Customer* customer)
 int RegisterQueue::getQueuePosition(const Customer* cust)
 {
 	std::queue<Customer*> line = mQueue;
-	
+
 	for (int i = 0; i < line.size(); i++)
 	{
 		Customer* c = line.front();
@@ -52,9 +52,10 @@ void RegisterQueue::dequeue()
 	cust->leaveStore();
 	mQueue.pop();
 	std::queue<Customer*> line;
-	unsigned int size = mQueue.size();
+	
+	size_t size = mQueue.size();
 	// For each customer in line, move them up the line one position
-	for (int i = 0; i < size; i++)
+	for (size_t i = 0; i < size; i++)
 	{
 		Customer* c = mQueue.front();
 		c->moveToTile(Config::RegisterQueue::POSITION[i]);

@@ -64,6 +64,7 @@ bool DoorEntity::checkDoorToggle()
 		if (mWorld->mTilemap.getTileProperty(i.x, i.y) == Tiles::HasActor)
 			return true;
 	}
+	return false;
 }
 
 

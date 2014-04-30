@@ -15,7 +15,11 @@
 World::World(sf::RenderWindow& window, TextureManager& textures, ScoreGenerator& score)
 	: mWindow(window)
 	, mWorldView(window.getDefaultView())
-	, mTilemap(Config::WORLD_WIDTH, Config::WORLD_HEIGHT, Config::TILE_WIDTH, Config::TILE_HEIGHT, Config::WORLD_SCALE)
+	, mTilemap(	static_cast<int>(Config::WORLD_WIDTH), 
+				static_cast<int>(Config::WORLD_HEIGHT), 
+				Config::TILE_WIDTH, 
+				Config::TILE_HEIGHT,
+				Config::WORLD_SCALE)
 	, mTextures(textures)
 	, mScore(score)
 {
@@ -69,21 +73,6 @@ TilePosition World::getPlayerPosition()
 
 void World::loadTextures()
 {	
-	/*
-	mTextures.load(Textures::TestGuy, "res/TestGuy.png");
-	mTextures.load(Textures::WomanTeen01, "res/woman_teen_01.png");
-	mTextures.load(Textures::WomanMidage01, "res/woman_midage_01.png");
-	mTextures.load(Textures::WomanOld01, "res/woman_old_01.png");
-	mTextures.load(Textures::ManYoung01, "res/man_young_01.png");
-	mTextures.load(Textures::ManTeen01, "res/man_teen_01.png");
-	mTextures.load(Textures::AutoDoors, "res/doors02.png");
-	mTextures.load(Textures::Kitty, "res/feline_01.png");
-	mTextures.load(Textures::AnimWash, "res/anim_wash_01.png");
-	mTextures.load(Textures::AnimCut, "res/anim_cut_01.png");
-	mTextures.load(Textures::AnimColor, "res/anim_color_01.png");
-	mTextures.load(Textures::Hearts, "res/hearts_02.png");
-	*/
-	//mTextures.load(Textures::StatusNotifiers, "res/notifiers_02.png");
 	mTileLoader.loadFromFile(Config::TILEMAP_FILENAME);
 }
 
@@ -116,7 +105,7 @@ void World::handleEvent(const sf::Event& event)
 		extern std::map<std::string, std::string> g_debugData;
 
 		// Update some debug tile stuff
-		g_debugData["TileNum"] = toString(mTileLoader.getTileNumber(mouseTilePosition.x, mouseTilePosition.y));
+		g_debugData["TileNum"] = toString(mTileLoader.getTileNumber(static_cast<int>(mouseTilePosition.x), static_cast<int>(mouseTilePosition.y)));
 		g_debugData["TileData"] = toString(mTilemap.getTileProperty(snapToSpritePosition(mousePosition)));
 		g_debugData["TilePos"] = toString(mouseTilePosition.x) + "," + toString(mouseTilePosition.y);
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
@@ -269,7 +258,7 @@ void World::loadLayer(const char* layerName, unsigned int id)
 		for (int x = 0; x < mTileLoader.getWorldSize().x; x++)
 		{
 			sf::IntRect textureRect = mTileLoader.getTextureRect(x, y, layerName);
-			sf::Vector2f worldPos = mTileLoader.getWorldPosition(x * mWorldScale.x ,y * mWorldScale.y);
+			sf::Vector2f worldPos = mTileLoader.getWorldPosition(x * static_cast<int>(mWorldScale.x) ,y * static_cast<int>(mWorldScale.y));
 			sf::Texture& texture = mTileLoader.getTexture(x, y, layerName);
 
 			// Since Spritenode is stored as a single array, we need the position relative to
@@ -342,7 +331,7 @@ void World::generateCustomers()
 std::vector<Customer*> World::getCustomers()
 {
 	std::vector<Customer*> cPtrs;
-	for (int i = 0; i < mCustomers.size(); i++)
+	for (size_t i = 0; i < mCustomers.size(); i++)
 	{
 		if (mCustomers[i].get()->isMoving())
 			cPtrs.push_back(mCustomers[i].get());

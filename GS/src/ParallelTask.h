@@ -23,6 +23,8 @@ private:
 	sf::Clock mElapsedTime;
 	sf::Mutex mMutex;
 	State::Context mContext;
+	float mCompletion;
+	float mTasks;
 };
 
 #endif

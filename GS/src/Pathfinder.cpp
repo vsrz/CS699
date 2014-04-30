@@ -156,8 +156,7 @@ PathNode* Pathfinder::getNextNode()
 	PathNode* nextNode = nullptr;
 
 	// Look through the openlist and get the node with the lowest total cost
-	unsigned int size = mOpenList.size();
-	for (int i = 0; i < size; i++)
+	for (size_t i = 0; i < mOpenList.size(); i++)
 	{
 		if (mOpenList[i]->getScore() < lowestCost)
 		{
@@ -200,7 +199,7 @@ void Pathfinder::pathOpened(int x, int y, int cost, PathNode* parent)
 	// Do not visit any nodes already visited
 	TilePosition coordinate(static_cast<float>(x), static_cast<float>(y));
 	size_t size = mVisitedList.size();
-	for (int i = 0; i < size; i++)
+	for (size_t i = 0; i < size; i++)
 	{
 		if (coordinate == mVisitedList[i]->getCoordinates())
 			return;
@@ -213,7 +212,7 @@ void Pathfinder::pathOpened(int x, int y, int cost, PathNode* parent)
 	// With the new child, check to see if there was a better
 	// way to get to this node that had been found previously
 	size = mOpenList.size();
-	for (int i = 0; i < mOpenList.size(); i++)
+	for (size_t i = 0; i < size; i++)
 	{
 		if (coordinate == mOpenList[i]->getCoordinates())
 		{
@@ -274,35 +273,35 @@ void Pathfinder::continuePath()
 			,   currentNode->getCost() + 10, currentNode);
 
 		// Left square
-		pathOpened(currentNode->getCoordinates().x - 1, currentNode->getCoordinates().y, 
+		pathOpened(static_cast<int>(currentNode->getCoordinates().x) - 1, static_cast<int>(currentNode->getCoordinates().y), 
 			currentNode->getCost() + 10, currentNode);
 
 		// Top square
-		pathOpened(currentNode->getCoordinates().x, currentNode->getCoordinates().y - 1, 
+		pathOpened(static_cast<int>(currentNode->getCoordinates().x), static_cast<int>(currentNode->getCoordinates().y) - 1, 
 			currentNode->getCost() + 10, currentNode);
 
 		// Bottom square
-		pathOpened(currentNode->getCoordinates().x, currentNode->getCoordinates().y + 1, 
+		pathOpened(static_cast<int>(currentNode->getCoordinates().x), static_cast<int>(currentNode->getCoordinates().y) + 1, 
 			currentNode->getCost() + 10, currentNode);
 
 		// Up-right square
-		pathOpened(currentNode->getCoordinates().x + 1, currentNode->getCoordinates().y - 1, 
+		pathOpened(static_cast<int>(currentNode->getCoordinates().x) + 1, static_cast<int>(currentNode->getCoordinates().y) - 1, 
 			currentNode->getCost() + 14, currentNode);
 
 		// Up-Left square
-		pathOpened(currentNode->getCoordinates().x - 1, currentNode->getCoordinates().y - 1, 
+		pathOpened(static_cast<int>(currentNode->getCoordinates().x) - 1, static_cast<int>(currentNode->getCoordinates().y) - 1, 
 			currentNode->getCost() + 14, currentNode);
 
 		// Bottom-left square
-		pathOpened(currentNode->getCoordinates().x - 1, currentNode->getCoordinates().y + 1, 
+		pathOpened(static_cast<int>(currentNode->getCoordinates().x) - 1, static_cast<int>(currentNode->getCoordinates().y) + 1, 
 			currentNode->getCost() + 14, currentNode);
 
 		// Bottom-right square
-		pathOpened(currentNode->getCoordinates().x + 1, currentNode->getCoordinates().y + 1, 
+		pathOpened(static_cast<int>(currentNode->getCoordinates().x) + 1, static_cast<int>(currentNode->getCoordinates().y) + 1, 
 			currentNode->getCost() + 14, currentNode);
 		
 		// Find the current node and remove it from the OpenList
-		for (int i = 0; i < mOpenList.size(); i++)
+		for (size_t i = 0; i < mOpenList.size(); i++)
 		{
 			if (currentNode->getCoordinates() == mOpenList[i]->getCoordinates())
 			{
@@ -321,16 +320,6 @@ TilePosition Pathfinder::nextPathPos()
 	TilePosition nextNode;
 	nextNode.x = mPath[mPath.size() - index].x;
 	nextNode.y = mPath[mPath.size() - index].y;
-
-//	sf::Vector2i distance = nextNode - pos;
-
-	if (index < mPath.size())
-	{
-		//if (distance.Length() < radius)
-		//{
-		//	mPath.erase(mPath.end() - index);
-		//}
-	}
 
 	return nextNode;
 

@@ -42,7 +42,7 @@ void PetEntity::sleep()
 	
 	// Randomly sleep from 3-8 minutes
 	roll = r.getRand(180, 480);
-	mElapsedTime += sf::seconds(roll);
+	mElapsedTime += sf::seconds(static_cast<float>(roll));
 }
 
 // This is really a scoot function..just move to another close tile
@@ -146,8 +146,8 @@ void PetEntity::checkProximity()
 		if (mWorld->getPlayerPosition() == getTilePosition())
 			move = true;
 		std::vector<Customer*> customers = mWorld->getCustomers();
-		unsigned int size = customers.size();
-		for (int i = 0; i < size; i++)
+		size_t size = customers.size();
+		for (size_t i = 0; i < size; i++)
 		{
 			if (move == true) break;
 			Customer* cust = customers[i];

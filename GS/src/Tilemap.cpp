@@ -50,8 +50,8 @@ void Tilemap::unsetTileProperty(int x, int y, unsigned int tileProperty)
 sf::Vector2f Tilemap::getTilePixelPosition(int x, int y)
 {
 	return sf::Vector2f(
-		x * mWorldScale * mTileWidth,
-		y * mWorldScale * mTileHeight
+			static_cast<float>(x * mWorldScale * mTileWidth),
+			static_cast<float>(y * mWorldScale * mTileHeight)
 		);
 }
 
@@ -62,7 +62,7 @@ bool Tilemap::isTileOccupied(int x, int y)
 
 bool Tilemap::isValidTile(TilePosition tile)
 {
-	return toTileNumber(tile) <= mTiles.size();
+	return static_cast<size_t>(toTileNumber(tile)) <= mTiles.size();
 }
 
 bool Tilemap::isTileOccupied(TilePosition screenPosition)

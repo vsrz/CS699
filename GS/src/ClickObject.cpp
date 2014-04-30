@@ -5,7 +5,7 @@ ClickObject::ClickObject(sf::Texture& texture)
 	: mTexture(texture)
 {
 	
-	mDuration = sf::seconds(0.8f);
+	mDuration = sf::seconds(0.6f);
 }
 
 // createa a new click event
@@ -17,7 +17,7 @@ void ClickObject::addClickEvent(sf::Vector2f position)
 	click.sprite.setScale(scale, scale);
 	click.sprite.setTexture(mTexture);
 	click.time = mDuration;
-	click.fade = 255;
+	click.fade = 1.f;
 	mClick.push_back(click);
 }
 
@@ -28,11 +28,10 @@ void ClickObject::update(sf::Time dt)
 		if (iter->time - dt > sf::Time::Zero)
 		{
 			iter->time -= dt;
-			iter->fade = 255 * 
-				(iter->time.asMilliseconds() 
-				/ mDuration.asMilliseconds());
+			iter->fade = 1 * (static_cast<float>(iter->time.asMilliseconds()) 
+				/ static_cast<float>(mDuration.asMilliseconds()));
 		} else iter->fade = 0;
-		iter->sprite.setColor(sf::Color(255,255,255,iter->fade));
+		iter->sprite.setColor(sf::Color(255,255,255,static_cast<int>(255 * iter->fade)));
 	} 
 }
 

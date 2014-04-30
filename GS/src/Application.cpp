@@ -21,7 +21,6 @@ Application::Application(void)
 	mFonts.load(Fonts::Bit, "res/8b.ttf");
 
 	mTextures.load(Textures::TitleScreen, "res/TitleScreen.png");
-	mTextures.load(Textures::RedClick, "res/RedClick.png");
 
 	registerStates();
 #ifdef DEBUG

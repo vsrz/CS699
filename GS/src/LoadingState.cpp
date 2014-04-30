@@ -72,8 +72,9 @@ bool LoadingState::setCompletion(float percent)
 	// Do not allow the progress bar to exceed 100%
 	if (percent > 1.f) percent = 1.f;
 
-	// Fill the progress bar based on the percentage amount
-	mProgressBar.setSize(sf::Vector2f(mMaxProgressSize* percent * 2, mProgressBar.getSize().y));
+	// Fill the progress bar based on the percentage 
+	std::cout << percent << "\n";
+	mProgressBar.setSize(sf::Vector2f(mMaxProgressSize* percent, mProgressBar.getSize().y));
 
 	return true;
 }

@@ -146,11 +146,7 @@ void Customer::cutHair()
 	// If they need to go to another station, lets do that
 	if (mNeeds & Needs::Color)
 	{
-		ChairEntity* haircutChair = findAvailableChair(ChairEntity::Type::Coloring);
-		if (haircutChair != nullptr)
-		{
-			mState.setState(CustomerState::ID::WaitingToMoveToColorArea);
-		}
+		mState.setState(CustomerState::ID::WaitingToMoveToColorArea);
 	}
 	
 	// Otherwise, get up and pay
@@ -521,6 +517,7 @@ void Customer::cashOut()
 /* Decreases or increases patience based on current action */
 void Customer::updatePatience()
 {
+	Prng n;
 
 	// Don't penalize if they haven't entered the scene yet
 	if (mState.getState() == CustomerState::ID::Arrived || 
@@ -531,12 +528,14 @@ void Customer::updatePatience()
 		return;
 	}
 
-	// Otherwise, penalize them
-	Prng n;
-	mPatience -= 5 + n.getRand(0,4) + 1;
+	// Don't penalize them if their state has changes in the last x seconds
+	if (mState.getLastStateChange() < sf::seconds(Config::STATE_CHANGE_COOLDOWN))
+	{
+		return;
 
+	}
+	mPatience -= 5 + n.getRand(0,4) + 1;
 	if (mPatience < 0) mPatience = 0;
-	
 
 	// Leave the salon if we've got no patience left
 	if (mPatience <= 0 && 
