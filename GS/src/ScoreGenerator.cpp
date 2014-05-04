@@ -1,6 +1,6 @@
 
 #include "ScoreGenerator.h"
-#include "md5-hasher/md5_wrapper.h"
+#include "md5_wrapper.h"
 
 ScoreGenerator::ScoreGenerator(int unserved, int served, int tips, int revenue)
 {

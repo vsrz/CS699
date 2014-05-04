@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include "TinyXML2/tinyxml2.h"
+#include "tinyxml2.h"
 #include "Tile.h"
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>

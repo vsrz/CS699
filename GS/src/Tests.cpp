@@ -6,7 +6,7 @@
 #include <iostream>
 #include <memory>
 #include <array>
-#include "TinyXML2/tinyxml2.h"
+#include "tinyxml2.h"
 
 void focusTest(sf::Event event)
 {
