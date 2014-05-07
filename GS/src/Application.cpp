@@ -8,6 +8,7 @@
 #include "EndState.h"
 
 const sf::Time Application::TimePerFrame = sf::seconds(1.f/60.f);
+
 #ifdef DEBUG
 Application::Application(void) 
 	: mWindow(sf::VideoMode(1280, 768), "GS", sf::Style::Close)
@@ -27,7 +28,9 @@ Application::Application(void)
 	mFonts.load(Fonts::Default, "res/Sansation.ttf");
 	mFonts.load(Fonts::Bit, "res/8b.ttf");
 
-	mTextures.load(Textures::TitleScreen, "res/TitleScreen.png");
+	mTextures.load(Textures::TitleScreen0, "res/title_0.png");
+	mTextures.load(Textures::TitleScreen1, "res/title_1.png");
+	mTextures.load(Textures::TitleScreen2, "res/title_2.png");
 
 	registerStates();
 #ifdef DEBUG

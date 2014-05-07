@@ -12,9 +12,14 @@ ScoreGenerator::ScoreGenerator(int unserved, int served, int tips, int revenue)
 
 ScoreGenerator::ScoreGenerator(void)
 {
-	mUnserved = mServed = mTips = mRevenue = 0;
+	resetScores();
 }
 
+void ScoreGenerator::resetScores()
+{
+	mUnserved = mServed = mTips = mRevenue = 0;
+
+}
 void ScoreGenerator::updateVerification()
 {
 	md5wrapper m;
@@ -77,6 +82,22 @@ std::string ScoreGenerator::getScoreString()
 	s += "," + mVerificationHash;
 
 	return s;
+}
+
+std::string ScoreGenerator::getFinalScoreString()
+{
+	std::string s;
+
+	s = "You made a total of $";
+	s += std::to_string(mRevenue + mTips);
+	s += " by serving ";
+	s += std::to_string(mServed);
+	s += " customers. ";
+	s += std::to_string(mUnserved);
+	s += " people left unhappy.";
+
+	return s;
+
 }
 
 void ScoreGenerator::addUnserved(int value)

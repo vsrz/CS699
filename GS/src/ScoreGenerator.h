@@ -10,10 +10,12 @@ class ScoreGenerator
 public:
 	ScoreGenerator(int unserved, int served, int tips, int revenue);
 	ScoreGenerator(void);
+	void resetScores();
 
 	// High score validator
 	std::string getScoreString();
-	
+	std::string getFinalScoreString();
+
 	// Scoring values
 	int getTotalCustomers();
 	int getUnservedCustomers();

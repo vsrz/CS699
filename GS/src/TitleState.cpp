@@ -10,6 +10,7 @@ TitleState::TitleState(StateStack& stack, Context context)
 {
 	mText.setFont(context.fonts->get(Fonts::Default));
 	mText.setString("Press any key to start");
+	mText.setCharacterSize(36);
 	centerOrigin(mText);
 	mText.setPosition(context.window->getView().getSize() / 2.f);
 }
@@ -17,13 +18,20 @@ TitleState::TitleState(StateStack& stack, Context context)
 void TitleState::draw()
 {
 	sf::RenderWindow& window = *getContext().window;
-	sf::Texture& texture = getContext().textures->get(Textures::TitleScreen);
-	texture.setRepeated(true);
-	sf::IntRect rect(0, 0, getContext().window->getSize().x, getContext().window->getSize().y);
-
-	mBackgroundSprite = sf::Sprite(texture, rect);
+	sf::Texture& texture0 = getContext().textures->get(Textures::TitleScreen0);
+	sf::Texture& texture1 = getContext().textures->get(Textures::TitleScreen1);
+	sf::Texture& texture2 = getContext().textures->get(Textures::TitleScreen2);
 	
-	window.draw(mBackgroundSprite);
+	mBackgroundSprite0 = sf::Sprite(texture0);
+	mBackgroundSprite0.setPosition(sf::Vector2f(0.f, 0.f));
+	mBackgroundSprite1 = sf::Sprite(texture1);
+	mBackgroundSprite1.setPosition(sf::Vector2f(426.f, 0.f));
+	mBackgroundSprite2 = sf::Sprite(texture2);
+	mBackgroundSprite2.setPosition(sf::Vector2f(852.f, 0.f));
+
+	window.draw(mBackgroundSprite0);
+	window.draw(mBackgroundSprite1);
+	window.draw(mBackgroundSprite2);
 
 	if (mShowText)
 	{

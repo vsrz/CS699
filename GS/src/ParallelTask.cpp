@@ -35,20 +35,23 @@ float ParallelTask::getCompletion()
 
 void ParallelTask::runTask()
 {
+
 	mCompletion++;
 	mContext.textures->load(Textures::StatusNotifiers, "res/notifiers_02.png");
+	mContext.textures->load(Textures::Gracie, "res/gracie_manager.png");
 	mCompletion++;
 	mContext.textures->load(Textures::TestGuy, "res/TestGuy.png");
 	mCompletion++;
 	mContext.textures->load(Textures::WomanTeen01, "res/woman_teen_01.png");
 	mCompletion++;
 	mContext.textures->load(Textures::WomanMidage01, "res/woman_midage_01.png");
-	mContext.textures->load(Textures::WomanOld01, "res/woman_old_01.png");
+	mContext.textures->load(Textures::ManMidage01, "res/man_midage_01.png");
 	mCompletion++;
 	mContext.textures->load(Textures::ManYoung01, "res/man_young_01.png");
 	mCompletion++;
 	mContext.textures->load(Textures::ManTeen01, "res/man_teen_01.png");
 	mCompletion++;
+	mContext.textures->load(Textures::WomanOld01, "res/woman_old_01.png");
 	mContext.textures->load(Textures::AutoDoors, "res/doors02.png");
 	mCompletion++;
 	mContext.textures->load(Textures::Kitty, "res/feline_01.png");

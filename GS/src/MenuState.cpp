@@ -3,27 +3,34 @@
 #include "ResourceManager.h"
 
 MenuState::MenuState(StateStack& stack, Context context)
-	: mBackgroundSprite()
+	: mBackgroundSprite0()
+	, mBackgroundSprite1()
+	, mBackgroundSprite2()
 	, State(stack, context)
 	, mOptions()
 	, mOptionIndex(0)
 {
-	sf::Texture& texture = context.textures->get(Textures::TitleScreen);
+	sf::Texture& texture0 = getContext().textures->get(Textures::TitleScreen0);
+	sf::Texture& texture1 = getContext().textures->get(Textures::TitleScreen1);
+	sf::Texture& texture2 = getContext().textures->get(Textures::TitleScreen2);
+
 	sf::Font& font = context.fonts->get(Fonts::Default);
 
 	// Simple menu
 	sf::Text playOption;
 	playOption.setFont(font);
 	playOption.setString("Play");
+	playOption.setCharacterSize(36);
 	centerOrigin(playOption);
 	playOption.setPosition(context.window->getView().getSize() / 2.f);
 	mOptions.push_back(playOption);
 
 	sf::Text exitOption;
 	exitOption.setFont(font);
+	exitOption.setCharacterSize(36);
 	exitOption.setString("Exit");
 	centerOrigin(exitOption);
-	exitOption.setPosition(playOption.getPosition() + sf::Vector2f(0.f, 30.f));
+	exitOption.setPosition(playOption.getPosition() + sf::Vector2f(0.f, 40.f));
 	mOptions.push_back(exitOption);
 
 	updateOptionText();
@@ -35,14 +42,33 @@ void MenuState::draw()
 {
 	sf::RenderWindow& window = *getContext().window;
 	window.setView(window.getDefaultView());
-	sf::Texture& texture = getContext().textures->get(Textures::TitleScreen);
-	texture.setRepeated(true);
-	sf::IntRect rect(0, 0, getContext().window->getSize().x, getContext().window->getSize().y);
-
-	mBackgroundSprite = sf::Sprite(texture, rect);
+	sf::Texture& texture0 = getContext().textures->get(Textures::TitleScreen0);
+	sf::Texture& texture1 = getContext().textures->get(Textures::TitleScreen1);
+	sf::Texture& texture2 = getContext().textures->get(Textures::TitleScreen2);
 	
+	sf::IntRect rect0(0, 0, 426, getContext().window->getSize().y);
+	sf::IntRect rect1(426, 0, 426, getContext().window->getSize().y);
+	sf::IntRect rect2(852, 0, 428, getContext().window->getSize().y);
+
+	mBackgroundSprite0 = sf::Sprite(texture0, rect0);
+	mBackgroundSprite1 = sf::Sprite(texture1, rect1);
+	mBackgroundSprite2 = sf::Sprite(texture2, rect2);
+
+	window.draw(mBackgroundSprite0);
+	window.draw(mBackgroundSprite1);
+	window.draw(mBackgroundSprite2);
+
+	mBackgroundSprite0 = sf::Sprite(texture0);
+	mBackgroundSprite0.setPosition(sf::Vector2f(0.f, 0.f));
+	mBackgroundSprite1 = sf::Sprite(texture1);
+	mBackgroundSprite1.setPosition(sf::Vector2f(426.f, 0.f));
+	mBackgroundSprite2 = sf::Sprite(texture2);
+	mBackgroundSprite2.setPosition(sf::Vector2f(852.f, 0.f));
+
 	// Draw the background then all the option elements to the renderwindow
-	window.draw(mBackgroundSprite);
+	window.draw(mBackgroundSprite0);
+	window.draw(mBackgroundSprite1);
+	window.draw(mBackgroundSprite2);
 
 	for (const sf::Text& text : mOptions)
 	{

@@ -20,7 +20,9 @@ private:
 		Exit,
 	};
 
-	sf::Sprite mBackgroundSprite;
+	sf::Sprite mBackgroundSprite0;
+	sf::Sprite mBackgroundSprite1;
+	sf::Sprite mBackgroundSprite2;
 	std::vector<sf::Text> mOptions;
 	std::size_t mOptionIndex;
 

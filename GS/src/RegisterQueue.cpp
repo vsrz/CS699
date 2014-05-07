@@ -49,7 +49,12 @@ int RegisterQueue::getQueuePosition(const Customer* cust)
 void RegisterQueue::dequeue()
 {
 	Customer* cust = mQueue.front();
-	cust->leaveStore();
+
+	// Make sure you aren't paid for people who bail
+	if (cust->getState() == CustomerState::WaitingToPay)
+	{
+		cust->leaveStore();
+	}
 	mQueue.pop();
 	std::queue<Customer*> line;
 	
@@ -58,6 +63,11 @@ void RegisterQueue::dequeue()
 	for (size_t i = 0; i < size; i++)
 	{
 		Customer* c = mQueue.front();
+		if (c->getState() != CustomerState::WaitingToPay)
+		{
+			mQueue.pop();
+			continue;
+		}
 		c->moveToTile(Config::RegisterQueue::POSITION[i]);
 		line.push(c);
 		mQueue.pop();

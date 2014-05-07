@@ -22,6 +22,7 @@ public:
 		WomanTeen,
 		WomanMiddle,
 		WomanOld,
+		ManMidage,
 		Count,
 	};
 

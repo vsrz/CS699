@@ -15,10 +15,13 @@ namespace Textures
 		Eagle,
 		Raptor,
 		Desert,
-		TitleScreen,
+		TitleScreen0,
+		TitleScreen1,
+		TitleScreen2,
 		SalonTileset,
 		RedClick,
 		TestGuy,
+		Gracie,
 		TestTileset,
 		ManOveralls,
 		AutoDoors,
@@ -33,6 +36,7 @@ namespace Textures
 		AnimCut,
 		AnimColor,
 		StatusNotifiers,
+		ManMidage01,
 	};
 
 }	

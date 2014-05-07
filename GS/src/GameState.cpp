@@ -26,7 +26,7 @@ bool GameState::update(sf::Time dt)
 	CommandQueue& commands = mWorld.getCommandQueue();
 	if (mWorld.getScoreObject()->getTotalCustomers() >= Config::TOTAL_CUSTOMERS)
 	{
-//		requestStackPop();
+		requestStackPop();
 		requestStackPush(States::End);
 	}
 	return true;

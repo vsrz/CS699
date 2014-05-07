@@ -17,6 +17,11 @@ public:
 private:
 	ScoreGenerator mScore;
 	bool temp;
+
+	sf::RectangleShape mBackground;
+	sf::Text mThankYou;
+	sf::Text mPressToRestart;
+	sf::Text mScoreString;
 };
 
 #endif

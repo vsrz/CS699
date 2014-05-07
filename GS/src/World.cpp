@@ -244,6 +244,13 @@ void World::handleEvent(const sf::Event& event)
 			}
 		}
 	}
+
+	/* Pressing F5 immediately ends the game? */
+	else if (event.type == sf::Event::KeyPressed &&
+		event.key.code == sf::Keyboard::F5)
+	{
+		getScoreObject()->addServed(Config::TOTAL_CUSTOMERS);
+	}
 	#endif
 }
 
@@ -448,6 +455,8 @@ void World::updateCustomers(sf::Time dt)
 	if (mLastCustomerReleased > sf::seconds(Config::Customer::RELEASE_INTERVAL) && 
 		getRemainingWaitingChairs() > 0)
 	{
+		size_t remainingCustomers = mCustomers.size();
+
 		// If there are any customers left, add one to the scene node
 		if (mCustomers.size() > 0)
 		{
@@ -466,8 +475,7 @@ void World::updateCustomers(sf::Time dt)
 		mLastCustomerReleased = sf::Time::Zero;
 	}
 
-	/* Check the scene for any customers that need to be removed */
-	//for (auto& cust
+	/* TODO: Check the scene for any customers that need to be removed */
 
 }
 

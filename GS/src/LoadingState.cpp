@@ -9,6 +9,7 @@ LoadingState::LoadingState(StateStack& stack, Context context)
 {
 	sf::RenderWindow& window = *getContext().window;	
 	sf::Font& font = context.fonts->get(Fonts::Default);
+	extern bool g_GameResourcesLoaded;
 
 	// Set the loading text and center it
 	mLoadingText.setFont(font);
@@ -32,16 +33,20 @@ LoadingState::LoadingState(StateStack& stack, Context context)
 	
 	setCompletion(20.f);
 
-	mLoadingTask.execute();
+	if (g_GameResourcesLoaded == false)
+		mLoadingTask.execute();
 
 }
 
 bool LoadingState::update(sf::Time dt)
 {
-	if (mLoadingTask.isFinished())
+	extern bool g_GameResourcesLoaded;
+
+	if (mLoadingTask.isFinished() || g_GameResourcesLoaded == true)
 	{
 		requestStackPop();
 		requestStackPush(States::Game);
+		g_GameResourcesLoaded = true;
 	}
 	else
 	{

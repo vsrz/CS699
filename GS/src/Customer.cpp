@@ -40,6 +40,9 @@ void Customer::initalize(const TextureManager& t, unsigned int customerType)
 	case Type::ManYoung:
 		mSprite.setTexture(t.get(Textures::ManYoung01));
 		break;
+	case Type::ManMidage:
+		mSprite.setTexture(t.get(Textures::ManMidage01));
+		break;
 	default:
 		mSprite.setTexture(t.get(Textures::WomanTeen01));
 	}
@@ -524,17 +527,17 @@ void Customer::updatePatience()
 	if (mState.getState() == CustomerState::ID::Arrived || 
 		mState.getState() == CustomerState::ID::EnteringSalon || 
 		mState.getState() == CustomerState::ID::Leaving || 
-		mState.getState() == CustomerState::ID::Delete)
+		mState.getState() == CustomerState::ID::Delete) 
 	{
 		return;
 	}
 
-	// Don't penalize them if their state has changes in the last x seconds
-	if (mState.getLastStateChange() < sf::seconds(Config::STATE_CHANGE_COOLDOWN))
-	{
-		return;
+	// Don't penalize them if their state has changed in the last x seconds
+	// if (mState.getLastStateChange() < sf::seconds(Config::STATE_CHANGE_COOLDOWN))
+	//{
+		//return;
+	//}
 
-	}
 	mPatience -= 5 + n.getRand(0,4) + 1;
 	if (mPatience < 0) mPatience = 0;
 

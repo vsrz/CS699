@@ -5,14 +5,44 @@ EndState::EndState(StateStack& stack, Context context)
 	: State(stack, context)
 {
 	temp = false;
+
+	mBackground.setFillColor(sf::Color(0, 0, 0, 128));
+	mBackground.setPosition(0, 0);
+	mBackground.setSize(sf::Vector2f(context.window->getSize().x, context.window->getSize().y));
+
+	mThankYou.setString("Thank you for playing!");
+	mThankYou.setCharacterSize(32);
+	mThankYou.setFont(context.fonts->get(Fonts::Default));
+	sf::FloatRect textRect = mThankYou.getLocalBounds();
+	mThankYou.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f); 
+	mThankYou.setPosition(context.window->getSize().x * 0.5f, context.window->getSize().y * 0.5f);
+
+	mScoreString.setFont(context.fonts->get(Fonts::Default));
+	mScoreString.setString(context.score->getFinalScoreString());
+	mScoreString.setCharacterSize(20);
+	textRect = mScoreString.getLocalBounds();
+	mScoreString.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
+	mScoreString.setPosition(context.window->getSize().x * 0.5f, context.window->getSize().y * 0.5f + 50.f);
+
+	mPressToRestart.setFont(context.fonts->get(Fonts::Default));
+	mPressToRestart.setString("Please fill out the survey on the system next to you!");
+	mPressToRestart.setCharacterSize(16);
+	textRect = mPressToRestart.getLocalBounds();
+	mPressToRestart.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
+	mPressToRestart.setPosition(context.window->getSize().x * 0.5f, context.window->getSize().y * 0.5f + 150.f);
+
+
+
 }
 
 void EndState::draw()
 {
 	sf::RenderWindow& window = *getContext().window;
-	sf::CircleShape shape(50);
-	shape.setFillColor(sf::Color::White);
-	window.draw(shape);
+	window.draw(mBackground);
+	window.draw(mThankYou);
+	window.draw(mScoreString);
+	window.draw(mPressToRestart);
+
 }
 
 void EndState::setScore(ScoreGenerator score)
@@ -31,7 +61,14 @@ bool EndState::update(sf::Time dt)
 	return true;
 }
 
-bool EndState::handleEvent(const sf::Event& event)
+bool EndState::handleEvent(const sf::Event& e)
 {
+	if (e.type == sf::Event::KeyPressed && e.key.code == sf::Keyboard::Escape)
+	{
+		ScoreGenerator& scores = *getContext().score;
+		scores.resetScores();
+		requestStackPop();
+		requestStackPush(States::Title);
+	}
 	return false;
 }

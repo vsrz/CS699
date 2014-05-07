@@ -13,6 +13,8 @@
 
 std::map<std::string, std::string> g_debugData;
 bool g_collisionOverlay = false;
+bool g_GameResourcesLoaded = false;
+
 
 #ifdef _CONSOLE
 int main()

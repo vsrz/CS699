@@ -27,7 +27,7 @@ Player::Player(const TextureManager& textures, World* worldContext, unsigned int
 
 void Player::initalize(const TextureManager& t)
 {
-	mSprite.setTexture(t.get(Textures::TestGuy));
+	mSprite.setTexture(t.get(Textures::Gracie));
 	mSprite.setTextureRect(sf::IntRect(sf::Vector2i(mFrame,mFrameOffset), mFrameSize));
 	mSprite.setOrigin(0.f,32.f);
 	mSprite.setScale(mWorld->getWorldScale());
