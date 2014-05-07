@@ -96,11 +96,11 @@ xcopy /Y /I "$(SolutionDir)..\..\..\..\res\*.ttf" "$(OutDir)\res"
 xcopy /Y /I "$(SolutionDir)..\..\..\..\res\*.tmx" "$(OutDir)\res"</Command>
     </PreLinkEvent>
     <PostBuildEvent>
-      <Command>REM del /Q "$(OutDir)*.obj"
-REM del /Q "$(OutDir)*.pdb"
-REM del /Q "$(OutDir)*.tlog"
-REM del /Q "$(OutDir)*.lastbuildstate"
-REM del /Q "$(OutDir)*.log"
+      <Command>del /Q "$(OutDir)*.obj"
+del /Q "$(OutDir)*.pdb"
+del /Q "$(OutDir)*.tlog"
+del /Q "$(OutDir)*.lastbuildstate"
+del /Q "$(OutDir)*.log"
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>

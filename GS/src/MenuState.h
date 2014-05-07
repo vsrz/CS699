@@ -20,6 +20,7 @@ private:
 		Exit,
 	};
 
+	sf::Text mBuildInfo;
 	sf::Sprite mBackgroundSprite0;
 	sf::Sprite mBackgroundSprite1;
 	sf::Sprite mBackgroundSprite2;

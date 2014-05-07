@@ -16,6 +16,12 @@ MenuState::MenuState(StateStack& stack, Context context)
 
 	sf::Font& font = context.fonts->get(Fonts::Default);
 
+	// Construct build ID
+	mBuildInfo.setFont(font);
+	mBuildInfo.setCharacterSize(12);
+	mBuildInfo.setPosition(sf::Vector2f(1160.f, 750.f));
+	mBuildInfo.setString(Config::RELEASE_STRING);
+
 	// Simple menu
 	sf::Text playOption;
 	playOption.setFont(font);
@@ -54,10 +60,6 @@ void MenuState::draw()
 	mBackgroundSprite1 = sf::Sprite(texture1, rect1);
 	mBackgroundSprite2 = sf::Sprite(texture2, rect2);
 
-	window.draw(mBackgroundSprite0);
-	window.draw(mBackgroundSprite1);
-	window.draw(mBackgroundSprite2);
-
 	mBackgroundSprite0 = sf::Sprite(texture0);
 	mBackgroundSprite0.setPosition(sf::Vector2f(0.f, 0.f));
 	mBackgroundSprite1 = sf::Sprite(texture1);
@@ -69,6 +71,7 @@ void MenuState::draw()
 	window.draw(mBackgroundSprite0);
 	window.draw(mBackgroundSprite1);
 	window.draw(mBackgroundSprite2);
+	window.draw(mBuildInfo);
 
 	for (const sf::Text& text : mOptions)
 	{

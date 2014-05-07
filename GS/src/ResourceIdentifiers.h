@@ -20,6 +20,7 @@ namespace Textures
 		TitleScreen2,
 		SalonTileset,
 		RedClick,
+		GreenClick,
 		TestGuy,
 		Gracie,
 		TestTileset,

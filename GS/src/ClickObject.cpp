@@ -1,8 +1,10 @@
 #include "ClickObject.h"
+#include "Glob.h"
 #include <iostream>
 
-ClickObject::ClickObject(sf::Texture& texture)
-	: mTexture(texture)
+ClickObject::ClickObject(sf::Texture& redClick, sf::Texture& greenClick)
+	: mRedClick(redClick)
+	, mGreenClick(greenClick)
 {
 	
 	mDuration = sf::seconds(0.6f);
@@ -15,7 +17,29 @@ void ClickObject::addClickEvent(sf::Vector2f position)
 	float scale = Config::WORLD_SCALE;
 	click.sprite.setPosition(position);
 	click.sprite.setScale(scale, scale);
-	click.sprite.setTexture(mTexture);
+	click.sprite.setTexture(mRedClick);
+
+	// Check for special cases of click, otherwise use the red button
+	for (auto itr = Config::Chairs::SEATING_POSITION.begin();
+		itr != Config::Chairs::SEATING_POSITION.end();
+		++itr)
+	{
+		if (*itr == toTilePosition(position))
+		{
+			click.sprite.setTexture(mGreenClick);
+		}
+	}
+	for (auto itr = Config::RegisterQueue::REGISTER_POSITION.begin();
+		itr != Config::RegisterQueue::REGISTER_POSITION.end();
+		++itr)
+	{
+		if (*itr == toTilePosition(position))
+		{
+			click.sprite.setTexture(mGreenClick);
+		}
+	}
+
+
 	click.time = mDuration;
 	click.fade = 1.f;
 	mClick.push_back(click);

@@ -21,6 +21,7 @@ private:
 	sf::Sprite mBackgroundSprite1;
 	sf::Sprite mBackgroundSprite2;
 
+	sf::Text mBuildInfo;
 	sf::Text mText;
 
 	bool mShowText;

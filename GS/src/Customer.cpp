@@ -81,16 +81,17 @@ void Customer::updateCurrent(sf::Time dt)
 {
 	Prng n;
 	mElapsedTime += dt;
+	mPatienceCooldown -= dt;
 	checkAIState();
 	ActorEntity::update(dt);
 
 	// Controls how often the patience for a customer is reduced
-	if (mElapsedTime.asSeconds() > 10 + 
-		mWorld->getCustomers().size() + 
-		n.getRand(0, 10))
+	if (mPatienceCooldown <= sf::Time::Zero)
 	{
 		updatePatience();
-		mElapsedTime = sf::Time::Zero;
+
+		// Add some randomness to the next decrease
+		mPatienceCooldown = sf::seconds(10 + mWorld->getCustomers().size() + n.getRand(0, 10));
 	}
 
 	
@@ -161,6 +162,11 @@ void Customer::cutHair()
 
 }
 
+// Used to add a bonus to the cooldown when an action is performed on a customer
+void Customer::addToPatience(sf::Time timeToAdd)
+{
+	mPatienceCooldown += timeToAdd;
+}
 void Customer::colorHair()
 {
 	mNeeds &= ~(Needs::Color);
@@ -496,6 +502,7 @@ void Customer::enterSalon()
 	travelPath.push(TilePosition(7,4));
 	mState.setState(CustomerState::ID::EnteringSalon);
 	moveToTile(travelPath);
+	mPatienceCooldown = sf::seconds(20.f);
 #ifdef DEBUG
 	std::cout << std::endl << "Needs: ";
 	if (mNeeds & Needs::Wash) std::cout << "Wash ";

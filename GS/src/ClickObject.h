@@ -13,14 +13,16 @@
 class ClickObject
 {
 public:
-	ClickObject(sf::Texture& texture);
+	ClickObject(sf::Texture& redClick, sf::Texture& greenClick);
 	void addClickEvent(TilePosition position);
 
 	void update(sf::Time dt);
 	void draw(sf::RenderWindow& window);
 
 private:
-	sf::Texture& mTexture;
+	sf::Texture& mRedClick;
+	sf::Texture& mGreenClick;
+
 	sf::Time mDuration;
 	
 	struct Click

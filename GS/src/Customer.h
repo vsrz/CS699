@@ -53,6 +53,7 @@ public:
 	void cutHair();
 	void colorHair();
 	void cashOut();
+	void addToPatience(sf::Time timeToAdd);
 
 private:
 
@@ -74,7 +75,8 @@ private:
 
 	CustomerState mState;
 	sf::Time mElapsedTime;
-	
+	sf::Time mPatienceCooldown;
+
 	unsigned int mNeeds;
 	unsigned int mType;
 	float mPatience;

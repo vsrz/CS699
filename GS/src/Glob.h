@@ -27,6 +27,9 @@ enum Direction
 /* Dirty global configuration area, for now (forever?) */
 namespace Config
 {
+	// Release string
+	const std::string						RELEASE_STRING = "Build v0.5.1018.22";
+
 	// Manager (PC) Config
 	const float								MANAGER_SPEED = 5.f;
 	const float								MIDAGE_MAN_SPEED = 3.f;

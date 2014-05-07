@@ -72,15 +72,30 @@ void Player::useStation(ChairEntity* chair)
 	{
 	case ChairEntity::Washing:
 		if (chair->getOccupant()->getState() == CustomerState::ID::WaitingForWashService)
+		{
 			mCurrentAction = Action::WashingHair;
+			// Add 20 seconds of patience for this action
+			chair->getOccupant()->addToPatience(sf::seconds(20.f));
+		}
 		break;
 	case ChairEntity::Cutting:
 		if (chair->getOccupant()->getState() == CustomerState::ID::WaitingForHaircutService)
+		{
 			mCurrentAction = Action::CuttingHair;
+		
+			// Add 15 seconds of patience for this action
+			chair->getOccupant()->addToPatience(sf::seconds(15.f));
+		}
 		break;
 	case ChairEntity::Coloring:
 		if (chair->getOccupant()->getState() == CustomerState::ID::WaitingForColorService)
+		{			
 			mCurrentAction = Action::ColoringHair;
+			
+			// Add 20 seconds of patience for this action
+			chair->getOccupant()->addToPatience(sf::seconds(20.f));
+
+		}
 		break;
 	default:
 		mCurrentAction = Action::None;

@@ -8,6 +8,12 @@ TitleState::TitleState(StateStack& stack, Context context)
 	, mShowText(true)
 	, mTextEffectTime(sf::Time::Zero)
 {
+	// Construct build ID
+	mBuildInfo.setFont(context.fonts->get(Fonts::Default));
+	mBuildInfo.setCharacterSize(12);
+	mBuildInfo.setPosition(sf::Vector2f(1160.f, 750.f));
+	mBuildInfo.setString(Config::RELEASE_STRING);
+
 	mText.setFont(context.fonts->get(Fonts::Default));
 	mText.setString("Press any key to start");
 	mText.setCharacterSize(36);
@@ -33,6 +39,7 @@ void TitleState::draw()
 	window.draw(mBackgroundSprite1);
 	window.draw(mBackgroundSprite2);
 
+	window.draw(mBuildInfo);
 	if (mShowText)
 	{
 		window.draw(mText);
