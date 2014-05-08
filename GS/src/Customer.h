@@ -38,6 +38,7 @@ public:
 
 	Customer(const TextureManager& textures, World* world, unsigned int customerType);
 
+	void setNeeds(unsigned int needs);
 	unsigned int getNeeds();	
 	float getPatience();
 	float getHeight();
@@ -54,7 +55,7 @@ public:
 	void colorHair();
 	void cashOut();
 	void addToPatience(sf::Time timeToAdd);
-
+	void setPatience(float bonus = 1.f);
 private:
 
 	void initalize(const TextureManager& t, unsigned int customerType);
@@ -63,7 +64,6 @@ private:
 	ChairEntity* getOccupiedChair();
 	
 	// Random value generation
-	void setPatience(float bonus = 1.f);
 	void setNeeds();
 	void setSpeed();
 	
@@ -71,7 +71,7 @@ private:
 	void moveToChair(ChairEntity* chair);
 	void enterSalon();
 	void checkAIState(); 
-	void updatePatience();
+	void updatePatience(sf::Time dt);
 
 	CustomerState mState;
 	sf::Time mElapsedTime;

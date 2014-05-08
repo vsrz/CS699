@@ -75,7 +75,7 @@ void Player::useStation(ChairEntity* chair)
 		{
 			mCurrentAction = Action::WashingHair;
 			// Add 20 seconds of patience for this action
-			chair->getOccupant()->addToPatience(sf::seconds(20.f));
+			chair->getOccupant()->addToPatience(sf::seconds(7.f));
 		}
 		break;
 	case ChairEntity::Cutting:
@@ -84,7 +84,7 @@ void Player::useStation(ChairEntity* chair)
 			mCurrentAction = Action::CuttingHair;
 		
 			// Add 15 seconds of patience for this action
-			chair->getOccupant()->addToPatience(sf::seconds(15.f));
+			chair->getOccupant()->addToPatience(sf::seconds(7.f));
 		}
 		break;
 	case ChairEntity::Coloring:
@@ -93,7 +93,7 @@ void Player::useStation(ChairEntity* chair)
 			mCurrentAction = Action::ColoringHair;
 			
 			// Add 20 seconds of patience for this action
-			chair->getOccupant()->addToPatience(sf::seconds(20.f));
+			chair->getOccupant()->addToPatience(sf::seconds(7.f));
 
 		}
 		break;

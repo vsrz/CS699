@@ -316,6 +316,25 @@ void World::generateCustomers()
 	unsigned int last = 99;
 	int num;
 	
+	customers[14] = Customer::Type::WomanTeen;
+	customers[13] = Customer::Type::WomanMiddle;
+	customers[12] = Customer::Type::ManTeen;
+	customers[11] = Customer::Type::ManYoung;
+	customers[10] = Customer::Type::WomanOld;
+	customers[9] = Customer::Type::ManMidage;
+	customers[8] = Customer::Type::WomanTeen;
+	customers[7] = Customer::Type::WomanMiddle;
+	customers[6] = Customer::Type::ManTeen;
+	customers[5] = Customer::Type::ManYoung;
+	customers[4] = Customer::Type::WomanOld;
+	customers[3] = Customer::Type::ManMidage;
+	customers[2] = Customer::Type::WomanTeen;
+	customers[1] = Customer::Type::WomanMiddle;
+	customers[0] = Customer::Type::ManTeen;
+	
+	// Generate customers statically for now, we want to reduce the repetiveness
+	// until we have more textures to work with
+	/* 
 	for (int i = 0; i < Config::TOTAL_CUSTOMERS; i++)
 	{
 		// Try not to get two of the same customers in a row
@@ -326,10 +345,24 @@ void World::generateCustomers()
 		last = num;
 		customers[i] = num;
 	}
-	
+	*/
+
 	for (int i = 0; i < Config::TOTAL_CUSTOMERS; ++i)
 	{
 		std::unique_ptr<Customer> cust(new Customer(mTextures, this, customers[i]));
+		if (i == 14)
+		{
+			unsigned int needs = Customer::Needs::Wash | Customer::Needs::Cut;
+			cust.get()->setNeeds(needs);
+			cust.get()->addToPatience(sf::seconds(60.f));
+			cust.get()->setPatience(200.f);
+		}
+		else if (i == 13)
+		{
+			unsigned int needs = Customer::Needs::Wash | Customer::Needs::Cut | Customer::Needs::Color;
+			cust.get()->setNeeds(needs);
+
+		}
 		mCustomers.push_back(std::move(cust));
 	}
 }
@@ -451,9 +484,54 @@ void World::attachStatusDisplay(Customer* customer)
 /* Update the customer stack and release a customer if necessary */
 void World::updateCustomers(sf::Time dt)
 {
+	size_t customersAllowedInScene = 1;
+	size_t customersInScene = 0;
+	size_t customersRemaining = mCustomers.size();
+	for (auto& it = mCustomersInScene.begin(); it != mCustomersInScene.end(); ++it)
+	{
+		Customer* cust = *it;
+		if (cust->getState() != CustomerState::Delete)
+			customersInScene++;
+	}
+
+	// This is so that customers are trickled in the early stage
+	// They begin to bum rush you halfway through the game
+	switch (mCustomers.size())
+	{
+	case 15:
+	case 14:
+	case 13:
+		customersAllowedInScene = 1;
+		break;
+	case 12:
+	case 11:
+	case 10:
+		customersAllowedInScene = 2;
+		break;
+	case 9:
+	case 8:
+		customersAllowedInScene = 4;
+		break;
+	case 7:
+	case 6:
+		customersAllowedInScene = 6;
+		break;
+	default:
+		customersAllowedInScene = 15;
+		break;
+
+	}
+
+#ifdef DEBUG
+	// Useful for testing
+	customersAllowedInScene = 15;
+#endif
+
+
 	mLastCustomerReleased += dt;
-	if (mLastCustomerReleased > sf::seconds(Config::Customer::RELEASE_INTERVAL) && 
-		getRemainingWaitingChairs() > 0)
+	if (mLastCustomerReleased > sf::seconds(Config::Customer::RELEASE_INTERVAL) &&
+		getRemainingWaitingChairs() > 0 &&
+		customersAllowedInScene > customersInScene)
 	{
 		size_t remainingCustomers = mCustomers.size();
 

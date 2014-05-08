@@ -63,7 +63,7 @@
       <AdditionalDependencies>sfml-window-s-d.lib;sfml-system-s-d.lib;sfml-audio-s-d.lib;sfml-graphics-s-d.lib;sfml-network-s-d.lib;sfml-main-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreLinkEvent>
-      <Command>mkdir res
+      <Command>mkdir $(OutDir)\res
 xcopy /E /Y /I "$(SolutionDir)..\..\..\..\res" "$(OutDir)\res"
 </Command>
     </PreLinkEvent>
@@ -195,7 +195,6 @@ del /Q "$(OutDir)*.log"
     <ClCompile Include="..\..\..\..\src\SceneNode.cpp" />
     <ClCompile Include="..\..\..\..\src\ScoreDisplay.cpp" />
     <ClCompile Include="..\..\..\..\src\ScoreGenerator.cpp" />
-    <ClCompile Include="..\..\..\..\src\Source.cpp" />
     <ClCompile Include="..\..\..\..\src\SpriteNode.cpp" />
     <ClCompile Include="..\..\..\..\src\State.cpp" />
     <ClCompile Include="..\..\..\..\src\StateStack.cpp" />
@@ -206,6 +205,12 @@ del /Q "$(OutDir)*.log"
     <ClCompile Include="..\..\..\..\src\Tilemap.cpp" />
     <ClCompile Include="..\..\..\..\src\TitleState.cpp" />
     <ClCompile Include="..\..\..\..\src\World.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\..\res\gs.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\..\..\src\Resource.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

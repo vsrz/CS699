@@ -280,9 +280,6 @@
     <ClCompile Include="..\..\..\..\src\ScoreGenerator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\src\Source.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\..\src\SpriteNode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -322,5 +319,15 @@
     <ClCompile Include="..\..\..\..\lib\md5-hasher\md5_wrapper.cpp">
       <Filter>Source Files\md5-hasher</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\..\res\gs.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\..\..\src\Resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

@@ -94,7 +94,7 @@ std::string ScoreGenerator::getFinalScoreString()
 	s += std::to_string(mServed);
 	s += " customers. ";
 	s += std::to_string(mUnserved);
-	s += " people left unhappy.";
+	s += " left unhappy.";
 
 	return s;
 

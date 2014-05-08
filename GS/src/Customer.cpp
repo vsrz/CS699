@@ -81,20 +81,10 @@ void Customer::updateCurrent(sf::Time dt)
 {
 	Prng n;
 	mElapsedTime += dt;
-	mPatienceCooldown -= dt;
 	checkAIState();
 	ActorEntity::update(dt);
 
-	// Controls how often the patience for a customer is reduced
-	if (mPatienceCooldown <= sf::Time::Zero)
-	{
-		updatePatience();
-
-		// Add some randomness to the next decrease
-		mPatienceCooldown = sf::seconds(10 + mWorld->getCustomers().size() + n.getRand(0, 10));
-	}
-
-	
+	updatePatience(dt);	
 }
 
 // Get the state object for the customer
@@ -314,7 +304,15 @@ void Customer::setPatience(float bonus)
 	}
 	
 	if (patience < 30.f) patience = 30.f;
+	if (patience > 100.f) patience = 100.f;
 	mPatience = patience;
+}
+
+// Use this if you need to set specific needs for a customer
+void Customer::setNeeds(unsigned int needs)
+{
+	mNeeds = needs;
+
 }
 
 // Generate this customers needs based on who they are
@@ -343,15 +341,15 @@ void Customer::setNeeds()
 	//case Type::ManMiddle:
 		/**
 		 *	50% chance for a cut
-		 *	30% chance for a wash and cut
-		 *  10% chance for product only
+		 *	45% chance for a wash and cut
+		 *  5% chance for product only
 		 **/
 		if (roll < 50)
 		{
 			mNeeds = Needs::Cut;
 		}
 
-		else if (roll < 70)
+		else if (roll < 95)
 		{
 			mNeeds = Needs::Cut | Needs::Wash;
 		}
@@ -366,8 +364,8 @@ void Customer::setNeeds()
 		/**
 		 *	15% chance for a cut
 		 *  25% chance for a wash and cut
-		 *	40% chance for a wash, cut, and color
-		 *  20% chance for product only
+		 *	50% chance for a wash, cut, and color
+		 *  10% chance for product only
 		 **/
 		if (roll < 15)
 		{
@@ -379,7 +377,7 @@ void Customer::setNeeds()
 			mNeeds = Needs::Cut | Needs::Wash;
 		}
 
-		else if (roll < 80)
+		else if (roll < 90)
 		{
 			mNeeds = Needs::Cut | Needs::Wash | Needs::Color;
 		}
@@ -392,15 +390,15 @@ void Customer::setNeeds()
 	case Type::WomanMiddle:
 		/**
 		 *  30% chance for a wash and cut
-		 *	50% chance for a wash, cut, and color
-		 *  20% chance for product only
+		 *	60% chance for a wash, cut, and color
+		 *  10% chance for product only
 		 **/
 		if (roll < 30)
 		{
 			mNeeds = Needs::Cut | Needs::Wash;
 		}
 
-		else if (roll < 80)
+		else if (roll < 90)
 		{
 			mNeeds = Needs::Cut | Needs::Wash | Needs::Color;
 		}
@@ -413,13 +411,13 @@ void Customer::setNeeds()
 	case Type::WomanOld:
 	default:
 		/**
-		 * 15% chance of wanting only product
-		 * 40% chance of wanting a wash and cut
+		 * 5% chance of wanting only product
+		 * 50% chance of wanting a wash and cut
 		 * 10% chance of wanting a wash, cut, and color
 		 * 30% chance of wanting only a cut
 		 * 5% chance of wanting only a wash
 		 */
-		if (roll < 15)
+		if (roll < 5)
 		{
 			mNeeds = Needs::Product;
 		}
@@ -502,7 +500,7 @@ void Customer::enterSalon()
 	travelPath.push(TilePosition(7,4));
 	mState.setState(CustomerState::ID::EnteringSalon);
 	moveToTile(travelPath);
-	mPatienceCooldown = sf::seconds(20.f);
+	mPatienceCooldown = sf::seconds(12.f);
 #ifdef DEBUG
 	std::cout << std::endl << "Needs: ";
 	if (mNeeds & Needs::Wash) std::cout << "Wash ";
@@ -522,13 +520,28 @@ void Customer::cashOut()
 
 	}
 	mWorld->getQueue()->enqueue(this);
-	mState.setState(CustomerState::ID::MovingToRegister);
+	
+	mState.setState(CustomerState::ID::WaitingToPay);
 }
 
 /* Decreases or increases patience based on current action */
-void Customer::updatePatience()
+void Customer::updatePatience(sf::Time dt)
 {
 	Prng n;
+	mPatienceCooldown -= dt;
+
+	// Controls how often the patience for a customer is reduced
+	if (mPatienceCooldown > sf::Time::Zero)
+	{
+		return;
+	}
+
+	// Add some randomness to the next time decrease
+	mPatienceCooldown = sf::seconds(10 + mWorld->getCustomers().size() + n.getRand(0, 10));
+
+#ifdef DEBUG
+	std::cout << "Patience cooldown set to " + std::to_string(mPatienceCooldown.asSeconds()) + "\n";
+#endif
 
 	// Don't penalize if they haven't entered the scene yet
 	if (mState.getState() == CustomerState::ID::Arrived || 
@@ -700,16 +713,31 @@ void Customer::checkAIState()
 	}
 	else if (state == CustomerState::ID::MovingToRegister)
 	{
+		int queuePos = mWorld->getQueue()->getQueuePosition(this);
+		if (queuePos >= 0)
+		{
+			mState.setState(CustomerState::ID::WaitingToPay);
+		}
 		if (!isMoving())
 		{			
-			int queuePos = mWorld->getQueue()->getQueuePosition(this);
 			if (queuePos < 0) queuePos = 0;
 			setDirection(Config::RegisterQueue::DIRECTION[queuePos]);
-			mState.setState(CustomerState::ID::WaitingToPay);
-
 		}
 	}
 	
+	/*
+	else if (state == CustomerState::ID::WaitingToPay)
+	{
+		int queuePos = mWorld->getQueue()->getQueuePosition(this);
+		if (queuePos == -1)
+		{
+			std::cout << "Entity doesn't exist in the queue?";
+			cashOut();
+		}
+
+	}
+	*/
+
 	else if (state == CustomerState::ID::Leaving)
 	{
 		if (getTilePosition() == Config::EXIT_TILE && !isMoving())
