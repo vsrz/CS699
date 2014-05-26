@@ -17,7 +17,7 @@ Application::Application(void)
 	, mStateStack(State::Context(mWindow, mTextures, mFonts, mScore))
 #else
 Application::Application(void) 
-	: mWindow(sf::VideoMode(1280, 768), "Gracie's Salon", sf::Style::Fullscreen)
+	: mWindow(sf::VideoMode(1280, 768), "Gracie's Salon", sf::Style::Close)
 	, mFonts()
 	, mTextures()
 	, mStateStack(State::Context(mWindow, mTextures, mFonts, mScore))

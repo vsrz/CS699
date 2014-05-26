@@ -28,7 +28,7 @@ enum Direction
 namespace Config
 {
 	// Release string
-	const std::string						RELEASE_STRING = "Build v0.5.1018.23";
+	const std::string						RELEASE_STRING = "Build v0.5.1018.23a";
 
 	// Manager (PC) Config
 	const float								MANAGER_SPEED = 5.f;
