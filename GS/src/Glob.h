@@ -5,6 +5,8 @@
 #include <array>
 #include <map>
 #include <sstream>
+#include <memory>
+#include <vector>
 #include <queue>
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
@@ -341,6 +343,9 @@ SpritePosition toSpritePosition(T tilePosition)
 	pos.y = tilePosition.y * Config::TILE_HEIGHT * Config::WORLD_SCALE;
 	return snapToSpritePosition(pos);
 }
+
+typedef std::vector<std::unique_ptr<ChairEntity>> Chairs;
+
 
 #endif
 

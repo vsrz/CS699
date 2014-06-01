@@ -11,6 +11,7 @@
 #include "HeartEntity.h"
 #include "StatusNotifierEntity.h"
 #include "ScoreDisplay.h"
+#include "AIState.h"
 
 World::World(sf::RenderWindow& window, TextureManager& textures, ScoreGenerator& score)
 	: mWindow(window)
@@ -22,9 +23,9 @@ World::World(sf::RenderWindow& window, TextureManager& textures, ScoreGenerator&
 				Config::WORLD_SCALE)
 	, mTextures(textures)
 	, mScore(score)
+	, mAiState()
 {
 	initalize();
-	
 }
 
 void World::initalize()
@@ -33,6 +34,9 @@ void World::initalize()
 	loadTextures();
 	mFonts.load(Fonts::ID::Bit, "res/8b.ttf");
 	buildScene();
+	mAiState.setWorld(this);
+
+
 }
 
 sf::Vector2f World::getWorldScale()
@@ -46,7 +50,7 @@ void World::update(sf::Time dt)
 	mSceneLayers[Entity]->sortChildren();
 	mSceneGraph.update(dt);
 	updateCustomers(dt);
-
+	mAiState.update(dt);
 }
 
 void World::draw()
@@ -314,7 +318,6 @@ void World::generateCustomers()
 	Prng rand;
 	std::array<unsigned int, Config::TOTAL_CUSTOMERS> customers;
 	unsigned int last = 99;
-	int num;
 	
 	customers[14] = Customer::Type::WomanTeen;
 	customers[13] = Customer::Type::WomanMiddle;

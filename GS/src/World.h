@@ -25,6 +25,7 @@
 #include "ActionAnimator.h"
 #include "CashRegister.h"
 #include "ScoreGenerator.h"
+#include "AIState.h"
 
 class World
 {
@@ -48,6 +49,7 @@ public:
 	std::vector<Customer*> getCustomers();
 
 	ScoreGenerator* getScoreObject();
+
 
 private:
 	enum SceneLayer
@@ -81,8 +83,11 @@ private:
 	FontManager mFonts;
 	CommandQueue mCommandQueue;
 
+	// AI
+	AIState mAiState;
+
 	// World objects
-	std::vector<std::unique_ptr<ChairEntity>> mChairs;	
+	Chairs mChairs;	
 	RegisterQueue mRegisterQueue;
 	TileLoader mTileLoader;
 	Player* mPlayer;
