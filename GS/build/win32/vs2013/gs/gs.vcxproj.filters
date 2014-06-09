@@ -177,7 +177,11 @@
     <ClInclude Include="..\..\..\..\lib\md5-hasher\md5_wrapper.h">
       <Filter>Header Files\md5-hasher</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="..\..\..\..\src\CashRegisterEntity.h">
+=======
+    <ClInclude Include="..\..\..\..\src\AIState.h">
+>>>>>>> 2cb0e2a3d37683dfcb2886381d40a5ae2475e70b
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -322,7 +326,11 @@
     <ClCompile Include="..\..\..\..\lib\md5-hasher\md5_wrapper.cpp">
       <Filter>Source Files\md5-hasher</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="..\..\..\..\src\CashRegisterEntity.cpp">
+=======
+    <ClCompile Include="..\..\..\..\src\AIState.cpp">
+>>>>>>> 2cb0e2a3d37683dfcb2886381d40a5ae2475e70b
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

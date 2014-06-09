@@ -11,6 +11,7 @@
 #include "HeartEntity.h"
 #include "StatusNotifierEntity.h"
 #include "ScoreDisplay.h"
+#include "AIState.h"
 
 World::World(sf::RenderWindow& window, TextureManager& textures, ScoreGenerator& score)
 	: mWindow(window)
@@ -22,9 +23,9 @@ World::World(sf::RenderWindow& window, TextureManager& textures, ScoreGenerator&
 				Config::WORLD_SCALE)
 	, mTextures(textures)
 	, mScore(score)
+	, mAiState()
 {
 	initalize();
-	
 }
 
 void World::initalize()
@@ -34,6 +35,9 @@ void World::initalize()
 	loadTextures();
 	mFonts.load(Fonts::ID::Bit, "res/8b.ttf");
 	buildScene();
+	mAiState.setWorld(this);
+
+
 }
 
 sf::Vector2f World::getWorldScale()
@@ -52,10 +56,14 @@ void World::update(sf::Time dt)
 	
 	// Normal scene update for each customer
 	updateCustomers(dt);
+<<<<<<< HEAD
 	
 	// Check if the mouse is resting on a customer
 	checkMousePosition(mLastMousePosition);
 
+=======
+	mAiState.update(dt);
+>>>>>>> 2cb0e2a3d37683dfcb2886381d40a5ae2475e70b
 }
 
 void World::draw()
@@ -394,7 +402,6 @@ void World::generateCustomers()
 	Prng rand;
 	std::array<unsigned int, Config::TOTAL_CUSTOMERS> customers;
 	unsigned int last = 99;
-	int num;
 	
 	customers[14] = Customer::Type::WomanTeen;
 	customers[13] = Customer::Type::WomanMiddle;

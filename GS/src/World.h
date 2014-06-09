@@ -26,6 +26,7 @@
 #include "CashRegister.h"
 #include "CashRegisterEntity.h"
 #include "ScoreGenerator.h"
+#include "AIState.h"
 
 class World
 {
@@ -49,6 +50,7 @@ public:
 	std::vector<Customer*> getCustomers();
 
 	ScoreGenerator* getScoreObject();
+
 
 private:
 	enum SceneLayer
@@ -82,15 +84,20 @@ private:
 	FontManager mFonts;
 	CommandQueue mCommandQueue;
 
+<<<<<<< HEAD
 	// Event handlers and responses
 	void displayCollisionOverlay();
 	void onMouseButtonClickedEvent(MousePosition mousePosition);
 	void onMouseMovedEvent(MousePosition mousePosition);
 	void checkMousePosition(MousePosition mousePosition);
 	MousePosition mLastMousePosition;
+=======
+	// AI
+	AIState mAiState;
+>>>>>>> 2cb0e2a3d37683dfcb2886381d40a5ae2475e70b
 
 	// World objects
-	std::vector<std::unique_ptr<ChairEntity>> mChairs;	
+	Chairs mChairs;	
 	RegisterQueue mRegisterQueue;
 	TileLoader mTileLoader;
 	Player* mPlayer;
