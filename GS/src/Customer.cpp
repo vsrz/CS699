@@ -869,18 +869,13 @@ void Customer::checkAIState()
 		}
 	}
 	
-	/*
 	else if (state == CustomerState::ID::WaitingToPay)
 	{
-		int queuePos = mWorld->getQueue()->getQueuePosition(this);
-		if (queuePos == -1)
+		if (mClickable)
 		{
-			std::cout << "Entity doesn't exist in the queue?";
-			cashOut();
+			mClickable = false;
 		}
-
 	}
-	*/
 
 	else if (state == CustomerState::ID::Leaving)
 	{

@@ -61,42 +61,41 @@ Direction ChairEntity::getDirection()
 }
 
 // This is the clickable tile area of this chair, mostly hardcoded for now
-TilePosition ChairEntity::getAltClickPosition()
+TilePosition ChairEntity::convertAltClickPosition(TilePosition pos)
 {
-	TilePosition pos = getChairPosition();
-	if (pos == TilePosition(3, 6))
+	if (pos == TilePosition(3, 4))
 	{
 		return TilePosition(3, 5);
 	}
-	else if (pos == TilePosition(4, 7))
+	else if (pos == TilePosition(5, 6))
 	{
-		return TilePosition(4, 6);
+		return TilePosition(5, 7);
 	}
-	else if (pos == TilePosition(2, 7))
+	else if (pos == TilePosition(1, 6))
 	{
-		return TilePosition(2, 6);
+		return TilePosition(1, 7);
 	}
-	else if (pos == TilePosition(17, 8))
+	else if (pos == TilePosition(18, 7))
 	{
-		return TilePosition(17, 7);
+		return TilePosition(18, 8);
 	}
-	else if (pos == TilePosition(17, 10))
+	else if (pos == TilePosition(18, 9))
 	{
-		return TilePosition(17, 9);
+		return TilePosition(18, 10);
 	}
-	else if (pos == TilePosition(16, 6))
+	else if (pos == TilePosition(16, 4))
 	{
 		return TilePosition(16, 5);
 	}
-	else if (pos == TilePosition(18, 6))
+	else if (pos == TilePosition(18, 4))
 	{
 		return TilePosition(18, 5);
 	}
-	else if (pos == TilePosition(10, 9))
+	else if (pos == TilePosition(10, 7))
 	{
 		return TilePosition(10, 8);
 	}
-	else if (pos == TilePosition(12, 9))
+	else if (pos == TilePosition(12, 7))
 	{
 		return TilePosition(12, 8);
 	}

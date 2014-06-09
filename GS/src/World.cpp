@@ -60,7 +60,8 @@ void World::update(sf::Time dt)
 	// Check if the mouse is resting on a customer
 	checkMousePosition(mLastMousePosition);
 
-	mAiState.update(dt);
+	if (Config::AI_ENGINE_ENABLED)
+		mAiState.update(dt);
 }
 
 void World::draw()
@@ -149,13 +150,12 @@ void World::onMouseButtonClickedEvent(MousePosition mousePosition)
 		// Find out if the tile clicked was a chair
 		for (auto& chair : mChairs)
 		{
-			if (chair->getChairPosition() == clickedTile || chair->getAltClickPosition() == clickedTile)
+			std::cout << "ClickedTile: " << clickedTile.x << ", " << clickedTile.y << "\n";
+			clickedTile = chair->convertAltClickPosition(clickedTile);
+			std::cout << "ClickedTile: " << clickedTile.x << ", " << clickedTile.y << "\n\n";
+
+			if (chair->getChairPosition() == clickedTile)
 			{
-				/* TODO: convert alt clicked tile */
-				//if (chair->getAltClickPosition() == clickedTile)
-				//{
-				//	clickedTile
-				//}
 				// Waiting room case
 				if (chair->getChairType() == ChairEntity::Waiting)
 				{
@@ -581,8 +581,8 @@ size_t World::getCustomersAllowedInScene(size_t customersInScene)
 	switch (customersInScene)
 	{
 	case 15:
-	case 14:
 		return 1;
+	case 14:
 	case 13:
 		return 2;
 	case 12:
@@ -590,8 +590,8 @@ size_t World::getCustomersAllowedInScene(size_t customersInScene)
 		return 4;
 	case 10:
 	case 9:
-	case 8:
 		return 6;
+	case 8:
 	case 7:
 	case 6:
 	default:

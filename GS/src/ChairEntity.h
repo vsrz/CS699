@@ -37,7 +37,7 @@ public:
 	void setOperatingPosition(TilePosition tilePosition);
 	void setDirection(Direction direction);
 
-	TilePosition getAltClickPosition();
+	TilePosition convertAltClickPosition(TilePosition pos);
 	TilePosition getChairPosition();
 	TilePosition getStagingPosition();
 	TilePosition getOperatingPosition();

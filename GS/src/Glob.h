@@ -63,6 +63,9 @@ namespace Config
 	// The number of seconds it takes before heart penalties are enforced between state changes
 	const float								STATE_CHANGE_COOLDOWN = 10.f;
 
+	// AI engine
+	const bool								AI_ENGINE_ENABLED = false;
+
 	// Waiting room chairs
 	namespace Chairs
 	{
