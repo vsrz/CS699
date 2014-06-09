@@ -150,9 +150,7 @@ void World::onMouseButtonClickedEvent(MousePosition mousePosition)
 		// Find out if the tile clicked was a chair
 		for (auto& chair : mChairs)
 		{
-			std::cout << "ClickedTile: " << clickedTile.x << ", " << clickedTile.y << "\n";
 			clickedTile = chair->convertAltClickPosition(clickedTile);
-			std::cout << "ClickedTile: " << clickedTile.x << ", " << clickedTile.y << "\n\n";
 
 			if (chair->getChairPosition() == clickedTile)
 			{
