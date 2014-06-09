@@ -30,6 +30,7 @@ World::World(sf::RenderWindow& window, TextureManager& textures, ScoreGenerator&
 void World::initalize()
 {
 	mWorldScale = sf::Vector2f(Config::WORLD_SCALE, Config::WORLD_SCALE);
+	mLastMousePosition = MousePosition(0.f, 0.f);
 	loadTextures();
 	mFonts.load(Fonts::ID::Bit, "res/8b.ttf");
 	buildScene();
@@ -43,9 +44,17 @@ sf::Vector2f World::getWorldScale()
 
 void World::update(sf::Time dt)
 {
+	// First, Z-sort all customers
 	mSceneLayers[Entity]->sortChildren();
+	
+	// Scene graph update
 	mSceneGraph.update(dt);
+	
+	// Normal scene update for each customer
 	updateCustomers(dt);
+	
+	// Check if the mouse is resting on a customer
+	checkMousePosition(mLastMousePosition);
 
 }
 
@@ -95,163 +104,234 @@ int World::getTileIndex(int x, int y)
 	return mTileLoader.getTileNumber(x,y);
 }
 
+// Overlays the current scene with a collision overlay
+void World::displayCollisionOverlay()
+{
+	std::unique_ptr<SpriteNode> tile;
+
+	for (int y = 0; y < mTileLoader.getWorldSize().y; y++)
+	{
+		for (int x = 0; x < mTileLoader.getWorldSize().x; x++)
+		{
+			sf::RectangleShape rect(sf::Vector2f(
+				static_cast<float>(mTileLoader.getTileSize().x * mWorldScale.x),
+				static_cast<float>(mTileLoader.getTileSize().y * mWorldScale.y))
+				);
+			rect.setPosition(x * mWorldScale.x * mTileLoader.getTileSize().x
+				, y * mWorldScale.y * mTileLoader.getTileSize().y);
+			rect.setFillColor(sf::Color(0, 128, 0, 50));
+			if (mTilemap.isTileOccupied(x, y)) rect.setFillColor(sf::Color(128, 0, 0, 50));
+
+			tile = std::unique_ptr<SpriteNode>(new SpriteNode(rect));
+			mSceneLayers[Debug]->attachChild(std::move(tile));
+		}
+	}
+}
+
+void World::onMouseButtonClickedEvent(MousePosition mousePosition)
+{
+	extern std::map<std::string, std::string> g_debugData;
+
+	// Update some debug tile stuff
+	TilePosition mouseTilePosition = toTilePosition(mousePosition);
+
+	g_debugData["TileNum"] = toString(mTileLoader.getTileNumber(static_cast<int>(mouseTilePosition.x), static_cast<int>(mouseTilePosition.y)));
+	g_debugData["TileData"] = toString(mTilemap.getTileProperty(snapToSpritePosition(mousePosition)));
+	g_debugData["TilePos"] = toString(mouseTilePosition.x) + "," + toString(mouseTilePosition.y);
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+	{
+		TilePosition clickedTile = toTilePosition(mousePosition);
+		// Find out if the tile clicked was a chair
+		for (auto& chair : mChairs)
+		{
+			if (chair->getChairPosition() == clickedTile || chair->getAltClickPosition() == clickedTile)
+			{
+				/* TODO: convert alt clicked tile */
+				//if (chair->getAltClickPosition() == clickedTile)
+				//{
+				//	clickedTile
+				//}
+				// Waiting room case
+				if (chair->getChairType() == ChairEntity::Waiting)
+				{
+					// If the chair is occupied, call customerClicked() for the customer in the chair
+					if (chair->isOccupied())
+					{
+						Customer* customer;
+						customer = chair->getOccupant();
+						customer->customerClicked();
+						return;
+					}
+
+					// If it's not occupied, just go to the staging area position
+					else
+					{
+						if (mPlayer->getState() == Player::State::Busy)
+							return;
+						mPlayer->moveToTile(chair->getStagingPosition());
+						return;
+					}
+				}
+
+				// If it's not a waiting chair
+				else
+				{
+					// TODO: washing station queue processing
+					if (mPlayer->getTilePosition() == chair->getOperatingPosition())
+					{
+						Customer* cust = chair->getOccupant();
+						if (cust != nullptr)
+						{
+							if (cust->isSitting() &&
+								!cust->isWaitingToMoveToStation() &&
+								mPlayer->getState() != Player::State::Busy)
+							{
+								mPlayer->useStation(chair.get());
+							}
+							else
+								cust->customerClicked();
+						}
+						return;
+					}
+
+					// They are not standing in this chair's operating position, move there
+					else
+					{
+						// If the chair is occupied and a customer is waiting to move to the next
+						// station, move them, otherwise move to its operating position
+						bool clicked = false;
+						if (chair->isOccupied())
+						{
+							if (chair->getOccupant()->isWaitingToMoveToStation())
+							{
+								clicked = true;
+								chair->getOccupant()->customerClicked();
+							}
+						}
+						if (!clicked && mPlayer->getState() != Player::Busy)
+							mPlayer->moveToTile(chair->getOperatingPosition());
+
+						return;
+					}
+				}
+			}
+		}
+
+		// Find out if we clicked the cash regsiter
+		for (auto& cReg : mCashRegister.getTilePositions())
+		{
+			if (mPlayer->getState() == Player::State::Busy)
+				return;
+			if (cReg == clickedTile)
+			{
+				TilePosition opPos = Config::RegisterQueue::OPERATING_POSITION[0];
+				// If we're already standing in the operation position, operate the register
+				if (mPlayer->getTilePosition() == opPos)
+				{
+					if (!mRegisterQueue.isEmpty())
+					{
+						mPlayer->useRegister(&mRegisterQueue);
+					}
+					return;
+				}
+
+				// Otherwise, move to the operating position
+				else
+				{
+					mPlayer->moveToTile(opPos);
+					return;
+				}
+			}
+
+		}
+		if (mPlayer->getState() == Player::State::Busy)
+			return;
+
+		mPlayer->moveToTile(toTilePosition(mousePosition));
+#ifdef DEBUG
+		g_debugData["Destination:"] = toString(mousePosition.x) + "," + toString(mousePosition.y);
+#endif
+	}
+}
+
+Customer* World::getCustomerInTile(TilePosition tilePosition)
+{
+	// This is a hack. Since the customers are always two tiles tall, we'll grab them
+	// from either the origin tile or the one directly above
+	for (auto& it = mCustomersInScene.begin(); it != mCustomersInScene.end(); ++it)
+	{
+		Customer* cust = *it;
+		TilePosition tp = cust->getTilePosition();
+		if (tp.x == tilePosition.x &&
+			(tp.y == tilePosition.y || tp.y - 1 == tilePosition.y))
+		{
+			return cust;
+		}
+	}
+
+	return nullptr; 
+
+}
+
+void World::checkMousePosition(MousePosition mousePosition)
+{
+	TilePosition mouseOverTile = toTilePosition(mousePosition);
+	Customer* cust = getCustomerInTile(mouseOverTile);
+
+	if (cust != nullptr)
+	{
+		if (cust->isClickable())
+		{
+			cust->highlightCustomer();
+		}
+	}
+}
+
+void World::onMouseMovedEvent(MousePosition mousePosition)
+{
+	mLastMousePosition = mousePosition;
+
+}
 
 void World::handleEvent(const sf::Event& event)
 {
 	MousePosition mousePosition = sf::Mouse::getPosition(mWindow);
-	TilePosition mouseTilePosition = toTilePosition(mousePosition);
+	
+	// Mouse button clicks
 	if (event.type == sf::Event::MouseButtonPressed)
 	{
-		extern std::map<std::string, std::string> g_debugData;
-
-		// Update some debug tile stuff
-		g_debugData["TileNum"] = toString(mTileLoader.getTileNumber(static_cast<int>(mouseTilePosition.x), static_cast<int>(mouseTilePosition.y)));
-		g_debugData["TileData"] = toString(mTilemap.getTileProperty(snapToSpritePosition(mousePosition)));
-		g_debugData["TilePos"] = toString(mouseTilePosition.x) + "," + toString(mouseTilePosition.y);
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-		{
-			TilePosition clickedTile = toTilePosition(mousePosition);
-			// Find out if the tile clicked was a chair
-			for (auto& chair : mChairs)
-			{
-				if (chair->getChairPosition() == clickedTile)
-				{
-					// Waiting room case
-					if (chair->getChairType() == ChairEntity::Waiting)
-					{
-						// If the chair is occupied, call customerClicked() for the customer in the chair
-						if (chair->isOccupied())
-						{
-							Customer* customer;
-							customer = chair->getOccupant();
-							customer->customerClicked();
-							return;
-						}
-
-						// If it's not occupied, just go to the staging area position
-						else 
-						{
-							if (mPlayer->getState() == Player::State::Busy)
-								return;
-							mPlayer->moveToTile(chair->getStagingPosition());
-							return;
-						}
-					}
-					
-					// If it's not a waiting chair
-					else
-					{
-						// TODO: washing station queue processing
-						if (mPlayer->getTilePosition() == chair->getOperatingPosition())
-						{
-							Customer* cust = chair->getOccupant();
-							if (cust != nullptr)
-							{
-								if (cust->isSitting() && 
-									!cust->isWaitingToMoveToStation() && 
-									mPlayer->getState() != Player::State::Busy)
-								{
-									mPlayer->useStation(chair.get());
-								}
-								else
-									cust->customerClicked();
-							}
-							return;
-						}
-
-						// They are not standing in this chair's operating position, move there
-						else 
-						{
-							// If the chair is occupied and a customer is waiting to move to the next
-							// station, move them, otherwise move to its operating position
-							bool clicked = false;
-							if (chair->isOccupied())
-							{
-								if (chair->getOccupant()->isWaitingToMoveToStation())
-								{
-									clicked = true;
-									chair->getOccupant()->customerClicked();
-								}
-							}
-							if (!clicked && mPlayer->getState() != Player::Busy)
-								mPlayer->moveToTile(chair->getOperatingPosition());
-							
-							return;
-						}
-					}
-				}
-			}
-
-			// Find out if we clicked the cash regsiter
-			for (auto& cReg : mCashRegister.getTilePositions())
-			{
-				if (mPlayer->getState() == Player::State::Busy)
-					return;
-				if (cReg == clickedTile)
-				{
-					TilePosition opPos = Config::RegisterQueue::OPERATING_POSITION[0];
-					// If we're already standing in the operation position, operate the register
-					if (mPlayer->getTilePosition() == opPos)
-					{
-						if (!mRegisterQueue.isEmpty())
-						{
-							mPlayer->useRegister(&mRegisterQueue);
-						}
-						return;
-					}
-
-					// Otherwise, move to the operating position
-					else
-					{
-						mPlayer->moveToTile(opPos);
-						return;
-					}
-				}
-
-			}
-			if (mPlayer->getState() == Player::State::Busy)
-				return;						
-
-			mPlayer->moveToTile(toTilePosition(mousePosition));
-			#ifdef DEBUG
-			g_debugData["Destination:"] = toString(mousePosition.x) + "," + toString(mousePosition.y);
-			#endif
-		}
+		onMouseButtonClickedEvent(mousePosition);
 	}
 
-	#ifdef DEBUG
+	// Mouse movement
+	else if (event.type == sf::Event::MouseMoved)
+	{
+		onMouseMovedEvent(mousePosition);
+	}
+
+#ifdef DEBUG
+	// Special debugging keyboard presses
 	/* Pressing F4 brings up a collision overlay */
-	else if (event.type == sf::Event::KeyPressed && 
+	else if (event.type == sf::Event::KeyPressed &&
 		event.key.code == sf::Keyboard::F4)
 	{
-		std::unique_ptr<SpriteNode> tile;
-
-		for (int y = 0; y < mTileLoader.getWorldSize().y; y++)
-		{
-			for (int x = 0; x < mTileLoader.getWorldSize().x; x++)
-			{
-				sf::RectangleShape rect(sf::Vector2f(
-					static_cast<float>(mTileLoader.getTileSize().x * mWorldScale.x), 
-					static_cast<float>(mTileLoader.getTileSize().y * mWorldScale.y))
-				);
-				rect.setPosition(x * mWorldScale.x * mTileLoader.getTileSize().x
-					, y * mWorldScale.y * mTileLoader.getTileSize().y);
-				rect.setFillColor(sf::Color(0,128,0,50));
-				if (mTilemap.isTileOccupied(x,y)) rect.setFillColor(sf::Color(128,0,0,50));
-			
-				tile = std::unique_ptr<SpriteNode>(new SpriteNode(rect));
-				mSceneLayers[Debug]->attachChild(std::move(tile));
-			}
-		}
+		displayCollisionOverlay();
 	}
 
-	/* Pressing F5 immediately ends the game? */
+	/* Pressing F5 immediately ends the game */
 	else if (event.type == sf::Event::KeyPressed &&
 		event.key.code == sf::Keyboard::F5)
 	{
 		getScoreObject()->addServed(Config::TOTAL_CUSTOMERS);
 	}
-	#endif
+
+#endif
+
+	else
+	{
+		// Other uncaught event
+	}
+
 }
 
 /* Loads a layer of the world from the tilemap. The layer must exist in the Tilemap datafile */
@@ -454,6 +534,10 @@ void World::buildScene()
 	/* Put up the scoreboard */
 	std::unique_ptr<ScoreDisplay> score = std::unique_ptr<ScoreDisplay>(new ScoreDisplay(getScoreObject(), mFonts.get(Fonts::Bit)));
 	mSceneLayers[Gui]->attachChild(std::move(score));
+
+	/* Add the register icon to the scene */
+	std::unique_ptr<CashRegisterEntity> cash = std::unique_ptr<CashRegisterEntity>(new CashRegisterEntity(mTextures, this, &mRegisterQueue));
+	mSceneLayers[Gui]->attachChild(std::move(cash));
 }
 
 int World::getRemainingWaitingChairs()
@@ -480,13 +564,57 @@ void World::attachStatusDisplay(Customer* customer)
 	mSceneLayers[Gui]->attachChild(std::move(stat));
 }
 
+size_t World::getCustomersAllowedInScene(size_t customersInScene)
+{
+
+#ifdef DEBUG
+	// Useful for testing
+	return 15;
+#endif
+	
+	// This is so that customers are trickled in the early stage
+	// They begin to bum rush you halfway through the game
+	switch (customersInScene)
+	{
+	case 15:
+	case 14:
+		return 1;
+	case 13:
+		return 2;
+	case 12:
+	case 11:
+		return 4;
+	case 10:
+	case 9:
+	case 8:
+		return 6;
+	case 7:
+	case 6:
+	default:
+		return 15;
+	}
+}
+
+void World::releaseCustomerToScene()
+{
+	std::unique_ptr<Customer> customer = std::move(mCustomers.back());
+	mCustomersInScene.push_back(customer.get());
+	attachHeartDisplay(customer.get());
+	attachStatusDisplay(customer.get());
+	mSceneLayers[Entity]->attachChild(std::move(customer));
+	mCustomers.pop_back();
+
+	/*  Takes care of a rendering order issue when a
+	first enters the scene */
+	mSceneLayers[Entity]->sortChildren();
+	mLastCustomerReleased = sf::Time::Zero;
+}
 
 /* Update the customer stack and release a customer if necessary */
 void World::updateCustomers(sf::Time dt)
 {
-	size_t customersAllowedInScene = 1;
+	// Count the number of customers in the scene
 	size_t customersInScene = 0;
-	size_t customersRemaining = mCustomers.size();
 	for (auto& it = mCustomersInScene.begin(); it != mCustomersInScene.end(); ++it)
 	{
 		Customer* cust = *it;
@@ -494,63 +622,19 @@ void World::updateCustomers(sf::Time dt)
 			customersInScene++;
 	}
 
-	// This is so that customers are trickled in the early stage
-	// They begin to bum rush you halfway through the game
-	switch (mCustomers.size())
-	{
-	case 15:
-	case 14:
-	case 13:
-		customersAllowedInScene = 1;
-		break;
-	case 12:
-	case 11:
-	case 10:
-		customersAllowedInScene = 2;
-		break;
-	case 9:
-	case 8:
-		customersAllowedInScene = 4;
-		break;
-	case 7:
-	case 6:
-		customersAllowedInScene = 6;
-		break;
-	default:
-		customersAllowedInScene = 15;
-		break;
-
-	}
-
-#ifdef DEBUG
-	// Useful for testing
-	customersAllowedInScene = 15;
-#endif
-
-
+	// Get the number of customers allowed in the scene at once
+	size_t customersAllowedInScene = getCustomersAllowedInScene(customersInScene);
+	
 	mLastCustomerReleased += dt;
+	
+	// If the release interval has elapsed and there's room, try to release a new customer
 	if (mLastCustomerReleased > sf::seconds(Config::Customer::RELEASE_INTERVAL) &&
 		getRemainingWaitingChairs() > 0 &&
-		customersAllowedInScene > customersInScene)
+		customersAllowedInScene > customersInScene &&
+		mCustomers.size() > 0)
 	{
 		size_t remainingCustomers = mCustomers.size();
-
-		// If there are any customers left, add one to the scene node
-		if (mCustomers.size() > 0)
-		{
-			std::unique_ptr<Customer> customer = std::move(mCustomers.back());
-			mCustomersInScene.push_back(customer.get());
-			attachHeartDisplay(customer.get());
-			attachStatusDisplay(customer.get());
-			mSceneLayers[Entity]->attachChild(std::move(customer));
-			mCustomers.pop_back();
-
-			/*  Takes care of a rendering order issue when a 
-				first enters the scene */
-			mSceneLayers[Entity]->sortChildren();
-
-		}
-		mLastCustomerReleased = sf::Time::Zero;
+		releaseCustomerToScene();
 	}
 
 	/* TODO: Check the scene for any customers that need to be removed */

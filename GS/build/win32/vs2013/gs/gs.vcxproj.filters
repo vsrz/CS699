@@ -177,6 +177,9 @@
     <ClInclude Include="..\..\..\..\lib\md5-hasher\md5_wrapper.h">
       <Filter>Header Files\md5-hasher</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\src\CashRegisterEntity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\..\src\ResourceManager.inl">
@@ -318,6 +321,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\..\lib\md5-hasher\md5_wrapper.cpp">
       <Filter>Source Files\md5-hasher</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\CashRegisterEntity.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

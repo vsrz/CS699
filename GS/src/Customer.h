@@ -56,13 +56,17 @@ public:
 	void cashOut();
 	void addToPatience(sf::Time timeToAdd);
 	void setPatience(float bonus = 1.f);
+	void highlightCustomer();
+
+	bool isClickable();
 private:
 
 	void initalize(const TextureManager& t, unsigned int customerType);
 		
 	ChairEntity* findAvailableChair(ChairEntity::Type chairType);
 	ChairEntity* getOccupiedChair();
-	
+	int getNumberAvailableChairs(ChairEntity::Type chairType);
+
 	// Random value generation
 	void setNeeds();
 	void setSpeed();
@@ -72,6 +76,11 @@ private:
 	void enterSalon();
 	void checkAIState(); 
 	void updatePatience(sf::Time dt);
+	
+	// Highlight stuff
+	void updateHighlight(sf::Time dt);
+	bool mHighlightCustomer;
+	sf::Time mHighlightDelay;
 
 	CustomerState mState;
 	sf::Time mElapsedTime;
@@ -81,6 +90,7 @@ private:
 	unsigned int mType;
 	float mPatience;
 	float mHeight;
+	bool mClickable;
 
 	Prng rng;
 

@@ -12,6 +12,9 @@ class CashRegister
 public:
 	CashRegister();
 	std::vector<TilePosition> getTilePositions();
+
+private:
+
 };
 
 #endif

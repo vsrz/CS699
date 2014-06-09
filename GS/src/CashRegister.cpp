@@ -1,8 +1,10 @@
+#include "World.h"
 #include "CashRegister.h"
 
 
-CashRegister::CashRegister(void)
+CashRegister::CashRegister()
 {
+
 }
 
 std::vector<TilePosition> CashRegister::getTilePositions()
@@ -12,3 +14,4 @@ std::vector<TilePosition> CashRegister::getTilePositions()
 	pos.push_back(Config::RegisterQueue::REGISTER_POSITION[1]);
 	return pos;
 }
+

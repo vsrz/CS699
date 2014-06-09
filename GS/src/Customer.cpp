@@ -10,6 +10,8 @@
 Customer::Customer(const TextureManager& textures, World* world, unsigned int customerType)
 	: ActorEntity(world)
 	, mType(customerType)
+	, mClickable(false)
+	, mHighlightDelay(sf::Time::Zero)
 {
 	initalize(textures, customerType);
 	mScored = false;
@@ -60,6 +62,40 @@ void Customer::initalize(const TextureManager& t, unsigned int customerType)
 
 }
 
+bool Customer::isClickable()
+{
+	if (mClickable)
+	{
+		// Before we say yes, make sure their next destination has space
+		if (mState.getState() == CustomerState::WaitingToMoveToHaircutArea)
+		{
+			if (getNumberAvailableChairs(ChairEntity::Type::Cutting) == 0)
+				return false;
+		}
+		else if (mState.getState() == CustomerState::WaitingToMoveToColorArea)
+		{
+			if (getNumberAvailableChairs(ChairEntity::Type::Coloring) == 0)
+				return false;
+		}
+		else if (mState.getState() == CustomerState::WaitingForService)
+		{
+			if (mNeeds & Needs::Wash)
+			{
+				if (getNumberAvailableChairs(ChairEntity::Type::Washing) == 0)
+					return false;
+			}
+			else if (mNeeds & Needs::Cut)
+			{
+				if (getNumberAvailableChairs(ChairEntity::Type::Cutting) == 0)
+					return false;
+			}
+		}
+		return true;
+	}
+
+	return false;
+}
+
 unsigned int Customer::getNeeds()
 {
 	return mNeeds;
@@ -83,6 +119,7 @@ void Customer::updateCurrent(sf::Time dt)
 	mElapsedTime += dt;
 	checkAIState();
 	ActorEntity::update(dt);
+	updateHighlight(dt);
 
 	updatePatience(dt);	
 }
@@ -262,6 +299,20 @@ ChairEntity* Customer::findAvailableChair(ChairEntity::Type chairType)
 	return nullptr;
 }
 
+int Customer::getNumberAvailableChairs(ChairEntity::Type chairType)
+{
+	std::vector<ChairEntity*> chairs = mWorld->getChairs(chairType);
+	int count = 0;
+	for (auto& chair : chairs)
+	{
+		if (!chair->isOccupied())
+		{
+			count++;
+		}
+	}
+	return count;
+}
+
 // If the customer is sitting in a chair, return a pointer to it
 ChairEntity* Customer::getOccupiedChair()
 {
@@ -277,6 +328,24 @@ ChairEntity* Customer::getOccupiedChair()
 	}
 	return nullptr;
 
+}
+
+void Customer::highlightCustomer()
+{
+	mHighlightDelay = sf::milliseconds(125);
+}
+
+void Customer::updateHighlight(sf::Time dt)
+{
+	if (mHighlightDelay > sf::seconds(0.f))
+	{
+		mHighlightDelay -= dt;
+		mSprite.setColor(sf::Color(255, 255, 0));
+	}
+	else
+	{
+		mSprite.setColor(sf::Color(255, 255, 255));
+	}
 }
 
 // Generate a random patience level for this customer
@@ -645,7 +714,13 @@ void Customer::checkAIState()
 			{
 				cashOut();
 			}
-
+		}
+		else
+		{
+			if (mClickable)
+			{
+				mClickable = false;
+			}
 		}
 	}
 
@@ -656,9 +731,20 @@ void Customer::checkAIState()
 			if (occupiedChair != nullptr)
 			{
 				if (!isSitting())
+				{
 					sit(occupiedChair);
+				}
 				else
+				{
 					mState.setState(CustomerState::ID::WaitingForService);
+				}
+			}
+		} 
+		else
+		{
+			if (mClickable)
+			{
+				mClickable = false;
 			}
 		}
 	}
@@ -667,7 +753,10 @@ void Customer::checkAIState()
 		// Set the sprite to be waiting in the chair
 		if (!isMoving())
 		{
-			
+			if (!mClickable)
+			{
+				mClickable = true;
+			}
 
 		}
 	}
@@ -682,13 +771,30 @@ void Customer::checkAIState()
 				mState.setState(CustomerState::ID::WaitingForWashService);
 			}
 		}
+		else
+		{
+			if (mClickable)
+			{
+				mClickable = false;
+			}
+		}
 	}
 
 	else if (state == CustomerState::ID::WaitingForWashService)
 	{
 		if (!isMoving())
 		{				
-			
+			if (!mClickable)
+			{
+				mClickable = true;
+			}
+		}
+		else
+		{
+			if (mClickable)
+			{
+				mClickable = false;
+			}
 		}
 	}
 
@@ -699,6 +805,22 @@ void Customer::checkAIState()
 			TilePosition t = occupiedChair->getChairPosition();
 			sit(occupiedChair);
 			mState.setState(CustomerState::ID::WaitingForHaircutService);
+
+		}
+		else
+		{
+			if (mClickable)
+			{
+				mClickable = false;
+			}
+		}
+	}
+
+	else if (state == CustomerState::ID::WaitingForHaircutService)
+	{
+		if (!mClickable)
+		{
+			mClickable = true;
 		}
 	}
 
@@ -710,10 +832,32 @@ void Customer::checkAIState()
 			sit(occupiedChair);
 			mState.setState(CustomerState::ID::WaitingForColorService);
 		}
+		else
+		{
+			if (mClickable)
+			{
+				mClickable = false;
+			}
+		}
 	}
+
+	else if (state == CustomerState::ID::WaitingForColorService)
+	{
+		if (!mClickable)
+		{
+			mClickable = true;
+		}
+	}
+
 	else if (state == CustomerState::ID::MovingToRegister)
 	{
 		int queuePos = mWorld->getQueue()->getQueuePosition(this);
+
+		if (mClickable)
+		{
+			mClickable = false;
+		}
+
 		if (queuePos >= 0)
 		{
 			mState.setState(CustomerState::ID::WaitingToPay);
@@ -744,6 +888,10 @@ void Customer::checkAIState()
 		{
 			mState.setState(CustomerState::ID::Delete);
 		}
+		if (mClickable)
+		{
+			mClickable = false;
+		}
 	}
 
 	// Customer has exited the store and is no longer needed in the scenegraph
@@ -751,6 +899,7 @@ void Customer::checkAIState()
 	{
 		if (mScored == false)
 		{
+			mClickable = false;
 			mScored = true;
 			if (mPatience <= 0)
 			{

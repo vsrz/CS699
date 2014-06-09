@@ -24,6 +24,7 @@
 #include "RegisterQueue.h"
 #include "ActionAnimator.h"
 #include "CashRegister.h"
+#include "CashRegisterEntity.h"
 #include "ScoreGenerator.h"
 
 class World
@@ -81,6 +82,13 @@ private:
 	FontManager mFonts;
 	CommandQueue mCommandQueue;
 
+	// Event handlers and responses
+	void displayCollisionOverlay();
+	void onMouseButtonClickedEvent(MousePosition mousePosition);
+	void onMouseMovedEvent(MousePosition mousePosition);
+	void checkMousePosition(MousePosition mousePosition);
+	MousePosition mLastMousePosition;
+
 	// World objects
 	std::vector<std::unique_ptr<ChairEntity>> mChairs;	
 	RegisterQueue mRegisterQueue;
@@ -90,12 +98,15 @@ private:
 	std::vector<Customer*> mCustomersInScene;
 	sf::Time mLastCustomerReleased;
 	CashRegister mCashRegister;
+	std::unique_ptr<CashRegisterEntity> mCashRegisterIcon;
 	int getRemainingWaitingChairs();
 	std::vector<std::unique_ptr<ActionAnimator>> mActionAnimations;
-	
+	Customer* getCustomerInTile(TilePosition tilePosition); 
 	
 	// Scene building
 	void loadLayer(const char* layerName, unsigned int id);
+	size_t getCustomersAllowedInScene(size_t customersInScene);
+	void releaseCustomerToScene();
 	void updateCustomers(sf::Time dt);
 	void buildProps();
 	void loadTextures();
