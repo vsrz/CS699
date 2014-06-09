@@ -84,17 +84,15 @@ private:
 	FontManager mFonts;
 	CommandQueue mCommandQueue;
 
-<<<<<<< HEAD
 	// Event handlers and responses
 	void displayCollisionOverlay();
 	void onMouseButtonClickedEvent(MousePosition mousePosition);
 	void onMouseMovedEvent(MousePosition mousePosition);
 	void checkMousePosition(MousePosition mousePosition);
 	MousePosition mLastMousePosition;
-=======
+
 	// AI
 	AIState mAiState;
->>>>>>> 2cb0e2a3d37683dfcb2886381d40a5ae2475e70b
 
 	// World objects
 	Chairs mChairs;	

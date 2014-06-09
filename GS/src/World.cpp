@@ -56,14 +56,11 @@ void World::update(sf::Time dt)
 	
 	// Normal scene update for each customer
 	updateCustomers(dt);
-<<<<<<< HEAD
 	
 	// Check if the mouse is resting on a customer
 	checkMousePosition(mLastMousePosition);
 
-=======
 	mAiState.update(dt);
->>>>>>> 2cb0e2a3d37683dfcb2886381d40a5ae2475e70b
 }
 
 void World::draw()
