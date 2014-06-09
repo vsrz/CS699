@@ -13,6 +13,7 @@ class ResourceManager
 {
 public:
 	void load(Identifier id, const std::string& filename);
+	void loadmem(Identifier id, const void* data, std::size_t size);
 	Resource& get(Identifier id);
 	const Resource& get(Identifier id) const;
 
