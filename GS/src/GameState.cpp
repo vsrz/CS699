@@ -84,7 +84,9 @@ bool GameState::handleEvent(const sf::Event& event)
 	{
 		// Send the click to the world to find out which tile was clicked
 		sf::Vector2i mousePos = sf::Mouse::getPosition(*getContext().window);
-		mClick.addClickEvent(snapToSpritePosition(mousePos));
+		
+		// Remove the circle click event based on the new notification system
+		//mClick.addClickEvent(snapToSpritePosition(mousePos));
 	}
 
 	return true;
