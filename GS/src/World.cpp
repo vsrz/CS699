@@ -171,7 +171,9 @@ void World::onMouseButtonClickedEvent(MousePosition mousePosition)
 					{
 						if (mPlayer->getState() == Player::State::Busy)
 							return;
-						mPlayer->moveToTile(chair->getStagingPosition());
+						
+						// Disable arbitrary movement
+						// mPlayer->moveToTile(chair->getStagingPosition());
 						return;
 					}
 				}
@@ -250,7 +252,8 @@ void World::onMouseButtonClickedEvent(MousePosition mousePosition)
 		if (mPlayer->getState() == Player::State::Busy)
 			return;
 
-		mPlayer->moveToTile(toTilePosition(mousePosition));
+		// Disable arbitrary moving
+		// mPlayer->moveToTile(toTilePosition(mousePosition));
 #ifdef DEBUG
 		g_debugData["Destination:"] = toString(mousePosition.x) + "," + toString(mousePosition.y);
 #endif
