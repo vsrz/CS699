@@ -12,6 +12,7 @@
 #include "StatusNotifierEntity.h"
 #include "ScoreDisplay.h"
 #include "AIState.h"
+#include "IndicatorEntity.h"
 
 World::World(sf::RenderWindow& window, TextureManager& textures, ScoreGenerator& score)
 	: mWindow(window)
@@ -543,6 +544,16 @@ void World::buildScene()
 	/* Add the register icon to the scene */
 	std::unique_ptr<CashRegisterEntity> cash = std::unique_ptr<CashRegisterEntity>(new CashRegisterEntity(mTextures, this, &mRegisterQueue));
 	mSceneLayers[Gui]->attachChild(std::move(cash));
+
+	/* Add the helper indicator arrow for all chairs except waiting chairs */
+	for (auto &c : mChairs)
+	{
+		if (c->getChairType() != ChairEntity::Type::Waiting) 
+		{
+			std::unique_ptr<IndicatorEntity> a(new IndicatorEntity(mTextures, this, c.get()));
+			mChairIndicators.push_back(std::move(a));
+		}
+	}
 }
 
 int World::getRemainingWaitingChairs()

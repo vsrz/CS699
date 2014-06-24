@@ -16,6 +16,7 @@ typedef sf::Vector2f TilePosition;
 typedef sf::Vector2f SpritePosition;
 
 class ChairEntity;
+class IndicatorEntity;
 
 enum Direction
 {
@@ -65,6 +66,9 @@ namespace Config
 
 	// AI engine
 	const bool								AI_ENGINE_ENABLED = false;
+
+	// Indicator arrows (in seconds)
+	const float								INDICATOR_ARROW_DURATION = 3.f;
 
 	// Waiting room chairs
 	namespace Chairs
@@ -348,7 +352,7 @@ SpritePosition toSpritePosition(T tilePosition)
 }
 
 typedef std::vector<std::unique_ptr<ChairEntity>> Chairs;
-
+typedef std::vector<std::unique_ptr<IndicatorEntity>> ChairIndicators;
 
 #endif
 

@@ -27,6 +27,7 @@
 #include "CashRegisterEntity.h"
 #include "ScoreGenerator.h"
 #include "AIState.h"
+#include "IndicatorEntity.h"
 
 class World
 {
@@ -107,7 +108,8 @@ private:
 	int getRemainingWaitingChairs();
 	std::vector<std::unique_ptr<ActionAnimator>> mActionAnimations;
 	Customer* getCustomerInTile(TilePosition tilePosition); 
-	
+	ChairIndicators mChairIndicators;
+
 	// Scene building
 	void loadLayer(const char* layerName, unsigned int id);
 	size_t getCustomersAllowedInScene(size_t customersInScene);

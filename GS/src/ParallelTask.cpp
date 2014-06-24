@@ -57,6 +57,7 @@ void ParallelTask::runTask()
 	mContext.textures->load(Textures::Kitty, "res/feline_01.png");
 	mCompletion++;
 	mContext.textures->load(Textures::AnimWash, "res/anim_wash_01.png");
+	mContext.textures->load(Textures::GreenArrow, "res/arrow_green_01.png");
 	mCompletion++;
 	mContext.textures->load(Textures::AnimCut, "res/anim_cut_01.png");
 	mCompletion++;

@@ -230,11 +230,9 @@ void Customer::customerClicked()
 				ChairEntity* washChair = findAvailableChair(ChairEntity::Type::Washing);
 				if (washChair != nullptr)
 				{
-					
 					mState.setState(CustomerState::ID::MovingToWashingArea);
 					stand(chair);
 					moveToChair(washChair);
-
 				}
 			}
 			
@@ -244,7 +242,6 @@ void Customer::customerClicked()
 				ChairEntity* cutChair = findAvailableChair(ChairEntity::Type::Cutting);
 				if (cutChair != nullptr)
 				{
-					
 					mState.setState(CustomerState::ID::MovingToHaircutArea);
 					stand(chair);
 					moveToChair(cutChair);

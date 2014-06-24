@@ -38,6 +38,7 @@ namespace Textures
 		AnimColor,
 		StatusNotifiers,
 		ManMidage01,
+		GreenArrow,
 	};
 
 }	
