@@ -68,8 +68,8 @@ namespace Config
 	const bool								AI_ENGINE_ENABLED = false;
 
 	// Indicator arrows (in seconds)
-	const float								INDICATOR_ARROW_DURATION = 3.f;
-
+	const float								INDICATOR_ARROW_DURATION = 1.5f;
+	const float								INDICATOR_ARROW_SPEED = 5.5f;
 	// Waiting room chairs
 	namespace Chairs
 	{

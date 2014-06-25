@@ -234,6 +234,12 @@ void Customer::customerClicked()
 					stand(chair);
 					moveToChair(washChair);
 				}
+
+				// Otherwise, there's no available chair, call the arrows
+				else
+				{
+					this->getOccupiedChair()->activateHelper();
+				}
 			}
 			
 			else if (mNeeds & Needs::Cut)
@@ -245,6 +251,12 @@ void Customer::customerClicked()
 					mState.setState(CustomerState::ID::MovingToHaircutArea);
 					stand(chair);
 					moveToChair(cutChair);
+				}
+
+				// No available chairs
+				else
+				{
+					this->getOccupiedChair()->activateHelper();
 				}
 			}
 
@@ -262,6 +274,11 @@ void Customer::customerClicked()
 			stand(occupiedChair);
 			moveToChair(haircutChair);
 		}
+
+		else
+		{
+			occupiedChair->activateHelper();
+		}
 	}
 
 	else if (state == CustomerState::ID::WaitingToMoveToColorArea)
@@ -273,6 +290,11 @@ void Customer::customerClicked()
 			mState.setState(CustomerState::ID::MovingToColorArea);
 			stand(occupiedChair);
 			moveToChair(colorChair);
+		}
+
+		else
+		{
+			occupiedChair->activateHelper();
 		}
 	}
 }

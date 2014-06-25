@@ -9,6 +9,7 @@
 #include "Glob.h"
 class World;
 class Customer;
+class IndicatorEntity;
 
 class ChairEntity :
 	public Entity
@@ -36,6 +37,8 @@ public:
 	void setStagingPosition(TilePosition tilePosition);
 	void setOperatingPosition(TilePosition tilePosition);
 	void setDirection(Direction direction);
+	void setHelper(IndicatorEntity* indicator);
+	void activateHelper();
 
 	TilePosition convertAltClickPosition(TilePosition pos);
 	TilePosition getChairPosition();
@@ -49,6 +52,9 @@ private:
 	TilePosition mSeatingPosition;
 	TilePosition mOperatingPosition;
 	Direction mDirection;
+
+	// Up to two indicator arrow helpers for each chair type
+	std::array<IndicatorEntity*, 2u> mIndicatorArrows;
 
 	Type mType;
 	void updateCurrent(sf::Time dt);

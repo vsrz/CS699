@@ -12,8 +12,10 @@ class IndicatorEntity :
 {
 public:
 	IndicatorEntity(const TextureManager& textures, World* world, ChairEntity* chair);
-	void activiate();
+	void activate();
 	void setDuration(sf::Time seconds);
+	void setChairType(ChairEntity::Type type);
+	ChairEntity::Type getChairType();
 private:
 	// The direction the arrow is traveling
 	bool mGoingDown;
@@ -27,12 +29,10 @@ private:
 	// Arrow positions
 	SpritePosition mStartPosition;
 	SpritePosition mEndPosition;
-	SpritePosition mPosition;
 
-	// Arrow positions
-	
 	// The position of the chair that the indicator is attached to
 	ChairEntity* mChairPosition;
+	ChairEntity::Type mChairType;
 	
 	// The maximum height of the bounce of the arrow
 	float mMaxHeight;

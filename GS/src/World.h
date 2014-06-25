@@ -108,7 +108,6 @@ private:
 	int getRemainingWaitingChairs();
 	std::vector<std::unique_ptr<ActionAnimator>> mActionAnimations;
 	Customer* getCustomerInTile(TilePosition tilePosition); 
-	ChairIndicators mChairIndicators;
 
 	// Scene building
 	void loadLayer(const char* layerName, unsigned int id);

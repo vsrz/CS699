@@ -1,6 +1,7 @@
 #include "Customer.h"
 #include "ChairEntity.h"
 #include "World.h"
+#include "IndicatorEntity.h"
 
 
 ChairEntity::ChairEntity(TilePosition tilePosition, World* wp)
@@ -13,6 +14,30 @@ ChairEntity::ChairEntity(TilePosition tilePosition, World* wp)
 	setTilePosition(tilePosition);
 	mType = Type::Waiting;
 	mOccupant = nullptr;
+	mIndicatorArrows[0] = nullptr;
+	mIndicatorArrows[1] = nullptr;
+
+}
+
+// Cheeky way to start the arrow animation
+void ChairEntity::activateHelper()
+{
+	for (auto &i : mIndicatorArrows)
+	{
+		i->activate();
+	}
+}
+
+void ChairEntity::setHelper(IndicatorEntity* indicator)
+{
+	if (mIndicatorArrows[0] == nullptr)
+	{
+		mIndicatorArrows[0] = indicator;
+	}
+	else
+	{
+		mIndicatorArrows[1] = indicator;
+	}
 }
 
 bool ChairEntity::isOccupied()

@@ -182,7 +182,6 @@ void World::onMouseButtonClickedEvent(MousePosition mousePosition)
 				// If it's not a waiting chair
 				else
 				{
-					// TODO: washing station queue processing
 					if (mPlayer->getTilePosition() == chair->getOperatingPosition())
 					{
 						Customer* cust = chair->getOccupant();
@@ -195,7 +194,9 @@ void World::onMouseButtonClickedEvent(MousePosition mousePosition)
 								mPlayer->useStation(chair.get());
 							}
 							else
+							{
 								cust->customerClicked();
+							}
 						}
 						return;
 					}
@@ -375,6 +376,9 @@ void World::loadLayer(const char* layerName, unsigned int id)
 
 void World::buildProps()
 {
+	// Temporary var to hold the arrows
+	ChairIndicators chairArrows;
+
 	int index = 0;
 	
 	/* Waiting room chairs */
@@ -386,13 +390,54 @@ void World::buildProps()
 		c->setOperatingPosition(Config::Chairs::OPERATING_POSITION[index]);
 		c->setDirection(Config::Chairs::SEATING_DIRECTION[index]);
 		c->setChairType(static_cast<ChairEntity::Type>(Config::Chairs::TYPE[index++]));
+		
+		/* Add the helper indicator arrow for all chairs except waiting chairs */
+		if (c->getChairType() != ChairEntity::Type::Waiting)
+		{
+			std::unique_ptr<IndicatorEntity> a(new IndicatorEntity(mTextures, this, c.get()));
+			a->setChairType(c->getChairType());
+			chairArrows.push_back(std::move(a));
+		}
+		
 		mChairs.push_back(std::move(c));
 
+	}
+
+	/* Now loop through all the chairs and assign the appropriate chair indicator */
+	for (auto& c : mChairs)
+	{
+		// add for all execpt color chairs
+		if (c->getChairType() != ChairEntity::Type::Coloring)
+		{
+			for (auto &a : chairArrows)
+			{
+				// Brute force the arrow indicators
+				if (c->getChairType() == ChairEntity::Type::Waiting && a->getChairType() == ChairEntity::Type::Washing)
+				{
+					c->setHelper(a.get());
+				}
+				
+				else if (c->getChairType() == ChairEntity::Type::Washing && a->getChairType() == ChairEntity::Type::Cutting)
+				{
+					c->setHelper(a.get());
+				}
+
+				else if (c->getChairType() == ChairEntity::Type::Cutting && a->getChairType() == ChairEntity::Type::Coloring)
+				{
+					c->setHelper(a.get());
+				}
+			}
+		}
 	}
 
 	/* Walk in door */
 	std::unique_ptr<DoorEntity> f(new DoorEntity(mTextures, this));
 	mSceneLayers[Entity]->attachChild(std::move(f));
+
+	/* Add all the arrows to the gui scene */
+	for (auto& i : chairArrows) {
+		mSceneLayers[Gui]->attachChild(std::move(i));
+	}
 
 }
 
@@ -544,16 +589,6 @@ void World::buildScene()
 	/* Add the register icon to the scene */
 	std::unique_ptr<CashRegisterEntity> cash = std::unique_ptr<CashRegisterEntity>(new CashRegisterEntity(mTextures, this, &mRegisterQueue));
 	mSceneLayers[Gui]->attachChild(std::move(cash));
-
-	/* Add the helper indicator arrow for all chairs except waiting chairs */
-	for (auto &c : mChairs)
-	{
-		if (c->getChairType() != ChairEntity::Type::Waiting) 
-		{
-			std::unique_ptr<IndicatorEntity> a(new IndicatorEntity(mTextures, this, c.get()));
-			mChairIndicators.push_back(std::move(a));
-		}
-	}
 }
 
 int World::getRemainingWaitingChairs()
