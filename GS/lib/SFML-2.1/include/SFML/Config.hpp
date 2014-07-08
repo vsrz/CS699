@@ -80,7 +80,7 @@
          // Linux
         #define SFML_SYSTEM_LINUX
 
-    #elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
+    #elif defined(__FreeBSD__)
 
         // FreeBSD
         #define SFML_SYSTEM_FREEBSD

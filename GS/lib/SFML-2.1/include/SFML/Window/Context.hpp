@@ -60,7 +60,7 @@ public :
     ////////////////////////////////////////////////////////////
     /// \brief Destructor
     ///
-    /// The destructor deactivates and destroys the context
+    /// The desctructor deactivates and destroys the context
     ///
     ////////////////////////////////////////////////////////////
     ~Context();
