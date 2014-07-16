@@ -21,6 +21,7 @@ private:
 	sfg::SFGUI mSfgui;
 	sfg::Window::Ptr mWindow;
 	sfg::Button::Ptr mButton;
+	sfg::Label::Ptr mLabel;
 	sfg::Desktop mDesktop;
 };
 

@@ -11,13 +11,14 @@ void GuiState::initalize()
 {
 	mWindow = sfg::Window::Create();
 	mWindow->SetTitle("Hello world");
-	sfg::Desktop desktop;
-	desktop.Add(mWindow);
+	mDesktop.Add(mWindow);
 	auto box = sfg::Box::Create(sfg::Box::Orientation::VERTICAL, 0.5f);
 	mButton = sfg::Button::Create("Click");
 	box->Pack(mButton);
-	desktop.Add(box);
-
+	mLabel = sfg::Label::Create();
+	mLabel->SetText("Hello World");
+	box->Pack(mLabel);
+	mDesktop.Add(box);
 }
 
 void GuiState::draw()
@@ -29,7 +30,8 @@ void GuiState::draw()
 
 bool GuiState::update(sf::Time dt)
 {
-	mWindow->Update(dt.asSeconds());
+	//mWindow->Update(dt.asSeconds());
+	mDesktop.Update(dt.asSeconds());
 	return false;
 }
 
