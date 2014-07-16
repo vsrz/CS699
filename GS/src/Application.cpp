@@ -6,6 +6,7 @@
 #include "DebugScreenState.h"
 #include "LoadingState.h"
 #include "EndState.h"
+#include "GuiState.h"
 
 const sf::Time Application::TimePerFrame = sf::seconds(1.f/60.f);
 
@@ -111,5 +112,6 @@ void Application::registerStates()
 	mStateStack.registerState<DebugScreenState>(States::Debug);
 	mStateStack.registerState<LoadingState>(States::Loading);
 	mStateStack.registerState<EndState>(States::End);
+	//mStateStack.registerState<GuiState>(States::Gui);
 }
 

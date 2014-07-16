@@ -45,6 +45,13 @@ bool GameState::handleEvent(const sf::Event& event)
 		return false;
 	}
 
+	else if (event.type == sf::Event::KeyPressed &&
+		event.key.code == sf::Keyboard::F10) 
+	{
+		//requestStackPush(States::Gui);
+		return false;
+	}
+
 #ifdef DEBUG
 	// F3 is pressed, so bring up the debug overlay
 	else if (event.type == sf::Event::KeyPressed && 

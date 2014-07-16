@@ -14,6 +14,7 @@ namespace States
 		Loading,
 		Pause,
 		Debug,
+		Gui,
 		End,
 	};
 }
