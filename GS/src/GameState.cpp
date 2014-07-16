@@ -46,9 +46,9 @@ bool GameState::handleEvent(const sf::Event& event)
 	}
 
 	else if (event.type == sf::Event::KeyPressed &&
-		event.key.code == sf::Keyboard::F10) 
+		event.key.code == sf::Keyboard::F10)
 	{
-		//requestStackPush(States::Gui);
+		requestStackPush(States::Gui);
 		return false;
 	}
 

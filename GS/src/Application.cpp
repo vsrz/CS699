@@ -112,6 +112,7 @@ void Application::registerStates()
 	mStateStack.registerState<DebugScreenState>(States::Debug);
 	mStateStack.registerState<LoadingState>(States::Loading);
 	mStateStack.registerState<EndState>(States::End);
-	//mStateStack.registerState<GuiState>(States::Gui);
+	mStateStack.registerState<GuiState>(States::Gui);
 }
+
 

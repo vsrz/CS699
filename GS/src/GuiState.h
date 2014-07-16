@@ -19,6 +19,7 @@ public:
 	virtual bool handleEvent(const sf::Event& event);
 private:
 	sfg::SFGUI mSfgui;
+	sfg::Window::Ptr mWindow;
 	sfg::Button::Ptr mButton;
 	sfg::Desktop mDesktop;
 };

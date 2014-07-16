@@ -10,7 +10,6 @@ Authors
 
 Laurent Gomila - main developer (laurent.gom@gmail.com)
 Marco Antognini - OS X developer (antognini.marco@gmail.com)
-Jonathan De Wachter - Android developer (dewachter.jonathan@gmail.com)
 
 Download
 --------
