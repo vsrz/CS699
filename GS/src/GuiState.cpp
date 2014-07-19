@@ -1,5 +1,5 @@
 #include "GuiState.h"
-
+#include "Glob.h"
 
 GuiState::GuiState(StateStack& stack, Context context)
 : State(stack, context)
@@ -11,6 +11,8 @@ void GuiState::initalize()
 {
 	mWindow = sfg::Window::Create();
 	mWindow->SetTitle("Hello world");
+	mWindow->SetPosition( sf::Vector2f(0.f, 0.f));
+	mWindow->SetRequisition(sf::Vector2f(1280.f, 720.f));
 	mDesktop.Add(mWindow);
 	auto box = sfg::Box::Create(sfg::Box::Orientation::VERTICAL, 0.5f);
 	mButton = sfg::Button::Create("Click");
@@ -37,14 +39,13 @@ bool GuiState::update(sf::Time dt)
 
 bool GuiState::handleEvent(const sf::Event& event)
 {
-	if (event.key.code != sf::Event::KeyPressed)
-	{
-		return false;
-	}
+	
 	if (event.key.code == sf::Keyboard::Escape)
 	{
+		std::cout << "Stack pop\n";
 		requestStackPop();
 	}
+	mDesktop.HandleEvent(event);
 	return false;
 }
 
