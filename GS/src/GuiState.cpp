@@ -11,16 +11,21 @@ void GuiState::initalize()
 {
 	mWindow = sfg::Window::Create();
 	mWindow->SetTitle("Hello world");
-	mWindow->SetPosition( sf::Vector2f(0.f, 0.f));
-	mWindow->SetRequisition(sf::Vector2f(1280.f, 720.f));
+	mWindow->SetPosition( sf::Vector2f(25.f, 25.f));
+	//mWindow->SetRequisition(sf::Vector2f(800.f, 480.f));
 	mDesktop.Add(mWindow);
-	auto box = sfg::Box::Create(sfg::Box::Orientation::VERTICAL, 0.5f);
-	mButton = sfg::Button::Create("Click");
-	box->Pack(mButton);
+	
+	
+	auto box = sfg::Box::Create(sfg::Box::Orientation::HORIZONTAL, 0.5f);
+	mExitButton = sfg::Button::Create("Exit");
+	box->Pack(mExitButton);
+	mExitButton->GetSignal(sfg::Widget::OnLeftClick).Connect(std::bind(&GuiState::onExitButtonClicked, this));
+
+
 	mLabel = sfg::Label::Create();
 	mLabel->SetText("Hello World");
 	box->Pack(mLabel);
-	mDesktop.Add(box);
+	mWindow->Add(box);
 }
 
 void GuiState::draw()
@@ -32,7 +37,6 @@ void GuiState::draw()
 
 bool GuiState::update(sf::Time dt)
 {
-	//mWindow->Update(dt.asSeconds());
 	mDesktop.Update(dt.asSeconds());
 	return false;
 }
@@ -40,14 +44,12 @@ bool GuiState::update(sf::Time dt)
 bool GuiState::handleEvent(const sf::Event& event)
 {
 	
-	if (event.key.code == sf::Keyboard::Escape)
-	{
-		std::cout << "Stack pop\n";
-		requestStackPop();
-	}
 	mDesktop.HandleEvent(event);
 	return false;
 }
 
 
-
+void GuiState::onExitButtonClicked()
+{
+	requestStackPop();
+}

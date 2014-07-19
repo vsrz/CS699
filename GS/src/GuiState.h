@@ -17,12 +17,16 @@ public:
 	virtual void draw();
 	virtual bool update(sf::Time dt);
 	virtual bool handleEvent(const sf::Event& event);
+	
 private:
 	sfg::SFGUI mSfgui;
 	sfg::Window::Ptr mWindow;
-	sfg::Button::Ptr mButton;
+	sfg::Button::Ptr mExitButton;
 	sfg::Label::Ptr mLabel;
 	sfg::Desktop mDesktop;
+
+	void onExitButtonClicked();
+
 };
 
 #endif
