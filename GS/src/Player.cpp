@@ -152,7 +152,7 @@ void Player::updateCurrent(sf::Time dt)
 			// Otherwise, take another customer, after the USE_TIME elapses
 			else
 			{
-				mBusyTime += sf::seconds(Config::REGISTER_USE_TIME);
+				mBusyTime += sf::seconds(g_Config.REGISTER_USE_TIME);
 			}
 		}
 		else if (mCurrentAction == Action::WashingHair)

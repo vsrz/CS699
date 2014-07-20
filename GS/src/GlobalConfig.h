@@ -27,18 +27,33 @@ public:
 	float								COLOR_USE_TIME;
 	float								REGISTER_USE_TIME;
 
+	// Total number of customers to service in this trip
 	int									TOTAL_CUSTOMERS;
 
 	// The number of seconds it takes before heart penalties are enforced between state changes
-	float								STATE_CHANGE_COOLDOWN;
+	float								STATE_CHANGE_COOLDOWN_MULTIPLIER;
+	float								PATIENCE_PENALTY_MULTIPLIER; 
 
-	// AI engine
+	// If customers move throughout the salon on their own and how often it does it
 	bool								AI_ENGINE_ENABLED;
-	
+	float								AI_ENGINE_TICKRATE;
+
 	// Multipliers
 	float								CUSTOMER_SPEED_MULTIPLIER;
 	float								CUSTOMER_TIP_MULTIPLIER;
 
+	// How often the game attempts to release a customer into the scene
+	float								CUSTOMER_RELEASE_INTERVAL;
+
+	// Cost to the customer for each service
+	float								PAYMENT_WASH;
+	float								PAYMENT_CUT;
+	float								PAYMENT_COLOR;
+	float								PAYMENT_PRODUCT;
+
+	// Starting heart multiplier. No matter what is rolled during creation,
+	// we multiply the roll by this number when they spawn into the scene
+	float								STARTING_PATIENCE_MULTIPLIER;
 private:
 	void initalize();	
 	GlobalConfig() {}

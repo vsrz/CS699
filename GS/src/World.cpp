@@ -13,6 +13,7 @@
 #include "ScoreDisplay.h"
 #include "AIState.h"
 #include "IndicatorEntity.h"
+#include "GlobalConfig.h"
 
 World::World(sf::RenderWindow& window, TextureManager& textures, ScoreGenerator& score)
 	: mWindow(window)
@@ -37,6 +38,7 @@ void World::initalize()
 	mFonts.load(Fonts::ID::Bit, "res/8b.ttf");
 	buildScene();
 	mAiState.setWorld(this);
+	mTotalCustomers = 0;
 
 
 }
@@ -49,6 +51,8 @@ sf::Vector2f World::getWorldScale()
 
 void World::update(sf::Time dt)
 {
+	GlobalConfig& g = GlobalConfig::get();
+
 	// First, Z-sort all customers
 	mSceneLayers[Entity]->sortChildren();
 	
@@ -61,7 +65,7 @@ void World::update(sf::Time dt)
 	// Check if the mouse is resting on a customer
 	checkMousePosition(mLastMousePosition);
 
-	if (Config::AI_ENGINE_ENABLED)
+	if (g.AI_ENGINE_ENABLED)
 		mAiState.update(dt);
 }
 
@@ -330,7 +334,7 @@ void World::handleEvent(const sf::Event& event)
 	else if (event.type == sf::Event::KeyPressed &&
 		event.key.code == sf::Keyboard::F5)
 	{
-		getScoreObject()->addServed(Config::TOTAL_CUSTOMERS);
+		getScoreObject()->addServed(GlobalConfig::get().TOTAL_CUSTOMERS);
 	}
 
 #endif
@@ -444,9 +448,44 @@ void World::buildProps()
 void World::generateCustomers()
 {	
 	Prng rand;
-	std::array<unsigned int, Config::TOTAL_CUSTOMERS> customers;
+	std::array<unsigned int, Config::MAXIMUM_CUSTOMERS> customers;
 	unsigned int last = 99;
 	
+	customers[49] = Customer::Type::WomanTeen;
+	customers[48] = Customer::Type::WomanMiddle;
+	customers[47] = Customer::Type::ManTeen;
+	customers[46] = Customer::Type::WomanOld;
+	customers[45] = Customer::Type::ManMidage;
+	customers[44] = Customer::Type::WomanTeen;
+	customers[43] = Customer::Type::WomanMiddle;
+	customers[42] = Customer::Type::ManTeen;
+	customers[41] = Customer::Type::ManYoung;
+	customers[40] = Customer::Type::WomanOld;
+	customers[39] = Customer::Type::ManMidage;
+	customers[38] = Customer::Type::WomanTeen;
+	customers[37] = Customer::Type::WomanMiddle;
+	customers[36] = Customer::Type::ManTeen;
+	customers[35] = Customer::Type::ManYoung;
+	customers[34] = Customer::Type::WomanOld;
+	customers[33] = Customer::Type::ManMidage;
+	customers[32] = Customer::Type::ManYoung;
+	customers[31] = Customer::Type::WomanTeen;
+	customers[30] = Customer::Type::WomanMiddle;
+	customers[29] = Customer::Type::ManTeen;
+	customers[28] = Customer::Type::ManYoung;
+	customers[27] = Customer::Type::WomanOld;
+	customers[26] = Customer::Type::ManMidage;
+	customers[25] = Customer::Type::WomanTeen;
+	customers[24] = Customer::Type::WomanMiddle;
+	customers[23] = Customer::Type::ManTeen;
+	customers[22] = Customer::Type::ManYoung;
+	customers[21] = Customer::Type::ManMidage;
+	customers[20] = Customer::Type::WomanTeen;
+	customers[19] = Customer::Type::WomanMiddle;
+	customers[18] = Customer::Type::ManTeen;
+	customers[17] = Customer::Type::ManYoung;
+	customers[16] = Customer::Type::WomanOld;
+	customers[15] = Customer::Type::ManMidage;
 	customers[14] = Customer::Type::WomanTeen;
 	customers[13] = Customer::Type::WomanMiddle;
 	customers[12] = Customer::Type::ManTeen;
@@ -478,7 +517,7 @@ void World::generateCustomers()
 	}
 	*/
 
-	for (int i = 0; i < Config::TOTAL_CUSTOMERS; ++i)
+	for (int i = 0; i < Config::MAXIMUM_CUSTOMERS; ++i)
 	{
 		std::unique_ptr<Customer> cust(new Customer(mTextures, this, customers[i]));
 		if (i == 14)
@@ -652,6 +691,12 @@ void World::releaseCustomerToScene()
 	mCustomersInScene.push_back(customer.get());
 	attachHeartDisplay(customer.get());
 	attachStatusDisplay(customer.get());
+	
+	// Add to the patience based on the multiplier setting
+	float patience = customer.get()->getPatience();
+	patience *= GlobalConfig::get().STARTING_PATIENCE_MULTIPLIER;
+	customer.get()->setPatience(patience > 100.f ? 100.f : patience);
+
 	mSceneLayers[Entity]->attachChild(std::move(customer));
 	mCustomers.pop_back();
 
@@ -679,13 +724,15 @@ void World::updateCustomers(sf::Time dt)
 	mLastCustomerReleased += dt;
 	
 	// If the release interval has elapsed and there's room, try to release a new customer
-	if (mLastCustomerReleased > sf::seconds(Config::Customer::RELEASE_INTERVAL) &&
+	if (mLastCustomerReleased > sf::seconds(GlobalConfig::get().CUSTOMER_RELEASE_INTERVAL) &&
 		getRemainingWaitingChairs() > 0 &&
 		customersAllowedInScene > customersInScene &&
-		mCustomers.size() > 0)
+		mCustomers.size() > 0 &&
+		mTotalCustomers < GlobalConfig::get().TOTAL_CUSTOMERS)
 	{
 		size_t remainingCustomers = mCustomers.size();
 		releaseCustomerToScene();
+		mTotalCustomers++;
 	}
 
 	/* TODO: Check the scene for any customers that need to be removed */

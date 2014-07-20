@@ -151,7 +151,7 @@ bool Customer::isWaitingToMoveToStation()
 void Customer::washHair()
 {
 	mNeeds &= ~(Needs::Wash);
-	mPayment += Config::Customer::PAYMENT_WASH;
+	mPayment += GlobalConfig::get().PAYMENT_WASH;
 	ChairEntity* occupiedChair = getOccupiedChair();
 	// If they need to go to another station, lets do that
 	if (mNeeds & Needs::Cut)
@@ -173,7 +173,7 @@ void Customer::washHair()
 void Customer::cutHair()
 {
 	mNeeds &= ~(Needs::Cut);
-	mPayment += Config::Customer::PAYMENT_CUT;
+	mPayment += GlobalConfig::get().PAYMENT_CUT;
 	ChairEntity* occupiedChair = getOccupiedChair();
 	// If they need to go to another station, lets do that
 	if (mNeeds & Needs::Color)
@@ -198,7 +198,7 @@ void Customer::addToPatience(sf::Time timeToAdd)
 void Customer::colorHair()
 {
 	mNeeds &= ~(Needs::Color);
-	mPayment += Config::Customer::PAYMENT_COLOR;
+	mPayment += GlobalConfig::get().PAYMENT_COLOR;
 	ChairEntity* occupiedChair = getOccupiedChair();
 	stand(occupiedChair);
 	cashOut();		
@@ -239,7 +239,9 @@ void Customer::customerClicked()
 				// Otherwise, there's no available chair, call the arrows
 				else
 				{
-					this->getOccupiedChair()->activateHelper();
+					// Only call the arrows if the AI helper is enabled and they aren't in the waiting area
+					if (this->getState() == CustomerState::ID::WaitingForService && !GlobalConfig::get().AI_ENGINE_ENABLED)
+						this->getOccupiedChair()->activateHelper();
 				}
 			}
 			
@@ -257,7 +259,8 @@ void Customer::customerClicked()
 				// No available chairs
 				else
 				{
-					this->getOccupiedChair()->activateHelper();
+					if (this->getState() == CustomerState::ID::WaitingForService && !GlobalConfig::get().AI_ENGINE_ENABLED)
+						this->getOccupiedChair()->activateHelper();
 				}
 			}
 
@@ -278,7 +281,8 @@ void Customer::customerClicked()
 
 		else
 		{
-			occupiedChair->activateHelper();
+			if (this->getState() == CustomerState::ID::WaitingForService && !GlobalConfig::get().AI_ENGINE_ENABLED)
+				occupiedChair->activateHelper();
 		}
 	}
 
@@ -295,7 +299,8 @@ void Customer::customerClicked()
 
 		else
 		{
-			occupiedChair->activateHelper();
+			if (this->getState() == CustomerState::ID::WaitingForService && !GlobalConfig::get().AI_ENGINE_ENABLED)
+				occupiedChair->activateHelper();
 		}
 	}
 }
@@ -605,7 +610,7 @@ void Customer::cashOut()
 	if (mNeeds & Needs::Product)
 	{
 		mNeeds &= ~(Needs::Product);
-		mPayment += Config::Customer::PAYMENT_PRODUCT;
+		mPayment += GlobalConfig::get().PAYMENT_PRODUCT;
 
 	}
 	mWorld->getQueue()->enqueue(this);
@@ -626,7 +631,7 @@ void Customer::updatePatience(sf::Time dt)
 	}
 
 	// Add some randomness to the next time decrease
-	mPatienceCooldown = sf::seconds(10 + mWorld->getCustomers().size() + n.getRand(0, 10));
+	mPatienceCooldown = (sf::seconds(10 + mWorld->getCustomers().size() + n.getRand(0, 10))) * GlobalConfig::get().STATE_CHANGE_COOLDOWN_MULTIPLIER;
 
 #ifdef DEBUG
 	std::cout << "Patience cooldown set to " + std::to_string(mPatienceCooldown.asSeconds()) + "\n";
@@ -719,6 +724,8 @@ void Customer::checkAIState()
 	if (state == CustomerState::ID::None)
 	{
 		enterSalon();
+		if (mNeeds != Needs::Product)
+			moveToWaitingArea();
 	}
 
 	else if (state == CustomerState::ID::EnteringSalon)
@@ -727,7 +734,6 @@ void Customer::checkAIState()
 		{
 			if (mNeeds != Needs::Product)
 			{
-				moveToWaitingArea();
 				mState.setState(CustomerState::ID::MovingToWaitingArea);
 			} 
 			else

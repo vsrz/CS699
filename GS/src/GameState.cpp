@@ -1,7 +1,7 @@
 #include "GameState.h"
 #include <iostream>
 #include "Glob.h"
-
+#include "GlobalConfig.h"
 
 
 GameState::GameState(StateStack& stack, Context context)
@@ -21,10 +21,12 @@ void GameState::draw()
 
 bool GameState::update(sf::Time dt)
 {
+	GlobalConfig& g = GlobalConfig::get();
+
 	mWorld.update(dt);
 	mClick.update(dt);
 	CommandQueue& commands = mWorld.getCommandQueue();
-	if (mWorld.getScoreObject()->getTotalCustomers() >= Config::TOTAL_CUSTOMERS)
+	if (mWorld.getScoreObject()->getTotalCustomers() >= g.TOTAL_CUSTOMERS)
 	{
 		requestStackPop();
 		requestStackPush(States::End);

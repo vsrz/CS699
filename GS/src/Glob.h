@@ -52,13 +52,8 @@ namespace Config
 	// Tile you move to when leaving the scene
 	const TilePosition						EXIT_TILE = TilePosition(7,0);
 
-	const int								TOTAL_CUSTOMERS = 15;
-
-	// The number of seconds it takes before heart penalties are enforced between state changes
-	const float								STATE_CHANGE_COOLDOWN = 10.f;
-
-	// AI engine
-	const bool								AI_ENGINE_ENABLED = false;
+	// Maximum number of possible customers
+	const int								MAXIMUM_CUSTOMERS = 50;
 
 	// Indicator arrows (in seconds)
 	const float								INDICATOR_ARROW_DURATION = 1.5f;
@@ -222,9 +217,6 @@ namespace Config
 
 	namespace Customer
 	{
-		// Amount of time in seconds to wait between customer arrivals
-		const float							RELEASE_INTERVAL = 5.f;
-
 		// The position the sprite is placed when they are introduced into the scene
 		const TilePosition					SPAWN_POSITION = TilePosition(7.f, 0.f);
 		
@@ -238,12 +230,6 @@ namespace Config
 
 		// The size of each frame
 		const sf::Vector2i					SPRITE_ANIM_FRAME_SIZE(32, 64);
-
-		// Payment amounts
-		const float							PAYMENT_WASH = 5.f;
-		const float							PAYMENT_CUT = 25.f;
-		const float							PAYMENT_COLOR = 25.f;
-		const float							PAYMENT_PRODUCT = 40.f;
 
 	};
 

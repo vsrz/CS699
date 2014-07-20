@@ -100,14 +100,17 @@ private:
 	RegisterQueue mRegisterQueue;
 	TileLoader mTileLoader;
 	Player* mPlayer;
-	std::vector<std::unique_ptr<Customer>> mCustomers;
-	std::vector<Customer*> mCustomersInScene;
-	sf::Time mLastCustomerReleased;
 	CashRegister mCashRegister;
 	std::unique_ptr<CashRegisterEntity> mCashRegisterIcon;
 	int getRemainingWaitingChairs();
 	std::vector<std::unique_ptr<ActionAnimator>> mActionAnimations;
 	Customer* getCustomerInTile(TilePosition tilePosition); 
+
+	// Customers
+	std::vector<std::unique_ptr<Customer>> mCustomers;
+	std::vector<Customer*> mCustomersInScene;
+	size_t mTotalCustomers;				// Total number of customers served + customers in scene
+	sf::Time mLastCustomerReleased;
 
 	// Scene building
 	void loadLayer(const char* layerName, unsigned int id);
