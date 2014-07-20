@@ -35,7 +35,6 @@ namespace Config
 
 	// Manager (PC) Config
 	const float								MANAGER_SPEED = 5.f;
-	const float								MIDAGE_MAN_SPEED = 3.f;
 
 	// World Config
 	const float								WORLD_WIDTH	= 20.f;
@@ -52,12 +51,6 @@ namespace Config
 
 	// Tile you move to when leaving the scene
 	const TilePosition						EXIT_TILE = TilePosition(7,0);
-
-	// The different times it takes to use each station
-	const float								WASH_USE_TIME = 3.f;
-	const float								CUT_USE_TIME = 3.f;
-	const float								COLOR_USE_TIME = 3.f;
-	const float								REGISTER_USE_TIME = 1.f;
 
 	const int								TOTAL_CUSTOMERS = 15;
 

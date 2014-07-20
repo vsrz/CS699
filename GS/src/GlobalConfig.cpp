@@ -19,7 +19,7 @@ void GlobalConfig::initalize()
 	WASH_USE_TIME = 3.f;
 	CUT_USE_TIME = 3.f;
 	COLOR_USE_TIME = 3.f;
-	REGISTER_USE_TIME = 1.f;
+	REGISTER_USE_TIME = 1.f;	
 
 	TOTAL_CUSTOMERS = 15;
 
@@ -32,6 +32,13 @@ void GlobalConfig::initalize()
 	// AI engine
 	AI_ENGINE_ENABLED = false;
 
+
+	// Payment amounts
+	const float							PAYMENT_WASH = 5.f;
+	const float							PAYMENT_CUT = 25.f;
+	const float							PAYMENT_COLOR = 25.f;
+	const float							PAYMENT_PRODUCT = 40.f;
+	
 	IS_INITALIZED = true;
 
 

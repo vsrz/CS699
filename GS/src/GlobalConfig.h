@@ -34,9 +34,10 @@ public:
 
 	// AI engine
 	bool								AI_ENGINE_ENABLED;
-
+	
 	// Multipliers
 	float								CUSTOMER_SPEED_MULTIPLIER;
+	float								CUSTOMER_TIP_MULTIPLIER;
 
 private:
 	void initalize();	
