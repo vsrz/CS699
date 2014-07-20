@@ -4,6 +4,7 @@
 #include "Glob.h"
 #include <iostream>
 #include "ChairEntity.h"
+#include "GlobalConfig.h"
 
 ActorEntity::ActorEntity(World* world)
 	: mTravelPath()
@@ -30,14 +31,16 @@ void ActorEntity::setSpeed(float speed)
 
 float ActorEntity::getSpeed()
 {
-	return mSpeed;
+	GlobalConfig& g = GlobalConfig::get();
+
+	return mSpeed * g.CUSTOMER_SPEED_MULTIPLIER;
 }
 
 // Calculates the amount of movement for the sprite
 sf::Vector2f ActorEntity::moveSprite(sf::Vector2f pos, sf::Vector2f dest)
 {
 	SpritePosition movement;
-	float speed = mSpeed;
+	float speed = getSpeed();
 
 	// Set the movement direction 
 	if (dest.x > pos.x)
@@ -70,10 +73,10 @@ sf::Vector2f ActorEntity::moveSprite(sf::Vector2f pos, sf::Vector2f dest)
 
 	// Snaps the player to a square. This is used when the correct pixel
 	// position for a tile is rounded and caused by floating point divison 
-	if (abs(dest.x - pos.x) < mSpeed)
+	if (abs(dest.x - pos.x) < speed)
 		pos.x = dest.x;
 	
-	if (abs(dest.y - pos.y) < mSpeed)
+	if (abs(dest.y - pos.y) < speed)
 		pos.y = dest.y;
 
 	setPosition(pos);

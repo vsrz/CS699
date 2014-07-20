@@ -14,6 +14,7 @@
 std::map<std::string, std::string> g_debugData;
 bool g_collisionOverlay = false;
 bool g_GameResourcesLoaded = false;
+GlobalConfig& g_Config = GlobalConfig::get();
 
 
 #ifdef _CONSOLE

@@ -8,7 +8,7 @@
 #include "RegisterQueue.h"
 #include "ChairEntity.h"
 #include "Customer.h"
-
+#include "GlobalConfig.h"
 
 Player::Player(const TextureManager& textures, World* worldContext) 
 	: ActorEntity(worldContext)
@@ -121,6 +121,7 @@ void Player::setBusy(sf::Time seconds)
 void Player::updateCurrent(sf::Time dt)
 {
 	extern std::map<std::string, std::string> g_debugData;
+	GlobalConfig& g_Config = GlobalConfig::get();
 #ifdef DEBUG
 	g_debugData["TilePos"] = toString(toTilePosition(mTilePosition).x) + toString(toTilePosition(mTilePosition).y);
 	g_debugData["Actor YPos"] = toString(getPosition().y);
@@ -158,7 +159,7 @@ void Player::updateCurrent(sf::Time dt)
 		{
 			if (getState() != State::Busy)
 			{
-				mBusyTime += sf::seconds(Config::WASH_USE_TIME);
+				mBusyTime += sf::seconds(g_Config.WASH_USE_TIME);
 				setState(State::Busy);
 			}
 			else
@@ -172,7 +173,7 @@ void Player::updateCurrent(sf::Time dt)
 		{
 			if (getState() != State::Busy)
 			{
-				mBusyTime += sf::seconds(Config::CUT_USE_TIME);
+				mBusyTime += sf::seconds(g_Config.CUT_USE_TIME);
 				setState(State::Busy);
 			}
 			else
@@ -186,7 +187,7 @@ void Player::updateCurrent(sf::Time dt)
 		{
 			if (getState() != State::Busy)
 			{
-				mBusyTime += sf::seconds(Config::COLOR_USE_TIME);
+				mBusyTime += sf::seconds(g_Config.COLOR_USE_TIME);
 				setState(State::Busy);
 			}
 			else

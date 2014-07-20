@@ -1,31 +1,39 @@
 #include "GlobalConfig.h"
+#include <iostream>
 
 GlobalConfig& GlobalConfig::get()
 {
-	static GlobalConfig i;
-	return i;
-}
-
-GlobalConfig::GlobalConfig()
-{
-	initalize();
-}
-
-template <typename T>
-T GlobalConfig::getValue(std::string key)
-{
-	auto value = mConfig.find(key);
-	if (value == mConfig.end()) return std::string();
-	return value->second;
+	static GlobalConfig instance;
+	instance.initalize();
+	return instance;
 }
 
 void GlobalConfig::initalize()
-{	
-	
+{
+	// Initial initalization. This is only called once.
+	if (IS_INITALIZED)
+	{
+		return;
+	}
+
+	WASH_USE_TIME = 3.f;
+	CUT_USE_TIME = 3.f;
+	COLOR_USE_TIME = 3.f;
+	REGISTER_USE_TIME = 1.f;
+
+	TOTAL_CUSTOMERS = 15;
+
+	// Customer Speed Multiplier
+	CUSTOMER_SPEED_MULTIPLIER = 1.f;
+
+	// The number of seconds it takes before heart penalties are enforced between state changes
+	STATE_CHANGE_COOLDOWN = 10.f;
+
+	// AI engine
+	AI_ENGINE_ENABLED = false;
+
+	IS_INITALIZED = true;
+
+
 }
 
-void GlobalConfig::setValue(std::string key, std::string value)
-{
-	std::pair<std::string, std::string> p(key, value);
-	mConfig.insert(p);
-}

@@ -185,6 +185,7 @@ del /Q "$(OutDir)*.log"
     <ClCompile Include="..\..\..\..\src\EndState.cpp" />
     <ClCompile Include="..\..\..\..\src\Entity.cpp" />
     <ClCompile Include="..\..\..\..\src\GameState.cpp" />
+    <ClCompile Include="..\..\..\..\src\Glob.cpp" />
     <ClCompile Include="..\..\..\..\src\GlobalConfig.cpp" />
     <ClCompile Include="..\..\..\..\src\GuiState.cpp" />
     <ClCompile Include="..\..\..\..\src\HeartEntity.cpp" />

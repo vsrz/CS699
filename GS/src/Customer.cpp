@@ -6,6 +6,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <cassert>
+#include "GlobalConfig.h"
 
 Customer::Customer(const TextureManager& textures, World* world, unsigned int customerType)
 	: ActorEntity(world)
