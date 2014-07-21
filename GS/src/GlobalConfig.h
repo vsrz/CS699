@@ -32,7 +32,8 @@ public:
 
 	// The number of seconds it takes before heart penalties are enforced between state changes
 	float								STATE_CHANGE_COOLDOWN_MULTIPLIER;
-	float								PATIENCE_PENALTY_MULTIPLIER; 
+	float								PATIENCE_PENALTY_MULTIPLIER;
+	// Add multipler for bonus timer (after they are served)
 
 	// If customers move throughout the salon on their own and how often it does it
 	bool								AI_ENGINE_ENABLED;
