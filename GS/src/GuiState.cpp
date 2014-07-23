@@ -62,6 +62,7 @@ void GuiState::onExitButtonClicked()
 	config.WASH_USE_TIME = mWashSlider->GetValue();
 	config.COLOR_USE_TIME= mColorSlider->GetValue();
 	config.CUSTOMER_SPEED_MULTIPLIER = mCustSpeedMultSlider->GetValue();
+	config.REGISTER_USE_TIME = mRegisterUseTimeScale->GetValue();
 	requestStackPop();
 	
 }
@@ -95,6 +96,11 @@ void GuiState::onColorTimeAdjust()
 	float val = mColorSlider->GetValue();
 	mColorTimeEntry->SetText(std::to_string(val));
 
+}
+
+void GuiState::onRegUseTimeAdjust()
+{
+	mRegisterUseEntry->SetText(std::to_string(mRegisterUseTimeScale->GetValue()));
 }
 
 sfg::Table::Ptr GuiState::getSliderSettings()
@@ -162,6 +168,22 @@ sfg::Table::Ptr GuiState::getSliderSettings()
 	mWashSlider->GetAdjustment()->GetSignal(sfg::Adjustment::OnChange).Connect(std::bind(&GuiState::onWashTimeAdjust, this));
 
 	///////////////////////
+	//// Register use time
+	auto ru_adj = sfg::Adjustment::Create(g_cfg.REGISTER_USE_TIME, 0.1f, 5.f, 0.1f, 1.f);
+	mRegisterUseEntry = sfg::Entry::Create();
+	mRegisterUseTimeScale = sfg::Scale::Create();
+
+	// Set the labels
+	mRegisterUseEntry->SetText(std::to_string(g_cfg.CUSTOMER_SPEED_MULTIPLIER));
+	mRegisterUseEntry->SetState(sfg::Widget::State::INSENSITIVE);
+	mRegisterUseEntry->SetRequisition(req);
+
+	// Configure the slider
+	mRegisterUseTimeScale->SetAdjustment(ru_adj);
+	mRegisterUseTimeScale->SetRequisition(sf::Vector2f(400.f, 0.f));
+	mRegisterUseTimeScale->GetAdjustment()->GetSignal(sfg::Adjustment::OnChange).Connect(std::bind(&GuiState::onRegUseTimeAdjust, this));
+
+	///////////////////////
 	//// Customer Walking Speed scale
 	auto cw_adj = sfg::Adjustment::Create(g_cfg.CUSTOMER_SPEED_MULTIPLIER, 0.1f, 5.f, 0.1f, 1.f);
 	mCustSpeedMultEntry = sfg::Entry::Create();
@@ -177,6 +199,7 @@ sfg::Table::Ptr GuiState::getSliderSettings()
 	mCustSpeedMultSlider->SetRequisition(sf::Vector2f(400.f, 0.f));
 	mCustSpeedMultSlider->GetAdjustment()->GetSignal(sfg::Adjustment::OnChange).Connect(std::bind(&GuiState::onCustSpeedMultAdjust, this));
 
+
 	//// Build the final table
 	auto table = sfg::Table::Create();
 
@@ -186,12 +209,15 @@ sfg::Table::Ptr GuiState::getSliderSettings()
 	table->Attach(hc_label, sf::Rect<sf::Uint32>(1, 2, 1, 1));
 	table->Attach(mColorTimeEntry, sf::Rect<sf::Uint32>(2, 2, 1, 1));
 	table->Attach(mColorSlider, sf::Rect<sf::Uint32>(3, 2, 1, 1));
-	table->Attach(hw_label, sf::Rect<sf::Uint32>(1, 3, 1, 1));
-	table->Attach(mWashTimeEntry, sf::Rect<sf::Uint32>(2, 3, 1, 1));
-	table->Attach(mWashSlider, sf::Rect<sf::Uint32>(3, 3, 1, 1));
-	table->Attach(sfg::Label::Create("Speed multiplier"), sf::Rect<sf::Uint32>(1, 4, 1, 1));
-	table->Attach(mCustSpeedMultEntry, sf::Rect<sf::Uint32>(2, 4, 1, 1));
-	table->Attach(mCustSpeedMultSlider, sf::Rect<sf::Uint32>(3, 4, 1, 1));
+	table->Attach(sfg::Label::Create("Register use time"), sf::Rect<sf::Uint32>(1, 3, 1, 1));
+	table->Attach(mRegisterUseEntry, sf::Rect<sf::Uint32>(2, 3, 1, 1));
+	table->Attach(mRegisterUseTimeScale, sf::Rect<sf::Uint32>(3, 3, 1, 1));
+	table->Attach(hw_label, sf::Rect<sf::Uint32>(1, 4, 1, 1));
+	table->Attach(mWashTimeEntry, sf::Rect<sf::Uint32>(2, 4, 1, 1));
+	table->Attach(mWashSlider, sf::Rect<sf::Uint32>(3, 4, 1, 1));
+	table->Attach(sfg::Label::Create("Speed multiplier"), sf::Rect<sf::Uint32>(1, 5, 1, 1));
+	table->Attach(mCustSpeedMultEntry, sf::Rect<sf::Uint32>(2, 5, 1, 1));
+	table->Attach(mCustSpeedMultSlider, sf::Rect<sf::Uint32>(3, 5, 1, 1));
 
 	table->SetColumnSpacings(15.f);
 	table->SetRowSpacings(5.f);

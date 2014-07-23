@@ -37,6 +37,7 @@ private:
 	sfg::Scale::Ptr mWashSlider;
 	sfg::Scale::Ptr mColorSlider;
 	sfg::Scale::Ptr mCustSpeedMultSlider;
+	sfg::Scale::Ptr mRegisterUseTimeScale;
 
 	// Text Label objects
 	sfg::Label::Ptr mLabel;
@@ -46,7 +47,7 @@ private:
 	sfg::Entry::Ptr mColorTimeEntry;
 	sfg::Entry::Ptr mWashTimeEntry;
 	sfg::Entry::Ptr mCustSpeedMultEntry;
-
+	sfg::Entry::Ptr mRegisterUseEntry;
 	// Desktop Object
 	sfg::Desktop mDesktop;
 
@@ -56,6 +57,7 @@ private:
 	void onCutHairTimeAdjust();
 	void onColorTimeAdjust();
 	void onWashTimeAdjust();
+	void onRegUseTimeAdjust();
 	void onCustSpeedMultAdjust();
 
 	// Layout generators
