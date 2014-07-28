@@ -30,14 +30,15 @@ private:
 	sfg::Button::Ptr mExitButton;
 	sfg::Button::Ptr mCancelButton;
 
-	// Text entry objects
-
 	// Slider/scale
 	sfg::Scale::Ptr mCutHairSlider;
 	sfg::Scale::Ptr mWashSlider;
 	sfg::Scale::Ptr mColorSlider;
 	sfg::Scale::Ptr mCustSpeedMultSlider;
 	sfg::Scale::Ptr mRegisterUseTimeScale;
+	sfg::Scale::Ptr mStateTickMultScale;
+	sfg::Scale::Ptr mPatiencePenaltyMultScale;
+	sfg::Scale::Ptr mCustReleaseTickScale;
 
 	// Text Label objects
 	sfg::Label::Ptr mLabel;
@@ -48,6 +49,10 @@ private:
 	sfg::Entry::Ptr mWashTimeEntry;
 	sfg::Entry::Ptr mCustSpeedMultEntry;
 	sfg::Entry::Ptr mRegisterUseEntry;
+	sfg::Entry::Ptr mStateTickMultEntry;
+	sfg::Entry::Ptr mPatiencePenaltyMultEntry;
+	sfg::Entry::Ptr mCustReleaseTickEntry;
+
 	// Desktop Object
 	sfg::Desktop mDesktop;
 
@@ -59,12 +64,15 @@ private:
 	void onWashTimeAdjust();
 	void onRegUseTimeAdjust();
 	void onCustSpeedMultAdjust();
+	void onStateTickMultAdjust();
+	void onPatiencePenaltyMultAdjust();
+	void onCustReleaseTickAdjust();
 
 	// Layout generators
 	sfg::Table::Ptr getSliderSettings();
 	sfg::Box::Ptr getSpeedMultiplierBox();
 
-
+	void saveSettings();
 };
 
 #endif

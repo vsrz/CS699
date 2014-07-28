@@ -54,15 +54,24 @@ bool GuiState::handleEvent(const sf::Event& event)
 }
 
 
-void GuiState::onExitButtonClicked()
+void GuiState::saveSettings()
 {
 	GlobalConfig& config = GlobalConfig::get();
-	
+
 	config.CUT_USE_TIME = mCutHairSlider->GetValue();
 	config.WASH_USE_TIME = mWashSlider->GetValue();
-	config.COLOR_USE_TIME= mColorSlider->GetValue();
+	config.COLOR_USE_TIME = mColorSlider->GetValue();
 	config.CUSTOMER_SPEED_MULTIPLIER = mCustSpeedMultSlider->GetValue();
 	config.REGISTER_USE_TIME = mRegisterUseTimeScale->GetValue();
+	config.CUSTOMER_RELEASE_INTERVAL = mCustReleaseTickScale->GetValue();
+	config.STATE_CHANGE_COOLDOWN_MULTIPLIER = mStateTickMultScale->GetValue();
+	config.PATIENCE_PENALTY_MULTIPLIER = mPatiencePenaltyMultScale->GetValue();
+
+
+}
+void GuiState::onExitButtonClicked()
+{
+	saveSettings();
 	requestStackPop();
 	
 }
@@ -101,6 +110,21 @@ void GuiState::onColorTimeAdjust()
 void GuiState::onRegUseTimeAdjust()
 {
 	mRegisterUseEntry->SetText(std::to_string(mRegisterUseTimeScale->GetValue()));
+}
+
+void GuiState::onStateTickMultAdjust()
+{
+	mStateTickMultEntry->SetText(std::to_string(mStateTickMultScale->GetValue()));
+}
+
+void GuiState::onPatiencePenaltyMultAdjust()
+{
+	mPatiencePenaltyMultEntry->SetText(std::to_string(mPatiencePenaltyMultScale->GetValue()));
+}
+
+void GuiState::onCustReleaseTickAdjust()
+{
+	mCustReleaseTickEntry->SetText(std::to_string(mCustReleaseTickScale->GetValue()));
 }
 
 sfg::Table::Ptr GuiState::getSliderSettings()
@@ -199,6 +223,54 @@ sfg::Table::Ptr GuiState::getSliderSettings()
 	mCustSpeedMultSlider->SetRequisition(sf::Vector2f(400.f, 0.f));
 	mCustSpeedMultSlider->GetAdjustment()->GetSignal(sfg::Adjustment::OnChange).Connect(std::bind(&GuiState::onCustSpeedMultAdjust, this));
 
+	///////////////////////
+	//// State Tick Multiplier
+	auto st_adj = sfg::Adjustment::Create(g_cfg.STATE_CHANGE_COOLDOWN_MULTIPLIER, 1.f, 200.f, 0.5f, 1.f);
+	mStateTickMultEntry = sfg::Entry::Create();
+	mStateTickMultScale = sfg::Scale::Create();
+
+	// Set the labels
+	mStateTickMultEntry->SetText(std::to_string(g_cfg.STATE_CHANGE_COOLDOWN_MULTIPLIER));
+	mStateTickMultEntry->SetState(sfg::Widget::State::INSENSITIVE);
+	mStateTickMultEntry->SetRequisition(req);
+
+	// Configure the slider
+	mStateTickMultScale->SetAdjustment(st_adj);
+	mStateTickMultScale->SetRequisition(sf::Vector2f(400.f, 0.f));
+	mStateTickMultScale->GetAdjustment()->GetSignal(sfg::Adjustment::OnChange).Connect(std::bind(&GuiState::onStateTickMultAdjust, this));
+
+	///////////////////////
+	//// Patience Penalty Multiplier
+	auto pp_adj = sfg::Adjustment::Create(g_cfg.PATIENCE_PENALTY_MULTIPLIER, 1.f, 200.f, 0.5f, 1.f);
+	mPatiencePenaltyMultEntry = sfg::Entry::Create();
+	mPatiencePenaltyMultScale = sfg::Scale::Create();
+
+	// Set the labels
+	mPatiencePenaltyMultEntry->SetText(std::to_string(g_cfg.PATIENCE_PENALTY_MULTIPLIER));
+	mPatiencePenaltyMultEntry->SetState(sfg::Widget::State::INSENSITIVE);
+	mPatiencePenaltyMultEntry->SetRequisition(req);
+
+	// Configure the slider
+	mPatiencePenaltyMultScale->SetAdjustment(pp_adj);
+	mPatiencePenaltyMultScale->SetRequisition(sf::Vector2f(400.f, 0.f));
+	mPatiencePenaltyMultScale->GetAdjustment()->GetSignal(sfg::Adjustment::OnChange).Connect(std::bind(&GuiState::onPatiencePenaltyMultAdjust, this));
+
+	///////////////////////
+	//// Customer release interval
+	auto cr_adj = sfg::Adjustment::Create(g_cfg.CUSTOMER_RELEASE_INTERVAL, 1.f, 20.f, 0.25f, 1.f);
+	mCustReleaseTickEntry = sfg::Entry::Create();
+	mCustReleaseTickScale = sfg::Scale::Create();
+
+	// Set the labels
+	mCustReleaseTickEntry->SetText(std::to_string(g_cfg.CUSTOMER_RELEASE_INTERVAL));
+	mCustReleaseTickEntry->SetState(sfg::Widget::State::INSENSITIVE);
+	mCustReleaseTickEntry->SetRequisition(req);
+
+	// Configure the slider
+	mCustReleaseTickScale->SetAdjustment(cr_adj);
+	mCustReleaseTickScale->SetRequisition(sf::Vector2f(400.f, 0.f));
+	mCustReleaseTickScale->GetAdjustment()->GetSignal(sfg::Adjustment::OnChange).Connect(std::bind(&GuiState::onCustReleaseTickAdjust, this));
+
 
 	//// Build the final table
 	auto table = sfg::Table::Create();
@@ -206,19 +278,37 @@ sfg::Table::Ptr GuiState::getSliderSettings()
 	table->Attach(ht_label, sf::Rect<sf::Uint32>(1, 1, 1, 1));
 	table->Attach(mCutTimeEntry, sf::Rect<sf::Uint32>(2, 1, 1, 1));
 	table->Attach(mCutHairSlider, sf::Rect<sf::Uint32>(3, 1, 1, 1));
+	
 	table->Attach(hc_label, sf::Rect<sf::Uint32>(1, 2, 1, 1));
 	table->Attach(mColorTimeEntry, sf::Rect<sf::Uint32>(2, 2, 1, 1));
 	table->Attach(mColorSlider, sf::Rect<sf::Uint32>(3, 2, 1, 1));
+	
 	table->Attach(sfg::Label::Create("Register use time"), sf::Rect<sf::Uint32>(1, 3, 1, 1));
 	table->Attach(mRegisterUseEntry, sf::Rect<sf::Uint32>(2, 3, 1, 1));
 	table->Attach(mRegisterUseTimeScale, sf::Rect<sf::Uint32>(3, 3, 1, 1));
+	
 	table->Attach(hw_label, sf::Rect<sf::Uint32>(1, 4, 1, 1));
 	table->Attach(mWashTimeEntry, sf::Rect<sf::Uint32>(2, 4, 1, 1));
 	table->Attach(mWashSlider, sf::Rect<sf::Uint32>(3, 4, 1, 1));
+
 	table->Attach(sfg::Label::Create("Speed multiplier"), sf::Rect<sf::Uint32>(1, 5, 1, 1));
 	table->Attach(mCustSpeedMultEntry, sf::Rect<sf::Uint32>(2, 5, 1, 1));
 	table->Attach(mCustSpeedMultSlider, sf::Rect<sf::Uint32>(3, 5, 1, 1));
 
+	table->Attach(sfg::Label::Create("Patience cooldown multiplier"), sf::Rect<sf::Uint32>(1, 6, 1, 1));
+	table->Attach(mStateTickMultEntry, sf::Rect<sf::Uint32>(2, 6, 1, 1));
+	table->Attach(mStateTickMultScale, sf::Rect<sf::Uint32>(3, 6, 1, 1));
+
+	table->Attach(sfg::Label::Create("Patience penalty multiplier"), sf::Rect<sf::Uint32>(1, 7, 1, 1));
+	table->Attach(mPatiencePenaltyMultEntry, sf::Rect<sf::Uint32>(2, 7, 1, 1));
+	table->Attach(mPatiencePenaltyMultScale, sf::Rect<sf::Uint32>(3, 7, 1, 1));
+
+	table->Attach(sfg::Label::Create("Customer release rate"), sf::Rect<sf::Uint32>(1, 8, 1, 1));
+	table->Attach(mCustReleaseTickEntry, sf::Rect<sf::Uint32>(2, 8, 1, 1));
+	table->Attach(mCustReleaseTickScale, sf::Rect<sf::Uint32>(3, 8, 1, 1));
+
+
+	
 	table->SetColumnSpacings(15.f);
 	table->SetRowSpacings(5.f);
 
