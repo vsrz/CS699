@@ -52,6 +52,7 @@ private:
 	sfg::Entry::Ptr mStateTickMultEntry;
 	sfg::Entry::Ptr mPatiencePenaltyMultEntry;
 	sfg::Entry::Ptr mCustReleaseTickEntry;
+	sfg::Entry::Ptr mAllocationPointsEntry;
 
 	// Desktop Object
 	sfg::Desktop mDesktop;
@@ -68,9 +69,16 @@ private:
 	void onPatiencePenaltyMultAdjust();
 	void onCustReleaseTickAdjust();
 
+	// Remaining allocation points
+	bool checkAllocation(float cost);
+	float getRemainingAllocationPoints();
+	void setRemainingAllocationPoints(float points);
+	
 	// Layout generators
 	sfg::Table::Ptr getSliderSettings();
 	sfg::Box::Ptr getSpeedMultiplierBox();
+
+	
 
 	void saveSettings();
 };

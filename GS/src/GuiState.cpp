@@ -1,6 +1,7 @@
 #include "GuiState.h"
 #include "GlobalConfig.h"
 #include "Glob.h"
+#include <string>
 
 GuiState::GuiState(StateStack& stack, Context context)
 : State(stack, context)
@@ -26,6 +27,8 @@ void GuiState::initalize()
 
 	button_box->Pack(mCancelButton);
 	button_box->Pack(mExitButton);
+
+	mAllocationPointsEntry = sfg::Entry::Create(std::to_string(g_cfg.ALLOCATION_POINTS));
 
 	// Add components to window
 	auto content_box = sfg::Box::Create(sfg::Box::Orientation::VERTICAL, 15.f);
@@ -66,9 +69,39 @@ void GuiState::saveSettings()
 	config.CUSTOMER_RELEASE_INTERVAL = mCustReleaseTickScale->GetValue();
 	config.STATE_CHANGE_COOLDOWN_MULTIPLIER = mStateTickMultScale->GetValue();
 	config.PATIENCE_PENALTY_MULTIPLIER = mPatiencePenaltyMultScale->GetValue();
+	config.ALLOCATION_POINTS = getRemainingAllocationPoints();
+}
 
+// Get the remaining allocation points
+float GuiState::getRemainingAllocationPoints()
+{
+	return std::stof(mAllocationPointsEntry->GetText().toAnsiString());
 
 }
+
+// Set the allocation points
+void GuiState::setRemainingAllocationPoints(float points)
+{
+	std::ostringstream oss;
+	oss << points;
+	mAllocationPointsEntry->SetText(oss.str());
+
+}
+
+// Check the allocation and remove points
+bool GuiState::checkAllocation(float cost)
+{
+	float points = getRemainingAllocationPoints();
+	std::cout << points << std::endl;
+	if (cost > points)
+	{
+		return false;
+	}
+	setRemainingAllocationPoints(points - cost);
+	return true;
+
+}
+
 void GuiState::onExitButtonClicked()
 {
 	saveSettings();
@@ -83,8 +116,20 @@ void GuiState::onCancelButtonClicked()
 
 void GuiState::onCutHairTimeAdjust()
 {
+	// Cost, unit is per tenth of a second
+	float cost = 10.f;
 	float val = mCutHairSlider->GetValue();
-	mCutTimeEntry->SetText(std::to_string(val));
+	float chg = (std::stof(mCutTimeEntry->GetText().toAnsiString())) - mCutHairSlider->GetAdjustment()->GetValue() * 10;
+	std::cout << "Cost: " << cost << " Chg: " << chg << std::endl;
+	if (checkAllocation(cost * chg))
+	{
+		mCutTimeEntry->SetText(std::to_string(val));
+	}
+	else
+	{
+		mCutTimeEntry->SetText(std::to_string(val - chg));
+		mCutHairSlider->SetValue(val - chg);
+	}
 
 }
 
@@ -92,8 +137,8 @@ void GuiState::onWashTimeAdjust()
 {
 	float val = mWashSlider->GetValue();
 	mWashTimeEntry->SetText(std::to_string(val));
-
 }
+
 void GuiState::onCustSpeedMultAdjust()
 {
 	mCustSpeedMultEntry->SetText(std::to_string(mCustSpeedMultSlider->GetValue()));
@@ -136,7 +181,7 @@ sfg::Table::Ptr GuiState::getSliderSettings()
 	///////////////////////////
 	//// Hair Cutting
 	auto ht_label = sfg::Label::Create();
-	auto ht_adj = sfg::Adjustment::Create(g_cfg.CUT_USE_TIME, 0.f, 15.f, 0.25f, 1.f);
+	auto ht_adj = sfg::Adjustment::Create(g_cfg.CUT_USE_TIME, 0.f, 15.f, 0.1f, 1.f);
 	mCutTimeEntry = sfg::Entry::Create();
 	mCutHairSlider = sfg::Scale::Create();
 
@@ -156,7 +201,7 @@ sfg::Table::Ptr GuiState::getSliderSettings()
 	///////////////////////
 	//// Hair Coloring
 	auto hc_label = sfg::Label::Create();
-	auto hc_adj = sfg::Adjustment::Create(g_cfg.COLOR_USE_TIME, 0.f, 15.f, 0.25f, 1.f);
+	auto hc_adj = sfg::Adjustment::Create(g_cfg.COLOR_USE_TIME, 0.f, 15.f, 0.1f, 1.f);
 	mColorTimeEntry = sfg::Entry::Create();
 	mColorSlider = sfg::Scale::Create();
 
@@ -175,7 +220,7 @@ sfg::Table::Ptr GuiState::getSliderSettings()
 	///////////////////////
 	//// Hair Washing
 	auto hw_label = sfg::Label::Create();
-	auto hw_adj = sfg::Adjustment::Create(g_cfg.WASH_USE_TIME, 0.f, 15.f, 0.25f, 1.f);
+	auto hw_adj = sfg::Adjustment::Create(g_cfg.WASH_USE_TIME, 0.f, 15.f, 0.1f, 1.f);
 	mWashTimeEntry = sfg::Entry::Create();
 	mWashSlider = sfg::Scale::Create();
 
@@ -257,7 +302,7 @@ sfg::Table::Ptr GuiState::getSliderSettings()
 
 	///////////////////////
 	//// Customer release interval
-	auto cr_adj = sfg::Adjustment::Create(g_cfg.CUSTOMER_RELEASE_INTERVAL, 1.f, 20.f, 0.25f, 1.f);
+	auto cr_adj = sfg::Adjustment::Create(g_cfg.CUSTOMER_RELEASE_INTERVAL, 1.f, 20.f, 0.1f, 1.f);
 	mCustReleaseTickEntry = sfg::Entry::Create();
 	mCustReleaseTickScale = sfg::Scale::Create();
 

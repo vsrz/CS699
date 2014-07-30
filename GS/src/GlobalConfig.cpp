@@ -16,6 +16,9 @@ void GlobalConfig::initalize()
 		return;
 	}
 
+	// Allocation points
+	ALLOCATION_POINTS					= 100.f;
+
 	// Time it takes to use the various stations
 	WASH_USE_TIME						= 3.f;
 	CUT_USE_TIME						= 3.f;
