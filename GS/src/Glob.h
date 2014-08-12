@@ -5,6 +5,7 @@
 #include <array>
 #include <map>
 #include <sstream>
+#include <cmath>
 #include <memory>
 #include <vector>
 #include <queue>
@@ -281,6 +282,12 @@ sf::Vector2f toVector2f(T v)
 	return sf::Vector2f(
 		static_cast<int>(v.x),
 		static_cast<int>(v.y));
+}
+
+template<typename T>
+float rndTenth(T val)
+{
+	return (float)(floor(val * 10 + 0.5) / 10.f);
 }
 
 // Get the X,Y coordinate of a tile given a pixel

@@ -82,9 +82,8 @@ float GuiState::getRemainingAllocationPoints()
 // Set the allocation points
 void GuiState::setRemainingAllocationPoints(float points)
 {
-	std::ostringstream oss;
-	oss << points;
-	mAllocationPointsEntry->SetText(oss.str());
+	float val = rndTenth(points);
+	mAllocationPointsEntry->SetText(std::to_string(val));
 
 }
 
@@ -92,7 +91,6 @@ void GuiState::setRemainingAllocationPoints(float points)
 bool GuiState::checkAllocation(float cost)
 {
 	float points = getRemainingAllocationPoints();
-	std::cout << points << std::endl;
 	if (cost > points)
 	{
 		return false;
@@ -116,12 +114,11 @@ void GuiState::onCancelButtonClicked()
 
 void GuiState::onCutHairTimeAdjust()
 {
-	// Cost, unit is per tenth of a second
-	float cost = 10.f;
-	float val = mCutHairSlider->GetValue();
-	float chg = (std::stof(mCutTimeEntry->GetText().toAnsiString())) - mCutHairSlider->GetAdjustment()->GetValue() * 10;
-	std::cout << "Cost: " << cost << " Chg: " << chg << std::endl;
-	if (checkAllocation(cost * chg))
+	float cost = 100.f;
+	float val = rndTenth(mCutHairSlider->GetValue());
+	float chg = rndTenth(mCutHairSlider->GetAdjustment()->GetValue()) - std::stof(mCutTimeEntry->GetText().toAnsiString());
+
+	if (checkAllocation(cost * chg * -1))
 	{
 		mCutTimeEntry->SetText(std::to_string(val));
 	}
@@ -135,36 +132,106 @@ void GuiState::onCutHairTimeAdjust()
 
 void GuiState::onWashTimeAdjust()
 {
-	float val = mWashSlider->GetValue();
-	mWashTimeEntry->SetText(std::to_string(val));
+	float cost = 100.f;
+	float val = rndTenth(mWashSlider->GetValue());
+	float chg = rndTenth(mWashSlider->GetAdjustment()->GetValue()) - std::stof(mWashTimeEntry->GetText().toAnsiString());
+
+	if (checkAllocation(cost * chg * -1))
+	{
+		mWashTimeEntry->SetText(std::to_string(val));
+	}
+	else
+	{
+		mWashTimeEntry->SetText(std::to_string(val - chg));
+		mWashSlider->SetValue(val - chg);
+	}
 }
 
 void GuiState::onCustSpeedMultAdjust()
 {
-	mCustSpeedMultEntry->SetText(std::to_string(mCustSpeedMultSlider->GetValue()));
+	float cost = 100.f;
+	float val = rndTenth(mCustSpeedMultSlider->GetValue());
+	float chg = rndTenth(mCustSpeedMultSlider->GetAdjustment()->GetValue()) - std::stof(mCustSpeedMultEntry->GetText().toAnsiString());
+
+	if (checkAllocation(cost * chg))
+	{
+		mCustSpeedMultEntry->SetText(std::to_string(val));
+	}
+	else
+	{
+		mCustSpeedMultEntry->SetText(std::to_string(val - chg));
+		mCustSpeedMultSlider->SetValue(val - chg);
+	}
 
 }
 
 void GuiState::onColorTimeAdjust()
 {
-	float val = mColorSlider->GetValue();
-	mColorTimeEntry->SetText(std::to_string(val));
+	float cost = 100.f;
+	float val = rndTenth(mColorSlider->GetValue());
+	float chg = rndTenth(mColorSlider->GetAdjustment()->GetValue()) - std::stof(mColorTimeEntry->GetText().toAnsiString());
+
+	if (checkAllocation(cost * chg * -1))
+	{
+		mColorTimeEntry->SetText(std::to_string(val));
+	}
+	else
+	{
+		mColorTimeEntry->SetText(std::to_string(val - chg));
+		mColorSlider->SetValue(val - chg);
+	}
 
 }
 
 void GuiState::onRegUseTimeAdjust()
 {
-	mRegisterUseEntry->SetText(std::to_string(mRegisterUseTimeScale->GetValue()));
+	float cost = 100.f;
+	float val = rndTenth(mRegisterUseTimeScale->GetValue());
+	float chg = rndTenth(mRegisterUseTimeScale->GetAdjustment()->GetValue()) - std::stof(mRegisterUseEntry->GetText().toAnsiString());
+
+	if (checkAllocation(cost * chg * -1))
+	{
+		mRegisterUseEntry->SetText(std::to_string(val));
+	}
+	else
+	{
+		mRegisterUseEntry->SetText(std::to_string(val - chg));
+		mRegisterUseTimeScale->SetValue(val - chg);
+	}
 }
 
 void GuiState::onStateTickMultAdjust()
 {
-	mStateTickMultEntry->SetText(std::to_string(mStateTickMultScale->GetValue()));
+	float cost = 1.f;
+	float val = rndTenth(mStateTickMultScale->GetValue());
+	float chg = rndTenth(mStateTickMultScale->GetAdjustment()->GetValue()) - std::stof(mStateTickMultEntry->GetText().toAnsiString());
+
+	if (checkAllocation(cost * chg))
+	{
+		mStateTickMultEntry->SetText(std::to_string(val));
+	}
+	else
+	{
+		mStateTickMultEntry->SetText(std::to_string(val - chg));
+		mStateTickMultScale->SetValue(val - chg);
+	}
 }
 
 void GuiState::onPatiencePenaltyMultAdjust()
 {
-	mPatiencePenaltyMultEntry->SetText(std::to_string(mPatiencePenaltyMultScale->GetValue()));
+	float cost = 1.f;
+	float val = rndTenth(mPatiencePenaltyMultScale->GetValue());
+	float chg = rndTenth(mPatiencePenaltyMultScale->GetAdjustment()->GetValue()) - std::stof(mPatiencePenaltyMultEntry->GetText().toAnsiString());
+
+	if (checkAllocation(cost * chg))
+	{
+		mPatiencePenaltyMultEntry->SetText(std::to_string(val));
+	}
+	else
+	{
+		mPatiencePenaltyMultEntry->SetText(std::to_string(val - chg));
+		mPatiencePenaltyMultScale->SetValue(val - chg);
+	}
 }
 
 void GuiState::onCustReleaseTickAdjust()
@@ -201,7 +268,7 @@ sfg::Table::Ptr GuiState::getSliderSettings()
 	///////////////////////
 	//// Hair Coloring
 	auto hc_label = sfg::Label::Create();
-	auto hc_adj = sfg::Adjustment::Create(g_cfg.COLOR_USE_TIME, 0.f, 15.f, 0.1f, 1.f);
+	auto hc_adj = sfg::Adjustment::Create(g_cfg.COLOR_USE_TIME, 0.1f, 8.f, 0.1f, 1.f);
 	mColorTimeEntry = sfg::Entry::Create();
 	mColorSlider = sfg::Scale::Create();
 
@@ -220,7 +287,7 @@ sfg::Table::Ptr GuiState::getSliderSettings()
 	///////////////////////
 	//// Hair Washing
 	auto hw_label = sfg::Label::Create();
-	auto hw_adj = sfg::Adjustment::Create(g_cfg.WASH_USE_TIME, 0.f, 15.f, 0.1f, 1.f);
+	auto hw_adj = sfg::Adjustment::Create(g_cfg.WASH_USE_TIME, 0.1f, 8.f, 0.1f, 1.f);
 	mWashTimeEntry = sfg::Entry::Create();
 	mWashSlider = sfg::Scale::Create();
 
@@ -238,12 +305,12 @@ sfg::Table::Ptr GuiState::getSliderSettings()
 
 	///////////////////////
 	//// Register use time
-	auto ru_adj = sfg::Adjustment::Create(g_cfg.REGISTER_USE_TIME, 0.1f, 5.f, 0.1f, 1.f);
+	auto ru_adj = sfg::Adjustment::Create(g_cfg.REGISTER_USE_TIME, 0.1f, 8.f, 0.1f, 1.f);
 	mRegisterUseEntry = sfg::Entry::Create();
 	mRegisterUseTimeScale = sfg::Scale::Create();
 
 	// Set the labels
-	mRegisterUseEntry->SetText(std::to_string(g_cfg.CUSTOMER_SPEED_MULTIPLIER));
+	mRegisterUseEntry->SetText(std::to_string(g_cfg.REGISTER_USE_TIME));
 	mRegisterUseEntry->SetState(sfg::Widget::State::INSENSITIVE);
 	mRegisterUseEntry->SetRequisition(req);
 
@@ -254,7 +321,7 @@ sfg::Table::Ptr GuiState::getSliderSettings()
 
 	///////////////////////
 	//// Customer Walking Speed scale
-	auto cw_adj = sfg::Adjustment::Create(g_cfg.CUSTOMER_SPEED_MULTIPLIER, 0.1f, 5.f, 0.1f, 1.f);
+	auto cw_adj = sfg::Adjustment::Create(g_cfg.CUSTOMER_SPEED_MULTIPLIER, 0.1f, 2.f, 0.1f, 0.1f);
 	mCustSpeedMultEntry = sfg::Entry::Create();
 	mCustSpeedMultSlider = sfg::Scale::Create();
 
@@ -270,7 +337,7 @@ sfg::Table::Ptr GuiState::getSliderSettings()
 
 	///////////////////////
 	//// State Tick Multiplier
-	auto st_adj = sfg::Adjustment::Create(g_cfg.STATE_CHANGE_COOLDOWN_MULTIPLIER, 1.f, 200.f, 0.5f, 1.f);
+	auto st_adj = sfg::Adjustment::Create(g_cfg.STATE_CHANGE_COOLDOWN_MULTIPLIER, 10.f, 200.f, 1.f, 1.f);
 	mStateTickMultEntry = sfg::Entry::Create();
 	mStateTickMultScale = sfg::Scale::Create();
 
@@ -286,7 +353,7 @@ sfg::Table::Ptr GuiState::getSliderSettings()
 
 	///////////////////////
 	//// Patience Penalty Multiplier
-	auto pp_adj = sfg::Adjustment::Create(g_cfg.PATIENCE_PENALTY_MULTIPLIER, 1.f, 200.f, 0.5f, 1.f);
+	auto pp_adj = sfg::Adjustment::Create(g_cfg.PATIENCE_PENALTY_MULTIPLIER, 10.f, 200.f, 1.f, 1.f);
 	mPatiencePenaltyMultEntry = sfg::Entry::Create();
 	mPatiencePenaltyMultScale = sfg::Scale::Create();
 
@@ -315,6 +382,10 @@ sfg::Table::Ptr GuiState::getSliderSettings()
 	mCustReleaseTickScale->SetAdjustment(cr_adj);
 	mCustReleaseTickScale->SetRequisition(sf::Vector2f(400.f, 0.f));
 	mCustReleaseTickScale->GetAdjustment()->GetSignal(sfg::Adjustment::OnChange).Connect(std::bind(&GuiState::onCustReleaseTickAdjust, this));
+
+	// Remaining allocation
+	mAllocationPointsEntry = sfg::Entry::Create(std::to_string(100));
+	mAllocationPointsEntry->SetState(sfg::Widget::State::INSENSITIVE);
 
 
 	//// Build the final table
@@ -348,10 +419,13 @@ sfg::Table::Ptr GuiState::getSliderSettings()
 	table->Attach(mPatiencePenaltyMultEntry, sf::Rect<sf::Uint32>(2, 7, 1, 1));
 	table->Attach(mPatiencePenaltyMultScale, sf::Rect<sf::Uint32>(3, 7, 1, 1));
 
-	table->Attach(sfg::Label::Create("Customer release rate"), sf::Rect<sf::Uint32>(1, 8, 1, 1));
+	table->Attach(sfg::Label::Create("Customer arrival delay"), sf::Rect<sf::Uint32>(1, 8, 1, 1));
 	table->Attach(mCustReleaseTickEntry, sf::Rect<sf::Uint32>(2, 8, 1, 1));
 	table->Attach(mCustReleaseTickScale, sf::Rect<sf::Uint32>(3, 8, 1, 1));
 
+	// Configure the remaining allocation box
+	table->Attach(sfg::Label::Create("Remaining Points"), sf::Rect<sf::Uint32>(1, 9, 2, 1));
+	table->Attach(mAllocationPointsEntry, sf::Rect<sf::Uint32>(3, 9, 1, 1));
 
 	
 	table->SetColumnSpacings(15.f);

@@ -36,7 +36,9 @@ void GlobalConfig::initalize()
 	PATIENCE_PENALTY_MULTIPLIER			= 100.f;
 
 	// This flag will cause customers to move to chairs from the waiting area on their own
-	AI_ENGINE_ENABLED					= true;
+	// Do not option this right now because you lose the opportunity to control customers
+	// who are not sitting in the waiting area
+	AI_ENGINE_ENABLED					= false;
 	AI_ENGINE_TICKRATE					= 2.f;
 
 	// Cost to the customer for each service

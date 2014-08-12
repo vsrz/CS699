@@ -78,8 +78,6 @@ private:
 	sfg::Table::Ptr getSliderSettings();
 	sfg::Box::Ptr getSpeedMultiplierBox();
 
-	
-
 	void saveSettings();
 };
 
