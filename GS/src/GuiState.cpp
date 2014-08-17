@@ -14,7 +14,7 @@ void GuiState::initalize()
 	GlobalConfig& g_cfg = GlobalConfig::get();
 
 	mWindow = sfg::Window::Create();
-	mWindow->SetTitle("Hello world");
+	mWindow->SetTitle("Game Timer Control");
 	mDesktop.Add(mWindow);
 	
 	// Generate the Bottom Box that holds the buttons
@@ -202,7 +202,7 @@ void GuiState::onRegUseTimeAdjust()
 
 void GuiState::onStateTickMultAdjust()
 {
-	float cost = 1.f;
+	float cost = 100.f;
 	float val = rndTenth(mStateTickMultScale->GetValue());
 	float chg = rndTenth(mStateTickMultScale->GetAdjustment()->GetValue()) - std::stof(mStateTickMultEntry->GetText().toAnsiString());
 
@@ -219,11 +219,11 @@ void GuiState::onStateTickMultAdjust()
 
 void GuiState::onPatiencePenaltyMultAdjust()
 {
-	float cost = 1.f;
+	float cost = 100.f;
 	float val = rndTenth(mPatiencePenaltyMultScale->GetValue());
 	float chg = rndTenth(mPatiencePenaltyMultScale->GetAdjustment()->GetValue()) - std::stof(mPatiencePenaltyMultEntry->GetText().toAnsiString());
 
-	if (checkAllocation(cost * chg))
+	if (checkAllocation(-1 * cost * chg))
 	{
 		mPatiencePenaltyMultEntry->SetText(std::to_string(val));
 	}
@@ -236,7 +236,19 @@ void GuiState::onPatiencePenaltyMultAdjust()
 
 void GuiState::onCustReleaseTickAdjust()
 {
-	mCustReleaseTickEntry->SetText(std::to_string(mCustReleaseTickScale->GetValue()));
+	float cost = 10.f;
+	float val = rndTenth(mCustReleaseTickScale->GetValue());
+	float chg = rndTenth(mCustReleaseTickScale->GetAdjustment()->GetValue()) - std::stof(mCustReleaseTickEntry->GetText().toAnsiString());
+
+	if (checkAllocation(cost * chg))
+	{
+		mCustReleaseTickEntry->SetText(std::to_string(val));
+	}
+	else
+	{
+		mCustReleaseTickEntry->SetText(std::to_string(val - chg));
+		mCustReleaseTickScale->SetValue(val - chg);
+	}
 }
 
 sfg::Table::Ptr GuiState::getSliderSettings()
@@ -248,7 +260,7 @@ sfg::Table::Ptr GuiState::getSliderSettings()
 	///////////////////////////
 	//// Hair Cutting
 	auto ht_label = sfg::Label::Create();
-	auto ht_adj = sfg::Adjustment::Create(g_cfg.CUT_USE_TIME, 0.f, 15.f, 0.1f, 1.f);
+	auto ht_adj = sfg::Adjustment::Create(g_cfg.CUT_USE_TIME, 0.f, 5.f, 0.1f, 1.f);
 	mCutTimeEntry = sfg::Entry::Create();
 	mCutHairSlider = sfg::Scale::Create();
 
@@ -268,7 +280,7 @@ sfg::Table::Ptr GuiState::getSliderSettings()
 	///////////////////////
 	//// Hair Coloring
 	auto hc_label = sfg::Label::Create();
-	auto hc_adj = sfg::Adjustment::Create(g_cfg.COLOR_USE_TIME, 0.1f, 8.f, 0.1f, 1.f);
+	auto hc_adj = sfg::Adjustment::Create(g_cfg.COLOR_USE_TIME, 0.1f, 5.f, 0.1f, 1.f);
 	mColorTimeEntry = sfg::Entry::Create();
 	mColorSlider = sfg::Scale::Create();
 
@@ -287,7 +299,7 @@ sfg::Table::Ptr GuiState::getSliderSettings()
 	///////////////////////
 	//// Hair Washing
 	auto hw_label = sfg::Label::Create();
-	auto hw_adj = sfg::Adjustment::Create(g_cfg.WASH_USE_TIME, 0.1f, 8.f, 0.1f, 1.f);
+	auto hw_adj = sfg::Adjustment::Create(g_cfg.WASH_USE_TIME, 0.1f, 5.f, 0.1f, 1.f);
 	mWashTimeEntry = sfg::Entry::Create();
 	mWashSlider = sfg::Scale::Create();
 
@@ -305,7 +317,7 @@ sfg::Table::Ptr GuiState::getSliderSettings()
 
 	///////////////////////
 	//// Register use time
-	auto ru_adj = sfg::Adjustment::Create(g_cfg.REGISTER_USE_TIME, 0.1f, 8.f, 0.1f, 1.f);
+	auto ru_adj = sfg::Adjustment::Create(g_cfg.REGISTER_USE_TIME, 0.1f, 5.f, 0.1f, 1.f);
 	mRegisterUseEntry = sfg::Entry::Create();
 	mRegisterUseTimeScale = sfg::Scale::Create();
 
@@ -337,7 +349,7 @@ sfg::Table::Ptr GuiState::getSliderSettings()
 
 	///////////////////////
 	//// State Tick Multiplier
-	auto st_adj = sfg::Adjustment::Create(g_cfg.STATE_CHANGE_COOLDOWN_MULTIPLIER, 10.f, 200.f, 1.f, 1.f);
+	auto st_adj = sfg::Adjustment::Create(g_cfg.STATE_CHANGE_COOLDOWN_MULTIPLIER, 0.1f, 2.f, 0.1f, 0.1f);
 	mStateTickMultEntry = sfg::Entry::Create();
 	mStateTickMultScale = sfg::Scale::Create();
 
@@ -353,7 +365,7 @@ sfg::Table::Ptr GuiState::getSliderSettings()
 
 	///////////////////////
 	//// Patience Penalty Multiplier
-	auto pp_adj = sfg::Adjustment::Create(g_cfg.PATIENCE_PENALTY_MULTIPLIER, 10.f, 200.f, 1.f, 1.f);
+	auto pp_adj = sfg::Adjustment::Create(g_cfg.PATIENCE_PENALTY_MULTIPLIER, 0.1f, 2.f, 0.1f, 0.1f);
 	mPatiencePenaltyMultEntry = sfg::Entry::Create();
 	mPatiencePenaltyMultScale = sfg::Scale::Create();
 
@@ -369,7 +381,7 @@ sfg::Table::Ptr GuiState::getSliderSettings()
 
 	///////////////////////
 	//// Customer release interval
-	auto cr_adj = sfg::Adjustment::Create(g_cfg.CUSTOMER_RELEASE_INTERVAL, 1.f, 20.f, 0.1f, 1.f);
+	auto cr_adj = sfg::Adjustment::Create(g_cfg.CUSTOMER_RELEASE_INTERVAL, 1.f, 20.f, 0.5f, 0.5f);
 	mCustReleaseTickEntry = sfg::Entry::Create();
 	mCustReleaseTickScale = sfg::Scale::Create();
 
@@ -429,7 +441,7 @@ sfg::Table::Ptr GuiState::getSliderSettings()
 
 	
 	table->SetColumnSpacings(15.f);
-	table->SetRowSpacings(5.f);
+	table->SetRowSpacings(10.f);
 
 	return table;
 }

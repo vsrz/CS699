@@ -630,7 +630,7 @@ void Customer::updatePatience(sf::Time dt)
 		return;
 	}
 
-	// Add some randomness to the next time decrease
+	// Add some randomness to the delay between next patience penalty
 	mPatienceCooldown = (sf::seconds(10 + mWorld->getCustomers().size() + n.getRand(0, 10))) * GlobalConfig::get().STATE_CHANGE_COOLDOWN_MULTIPLIER;
 
 #ifdef DEBUG

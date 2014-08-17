@@ -32,8 +32,8 @@ void GlobalConfig::initalize()
 	CUSTOMER_SPEED_MULTIPLIER			= 1.f;
 
 	// The number of seconds it takes before heart penalties are enforced between state changes
-	STATE_CHANGE_COOLDOWN_MULTIPLIER	= 100.f;
-	PATIENCE_PENALTY_MULTIPLIER			= 100.f;
+	STATE_CHANGE_COOLDOWN_MULTIPLIER	= 1.f;
+	PATIENCE_PENALTY_MULTIPLIER			= 1.f;
 
 	// This flag will cause customers to move to chairs from the waiting area on their own
 	// Do not option this right now because you lose the opportunity to control customers
@@ -48,14 +48,14 @@ void GlobalConfig::initalize()
 	PAYMENT_PRODUCT						= 40.f;
 	
 	// Tip multiplier
-	CUSTOMER_TIP_MULTIPLIER				= 100.f;
+	CUSTOMER_TIP_MULTIPLIER				= 1.f;
 
 	// Starting heart 
-	STARTING_PATIENCE_MULTIPLIER		= 100.f;
+	STARTING_PATIENCE_MULTIPLIER		= 1.f;
 
 
 	// How often the game attempts to release a customer into the scene
-	CUSTOMER_RELEASE_INTERVAL = 2.f;
+	CUSTOMER_RELEASE_INTERVAL = 5.f;
 
 	IS_INITALIZED = true;
 
