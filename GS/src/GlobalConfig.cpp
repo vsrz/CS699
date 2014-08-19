@@ -8,6 +8,11 @@ GlobalConfig& GlobalConfig::get()
 	return instance;
 }
 
+void GlobalConfig::reset()
+{
+	IS_INITALIZED = false;
+	initalize();
+}
 void GlobalConfig::initalize()
 {
 	// Initial initalization. This is only called once.

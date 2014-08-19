@@ -58,8 +58,10 @@ public:
 	// Starting heart multiplier. No matter what is rolled during creation,
 	// we multiply the roll by this number when they spawn into the scene
 	float								STARTING_PATIENCE_MULTIPLIER;
+
+	void reset();
 private:
-	void initalize();	
+	void initalize();
 	GlobalConfig() {}
 	GlobalConfig(const GlobalConfig&);
 	GlobalConfig& operator=(const GlobalConfig&);

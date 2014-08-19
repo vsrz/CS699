@@ -27,7 +27,11 @@ public:
 
 	struct Context
 	{
-		Context(sf::RenderWindow& window, TextureManager& textures, FontManager& fonts, ScoreGenerator& score);
+		Context(sf::RenderWindow& window, 
+				TextureManager& textures, 
+				FontManager& fonts, 
+				ScoreGenerator& score
+		);
 		sf::RenderWindow* window;
 		TextureManager* textures;
 		FontManager* fonts;

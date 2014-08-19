@@ -29,6 +29,7 @@ private:
 	// Button Objects
 	sfg::Button::Ptr mExitButton;
 	sfg::Button::Ptr mCancelButton;
+	sfg::Button::Ptr mResetButton;
 
 	// Slider/scale
 	sfg::Scale::Ptr mCutHairSlider;
@@ -60,6 +61,9 @@ private:
 	// Button click event handlers
 	void onExitButtonClicked();
 	void onCancelButtonClicked();
+	void onResetButtonClicked();
+
+	// Slider event handlers
 	void onCutHairTimeAdjust();
 	void onColorTimeAdjust();
 	void onWashTimeAdjust();
@@ -73,6 +77,7 @@ private:
 	bool checkAllocation(float cost);
 	float getRemainingAllocationPoints();
 	void setRemainingAllocationPoints(float points);
+	void setEntryText(sfg::Entry* entry, float value, int precision = 3);
 	
 	// Layout generators
 	sfg::Table::Ptr getSliderSettings();

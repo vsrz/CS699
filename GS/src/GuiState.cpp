@@ -7,6 +7,7 @@ GuiState::GuiState(StateStack& stack, Context context)
 : State(stack, context)
 {
 	initalize();
+	
 }
 
 void GuiState::initalize()
@@ -15,16 +16,22 @@ void GuiState::initalize()
 
 	mWindow = sfg::Window::Create();
 	mWindow->SetTitle("Game Timer Control");
+	mWindow->SetPosition(sf::Vector2f(1280.f / 4, 720.f / 5));
 	mDesktop.Add(mWindow);
 	
 	// Generate the Bottom Box that holds the buttons
 	auto button_box = sfg::Box::Create(sfg::Box::Orientation::HORIZONTAL, 0.5f);
+	button_box->SetSpacing(5.f);
 	mExitButton = sfg::Button::Create("Save");
 	mExitButton->GetSignal(sfg::Widget::OnLeftClick).Connect(std::bind(&GuiState::onExitButtonClicked, this));
 	
 	mCancelButton = sfg::Button::Create("Cancel");
 	mCancelButton->GetSignal(sfg::Widget::OnLeftClick).Connect(std::bind(&GuiState::onCancelButtonClicked, this));
 
+	mResetButton = sfg::Button::Create("Revert");
+	mResetButton->GetSignal(sfg::Widget::OnLeftClick).Connect(std::bind(&GuiState::onResetButtonClicked, this));
+	
+	button_box->Pack(mResetButton);
 	button_box->Pack(mCancelButton);
 	button_box->Pack(mExitButton);
 
@@ -35,6 +42,7 @@ void GuiState::initalize()
 	content_box->Pack(getSliderSettings());
 	content_box->Pack(button_box);
 	mWindow->Add(content_box);
+
 }
 
 void GuiState::draw()
@@ -75,15 +83,29 @@ void GuiState::saveSettings()
 // Get the remaining allocation points
 float GuiState::getRemainingAllocationPoints()
 {
+	std::cout << std::stof(mAllocationPointsEntry->GetText().toAnsiString()) << std::endl;
 	return std::stof(mAllocationPointsEntry->GetText().toAnsiString());
 
+}
+
+// Sets the entry box text truncating the string if possible
+void GuiState::setEntryText(sfg::Entry* entry, float value, int precision)
+{
+	float val = rndTenth(value);
+	std::ostringstream ss;
+	ss.precision(precision);
+	ss << val;
+	entry->SetText(ss.str());
 }
 
 // Set the allocation points
 void GuiState::setRemainingAllocationPoints(float points)
 {
 	float val = rndTenth(points);
-	mAllocationPointsEntry->SetText(std::to_string(val));
+	std::ostringstream ss;
+	ss.precision(3);
+	ss << val;
+	mAllocationPointsEntry->SetText(ss.str());
 
 }
 
@@ -91,7 +113,8 @@ void GuiState::setRemainingAllocationPoints(float points)
 bool GuiState::checkAllocation(float cost)
 {
 	float points = getRemainingAllocationPoints();
-	if (cost > points)
+	cost = rndTenth(cost);
+	if (cost > 0 && cost > points || points - cost >= 1000)
 	{
 		return false;
 	}
@@ -112,6 +135,13 @@ void GuiState::onCancelButtonClicked()
 	requestStackPop();
 }
 
+void GuiState::onResetButtonClicked()
+{
+	GlobalConfig::get().reset();
+	requestStackPop();
+	requestStackPush(States::Gui);
+}
+
 void GuiState::onCutHairTimeAdjust()
 {
 	float cost = 100.f;
@@ -120,11 +150,11 @@ void GuiState::onCutHairTimeAdjust()
 
 	if (checkAllocation(cost * chg * -1))
 	{
-		mCutTimeEntry->SetText(std::to_string(val));
+		setEntryText(mCutTimeEntry.get(), val);
 	}
 	else
 	{
-		mCutTimeEntry->SetText(std::to_string(val - chg));
+		setEntryText(mCutTimeEntry.get(), val);
 		mCutHairSlider->SetValue(val - chg);
 	}
 
@@ -138,11 +168,11 @@ void GuiState::onWashTimeAdjust()
 
 	if (checkAllocation(cost * chg * -1))
 	{
-		mWashTimeEntry->SetText(std::to_string(val));
+		setEntryText(mWashTimeEntry.get(), val);
 	}
 	else
 	{
-		mWashTimeEntry->SetText(std::to_string(val - chg));
+		setEntryText(mWashTimeEntry.get(), val - chg);
 		mWashSlider->SetValue(val - chg);
 	}
 }
@@ -155,11 +185,11 @@ void GuiState::onCustSpeedMultAdjust()
 
 	if (checkAllocation(cost * chg))
 	{
-		mCustSpeedMultEntry->SetText(std::to_string(val));
+		setEntryText(mCustSpeedMultEntry.get(), val);
 	}
 	else
 	{
-		mCustSpeedMultEntry->SetText(std::to_string(val - chg));
+		setEntryText(mCustSpeedMultEntry.get(), val);
 		mCustSpeedMultSlider->SetValue(val - chg);
 	}
 
@@ -173,11 +203,11 @@ void GuiState::onColorTimeAdjust()
 
 	if (checkAllocation(cost * chg * -1))
 	{
-		mColorTimeEntry->SetText(std::to_string(val));
+		setEntryText(mColorTimeEntry.get(), val);
 	}
 	else
 	{
-		mColorTimeEntry->SetText(std::to_string(val - chg));
+		setEntryText(mColorTimeEntry.get(), val - chg);
 		mColorSlider->SetValue(val - chg);
 	}
 
@@ -191,11 +221,12 @@ void GuiState::onRegUseTimeAdjust()
 
 	if (checkAllocation(cost * chg * -1))
 	{
-		mRegisterUseEntry->SetText(std::to_string(val));
+		setEntryText(mRegisterUseEntry.get(), val);
+
 	}
 	else
 	{
-		mRegisterUseEntry->SetText(std::to_string(val - chg));
+		setEntryText(mRegisterUseEntry.get(), val - chg);
 		mRegisterUseTimeScale->SetValue(val - chg);
 	}
 }
@@ -208,11 +239,11 @@ void GuiState::onStateTickMultAdjust()
 
 	if (checkAllocation(cost * chg))
 	{
-		mStateTickMultEntry->SetText(std::to_string(val));
+		setEntryText(mStateTickMultEntry.get(), val);
 	}
 	else
 	{
-		mStateTickMultEntry->SetText(std::to_string(val - chg));
+		setEntryText(mStateTickMultEntry.get(), val - chg);
 		mStateTickMultScale->SetValue(val - chg);
 	}
 }
@@ -225,11 +256,11 @@ void GuiState::onPatiencePenaltyMultAdjust()
 
 	if (checkAllocation(-1 * cost * chg))
 	{
-		mPatiencePenaltyMultEntry->SetText(std::to_string(val));
+		setEntryText(mPatiencePenaltyMultEntry.get(), val);
 	}
 	else
 	{
-		mPatiencePenaltyMultEntry->SetText(std::to_string(val - chg));
+		setEntryText(mPatiencePenaltyMultEntry.get(), val);
 		mPatiencePenaltyMultScale->SetValue(val - chg);
 	}
 }
@@ -242,11 +273,11 @@ void GuiState::onCustReleaseTickAdjust()
 
 	if (checkAllocation(cost * chg))
 	{
-		mCustReleaseTickEntry->SetText(std::to_string(val));
+		setEntryText(mCustReleaseTickEntry.get(), val);
 	}
 	else
 	{
-		mCustReleaseTickEntry->SetText(std::to_string(val - chg));
+		setEntryText(mCustReleaseTickEntry.get(), val - chg);
 		mCustReleaseTickScale->SetValue(val - chg);
 	}
 }
@@ -255,45 +286,45 @@ sfg::Table::Ptr GuiState::getSliderSettings()
 {
 	GlobalConfig& g_cfg = GlobalConfig::get();	
 
-	sf::Vector2f req = sf::Vector2f(100.f, 0.f);
+	sf::Vector2f req = sf::Vector2f(40.f, 0.f);
 
 	///////////////////////////
 	//// Hair Cutting
 	auto ht_label = sfg::Label::Create();
-	auto ht_adj = sfg::Adjustment::Create(g_cfg.CUT_USE_TIME, 0.f, 5.f, 0.1f, 1.f);
+	auto ht_adj = sfg::Adjustment::Create(g_cfg.CUT_USE_TIME, 0.1f, 5.f, 0.1f, 0.1f);
 	mCutTimeEntry = sfg::Entry::Create();
 	mCutHairSlider = sfg::Scale::Create();
 
 	// Set the labels
 	ht_label->SetText("Time consumed cutting hair");
 	ht_label->SetRequisition(req);
-	mCutTimeEntry->SetText(std::to_string(g_cfg.CUT_USE_TIME));
+	setEntryText(mCutTimeEntry.get(), g_cfg.CUT_USE_TIME);
 	mCutTimeEntry->SetState(sfg::Widget::State::INSENSITIVE);
 	mCutTimeEntry->SetRequisition(req);
 
 	// Configure the slider
 	mCutHairSlider->SetAdjustment(ht_adj);
-	mCutHairSlider->SetRequisition(sf::Vector2f(400.f, 0.f));
+	mCutHairSlider->SetRequisition(sf::Vector2f(300.f, 0.f));
 	mCutHairSlider->GetAdjustment()->GetSignal(sfg::Adjustment::OnChange).Connect(std::bind(&GuiState::onCutHairTimeAdjust, this));
 
 
 	///////////////////////
 	//// Hair Coloring
 	auto hc_label = sfg::Label::Create();
-	auto hc_adj = sfg::Adjustment::Create(g_cfg.COLOR_USE_TIME, 0.1f, 5.f, 0.1f, 1.f);
+	auto hc_adj = sfg::Adjustment::Create(g_cfg.COLOR_USE_TIME, 0.1f, 5.f, 0.1f, 0.1f);
 	mColorTimeEntry = sfg::Entry::Create();
 	mColorSlider = sfg::Scale::Create();
 
 	// Set the labels
 	hc_label->SetText("Time consumed coloring hair");
 	hc_label->SetRequisition(req);
-	mColorTimeEntry->SetText(std::to_string(g_cfg.COLOR_USE_TIME));
+	setEntryText(mColorTimeEntry.get(), g_cfg.COLOR_USE_TIME);
 	mColorTimeEntry->SetState(sfg::Widget::State::INSENSITIVE);
 	mColorTimeEntry->SetRequisition(req);
 
 	// Configure the slider
 	mColorSlider->SetAdjustment(hc_adj);
-	mColorSlider->SetRequisition(sf::Vector2f(400.f, 0.f));
+	mColorSlider->SetRequisition(sf::Vector2f(300.f, 0.f));
 	mColorSlider->GetAdjustment()->GetSignal(sfg::Adjustment::OnChange).Connect(std::bind(&GuiState::onColorTimeAdjust, this));
 
 	///////////////////////
@@ -306,13 +337,13 @@ sfg::Table::Ptr GuiState::getSliderSettings()
 	// Set the labels
 	hw_label->SetText("Time consumed washing hair");
 	hw_label->SetRequisition(req);
-	mWashTimeEntry->SetText(std::to_string(g_cfg.WASH_USE_TIME));
+	setEntryText(mWashTimeEntry.get(), g_cfg.WASH_USE_TIME);
 	mWashTimeEntry->SetState(sfg::Widget::State::INSENSITIVE);
 	mWashTimeEntry->SetRequisition(req);
 
 	// Configure the slider
 	mWashSlider->SetAdjustment(hw_adj);
-	mWashSlider->SetRequisition(sf::Vector2f(400.f, 0.f));
+	mWashSlider->SetRequisition(sf::Vector2f(300.f, 0.f));
 	mWashSlider->GetAdjustment()->GetSignal(sfg::Adjustment::OnChange).Connect(std::bind(&GuiState::onWashTimeAdjust, this));
 
 	///////////////////////
@@ -322,13 +353,13 @@ sfg::Table::Ptr GuiState::getSliderSettings()
 	mRegisterUseTimeScale = sfg::Scale::Create();
 
 	// Set the labels
-	mRegisterUseEntry->SetText(std::to_string(g_cfg.REGISTER_USE_TIME));
+	setEntryText(mRegisterUseEntry.get(), g_cfg.REGISTER_USE_TIME);
 	mRegisterUseEntry->SetState(sfg::Widget::State::INSENSITIVE);
 	mRegisterUseEntry->SetRequisition(req);
 
 	// Configure the slider
 	mRegisterUseTimeScale->SetAdjustment(ru_adj);
-	mRegisterUseTimeScale->SetRequisition(sf::Vector2f(400.f, 0.f));
+	mRegisterUseTimeScale->SetRequisition(sf::Vector2f(300.f, 0.f));
 	mRegisterUseTimeScale->GetAdjustment()->GetSignal(sfg::Adjustment::OnChange).Connect(std::bind(&GuiState::onRegUseTimeAdjust, this));
 
 	///////////////////////
@@ -338,13 +369,13 @@ sfg::Table::Ptr GuiState::getSliderSettings()
 	mCustSpeedMultSlider = sfg::Scale::Create();
 
 	// Set the labels
-	mCustSpeedMultEntry->SetText(std::to_string(g_cfg.CUSTOMER_SPEED_MULTIPLIER));
+	setEntryText(mCustSpeedMultEntry.get(), g_cfg.CUSTOMER_SPEED_MULTIPLIER);
 	mCustSpeedMultEntry->SetState(sfg::Widget::State::INSENSITIVE);
 	mCustSpeedMultEntry->SetRequisition(req);
 
 	// Configure the slider
 	mCustSpeedMultSlider->SetAdjustment(cw_adj);
-	mCustSpeedMultSlider->SetRequisition(sf::Vector2f(400.f, 0.f));
+	mCustSpeedMultSlider->SetRequisition(sf::Vector2f(300.f, 0.f));
 	mCustSpeedMultSlider->GetAdjustment()->GetSignal(sfg::Adjustment::OnChange).Connect(std::bind(&GuiState::onCustSpeedMultAdjust, this));
 
 	///////////////////////
@@ -354,13 +385,13 @@ sfg::Table::Ptr GuiState::getSliderSettings()
 	mStateTickMultScale = sfg::Scale::Create();
 
 	// Set the labels
-	mStateTickMultEntry->SetText(std::to_string(g_cfg.STATE_CHANGE_COOLDOWN_MULTIPLIER));
+	setEntryText(mStateTickMultEntry.get(), g_cfg.STATE_CHANGE_COOLDOWN_MULTIPLIER);
 	mStateTickMultEntry->SetState(sfg::Widget::State::INSENSITIVE);
 	mStateTickMultEntry->SetRequisition(req);
 
 	// Configure the slider
 	mStateTickMultScale->SetAdjustment(st_adj);
-	mStateTickMultScale->SetRequisition(sf::Vector2f(400.f, 0.f));
+	mStateTickMultScale->SetRequisition(sf::Vector2f(300.f, 0.f));
 	mStateTickMultScale->GetAdjustment()->GetSignal(sfg::Adjustment::OnChange).Connect(std::bind(&GuiState::onStateTickMultAdjust, this));
 
 	///////////////////////
@@ -370,13 +401,13 @@ sfg::Table::Ptr GuiState::getSliderSettings()
 	mPatiencePenaltyMultScale = sfg::Scale::Create();
 
 	// Set the labels
-	mPatiencePenaltyMultEntry->SetText(std::to_string(g_cfg.PATIENCE_PENALTY_MULTIPLIER));
+	setEntryText(mPatiencePenaltyMultEntry.get(), g_cfg.PATIENCE_PENALTY_MULTIPLIER);
 	mPatiencePenaltyMultEntry->SetState(sfg::Widget::State::INSENSITIVE);
 	mPatiencePenaltyMultEntry->SetRequisition(req);
 
 	// Configure the slider
 	mPatiencePenaltyMultScale->SetAdjustment(pp_adj);
-	mPatiencePenaltyMultScale->SetRequisition(sf::Vector2f(400.f, 0.f));
+	mPatiencePenaltyMultScale->SetRequisition(sf::Vector2f(300.f, 0.f));
 	mPatiencePenaltyMultScale->GetAdjustment()->GetSignal(sfg::Adjustment::OnChange).Connect(std::bind(&GuiState::onPatiencePenaltyMultAdjust, this));
 
 	///////////////////////
@@ -386,17 +417,17 @@ sfg::Table::Ptr GuiState::getSliderSettings()
 	mCustReleaseTickScale = sfg::Scale::Create();
 
 	// Set the labels
-	mCustReleaseTickEntry->SetText(std::to_string(g_cfg.CUSTOMER_RELEASE_INTERVAL));
+	setEntryText(mCustReleaseTickEntry.get(), g_cfg.CUSTOMER_RELEASE_INTERVAL);
 	mCustReleaseTickEntry->SetState(sfg::Widget::State::INSENSITIVE);
 	mCustReleaseTickEntry->SetRequisition(req);
 
 	// Configure the slider
 	mCustReleaseTickScale->SetAdjustment(cr_adj);
-	mCustReleaseTickScale->SetRequisition(sf::Vector2f(400.f, 0.f));
+	mCustReleaseTickScale->SetRequisition(sf::Vector2f(300.f, 0.f));
 	mCustReleaseTickScale->GetAdjustment()->GetSignal(sfg::Adjustment::OnChange).Connect(std::bind(&GuiState::onCustReleaseTickAdjust, this));
 
 	// Remaining allocation
-	mAllocationPointsEntry = sfg::Entry::Create(std::to_string(100));
+	mAllocationPointsEntry = sfg::Entry::Create(std::to_string(g_cfg.ALLOCATION_POINTS));
 	mAllocationPointsEntry->SetState(sfg::Widget::State::INSENSITIVE);
 
 
@@ -404,40 +435,48 @@ sfg::Table::Ptr GuiState::getSliderSettings()
 	auto table = sfg::Table::Create();
 
 	table->Attach(ht_label, sf::Rect<sf::Uint32>(1, 1, 1, 1));
-	table->Attach(mCutTimeEntry, sf::Rect<sf::Uint32>(2, 1, 1, 1));
-	table->Attach(mCutHairSlider, sf::Rect<sf::Uint32>(3, 1, 1, 1));
+	table->Attach(mCutTimeEntry, sf::Rect<sf::Uint32>(2, 1, 1, 1), sfg::Table::FILL);
+	table->Attach(sfg::Label::Create("sec."), sf::Rect<sf::Uint32>(3, 1, 1, 1));
+	table->Attach(mCutHairSlider, sf::Rect<sf::Uint32>(4, 1, 1, 1));
 	
 	table->Attach(hc_label, sf::Rect<sf::Uint32>(1, 2, 1, 1));
 	table->Attach(mColorTimeEntry, sf::Rect<sf::Uint32>(2, 2, 1, 1));
-	table->Attach(mColorSlider, sf::Rect<sf::Uint32>(3, 2, 1, 1));
+	table->Attach(sfg::Label::Create("sec."), sf::Rect<sf::Uint32>(3, 2, 1, 1));
+	table->Attach(mColorSlider, sf::Rect<sf::Uint32>(4, 2, 1, 1));
 	
-	table->Attach(sfg::Label::Create("Register use time"), sf::Rect<sf::Uint32>(1, 3, 1, 1));
-	table->Attach(mRegisterUseEntry, sf::Rect<sf::Uint32>(2, 3, 1, 1));
-	table->Attach(mRegisterUseTimeScale, sf::Rect<sf::Uint32>(3, 3, 1, 1));
-	
-	table->Attach(hw_label, sf::Rect<sf::Uint32>(1, 4, 1, 1));
-	table->Attach(mWashTimeEntry, sf::Rect<sf::Uint32>(2, 4, 1, 1));
-	table->Attach(mWashSlider, sf::Rect<sf::Uint32>(3, 4, 1, 1));
+	table->Attach(hw_label, sf::Rect<sf::Uint32>(1, 3, 1, 1));
+	table->Attach(mWashTimeEntry, sf::Rect<sf::Uint32>(2, 3, 1, 1));
+	table->Attach(sfg::Label::Create("sec."), sf::Rect<sf::Uint32>(3, 3, 1, 1));
+	table->Attach(mWashSlider, sf::Rect<sf::Uint32>(4, 3, 1, 1));
+
+	table->Attach(sfg::Label::Create("Time to cash out"), sf::Rect<sf::Uint32>(1, 4, 1, 1));
+	table->Attach(mRegisterUseEntry, sf::Rect<sf::Uint32>(2, 4, 1, 1));
+	table->Attach(sfg::Label::Create("sec."), sf::Rect<sf::Uint32>(3, 4, 1, 1));
+	table->Attach(mRegisterUseTimeScale, sf::Rect<sf::Uint32>(4, 4, 1, 1));
 
 	table->Attach(sfg::Label::Create("Speed multiplier"), sf::Rect<sf::Uint32>(1, 5, 1, 1));
 	table->Attach(mCustSpeedMultEntry, sf::Rect<sf::Uint32>(2, 5, 1, 1));
-	table->Attach(mCustSpeedMultSlider, sf::Rect<sf::Uint32>(3, 5, 1, 1));
+	table->Attach(sfg::Label::Create("x"), sf::Rect<sf::Uint32>(3, 5, 1, 1));
+	table->Attach(mCustSpeedMultSlider, sf::Rect<sf::Uint32>(4, 5, 1, 1));
 
 	table->Attach(sfg::Label::Create("Patience cooldown multiplier"), sf::Rect<sf::Uint32>(1, 6, 1, 1));
 	table->Attach(mStateTickMultEntry, sf::Rect<sf::Uint32>(2, 6, 1, 1));
-	table->Attach(mStateTickMultScale, sf::Rect<sf::Uint32>(3, 6, 1, 1));
+	table->Attach(sfg::Label::Create("x"), sf::Rect<sf::Uint32>(3, 6, 1, 1));
+	table->Attach(mStateTickMultScale, sf::Rect<sf::Uint32>(4, 6, 1, 1));
 
 	table->Attach(sfg::Label::Create("Patience penalty multiplier"), sf::Rect<sf::Uint32>(1, 7, 1, 1));
 	table->Attach(mPatiencePenaltyMultEntry, sf::Rect<sf::Uint32>(2, 7, 1, 1));
-	table->Attach(mPatiencePenaltyMultScale, sf::Rect<sf::Uint32>(3, 7, 1, 1));
+	table->Attach(sfg::Label::Create("x"), sf::Rect<sf::Uint32>(3, 7, 1, 1));
+	table->Attach(mPatiencePenaltyMultScale, sf::Rect<sf::Uint32>(4, 7, 1, 1));
 
 	table->Attach(sfg::Label::Create("Customer arrival delay"), sf::Rect<sf::Uint32>(1, 8, 1, 1));
 	table->Attach(mCustReleaseTickEntry, sf::Rect<sf::Uint32>(2, 8, 1, 1));
-	table->Attach(mCustReleaseTickScale, sf::Rect<sf::Uint32>(3, 8, 1, 1));
+	table->Attach(sfg::Label::Create("sec."), sf::Rect<sf::Uint32>(3, 8, 1, 1));
+	table->Attach(mCustReleaseTickScale, sf::Rect<sf::Uint32>(4, 8, 1, 1));
 
 	// Configure the remaining allocation box
-	table->Attach(sfg::Label::Create("Remaining Points"), sf::Rect<sf::Uint32>(1, 9, 2, 1));
-	table->Attach(mAllocationPointsEntry, sf::Rect<sf::Uint32>(3, 9, 1, 1));
+	table->Attach(sfg::Label::Create("Remaining Points"), sf::Rect<sf::Uint32>(1, 9, 1, 1));
+	table->Attach(mAllocationPointsEntry, sf::Rect<sf::Uint32>(2, 9, 1, 1));
 
 	
 	table->SetColumnSpacings(15.f);
