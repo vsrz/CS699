@@ -55,6 +55,9 @@ public:
 	// Starting heart multiplier. No matter what is rolled during creation,
 	// we multiply the roll by this number when they spawn into the scene
 	float								STARTING_PATIENCE_MULTIPLIER;
+
+	std::string							SCORE_FILENAME;
+	std::string							SCORE_HTTP_URL;
 private:
 	void initalize();	
 	GlobalConfig() {}

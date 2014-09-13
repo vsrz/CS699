@@ -17,6 +17,7 @@ public:
 private:
 	ScoreGenerator mScore;
 	bool temp;
+	void saveScore();
 
 	sf::RectangleShape mBackground;
 	sf::Text mThankYou;
