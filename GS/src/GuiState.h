@@ -29,8 +29,7 @@ private:
 	// Button Objects
 	sfg::Button::Ptr mExitButton;
 	sfg::Button::Ptr mCancelButton;
-
-	// Text entry objects
+	sfg::Button::Ptr mResetButton;
 
 	// Slider/scale
 	sfg::Scale::Ptr mCutHairSlider;
@@ -38,6 +37,9 @@ private:
 	sfg::Scale::Ptr mColorSlider;
 	sfg::Scale::Ptr mCustSpeedMultSlider;
 	sfg::Scale::Ptr mRegisterUseTimeScale;
+	sfg::Scale::Ptr mStateTickMultScale;
+	sfg::Scale::Ptr mPatiencePenaltyMultScale;
+	sfg::Scale::Ptr mCustReleaseTickScale;
 
 	// Text Label objects
 	sfg::Label::Ptr mLabel;
@@ -48,23 +50,40 @@ private:
 	sfg::Entry::Ptr mWashTimeEntry;
 	sfg::Entry::Ptr mCustSpeedMultEntry;
 	sfg::Entry::Ptr mRegisterUseEntry;
+	sfg::Entry::Ptr mStateTickMultEntry;
+	sfg::Entry::Ptr mPatiencePenaltyMultEntry;
+	sfg::Entry::Ptr mCustReleaseTickEntry;
+	sfg::Entry::Ptr mAllocationPointsEntry;
+
 	// Desktop Object
 	sfg::Desktop mDesktop;
 
 	// Button click event handlers
 	void onExitButtonClicked();
 	void onCancelButtonClicked();
+	void onResetButtonClicked();
+
+	// Slider event handlers
 	void onCutHairTimeAdjust();
 	void onColorTimeAdjust();
 	void onWashTimeAdjust();
 	void onRegUseTimeAdjust();
 	void onCustSpeedMultAdjust();
+	void onStateTickMultAdjust();
+	void onPatiencePenaltyMultAdjust();
+	void onCustReleaseTickAdjust();
 
+	// Remaining allocation points
+	bool checkAllocation(float cost);
+	float getRemainingAllocationPoints();
+	void setRemainingAllocationPoints(float points);
+	void setEntryText(sfg::Entry* entry, float value, int precision = 3);
+	
 	// Layout generators
 	sfg::Table::Ptr getSliderSettings();
 	sfg::Box::Ptr getSpeedMultiplierBox();
 
-
+	void saveSettings();
 };
 
 #endif

@@ -724,11 +724,16 @@ void World::updateCustomers(sf::Time dt)
 	mLastCustomerReleased += dt;
 	
 	// If the release interval has elapsed and there's room, try to release a new customer
-	if (mLastCustomerReleased > sf::seconds(GlobalConfig::get().CUSTOMER_RELEASE_INTERVAL) &&
+	// Or just release a customer if there's no customers in the scene
+	if ((mLastCustomerReleased > sf::seconds(GlobalConfig::get().CUSTOMER_RELEASE_INTERVAL) &&
 		getRemainingWaitingChairs() > 0 &&
 		customersAllowedInScene > customersInScene &&
 		mCustomers.size() > 0 &&
-		mTotalCustomers < GlobalConfig::get().TOTAL_CUSTOMERS)
+		mTotalCustomers < GlobalConfig::get().TOTAL_CUSTOMERS) 
+		||
+		customersAllowedInScene > customersInScene &&
+		mCustomers.size() > 0 &&
+		customersInScene == 0)
 	{
 		size_t remainingCustomers = mCustomers.size();
 		releaseCustomerToScene();

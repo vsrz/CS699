@@ -17,9 +17,12 @@ class GlobalConfig
 {
 public:
 	static GlobalConfig& get();
-	
+
 	// Initalization check
 	bool								IS_INITALIZED;
+
+	// Allocation points to be used distributing stats
+	float								ALLOCATION_POINTS;
 
 	// The different times it takes to use each station
 	float								WASH_USE_TIME;
@@ -58,8 +61,9 @@ public:
 
 	std::string							SCORE_FILENAME;
 	std::string							SCORE_HTTP_URL;
+	void reset();
 private:
-	void initalize();	
+	void initalize();
 	GlobalConfig() {}
 	GlobalConfig(const GlobalConfig&);
 	GlobalConfig& operator=(const GlobalConfig&);

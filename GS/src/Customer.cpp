@@ -630,7 +630,7 @@ void Customer::updatePatience(sf::Time dt)
 		return;
 	}
 
-	// Add some randomness to the next time decrease
+	// Add some randomness to the delay between next patience penalty
 	mPatienceCooldown = (sf::seconds(10 + mWorld->getCustomers().size() + n.getRand(0, 10))) * GlobalConfig::get().STATE_CHANGE_COOLDOWN_MULTIPLIER;
 
 #ifdef DEBUG
@@ -646,13 +646,13 @@ void Customer::updatePatience(sf::Time dt)
 		return;
 	}
 
-	// Don't penalize them if their state has changed in the last x seconds
+	// TODO: Don't penalize them if their state has changed in the last x seconds (buggy)
 	// if (mState.getLastStateChange() < sf::seconds(Config::STATE_CHANGE_COOLDOWN))
 	//{
 		//return;
 	//}
 
-	mPatience -= 5 + n.getRand(0,4) + 1;
+	mPatience -= (5 + n.getRand(0,4) + 1) * GlobalConfig::get().PATIENCE_PENALTY_MULTIPLIER;
 	if (mPatience < 0) mPatience = 0;
 
 	// Leave the salon if we've got no patience left
