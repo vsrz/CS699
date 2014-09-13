@@ -65,6 +65,7 @@ void GlobalConfig::initalize()
 	// Filename that the scores are written to
 	SCORE_FILENAME = "scores.csv";
 	SCORE_HTTP_URL = "http://villegasfam.com/p/scores.php";
+	SCORE_HASH_KEY = 597u;
 
 	IS_INITALIZED = true;
 

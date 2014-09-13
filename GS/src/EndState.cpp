@@ -34,7 +34,7 @@ EndState::EndState(StateStack& stack, Context context)
 	mPressToRestart.setPosition(context.window->getSize().x * 0.5f, context.window->getSize().y * 0.5f + 150.f);
 }
 
-void EndState::saveScore()
+void EndState::saveScore(std::string scoreString)
 {
 	Fileutils::writeFileToDisk(mScore.getScoreString(), GlobalConfig::get().SCORE_FILENAME);
 }
@@ -70,7 +70,7 @@ bool EndState::handleEvent(const sf::Event& e)
 	if (e.type == sf::Event::KeyPressed && e.key.code == sf::Keyboard::Escape)
 	{
 		ScoreGenerator& scores = *getContext().score;
-		saveScore();
+		saveScore(scores.getScoreString());
 		scores.resetScores();
 		requestStackPop();
 		requestStackPush(States::Title);

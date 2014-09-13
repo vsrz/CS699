@@ -61,6 +61,9 @@ public:
 
 	std::string							SCORE_FILENAME;
 	std::string							SCORE_HTTP_URL;
+
+	// Hashkey
+	unsigned int						SCORE_HASH_KEY;
 	void reset();
 private:
 	void initalize();

@@ -4,6 +4,7 @@
 #pragma once
 #include "state.h"
 #include "ScoreGenerator.h"
+#include <string>
 class EndState :
 	public State
 {
@@ -17,7 +18,7 @@ public:
 private:
 	ScoreGenerator mScore;
 	bool temp;
-	void saveScore();
+	void saveScore(std::string scoreString);
 
 	sf::RectangleShape mBackground;
 	sf::Text mThankYou;
