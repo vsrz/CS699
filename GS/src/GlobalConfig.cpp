@@ -62,6 +62,11 @@ void GlobalConfig::initalize()
 	// How often the game attempts to release a customer into the scene
 	CUSTOMER_RELEASE_INTERVAL = 5.f;
 
+	// Filename that the scores are written to
+	SCORE_FILENAME = "scores.csv";
+	SCORE_HTTP_URL = "http://villegasfam.com/p/scores.php";
+	SCORE_HASH_KEY = 597u;
+
 	IS_INITALIZED = true;
 
 

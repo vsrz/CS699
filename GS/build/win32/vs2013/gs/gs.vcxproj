@@ -126,6 +126,7 @@ del /Q "$(OutDir)*.log"
     <ClInclude Include="..\..\..\..\src\DoorEntity.h" />
     <ClInclude Include="..\..\..\..\src\EndState.h" />
     <ClInclude Include="..\..\..\..\src\Entity.h" />
+    <ClInclude Include="..\..\..\..\src\Fileutils.h" />
     <ClInclude Include="..\..\..\..\src\GameState.h" />
     <ClInclude Include="..\..\..\..\src\Glob.h" />
     <ClInclude Include="..\..\..\..\src\GlobalConfig.h" />
@@ -185,6 +186,7 @@ del /Q "$(OutDir)*.log"
     <ClCompile Include="..\..\..\..\src\DoorEntity.cpp" />
     <ClCompile Include="..\..\..\..\src\EndState.cpp" />
     <ClCompile Include="..\..\..\..\src\Entity.cpp" />
+    <ClCompile Include="..\..\..\..\src\Fileutils.cpp" />
     <ClCompile Include="..\..\..\..\src\GameState.cpp" />
     <ClCompile Include="..\..\..\..\src\Glob.cpp" />
     <ClCompile Include="..\..\..\..\src\GlobalConfig.cpp" />

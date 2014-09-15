@@ -1,6 +1,7 @@
 
 #include "ScoreGenerator.h"
 #include "md5_wrapper.h"
+#include "GlobalConfig.h"
 
 ScoreGenerator::ScoreGenerator(int unserved, int served, int tips, int revenue)
 {
@@ -26,14 +27,14 @@ void ScoreGenerator::updateVerification()
 	std::string s;
 	std::string h;
 
-	s = mUnserved;
-	s += "," + mServed;
-	s += "," + mTips;
-	s += "," + mRevenue;
+	s = std::to_string(mUnserved);
+	s += "," + std::to_string(mServed);
+	s += "," + std::to_string(mTips);
+	s += "," + std::to_string(mRevenue);
 	s += ",";
 
 	h = s;
-	for (int i = 0; i < 537; i++)
+	for (int i = 0; i < GlobalConfig::get().SCORE_HASH_KEY; i++)
 	{
 		h = m.getHashFromString(h);
 	}
@@ -74,12 +75,13 @@ int ScoreGenerator::getTotalCustomers()
 std::string ScoreGenerator::getScoreString()
 {
 	std::string s;
-
-	s = mUnserved;
-	s += "," + mServed;
-	s += "," + mTips;
-	s += "," + mRevenue;
+	updateVerification();
+	s = std::to_string(mUnserved);
+	s += "," + std::to_string(mServed);
+	s += "," + std::to_string(mTips);
+	s += "," + std::to_string(mRevenue);
 	s += "," + mVerificationHash;
+	s += "\n";
 
 	return s;
 }

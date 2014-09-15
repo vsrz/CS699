@@ -1,5 +1,7 @@
 #include "EndState.h"
+#include "Fileutils.h"
 #include <iostream>
+#include "GlobalConfig.h"
 
 EndState::EndState(StateStack& stack, Context context)
 	: State(stack, context)
@@ -25,14 +27,16 @@ EndState::EndState(StateStack& stack, Context context)
 	mScoreString.setPosition(context.window->getSize().x * 0.5f, context.window->getSize().y * 0.5f + 50.f);
 
 	mPressToRestart.setFont(context.fonts->get(Fonts::Default));
-	mPressToRestart.setString("Please fill out the survey on the system next to you!");
+	//mPressToRestart.setString("Please fill out the survey on the system next to you!");
 	mPressToRestart.setCharacterSize(16);
 	textRect = mPressToRestart.getLocalBounds();
 	mPressToRestart.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
 	mPressToRestart.setPosition(context.window->getSize().x * 0.5f, context.window->getSize().y * 0.5f + 150.f);
+}
 
-
-
+void EndState::saveScore(std::string scoreString)
+{
+	Fileutils::writeFileToDisk(mScore.getScoreString(), GlobalConfig::get().SCORE_FILENAME);
 }
 
 void EndState::draw()
@@ -66,6 +70,7 @@ bool EndState::handleEvent(const sf::Event& e)
 	if (e.type == sf::Event::KeyPressed && e.key.code == sf::Keyboard::Escape)
 	{
 		ScoreGenerator& scores = *getContext().score;
+		saveScore(scores.getScoreString());
 		scores.resetScores();
 		requestStackPop();
 		requestStackPush(States::Title);
