@@ -36,7 +36,7 @@ EndState::EndState(StateStack& stack, Context context)
 
 void EndState::saveScore(std::string scoreString)
 {
-	Fileutils::writeFileToDisk(mScore.getScoreString(), GlobalConfig::get().SCORE_FILENAME);
+	Fileutils::writeFileToDisk(scoreString, GlobalConfig::get().SCORE_FILENAME);
 }
 
 void EndState::draw()
