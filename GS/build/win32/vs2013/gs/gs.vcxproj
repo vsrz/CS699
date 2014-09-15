@@ -60,7 +60,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)\..\..\..\..\lib\SFGUI-38c28\lib;$(SolutionDir)\..\..\..\..\lib\SFML-2.1\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-window-s-d.lib;sfml-system-s-d.lib;sfml-audio-s-d.lib;sfml-graphics-s-d.lib;sfml-network-s-d.lib;sfml-main-d.lib;sfgui-s-d.lib;freetype.lib;glew.lib;jpeg.lib;openal32.lib;sndfile.lib;glu32.lib;opengl32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-window-s-d.lib;sfml-system-s-d.lib;sfml-audio-s-d.lib;sfml-graphics-s-d.lib;sfml-network-s-d.lib;sfml-main-d.lib;sfgui-s-d.lib;freetype.lib;glew.lib;jpeg.lib;openal32.lib;sndfile.lib;glu32.lib;opengl32.lib;winmm.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreLinkEvent>
       <Command>mkdir $(OutDir)\res
@@ -86,7 +86,7 @@ xcopy /E /Y /I "$(SolutionDir)..\..\..\..\res" "$(OutDir)\res"
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>sfml-system-s.lib;sfml-window-s.lib;sfml-graphics-s.lib;sfml-main.lib;sfml-audio-s.lib;sfml-network-s.lib;sfgui-s.lib;freetype.lib;glew.lib;jpeg.lib;openal32.lib;sndfile.lib;glu32.lib;opengl32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-system-s.lib;sfml-window-s.lib;sfml-graphics-s.lib;sfml-main.lib;sfml-audio-s.lib;sfml-network-s.lib;sfgui-s.lib;freetype.lib;glew.lib;jpeg.lib;openal32.lib;sndfile.lib;glu32.lib;opengl32.lib;winmm.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)\..\..\..\..\lib\SFGUI-38c28\lib;$(SolutionDir)\..\..\..\..\lib\SFML-2.1\lib</AdditionalLibraryDirectories>
     </Link>
     <PreLinkEvent>

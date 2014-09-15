@@ -32,4 +32,6 @@ void NetworkReq::executeRequest()
 }
 
 std::string NetworkReq::getResponse()
-LL
+{
+	return std::string();
+}

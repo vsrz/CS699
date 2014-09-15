@@ -15,7 +15,7 @@ public:
 	void setReqDocument(std::string doc);
 	void setReqHost(std::string host);
 	void executeRequest();
-	void getResponse();
+	std::string getResponse();
 private:
 	sf::Http mHttpObject;
 	std::string mReqHost;
