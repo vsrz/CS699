@@ -134,6 +134,7 @@ del /Q "$(OutDir)*.log"
     <ClInclude Include="..\..\..\..\src\HeartEntity.h" />
     <ClInclude Include="..\..\..\..\src\IndicatorEntity.h" />
     <ClInclude Include="..\..\..\..\src\LoadingState.h" />
+    <ClInclude Include="..\..\..\..\src\Logger.h" />
     <ClInclude Include="..\..\..\..\src\MenuState.h" />
     <ClInclude Include="..\..\..\..\src\NetworkReq.h" />
     <ClInclude Include="..\..\..\..\src\ParallelTask.h" />
@@ -194,6 +195,7 @@ del /Q "$(OutDir)*.log"
     <ClCompile Include="..\..\..\..\src\HeartEntity.cpp" />
     <ClCompile Include="..\..\..\..\src\IndicatorEntity.cpp" />
     <ClCompile Include="..\..\..\..\src\LoadingState.cpp" />
+    <ClCompile Include="..\..\..\..\src\Logger.cpp" />
     <ClCompile Include="..\..\..\..\src\main.cpp" />
     <ClCompile Include="..\..\..\..\src\MenuState.cpp" />
     <ClCompile Include="..\..\..\..\src\NetworkReq.cpp" />

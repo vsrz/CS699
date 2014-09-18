@@ -2,6 +2,7 @@
 #include "LoadingState.h"
 #include "ResourceManager.h"
 #include "Glob.h"
+#include "Logger.h"
 
 LoadingState::LoadingState(StateStack& stack, Context context)
 	: State(stack, context)
