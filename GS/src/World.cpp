@@ -14,6 +14,7 @@
 #include "AIState.h"
 #include "IndicatorEntity.h"
 #include "GlobalConfig.h"
+#include "Logger.h"
 
 World::World(sf::RenderWindow& window, TextureManager& textures, ScoreGenerator& score)
 	: mWindow(window)
@@ -327,6 +328,7 @@ void World::handleEvent(const sf::Event& event)
 	else if (event.type == sf::Event::KeyPressed &&
 		event.key.code == sf::Keyboard::F4)
 	{
+		Logger::get().log("DEBUG collision overlay was loaded");
 		displayCollisionOverlay();
 	}
 
@@ -334,6 +336,8 @@ void World::handleEvent(const sf::Event& event)
 	else if (event.type == sf::Event::KeyPressed &&
 		event.key.code == sf::Keyboard::F5)
 	{
+		Logger::get().log("DEBUG game was ended forcibly");
+		Logger::get().write();
 		getScoreObject()->addServed(GlobalConfig::get().TOTAL_CUSTOMERS);
 	}
 

@@ -2,6 +2,7 @@
 #include "Glob.h"
 #include "World.h"
 #include "Pathfinder.h"
+#include "Logger.h"
 #include "ScoreGenerator.h"
 #include <iostream>
 #include <cstdlib>
@@ -931,6 +932,8 @@ void Customer::checkAIState()
 			mWorld->getScoreObject()->addTips(int(getTipAmount()));
 			mWorld->getScoreObject()->addRevenue(static_cast<int>(mPayment));
 
+			// Log the completed customer event
+			Logger::get().log("A customer was served. Manager earned $" + toString(mPayment) + " payment and a $" + toString(getTipAmount()) + " tip.");
 		}
 	}
 

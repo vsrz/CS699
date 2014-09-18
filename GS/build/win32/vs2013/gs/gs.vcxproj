@@ -122,6 +122,7 @@ del /Q "$(OutDir)*.log"
     <ClInclude Include="..\..\..\..\src\CommandQueue.h" />
     <ClInclude Include="..\..\..\..\src\Customer.h" />
     <ClInclude Include="..\..\..\..\src\CustomerState.h" />
+    <ClInclude Include="..\..\..\..\src\Dateutils.h" />
     <ClInclude Include="..\..\..\..\src\DebugScreenState.h" />
     <ClInclude Include="..\..\..\..\src\DoorEntity.h" />
     <ClInclude Include="..\..\..\..\src\EndState.h" />
@@ -183,6 +184,7 @@ del /Q "$(OutDir)*.log"
     <ClCompile Include="..\..\..\..\src\CommandQueue.cpp" />
     <ClCompile Include="..\..\..\..\src\Customer.cpp" />
     <ClCompile Include="..\..\..\..\src\CustomerState.cpp" />
+    <ClCompile Include="..\..\..\..\src\Dateutils.cpp" />
     <ClCompile Include="..\..\..\..\src\DebugScreenState.cpp" />
     <ClCompile Include="..\..\..\..\src\DoorEntity.cpp" />
     <ClCompile Include="..\..\..\..\src\EndState.cpp" />
