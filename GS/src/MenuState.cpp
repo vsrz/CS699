@@ -6,6 +6,8 @@ MenuState::MenuState(StateStack& stack, Context context)
 	: mBackgroundSprite0()
 	, mBackgroundSprite1()
 	, mBackgroundSprite2()
+	, mStartButtonTexture(getContext().textures->get(Textures::StartButton))
+	, mExitButtonTexture(getContext().textures->get(Textures::ExitButton))
 	, State(stack, context)
 	, mOptions()
 	, mOptionIndex(0)
@@ -13,6 +15,14 @@ MenuState::MenuState(StateStack& stack, Context context)
 	sf::Texture& texture0 = getContext().textures->get(Textures::TitleScreen0);
 	sf::Texture& texture1 = getContext().textures->get(Textures::TitleScreen1);
 	sf::Texture& texture2 = getContext().textures->get(Textures::TitleScreen2);
+
+	// Setup the start and exit buttons
+	mStartButtonTexture = getContext().textures->get(Textures::StartButton);
+	mExitButtonTexture = getContext().textures->get(Textures::ExitButton);
+	mStartButton.setTexture(mStartButtonTexture);
+	mExitButton.setTexture(mExitButtonTexture);
+	mStartButton.setPosition(sf::Vector2f(context.window->getView().getSize().x / 2.f - 115.f, 380.f));
+	mExitButton.setPosition(sf::Vector2f(context.window->getView().getSize().x / 2.f - 115.f, 460.f));
 
 	sf::Font& font = context.fonts->get(Fonts::Default);
 
@@ -23,6 +33,9 @@ MenuState::MenuState(StateStack& stack, Context context)
 	mBuildInfo.setString(Config::RELEASE_STRING);
 
 	// Simple menu
+	sf::Image playButton;
+	playButton.loadFromFile("res/btn_start.png");
+	
 	sf::Text playOption;
 	playOption.setFont(font);
 	playOption.setString("Play");
@@ -51,7 +64,7 @@ void MenuState::draw()
 	sf::Texture& texture0 = getContext().textures->get(Textures::TitleScreen0);
 	sf::Texture& texture1 = getContext().textures->get(Textures::TitleScreen1);
 	sf::Texture& texture2 = getContext().textures->get(Textures::TitleScreen2);
-	
+
 	sf::IntRect rect0(0, 0, 426, getContext().window->getSize().y);
 	sf::IntRect rect1(426, 0, 426, getContext().window->getSize().y);
 	sf::IntRect rect2(852, 0, 428, getContext().window->getSize().y);
@@ -73,10 +86,8 @@ void MenuState::draw()
 	window.draw(mBackgroundSprite2);
 	window.draw(mBuildInfo);
 
-	for (const sf::Text& text : mOptions)
-	{
-		window.draw(text);
-	}
+	window.draw(mStartButton);
+	window.draw(mExitButton);
 }
 
 bool MenuState::update(sf::Time dt)
@@ -84,8 +95,62 @@ bool MenuState::update(sf::Time dt)
 	return true;
 }
 
+bool MenuState::isInRect(MousePosition pos, sf::Rect<float> rect)
+{
+	if (pos.x >= rect.left && pos.x <= rect.left+ rect.width &&
+		pos.y >= rect.top && pos.y <= rect.top + rect.height)
+	{
+		return true;
+	}
+
+	return false;
+}
+
 bool MenuState::handleEvent(const sf::Event& event)
 {
+	// Check and activate based on the mouse button click location
+	MousePosition mPos = sf::Mouse::getPosition(*getContext().window);
+	sf::Rect<float> startrect = sf::Rect<float>(mStartButton.getPosition().x, mStartButton.getPosition().y, 230.f, 50.f);
+	sf::Rect<float> endrect = sf::Rect<float>(mExitButton.getPosition().x, mExitButton.getPosition().y, 230.f, 50.f);
+
+	if (event.type == sf::Event::MouseButtonReleased)
+	{
+		if (isInRect(mPos, startrect))
+		{
+			requestStackPop();
+			requestStackPush(States::Loading);
+		} 
+
+		if (isInRect(mPos, endrect))
+		{
+			requestStackPop();
+		}
+
+	}
+
+	if (event.type == sf::Event::MouseMoved)
+	{
+		if (isInRect(mPos, startrect))
+		{
+			mStartButton.setColor(sf::Color(255, 255, 255, 255));
+		}
+		else
+		{
+			mStartButton.setColor(sf::Color(200, 200, 200, 255));
+		}
+		
+		if (isInRect(mPos, endrect))
+		{
+			mExitButton.setColor(sf::Color(255, 255, 255, 255));
+
+		}
+		else
+		{
+			mExitButton.setColor(sf::Color(200, 200, 200, 255));
+
+		}
+	}
+
 	// Only handle an event if the keyboard is used
 	if (event.type != sf::Event::KeyPressed)
 	{

@@ -15,6 +15,8 @@ namespace Textures
 		Eagle,
 		Raptor,
 		Desert,
+		StartButton,
+		ExitButton,
 		TitleScreen0,
 		TitleScreen1,
 		TitleScreen2,

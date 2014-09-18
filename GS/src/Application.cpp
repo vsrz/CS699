@@ -36,10 +36,13 @@ Application::Application(void)
 	mTextures.load(Textures::TitleScreen0, "res/title_0.png");
 	mTextures.load(Textures::TitleScreen1, "res/title_1.png");
 	mTextures.load(Textures::TitleScreen2, "res/title_2.png");
+	mTextures.load(Textures::StartButton, "res/btn_start.png");
+	mTextures.load(Textures::ExitButton, "res/btn_exit.png");
 
 	registerStates();
 #ifdef DEBUG
 	mStateStack.pushState(States::Loading);
+	//mStateStack.pushState(States::Title);
 #endif
 
 #ifdef RELEASE
