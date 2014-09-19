@@ -1,5 +1,6 @@
 #include "RegisterQueue.h"
 #include "Glob.h"
+#include "Logger.h"
 
 RegisterQueue::RegisterQueue()
 {
@@ -54,6 +55,10 @@ void RegisterQueue::dequeue()
 	if (cust->getState() == CustomerState::WaitingToPay)
 	{
 		cust->leaveStore();
+
+		// Log the completed customer event
+		Logger::get().log("A customer was served. Patience left: " + toString(cust->getPatience()) + "/100");
+
 	}
 	mQueue.pop();
 	std::queue<Customer*> line;

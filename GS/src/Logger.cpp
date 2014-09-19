@@ -29,6 +29,7 @@ void Logger::write()
 		mFilename = "playdata.log";
 	}
 	mLogdata.append("End of play session\n==================\n\n");
+
 	Fileutils::writeFileToDisk(mLogdata, mFilename);
 	this->clear();
 
@@ -38,6 +39,9 @@ void Logger::write()
 void Logger::log(std::string entry)
 {
 	mLogdata.append(Dateutils::getDateTime() + entry + "\n");
+	mFilename = "playdata.log";
+	Fileutils::writeFileToDisk(mLogdata, mFilename);
+	this->clear();
 }
 
 void Logger::clear()

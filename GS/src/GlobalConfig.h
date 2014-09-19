@@ -65,6 +65,7 @@ public:
 	// Hashkey
 	unsigned int						SCORE_HASH_KEY;
 	void reset();
+	static void logSettings();
 private:
 	void initalize();
 	GlobalConfig() {}

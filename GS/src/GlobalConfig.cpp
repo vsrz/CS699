@@ -1,5 +1,7 @@
 #include "GlobalConfig.h"
 #include <iostream>
+#include "Logger.h"
+#include "Glob.h"
 
 GlobalConfig& GlobalConfig::get()
 {
@@ -68,7 +70,26 @@ void GlobalConfig::initalize()
 	SCORE_HASH_KEY = 597u;
 
 	IS_INITALIZED = true;
-
+	Logger::get().log("Game has started");
+	logSettings();
 
 }
 
+void GlobalConfig::logSettings()
+{
+
+	Logger& log = Logger::get();
+	std::string logstring;
+	GlobalConfig& g = GlobalConfig::get();
+	
+	// CSV Values:
+	// Cut Time, Wash Time, Color Time, Speed Multiplier, Register Use Time, Release Interval, State Change Cooldown Multiplier, Patience Penalty Multiplier, Remaining Points
+
+	logstring = "Rules: ";
+	logstring += toString(g.CUT_USE_TIME) + "," + toString(g.WASH_USE_TIME) + "," + toString(g.COLOR_USE_TIME) + ",";
+	logstring += toString(g.CUSTOMER_SPEED_MULTIPLIER) + "," + toString(g.REGISTER_USE_TIME) + "," + toString(g.CUSTOMER_RELEASE_INTERVAL) + ",";
+	logstring += toString(g.STATE_CHANGE_COOLDOWN_MULTIPLIER) + "," + toString(g.PATIENCE_PENALTY_MULTIPLIER) + "," + toString(g.ALLOCATION_POINTS);
+
+	log.log(logstring);
+
+}

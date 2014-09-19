@@ -37,7 +37,6 @@ LoadingState::LoadingState(StateStack& stack, Context context)
 	if (g_GameResourcesLoaded == false)
 		mLoadingTask.execute();
 
-	Logger::get().log("Game started");
 }
 
 bool LoadingState::update(sf::Time dt)

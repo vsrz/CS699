@@ -337,7 +337,6 @@ void World::handleEvent(const sf::Event& event)
 		event.key.code == sf::Keyboard::F5)
 	{
 		Logger::get().log("DEBUG game was ended forcibly");
-		Logger::get().write();
 		getScoreObject()->addServed(GlobalConfig::get().TOTAL_CUSTOMERS);
 	}
 

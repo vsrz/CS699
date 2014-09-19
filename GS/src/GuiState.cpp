@@ -2,6 +2,7 @@
 #include "GlobalConfig.h"
 #include "Glob.h"
 #include <string>
+#include "Logger.h"
 
 GuiState::GuiState(StateStack& stack, Context context)
 : State(stack, context)
@@ -64,11 +65,10 @@ bool GuiState::handleEvent(const sf::Event& event)
 	return false;
 }
 
-
 void GuiState::saveSettings()
 {
 	GlobalConfig& config = GlobalConfig::get();
-
+	
 	config.CUT_USE_TIME = mCutHairSlider->GetValue();
 	config.WASH_USE_TIME = mWashSlider->GetValue();
 	config.COLOR_USE_TIME = mColorSlider->GetValue();
@@ -78,6 +78,8 @@ void GuiState::saveSettings()
 	config.STATE_CHANGE_COOLDOWN_MULTIPLIER = mStateTickMultScale->GetValue();
 	config.PATIENCE_PENALTY_MULTIPLIER = mPatiencePenaltyMultScale->GetValue();
 	config.ALLOCATION_POINTS = getRemainingAllocationPoints();
+
+	config.logSettings();
 }
 
 // Get the remaining allocation points

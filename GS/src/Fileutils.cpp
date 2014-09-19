@@ -9,9 +9,17 @@
 /* write string stream to disk */
 bool Fileutils::writeFileToDisk(std::string file, std::string filename, std::ios::openmode openmode)
 {
-	std::ofstream f(filename.c_str(), openmode);
-	f << file;
-	f.close();
+	try
+	{
+		std::ofstream f(filename.c_str(), openmode);
+		f << file;
+		f.close();
+	}
+	catch (int error)
+	{
+		std::cout << "Error writing file";
+		return false;
+	}
 	return true;
 }
 

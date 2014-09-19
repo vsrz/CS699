@@ -2,6 +2,7 @@
 #include "Fileutils.h"
 #include <iostream>
 #include "GlobalConfig.h"
+#include "Logger.h"
 
 EndState::EndState(StateStack& stack, Context context)
 	: State(stack, context)
@@ -32,11 +33,19 @@ EndState::EndState(StateStack& stack, Context context)
 	textRect = mPressToRestart.getLocalBounds();
 	mPressToRestart.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
 	mPressToRestart.setPosition(context.window->getSize().x * 0.5f, context.window->getSize().y * 0.5f + 150.f);
+
+	
 }
 
 void EndState::saveScore(std::string scoreString)
 {
+	Logger& l = Logger::get();
 	Fileutils::writeFileToDisk(scoreString, GlobalConfig::get().SCORE_FILENAME);
+	ScoreGenerator score = *getContext().score;
+	GlobalConfig::logSettings();
+	l.log("Game has ended");
+	l.log("Served: " + toString(score.getServedCustomers()) + "/" + toString(score.getTotalCustomers()) + " Cash: " + toString(score.getRevenue()) + " Tips: " + toString(score.getTips()));
+	l.write();
 }
 
 void EndState::draw()
