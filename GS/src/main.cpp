@@ -9,6 +9,7 @@
 
 #ifdef _WINDOWS
 #include <Windows.h>
+#define NOFULLSCREEN
 #endif
 
 std::map<std::string, std::string> g_debugData;
