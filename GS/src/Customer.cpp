@@ -382,7 +382,6 @@ void Customer::setPatience(float bonus)
 	
 	switch(mType)
 	{
-	//case Type::ManOld:
 	case Type::ManTeen:
 		bonus += 35.f;
 		break;
@@ -390,8 +389,6 @@ void Customer::setPatience(float bonus)
 		bonus -= 30.f;
 		break;
 	case Type::ManYoung:
-	//case Type::WomanYoung:
-	//case Type::ManMiddle:
 	case Type::WomanOld:
 	case Type::WomanMiddle:
 	default:
@@ -433,7 +430,6 @@ void Customer::setNeeds()
 			mNeeds = Needs::Cut | Needs::Wash;
 		}
 		break;
-	//case Type::ManMiddle:
 		/**
 		 *	50% chance for a cut
 		 *	45% chance for a wash and cut
@@ -455,7 +451,6 @@ void Customer::setNeeds()
 		}
 		break;
 	case Type::WomanTeen:
-	//case Type::ManOld:
 		/**
 		 *	15% chance for a cut
 		 *  25% chance for a wash and cut
@@ -537,11 +532,7 @@ void Customer::setNeeds()
 			mNeeds = Needs::Wash;
 		}
 	}
-	// TODO: Remove this test code
-	//mNeeds = Needs::Wash;
 
-	// TODO: Remove this
-	// Wash to Register test
 	assert(mNeeds > 0);
 	
 }
@@ -556,15 +547,12 @@ void Customer::setSpeed()
 		speed = 5.2f;
 		break;
 	case Type::ManTeen:
-	//case Type::ManMiddle:
 		speed = 4.8f;
 		break;
 	case Type::WomanTeen:
 	case Type::WomanMiddle:
-	//case Type::WomanYoung:
 		speed = 3.8f;
 		break;
-	//case Type::ManOld:
 	case Type::WomanOld:
 	default:
 		speed = 2.8f;
