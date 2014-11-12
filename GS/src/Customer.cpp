@@ -375,7 +375,7 @@ void Customer::updateHighlight(sf::Time dt)
 }
 
 // Generate a random patience level for this customer
-// Patience level is rated 0-10, when customer reaches 0 patience, they walk out
+// Patience level is rated 30-100, when customer reaches 0 patience, they walk out
 void Customer::setPatience(float bonus)
 {
 	float patience = (rand() % 50) + 50.f;
