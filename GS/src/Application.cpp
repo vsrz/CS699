@@ -8,7 +8,7 @@
 #include "EndState.h"
 #include "GuiState.h"
 
-const sf::Time Application::TimePerFrame = sf::seconds(1.f/60.f);
+const sf::Time Application::TIME_PER_FRAME = sf::seconds(1.f/60.f);
 
 Application::Application(void) 
 #ifdef DEBUG
@@ -65,11 +65,11 @@ void Application::run(void)
 	{	
 		sf::Time elapsedTime = clock.restart();
 		timeSinceLastUpdate += elapsedTime;
-		while (timeSinceLastUpdate > TimePerFrame)
+		while (timeSinceLastUpdate > TIME_PER_FRAME)
 		{
-			timeSinceLastUpdate -= TimePerFrame;
+			timeSinceLastUpdate -= TIME_PER_FRAME;
 			processInput();
-			update(TimePerFrame);
+			update(TIME_PER_FRAME);
 
 			if (mStateStack.isEmpty())
 			{
